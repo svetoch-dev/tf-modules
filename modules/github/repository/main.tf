@@ -12,3 +12,10 @@ resource "github_actions_secret" "secrets" {
   secret_name     = each.value.name
   plaintext_value = each.value.text_value
 }
+
+resource "github_actions_variable" "variable" {
+  for_each      = var.vars
+  repository    = var.name
+  variable_name = each.value.name
+  value         = each.value.value
+}

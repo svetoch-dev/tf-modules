@@ -11,6 +11,7 @@ module "repositories" {
     }
   }
   secrets = each.value.secrets
+  vars    = each.value.vars
 }
 
 resource "tls_private_key" "deploy_keys" {

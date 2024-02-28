@@ -29,3 +29,16 @@ variable "secrets" {
   )
   default = {}
 }
+
+variable "vars" {
+  description = "Repository action variables"
+  type = map(
+    object(
+      {
+        name  = string
+        value = string
+      }
+    )
+  )
+  default = {}
+}

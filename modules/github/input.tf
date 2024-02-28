@@ -26,6 +26,16 @@ variable "repositories" {
             )
           ), {}
         )
+        vars = optional(
+          map(
+            object(
+              {
+                name  = string
+                value = string
+              }
+            )
+          ), {}
+        )
       }
     )
   )
