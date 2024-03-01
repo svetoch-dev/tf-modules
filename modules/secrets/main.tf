@@ -42,12 +42,14 @@ locals {
       enabled     = var.k8s.enabled
       secret_data = merge(
         {
-          for secretname in var.secrets_to_import :
-          secretname => module.import_secret[secretname].secret
+          for secret_name in var.secrets_to_import :
+          secret_name => var.base64_secrets == true ? base64decode(module.import_secret[secret_name].secret) : module.import_secret[secret_name].secret
         },
-        var.secrets_data
+        {
+          for secret_name, secret_data in var.secrets_data :
+          secret_name => var.base64_secrets == true ? base64decode(secret_data) : secret_data
+        }
       )
-
     }
   ]
 }
