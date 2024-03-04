@@ -2,12 +2,12 @@ variable "project_id" {
   type = string
 }
 
-variable "pullers" {
+variable "readers" {
   type    = list(any)
   default = []
 }
 
-variable "pushers" {
+variable "writers" {
   type    = list(any)
   default = []
 }

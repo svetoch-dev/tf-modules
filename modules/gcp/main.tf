@@ -202,8 +202,8 @@ module "gars" {
   for_each   = var.gars
   project_id = var.project.id
   registries = each.value.registries
-  pullers    = each.value.pullers
-  pushers    = each.value.pushers
+  readers    = each.value.readers
+  writers    = each.value.writers
   location   = each.value.location
   depends_on = [
     module.enable_apis,
