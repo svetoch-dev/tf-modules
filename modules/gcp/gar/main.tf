@@ -23,10 +23,13 @@ resource "google_artifact_registry_repository" "virtual_registry" {
   format        = each.value.format
   repository_id = each.key
   virtual_repository_config {
-    upstream_policies {
-      id         = each.value.upstream_repo
-      repository = google_artifact_registry_repository.registry[each.value.upstream_repo].id
-      priority   = each.value.priority
+    dynamic "upstream_policies" {
+      for_each = each.value.upstream_repositories
+      content {
+        id         = upstream_policies.key
+        repository = google_artifact_registry_repository.registry[upstream_policies.key].id
+        priority   = upstream_policies.value.priority
+      }
     }
   }
   depends_on = [google_artifact_registry_repository.registry]

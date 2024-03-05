@@ -22,11 +22,18 @@ variable "registries" {
   type = map(
     object(
       {
-        description   = optional(string, "")
-        format        = optional(string, "DOCKER")
-        mode          = optional(string, "STANDARD_REPOSITORY")
-        upstream_repo = optional(string)
-        priority      = optional(number, 10)
+        description = optional(string, "")
+        format      = optional(string, "DOCKER")
+        mode        = optional(string, "STANDARD_REPOSITORY")
+        upstream_repositories = optional(
+          map(
+            object(
+              {
+                priority = optional(number, 10)
+              }
+            )
+          )
+        )
       }
     )
   )
