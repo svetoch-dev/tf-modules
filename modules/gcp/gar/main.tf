@@ -49,9 +49,18 @@ resource "google_artifact_registry_repository" "remote_registry" {
   remote_repository_config {
     description = each.value.remote_repository.description
     dynamic "docker_repository" {
-      for_each = each.value.remote_repository.docker_repository
+      for_each = each.value.remote_repository.docker_repository[*]
       content {
-        public_repository = docker_repository.value
+        public_repository = docker_repository.value.public_repository
+      }
+    }
+    dynamic "apt_repository" {
+      for_each = each.value.remote_repository.apt_repository[*]
+      content {
+        public_repository {
+          repository_base = apt_repository.value.repository_base
+          repository_path = apt_repository.value.repository_path
+        }
       }
     }
   }
