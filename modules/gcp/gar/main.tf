@@ -60,7 +60,7 @@ resource "google_artifact_registry_repository_iam_binding" "writers" {
   depends_on = [google_artifact_registry_repository.registry]
 }
 
-resource "google_artifact_registry_repository_iam_binding" "readers" {
+resource "google_artifact_registry_repository_iam_binding" "vr_readers" {
   for_each = {
     for name, obj in var.registries :
     name => obj
@@ -74,7 +74,7 @@ resource "google_artifact_registry_repository_iam_binding" "readers" {
   depends_on = [google_artifact_registry_repository.virtual_registry]
 }
 
-resource "google_artifact_registry_repository_iam_binding" "writers" {
+resource "google_artifact_registry_repository_iam_binding" "vr_writers" {
   for_each = {
     for name, obj in var.registries :
     name => obj
