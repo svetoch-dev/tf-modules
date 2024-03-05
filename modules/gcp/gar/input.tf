@@ -37,7 +37,7 @@ variable "registries" {
         remote_repository = optional(
           object(
             {
-              description = optional(string, "")
+              description = optional(string,"")
               docker_repository = optional(
                 object(
                   {
@@ -46,6 +46,14 @@ variable "registries" {
                 ), null
               )
               apt_repository = optional(
+                object(
+                  {
+                    repository_base = string
+                    repository_path = string
+                  }
+                ), null
+              )
+              yum_repository = optional(
                 object(
                   {
                     repository_base = string

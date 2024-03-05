@@ -63,6 +63,15 @@ resource "google_artifact_registry_repository" "remote_registry" {
         }
       }
     }
+    dynamic "yum_repository" {
+      for_each = each.value.remote_repository.yum_repository[*]
+      content {
+        public_repository {
+          repository_base = yum_repository.value.repository_base
+          repository_path = yum_repository.value.repository_path
+        }
+      }
+    }
   }
 }
 
