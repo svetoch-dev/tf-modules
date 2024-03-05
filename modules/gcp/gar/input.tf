@@ -34,6 +34,20 @@ variable "registries" {
             )
           )
         )
+        remote_repository = optional(
+          object(
+            {
+              description = optional(string,"")
+              docker_repository = optional(
+                object(
+                  {
+                    public_repository = optional(string)
+                  }
+                )
+              )
+            }
+          )
+        )
       }
     )
   )
