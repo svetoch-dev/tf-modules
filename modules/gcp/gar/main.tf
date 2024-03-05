@@ -33,21 +33,57 @@ resource "google_artifact_registry_repository" "virtual_registry" {
 }
 
 resource "google_artifact_registry_repository_iam_binding" "readers" {
-  for_each   = var.registries
+  for_each = {
+    for name, obj in var.registries :
+    name => obj
+    if obj.mode == "STANDARD_REPOSITORY"
+  }
   location   = var.location
   repository = google_artifact_registry_repository.registry[each.key].name
   role       = "roles/artifactregistry.reader"
   members    = var.readers
   project    = var.project_id
-  depends_on = [google_artifact_registry_repository.registry, google_artifact_registry_repository.virtual_registry]
+  depends_on = [google_artifact_registry_repository.registry]
 }
 
 resource "google_artifact_registry_repository_iam_binding" "writers" {
-  for_each   = var.registries
+  for_each = {
+    for name, obj in var.registries :
+    name => obj
+    if obj.mode == "STANDARD_REPOSITORY"
+  }
   location   = var.location
   repository = google_artifact_registry_repository.registry[each.key].name
   role       = "roles/artifactregistry.writer"
   members    = var.writers
   project    = var.project_id
-  depends_on = [google_artifact_registry_repository.registry, google_artifact_registry_repository.virtual_registry]
+  depends_on = [google_artifact_registry_repository.registry]
+}
+
+resource "google_artifact_registry_repository_iam_binding" "readers" {
+  for_each = {
+    for name, obj in var.registries :
+    name => obj
+    if obj.mode == "VIRTUAL_REPOSITORY"
+  }
+  location   = var.location
+  repository = google_artifact_registry_repository.virtual_registry[each.key].name
+  role       = "roles/artifactregistry.reader"
+  members    = var.readers
+  project    = var.project_id
+  depends_on = [google_artifact_registry_repository.virtual_registry]
+}
+
+resource "google_artifact_registry_repository_iam_binding" "writers" {
+  for_each = {
+    for name, obj in var.registries :
+    name => obj
+    if obj.mode == "VIRTUAL_REPOSITORY"
+  }
+  location   = var.location
+  repository = google_artifact_registry_repository.virtual_registry[each.key].name
+  role       = "roles/artifactregistry.writer"
+  members    = var.writers
+  project    = var.project_id
+  depends_on = [google_artifact_registry_repository.virtual_registry]
 }
