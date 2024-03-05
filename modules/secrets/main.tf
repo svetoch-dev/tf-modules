@@ -2,7 +2,7 @@ locals {
   gcp_secrets_imported = [
     for secret_name in var.secrets_to_import :
     {
-      secret_name    = "${var.name}-${secret_name}"
+      secret_name    = var.gcp.name_from_secret == true ? secret_name : "${var.name}-${secret_name}"
       secret_data    = module.import_secret[secret_name].secret
       annotations    = var.annotations
       labels         = var.labels
@@ -16,7 +16,7 @@ locals {
   gcp_secrets_data = [
     for secret_name, secret_data in var.secrets_data :
     {
-      secret_name    = "${var.name}-${secret_name}"
+      secret_name    = var.gcp.name_from_secret == true ? secret_name : "${var.name}-${secret_name}"
       secret_data    = secret_data
       annotations    = var.annotations
       labels         = var.labels

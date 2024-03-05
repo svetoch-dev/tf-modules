@@ -47,7 +47,8 @@ variable "gcp" {
           )
         )
       )
-      kms_key = optional(string)
+      kms_key          = optional(string)
+      name_from_secret = optional(bool, false)
     }
   )
   description = "Gcp secret definition"
