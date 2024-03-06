@@ -2,13 +2,43 @@ resource "google_artifact_registry_repository" "registry" {
   for_each = {
     for name, obj in var.registries :
     name => obj
-    if obj.mode == "STANDARD_REPOSITORY"
+    if obj.mode != "VIRTUAL_REPOSITORY"
   }
   description   = each.value.description
-  mode          = "STANDARD_REPOSITORY"
+  mode          = each.value.mode
   location      = var.location
   format        = each.value.format
   repository_id = each.key
+  dynamic "remote_repository_config" {
+    for_each = each.value.remote_repository_config[*]
+    content {
+      description = remote_repository_config.value.remote_repository.description
+      dynamic "docker_repository" {
+        for_each = remote_repository_config.value.remote_repository.docker_repository[*]
+        content {
+          public_repository = docker_repository.value.public_repository
+        }
+      }
+      dynamic "apt_repository" {
+        for_each = remote_repository_config.value.remote_repository.apt_repository[*]
+        content {
+          public_repository {
+            repository_base = apt_repository.value.repository_base
+            repository_path = apt_repository.value.repository_path
+          }
+        }
+      }
+      dynamic "yum_repository" {
+        for_each = remote_repository_config.value.remote_repository.yum_repository[*]
+        content {
+          public_repository {
+            repository_base = yum_repository.value.repository_base
+            repository_path = yum_repository.value.repository_path
+          }
+        }
+      }
+    }
+  }
 }
 
 resource "google_artifact_registry_repository" "virtual_registry" {
@@ -35,51 +65,11 @@ resource "google_artifact_registry_repository" "virtual_registry" {
   depends_on = [google_artifact_registry_repository.registry]
 }
 
-resource "google_artifact_registry_repository" "remote_registry" {
-  for_each = {
-    for name, obj in var.registries :
-    name => obj
-    if obj.mode == "REMOTE_REPOSITORY"
-  }
-  description   = each.value.description
-  mode          = "REMOTE_REPOSITORY"
-  location      = var.location
-  format        = each.value.format
-  repository_id = each.key
-  remote_repository_config {
-    description = each.value.remote_repository.description
-    dynamic "docker_repository" {
-      for_each = each.value.remote_repository.docker_repository[*]
-      content {
-        public_repository = docker_repository.value.public_repository
-      }
-    }
-    dynamic "apt_repository" {
-      for_each = each.value.remote_repository.apt_repository[*]
-      content {
-        public_repository {
-          repository_base = apt_repository.value.repository_base
-          repository_path = apt_repository.value.repository_path
-        }
-      }
-    }
-    dynamic "yum_repository" {
-      for_each = each.value.remote_repository.yum_repository[*]
-      content {
-        public_repository {
-          repository_base = yum_repository.value.repository_base
-          repository_path = yum_repository.value.repository_path
-        }
-      }
-    }
-  }
-}
-
 resource "google_artifact_registry_repository_iam_binding" "readers" {
   for_each = {
     for name, obj in var.registries :
     name => obj
-    if obj.mode == "STANDARD_REPOSITORY"
+    if obj.mode != "VIRTUAL_REPOSITORY"
   }
   location   = var.location
   repository = google_artifact_registry_repository.registry[each.key].name
@@ -93,7 +83,7 @@ resource "google_artifact_registry_repository_iam_binding" "writers" {
   for_each = {
     for name, obj in var.registries :
     name => obj
-    if obj.mode == "STANDARD_REPOSITORY"
+    if obj.mode != "VIRTUAL_REPOSITORY"
   }
   location   = var.location
   repository = google_artifact_registry_repository.registry[each.key].name
@@ -129,32 +119,4 @@ resource "google_artifact_registry_repository_iam_binding" "vr_writers" {
   members    = var.writers
   project    = var.project_id
   depends_on = [google_artifact_registry_repository.virtual_registry]
-}
-
-resource "google_artifact_registry_repository_iam_binding" "rr_readers" {
-  for_each = {
-    for name, obj in var.registries :
-    name => obj
-    if obj.mode == "REMOTE_REPOSITORY"
-  }
-  location   = var.location
-  repository = google_artifact_registry_repository.remote_registry[each.key].name
-  role       = "roles/artifactregistry.reader"
-  members    = var.readers
-  project    = var.project_id
-  depends_on = [google_artifact_registry_repository.remote_registry]
-}
-
-resource "google_artifact_registry_repository_iam_binding" "rr_writers" {
-  for_each = {
-    for name, obj in var.registries :
-    name => obj
-    if obj.mode == "REMOTE_REPOSITORY"
-  }
-  location   = var.location
-  repository = google_artifact_registry_repository.remote_registry[each.key].name
-  role       = "roles/artifactregistry.writer"
-  members    = var.writers
-  project    = var.project_id
-  depends_on = [google_artifact_registry_repository.remote_registry]
 }
