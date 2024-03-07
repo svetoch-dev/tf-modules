@@ -6,7 +6,7 @@ resource "google_artifact_registry_repository" "registry" {
   }
   description   = each.value.description
   mode          = each.value.mode
-  location      = var.location
+  location      = each.value.location
   format        = each.value.format
   repository_id = each.key
   dynamic "remote_repository_config" {
@@ -49,7 +49,7 @@ resource "google_artifact_registry_repository" "virtual_registry" {
   }
   description   = each.value.description
   mode          = "VIRTUAL_REPOSITORY"
-  location      = var.location
+  location      = each.value.location
   format        = each.value.format
   repository_id = each.key
   virtual_repository_config {
@@ -71,7 +71,7 @@ resource "google_artifact_registry_repository_iam_binding" "readers" {
     name => obj
     if obj.mode != "VIRTUAL_REPOSITORY"
   }
-  location   = var.location
+  location   = each.value.location
   repository = google_artifact_registry_repository.registry[each.key].name
   role       = "roles/artifactregistry.reader"
   members    = each.value.readers
@@ -84,7 +84,7 @@ resource "google_artifact_registry_repository_iam_binding" "writers" {
     name => obj
     if obj.mode != "VIRTUAL_REPOSITORY"
   }
-  location   = var.location
+  location   = each.value.location
   repository = google_artifact_registry_repository.registry[each.key].name
   role       = "roles/artifactregistry.writer"
   members    = each.value.writers
@@ -97,7 +97,7 @@ resource "google_artifact_registry_repository_iam_binding" "vr_readers" {
     name => obj
     if obj.mode == "VIRTUAL_REPOSITORY"
   }
-  location   = var.location
+  location   = each.value.location
   repository = google_artifact_registry_repository.virtual_registry[each.key].name
   role       = "roles/artifactregistry.reader"
   members    = each.value.readers
@@ -110,7 +110,7 @@ resource "google_artifact_registry_repository_iam_binding" "vr_writers" {
     name => obj
     if obj.mode == "VIRTUAL_REPOSITORY"
   }
-  location   = var.location
+  location   = each.value.location
   repository = google_artifact_registry_repository.virtual_registry[each.key].name
   role       = "roles/artifactregistry.writer"
   members    = each.value.writers

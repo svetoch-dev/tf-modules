@@ -184,7 +184,6 @@ module "gars" {
   source     = "./gar"
   for_each   = var.gars
   registries = each.value.registries
-  location   = each.value.location
   depends_on = [
     module.enable_apis,
   ]

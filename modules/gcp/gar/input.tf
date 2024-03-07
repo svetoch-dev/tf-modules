@@ -1,13 +1,9 @@
-variable "location" {
-  description = "Location(region) of gar repositories"
-  type        = string
-}
-
 variable "registries" {
   description = "Google artifact registry repositories"
   type = map(
     object(
       {
+        location    = string
         description = optional(string, "")
         format      = optional(string, "DOCKER")
         mode        = optional(string, "STANDARD_REPOSITORY")
