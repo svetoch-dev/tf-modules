@@ -1,16 +1,11 @@
 resource "google_artifact_registry_repository" "registry" {
-  for_each = {
-    for name, obj in var.gars :
-    name => obj
-    if obj.mode != "VIRTUAL_REPOSITORY"
-  }
-  description   = each.value.description
-  mode          = each.value.mode
-  location      = each.value.location
-  format        = each.value.format
-  repository_id = each.key
+  description   = var.description
+  mode          = var.mode
+  location      = var.location
+  format        = var.format
+  repository_id = var.repository_id
   dynamic "remote_repository_config" {
-    for_each = each.value.remote_repository[*]
+    for_each = var.remote_repository[*]
     content {
       description = remote_repository_config.value.description
       dynamic "docker_repository" {
@@ -39,80 +34,33 @@ resource "google_artifact_registry_repository" "registry" {
       }
     }
   }
-}
-
-resource "google_artifact_registry_repository" "virtual_registry" {
-  for_each = {
-    for name, obj in var.gars :
-    name => obj
-    if obj.mode == "VIRTUAL_REPOSITORY"
-  }
-  description   = each.value.description
-  mode          = "VIRTUAL_REPOSITORY"
-  location      = each.value.location
-  format        = each.value.format
-  repository_id = each.key
-  virtual_repository_config {
-    dynamic "upstream_policies" {
-      for_each = each.value.upstream_repositories
-      content {
-        id         = upstream_policies.key
-        repository = google_artifact_registry_repository.registry[upstream_policies.key].id
-        priority   = upstream_policies.value.priority
+  dynamic "virtual_repository_config" {
+    for_each = var.virtual_repository[*]
+    content {
+      dynamic "upstream_policies" {
+        for_each = virtual_repository_config.value.upstream_repositories
+        content {
+          id         = upstream_policies.key
+          repository = upstream_policies.value.repository
+          priority   = upstream_policies.value.priority
+        }
       }
     }
   }
-  depends_on = [google_artifact_registry_repository.registry]
 }
 
 resource "google_artifact_registry_repository_iam_binding" "readers" {
-  for_each = {
-    for name, obj in var.gars :
-    name => obj
-    if obj.mode != "VIRTUAL_REPOSITORY"
-  }
-  location   = each.value.location
-  repository = google_artifact_registry_repository.registry[each.key].name
+  location   = var.location
+  repository = google_artifact_registry_repository.registry.name
   role       = "roles/artifactregistry.reader"
-  members    = each.value.readers
+  members    = var.readers
   depends_on = [google_artifact_registry_repository.registry]
 }
 
 resource "google_artifact_registry_repository_iam_binding" "writers" {
-  for_each = {
-    for name, obj in var.gars :
-    name => obj
-    if obj.mode != "VIRTUAL_REPOSITORY"
-  }
-  location   = each.value.location
-  repository = google_artifact_registry_repository.registry[each.key].name
+  location   = var.location
+  repository = google_artifact_registry_repository.registry.name
   role       = "roles/artifactregistry.writer"
-  members    = each.value.writers
+  members    = var.writers
   depends_on = [google_artifact_registry_repository.registry]
-}
-
-resource "google_artifact_registry_repository_iam_binding" "vr_readers" {
-  for_each = {
-    for name, obj in var.gars :
-    name => obj
-    if obj.mode == "VIRTUAL_REPOSITORY"
-  }
-  location   = each.value.location
-  repository = google_artifact_registry_repository.virtual_registry[each.key].name
-  role       = "roles/artifactregistry.reader"
-  members    = each.value.readers
-  depends_on = [google_artifact_registry_repository.virtual_registry]
-}
-
-resource "google_artifact_registry_repository_iam_binding" "vr_writers" {
-  for_each = {
-    for name, obj in var.gars :
-    name => obj
-    if obj.mode == "VIRTUAL_REPOSITORY"
-  }
-  location   = each.value.location
-  repository = google_artifact_registry_repository.virtual_registry[each.key].name
-  role       = "roles/artifactregistry.writer"
-  members    = each.value.writers
-  depends_on = [google_artifact_registry_repository.virtual_registry]
 }

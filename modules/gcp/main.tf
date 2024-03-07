@@ -184,8 +184,17 @@ module "gcs" {
 /* gar */
 
 module "gars" {
-  source = "./gar"
-  gars   = var.gars
+  source             = "./gar"
+  for_each           = var.gars
+  repository_id      = each.key
+  location           = each.value.location
+  description        = try(each.value.description, "")
+  format             = try(each.value.format, "DOCKER")
+  mode               = try(each.value.mode, "STANDARD_REPOSITORY")
+  readers            = try(each.value.readers, [])
+  writers            = try(each.value.writers, [])
+  virtual_repository = try(each.value.virtual_repository, null)
+  remote_repository  = try(each.value.remote_repository, null)
   depends_on = [
     module.enable_apis,
   ]

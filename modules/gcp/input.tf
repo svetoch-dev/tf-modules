@@ -37,7 +37,7 @@ variable "iam" {
 
 variable "gars" {
   description = "A list of gar registries to create in this project"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
