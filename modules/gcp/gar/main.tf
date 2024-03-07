@@ -10,17 +10,17 @@ resource "google_artifact_registry_repository" "registry" {
   format        = each.value.format
   repository_id = each.key
   dynamic "remote_repository_config" {
-    for_each = each.value.remote_repository_config[*]
+    for_each = each.value.remote_repository[*]
     content {
-      description = remote_repository_config.value.remote_repository.description
+      description = remote_repository_config.value.description
       dynamic "docker_repository" {
-        for_each = remote_repository_config.value.remote_repository.docker_repository[*]
+        for_each = remote_repository_config.value.docker_repository[*]
         content {
           public_repository = docker_repository.value.public_repository
         }
       }
       dynamic "apt_repository" {
-        for_each = remote_repository_config.value.remote_repository.apt_repository[*]
+        for_each = remote_repository_config.value.apt_repository[*]
         content {
           public_repository {
             repository_base = apt_repository.value.repository_base
@@ -29,7 +29,7 @@ resource "google_artifact_registry_repository" "registry" {
         }
       }
       dynamic "yum_repository" {
-        for_each = remote_repository_config.value.remote_repository.yum_repository[*]
+        for_each = remote_repository_config.value.yum_repository[*]
         content {
           public_repository {
             repository_base = yum_repository.value.repository_base
