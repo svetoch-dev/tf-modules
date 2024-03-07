@@ -182,8 +182,7 @@ module "gcs" {
 
 module "gars" {
   source     = "./gar"
-  for_each   = var.gars
-  registries = each.value.registries
+  gars       = var.gars
   depends_on = [
     module.enable_apis,
   ]

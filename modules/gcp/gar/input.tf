@@ -1,4 +1,4 @@
-variable "registries" {
+variable "gars" {
   description = "Google artifact registry repositories"
   type = map(
     object(

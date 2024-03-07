@@ -1,6 +1,6 @@
 resource "google_artifact_registry_repository" "registry" {
   for_each = {
-    for name, obj in var.registries :
+    for name, obj in var.gars :
     name => obj
     if obj.mode != "VIRTUAL_REPOSITORY"
   }
@@ -43,7 +43,7 @@ resource "google_artifact_registry_repository" "registry" {
 
 resource "google_artifact_registry_repository" "virtual_registry" {
   for_each = {
-    for name, obj in var.registries :
+    for name, obj in var.gars :
     name => obj
     if obj.mode == "VIRTUAL_REPOSITORY"
   }
@@ -67,7 +67,7 @@ resource "google_artifact_registry_repository" "virtual_registry" {
 
 resource "google_artifact_registry_repository_iam_binding" "readers" {
   for_each = {
-    for name, obj in var.registries :
+    for name, obj in var.gars :
     name => obj
     if obj.mode != "VIRTUAL_REPOSITORY"
   }
@@ -80,7 +80,7 @@ resource "google_artifact_registry_repository_iam_binding" "readers" {
 
 resource "google_artifact_registry_repository_iam_binding" "writers" {
   for_each = {
-    for name, obj in var.registries :
+    for name, obj in var.gars :
     name => obj
     if obj.mode != "VIRTUAL_REPOSITORY"
   }
@@ -93,7 +93,7 @@ resource "google_artifact_registry_repository_iam_binding" "writers" {
 
 resource "google_artifact_registry_repository_iam_binding" "vr_readers" {
   for_each = {
-    for name, obj in var.registries :
+    for name, obj in var.gars :
     name => obj
     if obj.mode == "VIRTUAL_REPOSITORY"
   }
@@ -106,7 +106,7 @@ resource "google_artifact_registry_repository_iam_binding" "vr_readers" {
 
 resource "google_artifact_registry_repository_iam_binding" "vr_writers" {
   for_each = {
-    for name, obj in var.registries :
+    for name, obj in var.gars :
     name => obj
     if obj.mode == "VIRTUAL_REPOSITORY"
   }
