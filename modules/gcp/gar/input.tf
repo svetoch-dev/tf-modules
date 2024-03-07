@@ -2,16 +2,6 @@ variable "project_id" {
   type = string
 }
 
-variable "readers" {
-  type    = list(any)
-  default = []
-}
-
-variable "writers" {
-  type    = list(any)
-  default = []
-}
-
 variable "location" {
   description = "Location(region) of gar repositories"
   type        = string
@@ -25,6 +15,8 @@ variable "registries" {
         description = optional(string, "")
         format      = optional(string, "DOCKER")
         mode        = optional(string, "STANDARD_REPOSITORY")
+        readers     = list(any)
+        writers     = list(any)
         upstream_repositories = optional(map(object({
           priority = optional(number, 10)
         })), null)

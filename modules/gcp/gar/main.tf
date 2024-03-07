@@ -74,7 +74,7 @@ resource "google_artifact_registry_repository_iam_binding" "readers" {
   location   = var.location
   repository = google_artifact_registry_repository.registry[each.key].name
   role       = "roles/artifactregistry.reader"
-  members    = var.readers
+  members    = each.value.readers
   project    = var.project_id
   depends_on = [google_artifact_registry_repository.registry]
 }
@@ -88,7 +88,7 @@ resource "google_artifact_registry_repository_iam_binding" "writers" {
   location   = var.location
   repository = google_artifact_registry_repository.registry[each.key].name
   role       = "roles/artifactregistry.writer"
-  members    = var.writers
+  members    = each.value.writers
   project    = var.project_id
   depends_on = [google_artifact_registry_repository.registry]
 }
@@ -102,7 +102,7 @@ resource "google_artifact_registry_repository_iam_binding" "vr_readers" {
   location   = var.location
   repository = google_artifact_registry_repository.virtual_registry[each.key].name
   role       = "roles/artifactregistry.reader"
-  members    = var.readers
+  members    = each.value.readers
   project    = var.project_id
   depends_on = [google_artifact_registry_repository.virtual_registry]
 }
@@ -116,7 +116,7 @@ resource "google_artifact_registry_repository_iam_binding" "vr_writers" {
   location   = var.location
   repository = google_artifact_registry_repository.virtual_registry[each.key].name
   role       = "roles/artifactregistry.writer"
-  members    = var.writers
+  members    = each.value.writers
   project    = var.project_id
   depends_on = [google_artifact_registry_repository.virtual_registry]
 }
