@@ -1,7 +1,3 @@
-variable "project_id" {
-  type = string
-}
-
 variable "location" {
   description = "Location(region) of gar repositories"
   type        = string

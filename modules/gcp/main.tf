@@ -183,7 +183,6 @@ module "gcs" {
 module "gars" {
   source     = "./gar"
   for_each   = var.gars
-  project_id = var.project.id
   registries = each.value.registries
   location   = each.value.location
   depends_on = [
