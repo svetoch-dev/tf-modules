@@ -1,5 +1,5 @@
 module "enable_apis" {
-  source = "git::ssh://git@github.com/terraform-google-modules/terraform-google-project-factory//modules/project_services?ref=v14.4.0"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-project-factory//modules/project_services?ref=v14.4.0"
 
   project_id = var.project.id
 
@@ -14,8 +14,11 @@ module "network" {
   source   = "./network"
 
   vpc = {
-    name       = each.value.vpc.name
-    project_id = module.enable_apis.project_id
+    name                    = each.value.vpc.name
+    project_id              = module.enable_apis.project_id
+    description             = try(each.value.vpc.description, "")
+    routing_mode            = try(each.value.vpc.routing_mode, "GLOBAL")
+    auto_create_subnetworks = try(each.value.vpc.auto_create_subnetworks, false)
   }
   subnets        = each.value.subnets
   routers        = each.value.routers
@@ -26,7 +29,7 @@ module "network" {
 
 
 module "gke" {
-  source                          = "git::ssh://git@github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v30.0.0"
+  source                          = "git::https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v29.0.0"
   for_each                        = var.gke_clusters
   project_id                      = var.project.id
   kubernetes_version              = each.value.kubernetes_version
@@ -90,7 +93,7 @@ module "gke" {
 /* cloudsql */
 
 module "cloudsql_postgres" {
-  source              = "git::ssh://git@github.com/terraform-google-modules/terraform-google-sql-db.git//modules/postgresql?ref=master"
+  source              = "git::https://github.com/terraform-google-modules/terraform-google-sql-db.git//modules/postgresql?ref=master"
   for_each            = var.cloudsql_postgres
   project_id          = var.project.id
   name                = each.key
@@ -147,7 +150,7 @@ resource "random_password" "cloudsql_passwords" {
 /* GCS */
 
 module "gcs" {
-  source     = "git::ssh://git@github.com/terraform-google-modules/terraform-google-cloud-storage.git?ref=v5.0.0"
+  source     = "git::https://github.com/terraform-google-modules/terraform-google-cloud-storage.git?ref=v5.0.0"
   for_each   = var.gcs
   names      = [each.key]
   project_id = var.project.id
@@ -181,8 +184,8 @@ module "gcs" {
 /* gar */
 
 module "gars" {
-  source     = "./gar"
-  gars       = var.gars
+  source = "./gar"
+  gars   = var.gars
   depends_on = [
     module.enable_apis,
   ]
@@ -238,8 +241,107 @@ module "redis" {
   redis_configs  = each.value.redis_configs
   redis_version  = each.value.redis_version
   tier           = each.value.tier
+  auth_enabled   = try(each.value.auth_enabled, "false")
+  auth_network   = each.value.auth_network
 
   depends_on = [
     module.enable_apis,
   ]
+}
+
+/* cloudrun */
+
+module "cloudrun_services" {
+  source     = "./cloudrun_service"
+  for_each   = var.cloudrun_services
+  name       = each.value.name
+  project_id = var.project.id
+  location   = each.value.location
+  execution_environment = try(
+    each.value.execution_environment,
+    "EXECUTION_ENVIRONMENT_GEN2"
+  )
+
+  ingress = try(each.value.ingress, "INGRESS_TRAFFIC_ALL")
+  members = try(
+    each.value.members,
+    [
+      "allUsers"
+    ]
+  )
+  neg_enabled     = try(each.value.neg_enabled, false)
+  container       = each.value.container
+  scaling         = each.value.scaling
+  service_account = each.value.service_account
+  vpc_access      = try(each.value.vpc_access, null)
+  volumes         = try(each.value.volumes, {})
+  domains         = try(each.value.domains, {})
+
+  depends_on = [
+    module.enable_apis,
+    module.iam,
+  ]
+}
+
+/* albs */
+
+module "application_lbs" {
+  source       = "./application_loadbalancer"
+  for_each     = var.application_lbs
+  name         = each.value.name
+  backends     = each.value.backends
+  http_target  = each.value.http_target
+  https_target = each.value.https_target
+}
+
+/* kms */
+
+module "kms" {
+  source   = "./kms"
+  for_each = var.kms_key_rings
+  key_ring = {
+    name     = each.value.name
+    location = try(each.value.location, var.project.region)
+  }
+  keys = each.value.keys
+
+  depends_on = [
+    module.iam,
+  ]
+}
+
+/* cloud tasks */
+
+module "cloud_tasks" {
+  source        = "./cloud_task"
+  for_each      = var.cloud_tasks
+  name          = each.value.name
+  location      = each.value.location
+  rate_limits   = each.value.rate_limits
+  retry_configs = each.value.retry_configs
+  iam_bindings  = try(each.value.iam_bindings, {})
+}
+
+/* cloud scheduler */
+
+module "cloud_schedules" {
+  source           = "./cloud_scheduler"
+  for_each         = var.cloud_schedules
+  name             = each.value.name
+  schedule         = each.value.schedule
+  description      = try(each.value.description, "")
+  timezone         = try(each.value.timezone, "Etc/UTC")
+  paused           = try(each.value.paused, false)
+  attempt_deadline = try(each.value.attempt_deadline, null)
+  retry_configs    = try(each.value.retry_configs, null)
+  http_target      = each.value.http_target
+}
+
+/* firestore */
+
+module "firestores" {
+  source            = "./firestore"
+  for_each          = var.firestores
+  db                = each.value.db
+  datastore_indices = try(each.value.datastore_indices, {})
 }
