@@ -35,6 +35,12 @@ variable "iam" {
   default     = {}
 }
 
+variable "gars" {
+  description = "A list of gar registries to create in this project"
+  type        = any
+  default     = {}
+}
+
 variable "gcrs" {
   description = "A list of gcr registries to create in this project"
   type        = map(any)
