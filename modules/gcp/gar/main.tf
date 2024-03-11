@@ -50,6 +50,7 @@ resource "google_artifact_registry_repository" "registry" {
 }
 
 resource "google_artifact_registry_repository_iam_binding" "readers" {
+  count      = length(var.readers) > 0 ? 1 : 0
   location   = var.location
   repository = google_artifact_registry_repository.registry.name
   role       = "roles/artifactregistry.reader"
@@ -58,6 +59,7 @@ resource "google_artifact_registry_repository_iam_binding" "readers" {
 }
 
 resource "google_artifact_registry_repository_iam_binding" "writers" {
+  count      = length(var.writers) > 0 ? 1 : 0
   location   = var.location
   repository = google_artifact_registry_repository.registry.name
   role       = "roles/artifactregistry.writer"
