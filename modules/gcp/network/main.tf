@@ -1,5 +1,5 @@
 module "vpc" {
-  source                  = "git::https://github.com/terraform-google-modules/terraform-google-network//modules/vpc?ref=v8.0.0"
+  source                  = "git::https://github.com/terraform-google-modules/terraform-google-network//modules/vpc?ref=v9.0.0"
   project_id              = var.vpc.project_id
   network_name            = var.vpc.name
   description             = var.vpc.description
@@ -8,7 +8,7 @@ module "vpc" {
 }
 
 module "subnets" {
-  source           = "git::https://github.com/terraform-google-modules/terraform-google-network//modules/subnets?ref=v8.0.0"
+  source           = "git::https://github.com/terraform-google-modules/terraform-google-network//modules/subnets?ref=v9.0.0"
   project_id       = module.vpc.project_id
   network_name     = module.vpc.network_name
   subnets          = local.subnets
