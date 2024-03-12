@@ -43,3 +43,9 @@ variable "kms_key" {
   type        = string
   default     = null
 }
+
+variable "deletion_policy" {
+  description = "The deletion policy for the secret version."
+  type        = string
+  default     = "DELETE"
+}

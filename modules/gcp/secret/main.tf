@@ -35,5 +35,6 @@ resource "google_secret_manager_secret_version" "secret" {
   secret = google_secret_manager_secret.secret.id
 
   is_secret_data_base64 = var.is_base64
+  deletion_policy       = var.deletion_policy
   secret_data           = var.secret
 }
