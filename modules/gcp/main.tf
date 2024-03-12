@@ -1,5 +1,5 @@
 module "enable_apis" {
-  source = "git::https://github.com/terraform-google-modules/terraform-google-project-factory//modules/project_services?ref=v14.4.0"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-project-factory//modules/project_services?ref=v14.5.0"
 
   project_id = var.project.id
 
@@ -29,7 +29,7 @@ module "network" {
 
 
 module "gke" {
-  source                          = "git::https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v29.0.0"
+  source                          = "git::https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v30.2.0"
   for_each                        = var.gke_clusters
   project_id                      = var.project.id
   kubernetes_version              = each.value.kubernetes_version
