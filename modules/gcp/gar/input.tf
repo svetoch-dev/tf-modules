@@ -4,35 +4,42 @@ variable "repository_id" {
 }
 
 variable "location" {
-  type = string
+  description = "The name of the location this repository is located in"
+  type        = string
 }
 
 variable "description" {
-  type    = string
-  default = ""
+  description = "The user-provided description of the repository"
+  type        = string
+  default     = ""
 }
 
 variable "format" {
-  type    = string
-  default = "DOCKER"
+  description = "The format of packages that are stored in the repository"
+  type        = string
+  default     = "DOCKER"
 }
 
 variable "mode" {
-  type    = string
-  default = "STANDARD_REPOSITORY"
+  description = "The mode configures the repository to serve artifacts from different sources. Possible values are: STANDARD_REPOSITORY, VIRTUAL_REPOSITORY, REMOTE_REPOSITORY"
+  type        = string
+  default     = "STANDARD_REPOSITORY"
 }
 
 variable "readers" {
-  type    = list(any)
-  default = []
+  description = "The list of users who have the right to read"
+  type        = list(any)
+  default     = []
 }
 
 variable "writers" {
-  type    = list(any)
-  default = []
+  description = "The list of users who have the right to write"
+  type        = list(any)
+  default     = []
 }
 
 variable "virtual_repository" {
+  description = "Configuration specific for a Virtual Repository"
   type = object({
     upstream_repositories = map(object({
       repository = optional(string)
@@ -43,6 +50,7 @@ variable "virtual_repository" {
 }
 
 variable "remote_repository" {
+  description = "Configuration specific for a Remote Repository"
   type = object({
     description = optional(string, "")
     docker_repository = optional(object({
