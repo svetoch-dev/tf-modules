@@ -49,6 +49,13 @@ module "gke" {
   enable_shielded_nodes           = each.value.enable_shielded_nodes
   network_policy                  = each.value.network_policy
   network_policy_provider         = each.value.network_policy_provider
+  logging_enabled_components = try(
+    each.value.logging_enabled_components,
+    [
+      "SYSTEM_COMPONENTS",
+      "WORKLOADS"
+    ]
+  )
 
   identity_namespace = each.value.identity_namespace
   cluster_resource_labels = merge(
