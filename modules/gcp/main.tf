@@ -361,3 +361,29 @@ module "firestores" {
   db                = each.value.db
   datastore_indices = try(each.value.datastore_indices, {})
 }
+
+/* vms */
+
+module "vms" {
+  source       = "./vm"
+  for_each     = var.vms
+  project_id   = var.project.id
+  name         = each.value.name
+  machine_type = each.value.machine_type
+  disk = try(
+    each.value.disk,
+    {
+      size_gb = 10,
+      type    = "pd-standard"
+    }
+  )
+  network_config = each.value.network_config
+  zone           = each.value.zone
+  image          = each.value.image
+  metadata = try(
+    each.value.metadata, {}
+  )
+  service_account = each.value.service_account
+  tags            = try(each.value.tags, [])
+  labels          = try(each.value.labels, {})
+}

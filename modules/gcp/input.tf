@@ -100,3 +100,9 @@ variable "firestores" {
   type        = map(any)
   default     = {}
 }
+
+variable "vms" {
+  description = "A list of virtual machines"
+  type        = map(any)
+  default     = {}
+}
