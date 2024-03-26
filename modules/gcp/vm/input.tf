@@ -23,7 +23,7 @@ variable "disk" {
   )
   default = {
     size_gb = 10,
-    type    = "pd-standard",
+    type    = "pd-balanced",
   }
 }
 

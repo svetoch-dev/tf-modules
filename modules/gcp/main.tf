@@ -374,7 +374,7 @@ module "vms" {
     each.value.disk,
     {
       size_gb = 10,
-      type    = "pd-standard"
+      type    = "pd-balanced"
     }
   )
   network_config = each.value.network_config
