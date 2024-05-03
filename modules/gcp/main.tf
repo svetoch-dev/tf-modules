@@ -157,31 +157,39 @@ resource "random_password" "cloudsql_passwords" {
 /* GCS */
 
 module "gcs" {
-  source     = "git::https://github.com/terraform-google-modules/terraform-google-cloud-storage.git?ref=v5.0.0"
-  for_each   = var.gcs
-  names      = [each.key]
-  project_id = var.project.id
-  location   = each.value.location
-  bucket_policy_only = {
-    tostring(each.key) = each.value.bucket_policy_only
-  }
-  prefix            = each.value.prefix
-  storage_class     = each.value.storage_class
-  set_admin_roles   = true
-  set_creator_roles = true
-  set_viewer_roles  = true
-  admins            = each.value.admins
-  viewers           = each.value.viewers
-  creators          = each.value.creators
-  versioning = {
-    tostring(each.key) = each.value.versioning
-  }
-  lifecycle_rules = each.value.lifecycle_rules
-  cors            = each.value.cors
-  labels = {
-    resource_type = "gcs_bucket",
-    bucket_name   = each.key,
-  }
+  source             = "./gcs"
+  for_each           = var.gcs
+  name               = try(each.value.name, each.key)
+  location           = each.value.location
+  bucket_policy_only = try(each.value.bucket_policy_only, false)
+  storage_class      = each.value.storage_class
+  iam_roles = [
+    {
+      role    = "roles/storage.objectAdmin"
+      members = each.value.admins
+    },
+    {
+      role    = "roles/storage.objectCreator"
+      members = each.value.creators
+    },
+    {
+      role    = "roles/storage.objectViewer"
+      members = each.value.viewers
+    }
+  ]
+  versioning      = try(each.value.versioning, false)
+  lifecycle_rules = try(each.value.lifecycle_rules, [])
+  cors            = try(each.value.cors, [])
+  logging         = try(each.value.logging, null)
+  website         = try(each.value.website, null)
+  labels = try(
+    each.value.labels,
+    {
+      resource_type = "gcs_bucket",
+      bucket_name   = each.key,
+      name          = each.key,
+    }
+  )
   depends_on = [
     module.enable_apis,
     module.iam,
