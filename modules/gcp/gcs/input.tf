@@ -181,10 +181,11 @@ variable "pubsub_notifications" {
   type = map(
     object(
       {
-        payload_format    = optional(string, "JSON_API_V1")
-        topic             = string
-        event_types       = list(string)
-        custom_attributes = oprtional(map(string))
+        payload_format     = optional(string, "JSON_API_V1")
+        topic              = string
+        event_types        = list(string)
+        custom_attributes  = optional(map(string))
+        object_name_prefix = optional(string)
       }
     )
   )

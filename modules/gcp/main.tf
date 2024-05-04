@@ -177,11 +177,12 @@ module "gcs" {
       members = each.value.viewers
     }
   ]
-  versioning      = try(each.value.versioning, false)
-  lifecycle_rules = try(each.value.lifecycle_rules, [])
-  cors            = try(each.value.cors, [])
-  logging         = try(each.value.logging, null)
-  website         = try(each.value.website, null)
+  versioning           = try(each.value.versioning, false)
+  lifecycle_rules      = try(each.value.lifecycle_rules, [])
+  cors                 = try(each.value.cors, [])
+  logging              = try(each.value.logging, null)
+  website              = try(each.value.website, null)
+  pubsub_notifications = try(each.value.pubsub_notifications, {})
   labels = try(
     each.value.labels,
     {
