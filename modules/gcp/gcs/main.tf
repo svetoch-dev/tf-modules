@@ -98,3 +98,13 @@ resource "google_storage_bucket_iam_binding" "bindings" {
 
   members = each.value.members
 }
+
+resource "google_storage_notification" "notifications" {
+  for_each           = var.pubsub_notifications
+  bucket             = google_storage_bucket.bucket.name
+  payload_format     = each.value.payload_format
+  topic              = each.value.topic
+  event_types        = each.value.event_types
+  custom_attributes  = each.value.custom_attributes
+  object_name_prefix = each.value.object_name_prefix
+}

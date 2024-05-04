@@ -175,3 +175,19 @@ variable "iam_roles" {
     )
   )
 }
+
+variable "pubsub_notifications" {
+  description = "Pubsub notifications configuration"
+  type = map(
+    object(
+      {
+        payload_format     = optional(string, "JSON_API_V1")
+        topic              = string
+        event_types        = list(string)
+        custom_attributes  = optional(map(string))
+        object_name_prefix = optional(string)
+      }
+    )
+  )
+  default = {}
+}
