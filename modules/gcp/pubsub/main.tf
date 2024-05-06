@@ -1,12 +1,12 @@
 resource "google_pubsub_topic" "topic" {
   name = var.name
 
-  dynamic "labels" {
-    for_each = var.labels
-    content {
-      labels.value.name = labels.value.value
-    }
-  }
+#  dynamic "labels" {
+#    for_each = var.labels
+#    content {
+#      labels.value.name = labels.value.value # doesn't work
+#    }
+#  }
 
   dynamic "message_storage_policy" {
     for_each = var.regions
