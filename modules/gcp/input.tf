@@ -107,7 +107,7 @@ variable "vms" {
   default     = {}
 }
 
-variable "pubsub" {
+variable "pubsubs" {
   description = "A list of pubsub messaging services to create in this project"
   type        = any
   default     = {}

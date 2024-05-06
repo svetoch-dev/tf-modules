@@ -401,7 +401,7 @@ module "vms" {
 
 module "pubsub" {
   source                     = "./pubsub"
-  for_each                   = var.pubsub
+  for_each                   = var.pubsubs
   name                       = each.key
   message_retention_duration = try(each.value.message_retention_duration, "")
   regions                    = try(each.value.regions, null)

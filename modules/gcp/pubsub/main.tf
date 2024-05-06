@@ -17,13 +17,17 @@ resource "google_pubsub_topic" "topic" {
 }
 
 resource "google_pubsub_subscription" "subscription" {
-  for_each = var.subscriptions
-  name     = each.key
-  topic    = google_pubsub_topic.topic.id
-  depends_on = [
-    google_pubsub_topic.topic
-  ]
+  for_each   = var.subscriptions
+  name       = each.key
+  topic      = google_pubsub_topic.topic.id
+  depends_on = [google_pubsub_topic.topic]
 }
 
-
-
+resource "google_pubsub_topic_iam_binding" "viewers" {
+  count      = length(var.writers) > 0 ? 1 : 0
+  project    = google_pubsub_topic.topic.project
+  topic      = google_pubsub_topic.topic.name
+  role       = "roles/viewer"
+  members    = var.viewers
+  depends_on = [google_pubsub_topic.topic]
+}
