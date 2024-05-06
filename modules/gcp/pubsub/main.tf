@@ -24,7 +24,7 @@ resource "google_pubsub_subscription" "subscription" {
 }
 
 resource "google_pubsub_topic_iam_binding" "publisher" {
-  count      = length(var.writers) > 0 ? 1 : 0
+  count      = length(var.publishers) > 0 ? 1 : 0
   project    = google_pubsub_topic.topic.project
   topic      = google_pubsub_topic.topic.name
   role       = "roles/pubsub.publisher"
@@ -33,7 +33,7 @@ resource "google_pubsub_topic_iam_binding" "publisher" {
 }
 
 resource "google_pubsub_topic_iam_binding" "subscriber" {
-  count      = length(var.writers) > 0 ? 1 : 0
+  count      = length(var.subscribers) > 0 ? 1 : 0
   project    = google_pubsub_topic.topic.project
   topic      = google_pubsub_topic.topic.name
   role       = "roles/pubsub.subscriber"
@@ -42,7 +42,7 @@ resource "google_pubsub_topic_iam_binding" "subscriber" {
 }
 
 resource "google_pubsub_topic_iam_binding" "editor" {
-  count      = length(var.writers) > 0 ? 1 : 0
+  count      = length(var.editors) > 0 ? 1 : 0
   project    = google_pubsub_topic.topic.project
   topic      = google_pubsub_topic.topic.name
   role       = "roles/pubsub.editor"
