@@ -54,7 +54,7 @@ resource "google_pubsub_subscription_iam_binding" "publisher" {
   for_each     = var.subscriptions
   subscription = each.key
   role         = "roles/pubsub.publisher"
-  members      = each.publishers
+  members      = each.value.publishers
   depends_on   = [google_pubsub_subscription.this]
 }
 
@@ -62,7 +62,7 @@ resource "google_pubsub_subscription_iam_binding" "subscriber" {
   for_each     = var.subscriptions
   subscription = each.key
   role         = "roles/pubsub.subscriber"
-  members      = each.subscribers
+  members      = each.value.subscribers
   depends_on   = [google_pubsub_subscription.this]
 }
 
@@ -70,6 +70,6 @@ resource "google_pubsub_subscription_iam_binding" "editor" {
   for_each     = var.subscriptions
   subscription = each.key
   role         = "roles/pubsub.editor"
-  members      = each.editors
+  members      = each.value.editors
   depends_on   = [google_pubsub_subscription.this]
 }
