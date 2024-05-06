@@ -40,12 +40,25 @@ variable "subscribers" {
   default     = []
 }
 
+variable "admins" {
+  description = "The list of users who have pubsub.admin rights"
+  type        = list(any)
+  default     = []
+}
+
+variable "viewers" {
+  description = "The list of users who have pubsub.viewer rights"
+  type        = list(any)
+  default     = []
+}
+
 variable "subscriptions" {
   description = "A named resources representing the stream of messages from a single, specific topic, to be delivered to the subscribing application"
   type = map(object({
     editors     = optional(list(any), [])
-    publishers  = optional(list(any), [])
+    admins      = optional(list(any), [])
     subscribers = optional(list(any), [])
+    viewers     = optional(list(any), [])
   }))
   default = null
 }

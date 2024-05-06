@@ -50,11 +50,37 @@ resource "google_pubsub_topic_iam_binding" "editor" {
   depends_on = [google_pubsub_topic.this]
 }
 
-resource "google_pubsub_subscription_iam_binding" "publisher" {
+resource "google_pubsub_topic_iam_binding" "admin" {
+  count      = length(var.admins) > 0 ? 1 : 0
+  project    = google_pubsub_topic.this.project
+  topic      = google_pubsub_topic.this.name
+  role       = "roles/pubsub.admin"
+  members    = var.admins
+  depends_on = [google_pubsub_topic.this]
+}
+
+resource "google_pubsub_topic_iam_binding" "viewer" {
+  count      = length(var.viewers) > 0 ? 1 : 0
+  project    = google_pubsub_topic.this.project
+  topic      = google_pubsub_topic.this.name
+  role       = "roles/pubsub.viewer"
+  members    = var.viewers
+  depends_on = [google_pubsub_topic.this]
+}
+
+resource "google_pubsub_subscription_iam_binding" "admin" {
   for_each     = var.subscriptions
   subscription = each.key
-  role         = "roles/pubsub.publisher"
-  members      = each.value.publishers
+  role         = "roles/pubsub.admin"
+  members      = each.value.admins
+  depends_on   = [google_pubsub_subscription.this]
+}
+
+resource "google_pubsub_subscription_iam_binding" "viewer" {
+  for_each     = var.subscriptions
+  subscription = each.key
+  role         = "roles/pubsub.viewer"
+  members      = each.value.viewers
   depends_on   = [google_pubsub_subscription.this]
 }
 
