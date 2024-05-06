@@ -4,16 +4,16 @@ resource "google_pubsub_topic" "topic" {
 #  dynamic "labels" {
 #    for_each = var.labels
 #    content {
-#      labels.value.name = labels.value.value # doesn't work
+#      labels.key = labels.value.value # doesn't work
 #    }
 #  }
 
-  dynamic "message_storage_policy" {
-    for_each = var.regions
-    content {
-      allowed_persistence_regions = message_storage_policy.value
-    }
-  }
+#  dynamic "message_storage_policy" {
+#    for_each = var.regions
+#    content {
+#      allowed_persistence_regions = message_storage_policy.value
+#    }
+#  }
 }
 
 

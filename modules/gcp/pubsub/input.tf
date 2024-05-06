@@ -11,12 +11,9 @@ variable "regions" {
 
 variable "labels" {
   description = "A set of key/value label pairs to assign to this Topic"
-  type = object({
-    label = map(object({
-      name  = optional(string)
-      value = optional(string)
-    }))
-  })
+  type = map(object({
+    value = optional(string)
+  }))
   default = null
 }
 
