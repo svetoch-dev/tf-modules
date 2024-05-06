@@ -18,7 +18,7 @@ resource "google_pubsub_topic" "topic" {
 
 
 resource "google_pubsub_subscription" "subscription" {
-  vor_each = var.subscription
+  vor_each = var.subscriptions
   name  = each.key
   topic = google_pubsub_topic.topic[var.name].id
   #depends_on = [
