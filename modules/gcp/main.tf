@@ -406,8 +406,9 @@ module "pubsub" {
   message_retention_duration = try(each.value.message_retention_duration, "")
   regions                    = try(each.value.regions, null)
   labels                     = try(each.value.labels, null)
-  #readers      = try(each.value.readers, [])
-  #writers      = try(each.value.writers, [])
-  subscriptions = try(each.value.subscriptions, null)
-  depends_on    = [module.enable_apis]
+  publishers                 = try(each.value.publishers, [])
+  subscribers                = try(each.value.subscribers, [])
+  editors                    = try(each.value.editors, [])
+  subscriptions              = try(each.value.subscriptions, null)
+  depends_on                 = [module.enable_apis]
 }
