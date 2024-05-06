@@ -23,11 +23,29 @@ resource "google_pubsub_subscription" "subscription" {
   depends_on = [google_pubsub_topic.topic]
 }
 
-resource "google_pubsub_topic_iam_binding" "viewers" {
+resource "google_pubsub_topic_iam_binding" "publisher" {
   count      = length(var.writers) > 0 ? 1 : 0
   project    = google_pubsub_topic.topic.project
   topic      = google_pubsub_topic.topic.name
-  role       = "roles/viewer"
-  members    = var.viewers
+  role       = "roles/pubsub.publisher"
+  members    = var.publishers
+  depends_on = [google_pubsub_topic.topic]
+}
+
+resource "google_pubsub_topic_iam_binding" "subscriber" {
+  count      = length(var.writers) > 0 ? 1 : 0
+  project    = google_pubsub_topic.topic.project
+  topic      = google_pubsub_topic.topic.name
+  role       = "roles/pubsub.subscriber"
+  members    = var.subscribers
+  depends_on = [google_pubsub_topic.topic]
+}
+
+resource "google_pubsub_topic_iam_binding" "editor" {
+  count      = length(var.writers) > 0 ? 1 : 0
+  project    = google_pubsub_topic.topic.project
+  topic      = google_pubsub_topic.topic.name
+  role       = "roles/pubsub.editor"
+  members    = var.editors
   depends_on = [google_pubsub_topic.topic]
 }

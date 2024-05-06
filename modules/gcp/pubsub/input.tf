@@ -22,17 +22,23 @@ variable "labels" {
   default = null
 }
 
-#variable "readers" {
-#  description = "The list of users who have the right to read"
-#  type        = list(any)
-#  default     = []
-#}
+variable "editors" {
+  description = "The list of users who have pubsub.editor rights"
+  type        = list(any)
+  default     = []
+}
 
-#variable "writers" {
-#  description = "The list of users who have the right to write"
-#  type        = list(any)
-#  default     = []
-#}
+variable "publishers" {
+  description = "The list of users who have pubsub.publisher rights"
+  type        = list(any)
+  default     = []
+}
+
+variable "subscribers" {
+  description = "The list of users who have pubsub.subscriber rights"
+  type        = list(any)
+  default     = []
+}
 
 variable "subscriptions" {
   description = "A named resources representing the stream of messages from a single, specific topic, to be delivered to the subscribing application"
