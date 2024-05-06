@@ -43,7 +43,9 @@ variable "subscribers" {
 variable "subscriptions" {
   description = "A named resources representing the stream of messages from a single, specific topic, to be delivered to the subscribing application"
   type = map(object({
-    name = optional(string)
+    editors     = optional(string, [])
+    publishers  = optional(string, [])
+    subscribers = optional(string, [])
   }))
   default = null
 }
