@@ -396,3 +396,19 @@ module "vms" {
   tags            = try(each.value.tags, [])
   labels          = try(each.value.labels, {})
 }
+
+/* pubsub */
+
+module "pubsub" {
+  source             = "./pubsub"
+  for_each           = var.pubsub
+  name               = each.key
+  regions            = try(each.value.regions, null)
+  labels             = try(each.value.labels, null)
+  #readers           = try(each.value.readers, [])
+  #writers           = try(each.value.writers, [])
+  subscriptions      = try(each.value.subscriptions, null)
+  depends_on = [
+    module.enable_apis,
+  ]
+}
