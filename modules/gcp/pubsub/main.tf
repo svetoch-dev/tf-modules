@@ -9,7 +9,7 @@ resource "google_pubsub_topic" "this" {
   #  }
 
   dynamic "message_storage_policy" {
-    count = length(var.regions) > 0 ? 1 : 0
+    for_each = length(var.regions) > 0 ? [1] : [0]
     content {
       allowed_persistence_regions = var.regions
     }
