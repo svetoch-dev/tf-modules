@@ -45,20 +45,15 @@ variable "subscriptions" {
     admins      = optional(list(any), [])
     subscribers = optional(list(any), [])
     viewers     = optional(list(any), [])
-  }))
-  default = null
-}
-
-variable "cloud_storage" {
-  description = "If delivery to Cloud Storage is used with this subscription, this field is used to configure it"
-  type = map(object({
-    filename_prefix = optional(string, "")
-    filename_suffix = optional(string, "")
-    max_bytes       = optional(number)
-    max_duration    = optional(string, "")
-    avro_config = optional(object({
-      write_metadata = optional(bool)
-    }), null)
+    cloud_storage = optional(map(object({
+      filename_prefix = optional(string, "")
+      filename_suffix = optional(string, "")
+      max_bytes       = optional(number)
+      max_duration    = optional(string, "")
+      avro_config = optional(object({
+        write_metadata = optional(bool)
+      }), null)
+    })), null)
   }))
   default = null
 }

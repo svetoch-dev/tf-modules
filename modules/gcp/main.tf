@@ -410,6 +410,5 @@ module "pubsub" {
   admins                     = try(each.value.admins, [])
   viewers                    = try(each.value.viewers, [])
   subscriptions              = try(each.value.subscriptions, null)
-  cloud_storage              = try(each.value.cloud_storage, null)
   depends_on                 = [module.enable_apis]
 }
