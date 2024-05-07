@@ -409,6 +409,8 @@ module "pubsub" {
   publishers                 = try(each.value.publishers, [])
   subscribers                = try(each.value.subscribers, [])
   editors                    = try(each.value.editors, [])
+  admins                     = try(each.value.admins, [])
+  viewers                    = try(each.value.viewers, [])
   subscriptions              = try(each.value.subscriptions, null)
   depends_on                 = [module.enable_apis]
 }
