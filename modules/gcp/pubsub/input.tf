@@ -56,10 +56,9 @@ variable "cloud_storage" {
     filename_suffix = optional(string, "")
     max_bytes       = optional(number)
     max_duration    = optional(string, "")
-    avro_config = object({
+    avro_config = optional(object({
       write_metadata = optional(bool)
-    })
-    default = null
+    }), null)
   }))
   default = null
 }
