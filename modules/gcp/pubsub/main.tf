@@ -8,23 +8,23 @@ resource "google_pubsub_subscription" "this" {
   name     = each.key
   topic    = google_pubsub_topic.this.id
 
-  dynamic "cloud_storage_config" {
-    for_each = each.value.cloud_storage[*]
-    content {
-      bucket          = cloud_storage.key
-      filename_prefix = cloud_storage.value.filename_prefix
-      filename_suffix = cloud_storage.value.filename_suffix
-      max_bytes       = cloud_storage.value.max_bytes
-      max_duration    = cloud_storage.value.max_duration
-
-      dynamic "avro_config" {
-        for_each = cloud_storage.value.avro_config[*]
-        content {
-          write_metadata = avro_config.value.write_metadata
-        }
-      }
-    }
-  }
+  #  dynamic "cloud_storage_config" {
+  #    for_each = each.value.cloud_storage[*]
+  #    content {
+  #      bucket          = cloud_storage.key
+  #      filename_prefix = cloud_storage.value.filename_prefix
+  #      filename_suffix = cloud_storage.value.filename_suffix
+  #      max_bytes       = cloud_storage.value.max_bytes
+  #      max_duration    = cloud_storage.value.max_duration
+  #
+  #      dynamic "avro_config" {
+  #        for_each = cloud_storage.value.avro_config[*]
+  #        content {
+  #          write_metadata = avro_config.value.write_metadata
+  #        }
+  #      }
+  #    }
+  #  }
   depends_on = [google_pubsub_topic.this]
 }
 
