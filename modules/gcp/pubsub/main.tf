@@ -8,12 +8,12 @@ resource "google_pubsub_topic" "this" {
   #    }
   #  }
 
-  #  dynamic "message_storage_policy" {
-  #    for_each = var.regions
-  #    content {
-  #      allowed_persistence_regions = message_storage_policy.value
-  #    }
-  #  }
+  dynamic "message_storage_policy" {
+    count = length(var.regions) > 0 ? 1 : 0
+    content {
+      allowed_persistence_regions = var.regions
+    }
+  }
 }
 
 resource "google_pubsub_subscription" "this" {
