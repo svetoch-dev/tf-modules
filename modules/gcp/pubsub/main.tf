@@ -68,34 +68,13 @@ resource "google_pubsub_topic_iam_binding" "viewer" {
   depends_on = [google_pubsub_topic.this]
 }
 
-resource "google_pubsub_subscription_iam_binding" "admin" {
-  for_each     = var.subscriptions
-  subscription = each.key
-  role         = "roles/pubsub.admin"
-  members      = each.value.admins
-  depends_on   = [google_pubsub_subscription.this]
-}
-
-resource "google_pubsub_subscription_iam_binding" "viewer" {
-  for_each     = var.subscriptions
-  subscription = each.key
-  role         = "roles/pubsub.viewer"
-  members      = each.value.viewers
-  depends_on   = [google_pubsub_subscription.this]
-}
-
-resource "google_pubsub_subscription_iam_binding" "subscriber" {
-  for_each     = var.subscriptions
-  subscription = each.key
-  role         = "roles/pubsub.subscriber"
-  members      = each.value.subscribers
-  depends_on   = [google_pubsub_subscription.this]
-}
-
-resource "google_pubsub_subscription_iam_binding" "editor" {
-  for_each     = var.subscriptions
-  subscription = each.key
-  role         = "roles/pubsub.editor"
-  members      = each.value.editors
-  depends_on   = [google_pubsub_subscription.this]
+module "subscription_iam_binding" {
+  source      = "./subscription_iam"
+  for_each    = var.subscriptions
+  name        = each.key
+  admins      = try(each.value.admins, [])
+  viewers     = try(each.value.viewers, [])
+  subscribers = try(each.value.subscribers, [])
+  editors     = try(each.value.editors, [])
+  depends_on  = [google_pubsub_subscription.this]
 }
