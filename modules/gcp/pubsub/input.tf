@@ -53,7 +53,7 @@ variable "subscriptions" {
       avro_config = optional(object({
         write_metadata = optional(bool)
       }), null)
-    }), null)
+    }), {})
   }))
   default = null
 }
