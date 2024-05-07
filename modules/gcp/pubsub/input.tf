@@ -45,15 +45,15 @@ variable "subscriptions" {
     admins      = optional(list(any), [])
     subscribers = optional(list(any), [])
     viewers     = optional(list(any), [])
-    #    cloud_storage = optional(object({
-    #      filename_prefix = optional(string, "")
-    #      filename_suffix = optional(string, "")
-    #      max_bytes       = optional(number)
-    #      max_duration    = optional(string, "")
-    #      avro_config = optional(object({
-    #        write_metadata = optional(bool)
-    #      }), null)
-    #    }), {})
+    cloud_storage_config = optional(object({
+      filename_prefix = optional(string, "")
+      filename_suffix = optional(string, "")
+      max_bytes       = optional(number)
+      max_duration    = optional(string, "")
+      avro_config = optional(object({
+        write_metadata = optional(bool)
+      }), null)
+    }), {})
   }))
   default = null
 }
