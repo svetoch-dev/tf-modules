@@ -9,7 +9,7 @@ resource "google_pubsub_subscription" "this" {
   topic    = google_pubsub_topic.this.id
 
   dynamic "cloud_storage_config" {
-    for_each = each.value.cloud_storage[*]
+    for_each = each.value.cloud_storage
     content {
       bucket          = cloud_storage_config.key
       filename_prefix = cloud_storage_config.value.filename_prefix
@@ -18,7 +18,7 @@ resource "google_pubsub_subscription" "this" {
       max_duration    = cloud_storage_config.value.max_duration
 
       dynamic "avro_config" {
-        for_each = cloud_storage_config.value.avro_config[*]
+        for_each = cloud_storage_config.value.avro_config
         content {
           write_metadata = avro_config.value.write_metadata
         }
