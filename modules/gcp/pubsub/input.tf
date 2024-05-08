@@ -6,6 +6,7 @@ variable "name" {
 variable "message_retention_duration" {
   description = "Indicates the minimum duration to retain a message after it is published to the topic. Cannot be more than 31 days or less than 10 minutes"
   type        = string
+  default     = ""
 }
 
 variable "regions" {
@@ -61,13 +62,11 @@ variable "subscriptions" {
     subscribers                  = optional(list(any), [])
     viewers                      = optional(list(any), [])
     cloud_storage = optional(map(object({
-      filename_prefix = optional(string, "")
-      filename_suffix = optional(string, "")
+      filename_prefix = optional(string)
+      filename_suffix = optional(string)
       max_bytes       = optional(number)
-      max_duration    = optional(string, "")
-      avro_config = optional(object({
-        write_metadata = optional(bool)
-      }), null)
+      max_duration    = optional(string)
+      write_metadata  = optional(bool, null)
     })), null)
   }))
   default = null

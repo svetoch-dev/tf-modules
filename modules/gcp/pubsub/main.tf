@@ -33,23 +33,24 @@ resource "google_pubsub_subscription" "this" {
     ttl = each.value.ttl
   }
 
-  #  dynamic "cloud_storage_config" {
-  #    for_each = each.value.cloud_storage
-  #    content {
-  #      bucket          = cloud_storage_config.key
-  #      filename_prefix = cloud_storage_config.value.filename_prefix
-  #      filename_suffix = cloud_storage_config.value.filename_suffix
-  #      max_bytes       = cloud_storage_config.value.max_bytes
-  #      max_duration    = cloud_storage_config.value.max_duration
-  #
-  #      dynamic "avro_config" {
-  #        for_each = cloud_storage_config.value.avro_config
-  #        content {
-  #          write_metadata = avro_config.value.write_metadata
-  #        }
-  #      }
-  #    }
-  #  }
+  dynamic "cloud_storage_config" {
+    for_each = each.value.cloud_storage == null ? [1] : []
+    content {
+      bucket          = cloud_storage_config.key
+      filename_prefix = cloud_storage_config.value.filename_prefix
+      filename_suffix = cloud_storage_config.value.filename_suffix
+      max_bytes       = cloud_storage_config.value.max_bytes
+      max_duration    = cloud_storage_config.value.max_duration
+
+      dynamic "avro_config" {
+        for_each = cloud_storage_config.value.write_metadata == null ? [1] : []
+        content {
+          write_metadata = cloud_storage_config.value.write_metadata
+        }
+      }
+    }
+  }
+
   depends_on = [google_pubsub_topic.this]
 }
 
