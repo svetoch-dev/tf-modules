@@ -48,7 +48,7 @@ variable "subscriptions" {
   description = "A named resources representing the stream of messages from a single, specific topic, to be delivered to the subscribing application"
   type = map(object({
     message_retention_duration = optional(string, "604800s")
-    ack_deadline_seconds       = optional(number, 0)
+    ack_deadline_seconds       = optional(number, 10)
     retain_acked_messages      = optional(bool, false)
     enable_message_ordering    = optional(bool, false)
     filter                     = optional(string, null)
