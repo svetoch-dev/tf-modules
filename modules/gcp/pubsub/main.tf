@@ -34,7 +34,7 @@ resource "google_pubsub_subscription" "this" {
   }
 
   dynamic "cloud_storage_config" {
-    for_each = each.value.cloud_storage != null ? [each.value.cloud_storage] : []
+    for_each = each.value.cloud_storage != null ? [each.value.cloud_storage[*]] : []
     content {
       bucket          = cloud_storage_config.key
       filename_prefix = cloud_storage_config.value.filename_prefix
