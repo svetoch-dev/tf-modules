@@ -22,7 +22,7 @@ resource "google_pubsub_subscription" "this" {
   enable_exactly_once_delivery = each.value.enable_exactly_once_delivery
 
   dynamic "retry_policy" {
-    for_each = each.value.minimum_backoff || each.value.maximum_backoff != null ? [1] : []
+    for_each = each.value.minimum_backoff != null || each.value.maximum_backoff != null ? [1] : []
     content {
       minimum_backoff = each.value.minimum_backoff
       maximum_backoff = each.value.maximum_backoff
