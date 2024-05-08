@@ -48,8 +48,8 @@ variable "subscriptions" {
   description = "A named resources representing the stream of messages from a single, specific topic, to be delivered to the subscribing application"
   type = map(object({
     ttl                          = optional(string, "2678400s")
-    minimum_backoff              = optional(string, "10s")
-    maximum_backoff              = optional(string, "60s")
+    minimum_backoff              = optional(string, null)
+    maximum_backoff              = optional(string, null)
     message_retention_duration   = optional(string, "604800s")
     ack_deadline_seconds         = optional(number, 10)
     enable_exactly_once_delivery = optional(bool, false)
