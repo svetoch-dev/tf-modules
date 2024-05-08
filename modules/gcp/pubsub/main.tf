@@ -34,7 +34,7 @@ resource "google_pubsub_subscription" "this" {
   }
 
   dynamic "cloud_storage_config" {
-    for_each = each.value.cloud_storage == null ? [1] : []
+    for_each = each.value.cloud_storage != null ? [1] : []
     content {
       bucket          = cloud_storage_config.key
       filename_prefix = cloud_storage_config.value.filename_prefix
@@ -43,7 +43,7 @@ resource "google_pubsub_subscription" "this" {
       max_duration    = cloud_storage_config.value.max_duration
 
       dynamic "avro_config" {
-        for_each = cloud_storage_config.value.write_metadata == null ? [1] : []
+        for_each = cloud_storage_config.value.write_metadata != null ? [1] : []
         content {
           write_metadata = cloud_storage_config.value.write_metadata
         }
