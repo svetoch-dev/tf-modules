@@ -47,10 +47,10 @@ variable "viewers" {
 variable "subscriptions" {
   description = "A named resources representing the stream of messages from a single, specific topic, to be delivered to the subscribing application"
   type = map(object({
-    message_retention_duration = optional(string, null)
+    message_retention_duration = optional(string, "604800s")
     ack_deadline_seconds       = optional(number, 0)
-    retain_acked_messages      = optional(bool, null)
-    enable_message_ordering    = optional(bool, null)
+    retain_acked_messages      = optional(bool, false)
+    enable_message_ordering    = optional(bool, false)
     filter                     = optional(string, null)
     editors                    = optional(list(any), [])
     admins                     = optional(list(any), [])
