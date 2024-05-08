@@ -1,12 +1,6 @@
 resource "google_pubsub_topic" "this" {
   name                       = var.name
   message_retention_duration = var.message_retention_duration
-}
-
-resource "google_pubsub_subscription" "this" {
-  for_each = var.subscriptions
-  name     = each.key
-  topic    = google_pubsub_topic.this.id
 
   dynamic "message_storage_policy" {
     for_each = length(var.regions) > 0 ? [1] : []
@@ -14,6 +8,12 @@ resource "google_pubsub_subscription" "this" {
       allowed_persistence_regions = var.regions
     }
   }
+}
+
+resource "google_pubsub_subscription" "this" {
+  for_each = var.subscriptions
+  name     = each.key
+  topic    = google_pubsub_topic.this.id
 
   #  dynamic "cloud_storage_config" {
   #    for_each = each.value.cloud_storage
