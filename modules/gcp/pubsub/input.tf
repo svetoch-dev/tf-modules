@@ -61,13 +61,13 @@ variable "subscriptions" {
     admins                       = optional(list(any), [])
     subscribers                  = optional(list(any), [])
     viewers                      = optional(list(any), [])
-    cloud_storage = optional(map(object({
+    cloud_storage = optional(object({
       filename_prefix = optional(string)
       filename_suffix = optional(string)
       max_bytes       = optional(number)
       max_duration    = optional(string)
       write_metadata  = optional(bool, null)
-    })), null)
+    }), null)
   }))
   default = null
 }
