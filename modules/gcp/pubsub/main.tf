@@ -11,26 +11,24 @@ resource "google_pubsub_topic" "this" {
 }
 
 resource "google_pubsub_subscription" "this" {
-  for_each                   = var.subscriptions
-  name                       = each.key
-  topic                      = google_pubsub_topic.this.id
-  message_retention_duration = each.value.message_retention_duration
-  retain_acked_messages      = each.value.retain_acked_messages
-  ack_deadline_seconds       = each.value.ack_deadline_seconds
-  enable_message_ordering    = each.value.enable_message_ordering
-  filter                     = each.value.filter
+  for_each                     = var.subscriptions
+  name                         = each.key
+  topic                        = google_pubsub_topic.this.id
+  message_retention_duration   = each.value.message_retention_duration
+  retain_acked_messages        = each.value.retain_acked_messages
+  ack_deadline_seconds         = each.value.ack_deadline_seconds
+  enable_message_ordering      = each.value.enable_message_ordering
+  filter                       = each.value.filter
+  enable_exactly_once_delivery = each.value.enable_exactly_once_delivery
 
-  #   ack_deadline_seconds         = 10
-  #    effective_labels             = {}
-  #    enable_exactly_once_delivery = false
-  #    enable_message_ordering      = false
-  #    labels                       = {}
-  #    message_retention_duration   = "604800s"
-  #    retain_acked_messages        = false
-  #    terraform_labels             = {}
-  #    expiration_policy {
-  #        ttl = "2678400s"
-  #    }
+  retry_policy {
+    minimum_backoff = each.value.minimum_backoff
+    maximum_backoff = each.value.maximum_backoff
+  }
+
+  expiration_policy {
+    ttl = each.value.ttl
+  }
 
   #  dynamic "cloud_storage_config" {
   #    for_each = each.value.cloud_storage
