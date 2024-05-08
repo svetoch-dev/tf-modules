@@ -404,6 +404,7 @@ module "pubsub" {
   for_each                   = var.pubsubs
   name                       = each.key
   message_retention_duration = try(each.value.message_retention_duration, "")
+  regions                    = try(each.value.regions, [])
   publishers                 = try(each.value.publishers, [])
   subscribers                = try(each.value.subscribers, [])
   editors                    = try(each.value.editors, [])

@@ -8,6 +8,13 @@ resource "google_pubsub_subscription" "this" {
   name     = each.key
   topic    = google_pubsub_topic.this.id
 
+  dynamic "message_storage_policy" {
+    for_each = length(var.regions) > 0 ? [1] : []
+    content {
+      allowed_persistence_regions = var.regions
+    }
+  }
+
   #  dynamic "cloud_storage_config" {
   #    for_each = each.value.cloud_storage
   #    content {

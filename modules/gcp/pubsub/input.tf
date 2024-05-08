@@ -8,6 +8,12 @@ variable "message_retention_duration" {
   type        = string
 }
 
+variable "regions" {
+  description = "A list of IDs of GCP regions where messages that are published to the topic may be persisted in storage. Messages published by publishers running in non-allowed GCP regions (or running outside of GCP altogether) will be routed for storage in one of the allowed regions"
+  type        = list(string)
+  default     = []
+}
+
 variable "editors" {
   description = "The list of users who have pubsub.editor rights"
   type        = list(any)
