@@ -36,14 +36,15 @@ resource "google_pubsub_subscription" "this" {
 }
 
 module "topic_iam_binding" {
-  source            = "./iam"
-  name              = google_pubsub_topic.this.name
-  topic_admins      = try(var.admins, [])
-  topic_publishers  = try(var.publishers, [])
-  topic_viewers     = try(var.viewers, [])
-  topic_subscribers = try(var.subscribers, [])
-  topic_editors     = try(var.editors, [])
-  depends_on        = [google_pubsub_topic.this]
+  source      = "./iam"
+  name        = google_pubsub_topic.this.name
+  admins      = try(var.admins, [])
+  publishers  = try(var.publishers, [])
+  viewers     = try(var.viewers, [])
+  subscribers = try(var.subscribers, [])
+  editors     = try(var.editors, [])
+  is_topic    = true
+  depends_on  = [google_pubsub_topic.this]
 }
 
 module "subscription_iam_binding" {

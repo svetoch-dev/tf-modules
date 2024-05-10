@@ -1,62 +1,62 @@
 resource "google_pubsub_subscription_iam_binding" "admin" {
-  count        = length(var.admins) > 0 ? 1 : 0
+  count        = length(var.admins) > 0 && var.is_topic != true ? 1 : 0
   subscription = var.name
   role         = "roles/pubsub.admin"
   members      = var.admins
 }
 
 resource "google_pubsub_subscription_iam_binding" "viewer" {
-  count        = length(var.viewers) > 0 ? 1 : 0
+  count        = length(var.viewers) > 0 && var.is_topic != true ? 1 : 0
   subscription = var.name
   role         = "roles/pubsub.viewer"
   members      = var.viewers
 }
 
 resource "google_pubsub_subscription_iam_binding" "subscriber" {
-  count        = length(var.subscribers) > 0 ? 1 : 0
+  count        = length(var.subscribers) > 0 && var.is_topic != true ? 1 : 0
   subscription = var.name
   role         = "roles/pubsub.subscriber"
   members      = var.subscribers
 }
 
 resource "google_pubsub_subscription_iam_binding" "editor" {
-  count        = length(var.editors) > 0 ? 1 : 0
+  count        = length(var.editors) > 0 && var.is_topic != true ? 1 : 0
   subscription = var.name
   role         = "roles/pubsub.editor"
   members      = var.editors
 }
 
 resource "google_pubsub_topic_iam_binding" "publisher" {
-  count   = length(var.topic_publishers) > 0 ? 1 : 0
+  count   = length(var.publishers) > 0 && var.is_topic == true ? 1 : 0
   topic   = var.name
   role    = "roles/pubsub.publisher"
-  members = var.topic_publishers
+  members = var.publishers
 }
 
 resource "google_pubsub_topic_iam_binding" "subscriber" {
-  count   = length(var.topic_subscribers) > 0 ? 1 : 0
+  count   = length(var.subscribers) > 0 && var.is_topic == true ? 1 : 0
   topic   = var.name
   role    = "roles/pubsub.subscriber"
-  members = var.topic_subscribers
+  members = var.subscribers
 }
 
 resource "google_pubsub_topic_iam_binding" "editor" {
-  count   = length(var.topic_editors) > 0 ? 1 : 0
+  count   = length(var.editors) > 0 && var.is_topic == true ? 1 : 0
   topic   = var.name
   role    = "roles/pubsub.editor"
-  members = var.topic_editors
+  members = var.editors
 }
 
 resource "google_pubsub_topic_iam_binding" "admin" {
-  count   = length(var.topic_admins) > 0 ? 1 : 0
+  count   = length(var.admins) > 0 && var.is_topic == true ? 1 : 0
   topic   = var.name
   role    = "roles/pubsub.admin"
-  members = var.topic_admins
+  members = var.admins
 }
 
 resource "google_pubsub_topic_iam_binding" "viewer" {
-  count   = length(var.topic_viewers) > 0 ? 1 : 0
+  count   = length(var.viewers) > 0 && var.is_topic == true ? 1 : 0
   topic   = var.name
   role    = "roles/pubsub.viewer"
-  members = var.topic_viewers
+  members = var.viewers
 }
