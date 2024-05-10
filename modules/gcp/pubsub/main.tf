@@ -38,11 +38,11 @@ resource "google_pubsub_subscription" "this" {
 module "topic_iam_binding" {
   source            = "./iam"
   name              = google_pubsub_topic.this.name
-  topic_admins      = try(each.value.admins, [])
-  topic_publishers  = try(each.value.publishers, [])
-  topic_viewers     = try(each.value.viewers, [])
-  topic_subscribers = try(each.value.subscribers, [])
-  topic_editors     = try(each.value.editors, [])
+  topic_admins      = try(var.admins, [])
+  topic_publishers  = try(var.publishers, [])
+  topic_viewers     = try(var.viewers, [])
+  topic_subscribers = try(var.subscribers, [])
+  topic_editors     = try(var.editors, [])
   depends_on        = [google_pubsub_topic.this]
 }
 
