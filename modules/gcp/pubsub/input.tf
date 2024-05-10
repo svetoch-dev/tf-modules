@@ -17,31 +17,31 @@ variable "regions" {
 
 variable "editors" {
   description = "The list of users who have pubsub.editor rights"
-  type        = list(any)
+  type        = list(string)
   default     = []
 }
 
 variable "publishers" {
   description = "The list of users who have pubsub.publisher rights"
-  type        = list(any)
+  type        = list(string)
   default     = []
 }
 
 variable "subscribers" {
   description = "The list of users who have pubsub.subscriber rights"
-  type        = list(any)
+  type        = list(string)
   default     = []
 }
 
 variable "admins" {
   description = "The list of users who have pubsub.admin rights"
-  type        = list(any)
+  type        = list(string)
   default     = []
 }
 
 variable "viewers" {
   description = "The list of users who have pubsub.viewer rights"
-  type        = list(any)
+  type        = list(string)
   default     = []
 }
 
@@ -57,10 +57,10 @@ variable "subscriptions" {
     retain_acked_messages        = optional(bool, false)
     enable_message_ordering      = optional(bool, false)
     filter                       = optional(string, null)
-    editors                      = optional(list(any), [])
-    admins                       = optional(list(any), [])
-    subscribers                  = optional(list(any), [])
-    viewers                      = optional(list(any), [])
+    editors                      = optional(list(string), [])
+    admins                       = optional(list(string), [])
+    subscribers                  = optional(list(string), [])
+    viewers                      = optional(list(string), [])
   }))
   default = null
 }
