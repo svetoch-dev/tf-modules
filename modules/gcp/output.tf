@@ -5,6 +5,13 @@ output "vpcs" {
   }
 }
 
+output "project" {
+  value = {
+    id     = module.enable_apis.project_id
+    region = var.project.region
+  }
+}
+
 output "subnets" {
   value = {
     for network_name, network_obj in module.network :
