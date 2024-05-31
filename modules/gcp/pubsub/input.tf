@@ -51,6 +51,8 @@ variable "subscriptions" {
     ttl                          = optional(string, "2678400s")
     minimum_backoff              = optional(string, null)
     maximum_backoff              = optional(string, null)
+    dead_letter_topic            = optional(string, null)
+    max_delivery_attempts        = optional(number, null)
     message_retention_duration   = optional(string, "604800s")
     ack_deadline_seconds         = optional(number, 10)
     enable_exactly_once_delivery = optional(bool, false)
