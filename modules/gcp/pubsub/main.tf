@@ -33,7 +33,7 @@ resource "google_pubsub_subscription" "this" {
     for_each = each.value.dead_letter_topic != null || each.value.max_delivery_attempts != null ? [1] : []
     content {
       dead_letter_topic     = each.value.dead_letter_topic
-      max_delivery_attempts = each.value.max_delivery_attempts
+      max_delivery_attempts = each.value.dead_letter_max_delivery_attempts
     }
   }
 
