@@ -24,7 +24,7 @@ variable "git_source" {
       pr_comments_enabled           = optional(bool, true)
       deployments_enabled           = optional(bool, true)
       production_deployment_enabled = optional(bool, true)
-      preview_deployment_setting    = optional(string, "all")
+      preview_deployment_setting    = optional(string, "custom")
       preview_branch_includes       = optional(list(string))
       preview_branch_excludes       = optional(list(string))
     }
