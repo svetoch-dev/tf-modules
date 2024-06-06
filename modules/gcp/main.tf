@@ -411,5 +411,8 @@ module "pubsub" {
   admins                     = try(each.value.admins, [])
   viewers                    = try(each.value.viewers, [])
   subscriptions              = try(each.value.subscriptions, null)
-  depends_on                 = [module.enable_apis]
+  depends_on = [
+    module.enable_apis,
+    module.iam,
+  ]
 }
