@@ -30,7 +30,7 @@ resource "google_pubsub_subscription" "this" {
   }
 
   dynamic "dead_letter_policy" {
-    for_each = each.value.dead_letter_topic != null || each.value.dead_letter_max_delivery_attempts != null ? [1] : []
+    for_each = each.value.dead_letter_topic != null ? [1] : []
     content {
       dead_letter_topic     = each.value.dead_letter_topic
       max_delivery_attempts = each.value.dead_letter_max_delivery_attempts
