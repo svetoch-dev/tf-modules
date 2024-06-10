@@ -19,6 +19,12 @@ variable "execution_environment" {
   default     = "EXECUTION_ENVIRONMENT_GEN2"
 }
 
+variable "max_instance_requests" {
+  description = "Sets the maximum number of requests that each serving instance can receive."
+  type        = number
+  default     = 80
+}
+
 variable "ingress" {
   description = "cloudrun service ingress policy"
   type        = string
