@@ -4,8 +4,9 @@ resource "google_cloud_run_v2_service" "this" {
   ingress  = var.ingress
 
   template {
-    execution_environment = var.execution_environment
-    service_account       = var.service_account
+    execution_environment            = var.execution_environment
+    max_instance_request_concurrency = var.max_instance_requests
+    service_account                  = var.service_account
     dynamic "volumes" {
       for_each = var.volumes
       content {

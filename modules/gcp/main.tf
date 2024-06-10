@@ -277,11 +277,12 @@ module "redis" {
 /* cloudrun */
 
 module "cloudrun_services" {
-  source     = "./cloudrun_service"
-  for_each   = var.cloudrun_services
-  name       = each.value.name
-  project_id = var.project.id
-  location   = each.value.location
+  source                = "./cloudrun_service"
+  for_each              = var.cloudrun_services
+  name                  = each.value.name
+  project_id            = var.project.id
+  location              = each.value.location
+  max_instance_requests = try(each.value.max_instance_requests, 80)
   execution_environment = try(
     each.value.execution_environment,
     "EXECUTION_ENVIRONMENT_GEN2"
