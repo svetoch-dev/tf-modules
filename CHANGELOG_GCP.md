@@ -1,3 +1,9 @@
+# gcp-v1.0.7
+
+Enhancements:
+* `network/firewall-rules`: additional `source_service_accounts`, `source_tags` attrs
+
+
 # gcp-v1.0.6
 
 Fixes:
