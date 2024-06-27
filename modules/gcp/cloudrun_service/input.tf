@@ -8,6 +8,11 @@ variable "project_id" {
   type        = string
 }
 
+variable "labels" {
+  description = "Cloudrun service project id"
+  type        = map(string)
+}
+
 variable "location" {
   description = "Cloudrun service location"
   type        = string
