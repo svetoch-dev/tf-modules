@@ -81,6 +81,9 @@ variable "nat_gws" {
         log_config_enable                  = optional(string, true)
         log_config_filter                  = optional(string, "ERRORS_ONLY")
         source_subnetwork_ip_ranges_to_nat = optional(string, "ALL_SUBNETWORKS_ALL_IP_RANGES")
+        min_ports_per_vm                   = optional(string, "64")
+        max_ports_per_vm                   = optional(string)
+        enable_dynamic_port_allocation     = optional(bool, false)
         subnetworks = optional(
           list(
             object(

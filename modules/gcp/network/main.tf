@@ -52,12 +52,15 @@ resource "google_compute_address" "ip_addresses" {
 }
 
 module "cloud_nats" {
-  source     = "git::https://github.com/terraform-google-modules/terraform-google-cloud-nat.git?ref=v5.0.0"
-  for_each   = var.nat_gws
-  router     = each.value.router_name
-  project_id = module.vpc.project_id
-  region     = each.value.region
-  name       = each.key
+  source                         = "git::https://github.com/terraform-google-modules/terraform-google-cloud-nat.git?ref=v5.0.0"
+  for_each                       = var.nat_gws
+  router                         = each.value.router_name
+  project_id                     = module.vpc.project_id
+  region                         = each.value.region
+  min_ports_per_vm               = each.value.min_ports_per_vm
+  max_ports_per_vm               = each.value.max_ports_per_vm
+  enable_dynamic_port_allocation = each.value.enable_dynamic_port_allocation
+  name                           = each.key
   subnetworks = [
     for subnetwork in each.value.subnetworks :
     {

@@ -1,3 +1,8 @@
+# gcp-v1.1.1
+
+features:
+* `network`: nat gws new attributes (max/min port per vm + `enable_dynamic_port_allocation`)
+
 # gcp-v1.1.0
 
 features:
