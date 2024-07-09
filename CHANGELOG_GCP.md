@@ -1,3 +1,8 @@
+# gcp-v1.1.0
+
+features:
+* `network`: create nat gws only for specific subnetworks
+
 # gcp-v1.0.8
 
 Enhancements:

@@ -78,12 +78,28 @@ variable "nat_gws" {
           list(string),
           []
         )
-        log_config_enable = optional(string, true)
-        log_config_filter = optional(string, "ERRORS_ONLY")
+        log_config_enable                  = optional(string, true)
+        log_config_filter                  = optional(string, "ERRORS_ONLY")
+        source_subnetwork_ip_ranges_to_nat = optional(string, "ALL_SUBNETWORKS_ALL_IP_RANGES")
+        subnetworks = optional(
+          list(
+            object(
+              {
+                name                     = string,
+                source_ip_ranges_to_nat  = list(string)
+                secondary_ip_range_names = optional(list(string))
+              }
+            )
+          )
+          ,
+          []
+        )
       }
     )
   )
 }
+
+
 
 variable "routers" {
   description = "Map of routers to create"

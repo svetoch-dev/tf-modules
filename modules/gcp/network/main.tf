@@ -58,6 +58,15 @@ module "cloud_nats" {
   project_id = module.vpc.project_id
   region     = each.value.region
   name       = each.key
+  subnetworks = [
+    for subnetwork in each.value.subnetworks :
+    {
+      name                     = module.subnets.subnets["${each.value.region}/${subnetwork.name}"].id
+      source_ip_ranges_to_nat  = subnetwork.source_ip_ranges_to_nat
+      secondary_ip_range_names = subnetwork.secondary_ip_range_names
+    }
+  ]
+  source_subnetwork_ip_ranges_to_nat = each.value.source_subnetwork_ip_ranges_to_nat
   nat_ips = [
     for ip_address in each.value.ip_address_names :
     google_compute_address.ip_addresses[ip_address].self_link
