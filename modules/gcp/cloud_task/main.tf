@@ -21,6 +21,12 @@ resource "google_cloud_tasks_queue" "this" {
       max_doublings      = retry_config.value.max_doublings
     }
   }
+  dynamic "stackdriver_logging_config" {
+    for_each = var.logging.enabled == false ? {} : { "logging" = var.logging }
+    content {
+      sampling_ratio = stackdriver_logging_config.value.sampling_ratio
+    }
+  }
 }
 
 resource "google_cloud_tasks_queue_iam_binding" "binding" {

@@ -36,6 +36,19 @@ variable "retry_configs" {
   default = null
 }
 
+variable "logging" {
+  description = "cloud task logging configuration"
+  type = object(
+    {
+      enabled        = optional(bool, false)
+      sampling_ratio = optional(number, 1)
+    }
+  )
+  default = {
+    enabled = false
+  }
+}
+
 variable "iam_bindings" {
   description = "Iam bindings for this cloud task"
   type = map(
