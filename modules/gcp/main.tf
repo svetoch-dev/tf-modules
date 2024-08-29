@@ -350,6 +350,11 @@ module "cloud_tasks" {
   rate_limits   = each.value.rate_limits
   retry_configs = each.value.retry_configs
   iam_bindings  = try(each.value.iam_bindings, {})
+  logging = try(each.value.logging,
+    {
+      enabled = false
+    }
+  )
 }
 
 /* cloud scheduler */

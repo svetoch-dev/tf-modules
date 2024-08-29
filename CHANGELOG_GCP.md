@@ -1,3 +1,8 @@
+# gcp-v1.1.2
+
+Enhancements:
+* `cloud_tasks`: add logging
+
 # gcp-v1.1.1
 
 features:
