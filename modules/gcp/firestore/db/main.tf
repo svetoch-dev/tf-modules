@@ -22,7 +22,7 @@ resource "google_app_engine_application" "this" {
 resource "google_firestore_backup_schedule" "daily-backup" {
   count     = var.backup == "daily" ? 1 : 0
   project   = data.google_project.project.project_id
-  database  = google_firestore_database.this.name
+  database  = google_firestore_database.this[0].name
   retention = var.retention
 
   daily_recurrence {}
@@ -31,7 +31,7 @@ resource "google_firestore_backup_schedule" "daily-backup" {
 resource "google_firestore_backup_schedule" "weekly-backup" {
   count     = var.backup == "weekly" ? 1 : 0
   project   = data.google_project.project.project_id
-  database  = google_firestore_database.this.name
+  database  = google_firestore_database.this[0].name
   retention = var.retention
 
   weekly_recurrence {
