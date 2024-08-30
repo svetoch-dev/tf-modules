@@ -16,6 +16,10 @@ variable "db" {
       )
       delete_protection_state = optional(string, "DELETE_PROTECTION_DISABLED")
       deletion_policy         = optional(string, "ABANDON")
+      pitr                    = optional(bool, false)
+      backup                  = optional(string, "disable")
+      retention               = optional(string, "10080s")
+      recurrence_day          = optional(string, "SUNDAY")
     }
   )
 }
