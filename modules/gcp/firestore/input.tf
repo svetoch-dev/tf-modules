@@ -19,11 +19,12 @@ variable "db" {
       backup = optional(
         object(
           {
-            pitr           = optional(bool, false)
-            daily_bp       = optional(bool, false)
-            weekly_bp      = optional(bool, false)
-            retention      = optional(string, "10080s")
-            recurrence_day = optional(string, "SUNDAY")
+            pitr             = optional(bool, false)
+            daily_bp         = optional(bool, false)
+            weekly_bp        = optional(bool, false)
+            daily_retention  = optional(string, "10080s")
+            weekly_retention = optional(string, "10080s")
+            recurrence_day   = optional(string, "SUNDAY")
           }
         )
       )

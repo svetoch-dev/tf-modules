@@ -47,17 +47,19 @@ variable "deletion_policy" {
 
 variable "backup" {
   type = object({
-    pitr           = bool
-    daily_bp       = bool
-    weekly_bp      = bool
-    retention      = string
-    recurrence_day = string
+    pitr             = bool
+    daily_bp         = bool
+    weekly_bp        = bool
+    daily_retention  = string
+    weekly_retention = string
+    recurrence_day   = string
   })
   default = {
-    pitr           = false
-    daily_bp       = false
-    weekly_bp      = false
-    retention      = "10080s"
-    recurrence_day = "SUNDAY"
+    pitr             = false
+    daily_bp         = false
+    weekly_bp        = false
+    daily_retention  = "10080s"
+    weekly_retention = "10080s"
+    recurrence_day   = "SUNDAY"
   }
 }
