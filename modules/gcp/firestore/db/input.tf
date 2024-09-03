@@ -45,33 +45,8 @@ variable "deletion_policy" {
   default     = "ABANDON"
 }
 
-variable "pitr" {
-  description = "Point in time recovery. If True - enabled"
-  type        = bool
-  default     = false
-}
 
-variable "backup" {
-  description = "Type of backup. Values: 'daily' for daily backups and 'weekly' for weekly backups"
-  type        = string
-  default     = "disabled"
-  validation {
-    condition     = var.backup == "disable" || var.backup == "daily" || var.backup == "weekly"
-    error_message = "The backup variable must be one of 'disable', 'daily', or 'weekly'."
-  }
-}
 
-variable "retention" {
-  description = "Retention for Datastore daily back ups"
-  type        = string
-  default     = "10080s"
-}
-
-variable "recurrence_day" {
-  description = "Retention for Datastore weekly back ups"
-  type        = string
-  default     = "SUNDAY"
-}
 
 
 
