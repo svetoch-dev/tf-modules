@@ -44,3 +44,20 @@ variable "deletion_policy" {
   type        = string
   default     = "ABANDON"
 }
+
+variable "backup" {
+  type = object({
+    pitr           = bool
+    daily_bp       = bool
+    weekly_bp      = bool
+    retention      = string
+    recurrence_day = string
+  })
+  default = {
+    pitr           = false
+    daily_bp       = false
+    weekly_bp      = false
+    retention      = "10080s"
+    recurrence_day = "SUNDAY"
+  }
+}
