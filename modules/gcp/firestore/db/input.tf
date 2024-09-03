@@ -44,10 +44,3 @@ variable "deletion_policy" {
   type        = string
   default     = "ABANDON"
 }
-
-
-
-
-
-
-
