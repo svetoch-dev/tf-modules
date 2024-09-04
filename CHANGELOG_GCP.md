@@ -1,3 +1,8 @@
+# gcp-v1.1.3
+
+Enhancements:
+* `firestore`: Added the ability to use backups in firestore
+
 # gcp-v1.1.2
 
 Enhancements:
