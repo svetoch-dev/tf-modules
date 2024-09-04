@@ -7,6 +7,7 @@ module "db" {
   app_engine              = var.db.app_engine
   delete_protection_state = var.db.delete_protection_state
   deletion_policy         = var.db.deletion_policy
+  backup                  = var.db.backup
 }
 
 module "datastore_indices" {
