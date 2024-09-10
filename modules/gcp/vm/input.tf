@@ -87,7 +87,8 @@ variable "service_account" {
       email       = optional(string),
       description = optional(string, "")
       roles = optional(
-        list(string)
+        list(string),
+        []
       )
       sa_iam_bindings = optional(
         map(

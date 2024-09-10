@@ -19,13 +19,13 @@ variable "activate_apis" {
 
 variable "gke_clusters" {
   description = "A list of gke clusters more info - https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/tree/master/modules/private-cluster"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
 variable "networks" {
   description = "Networking configuration for this project"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
@@ -43,25 +43,25 @@ variable "gars" {
 
 variable "gcrs" {
   description = "A list of gcr registries to create in this project"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
 variable "dns_zones" {
   description = "A list of dns zones to create in this project"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
 variable "cloudsql_postgres" {
   description = "A list of cloudsql postgres dbs more info"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
 variable "redis_instances" {
   description = "A list of memorystore redis instances"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
@@ -73,37 +73,37 @@ variable "cloudrun_services" {
 
 variable "application_lbs" {
   description = "A list of application loadbalancers"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
 variable "kms_key_rings" {
   description = "A list of kms key rings"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
 variable "cloud_tasks" {
   description = "A list of cloud tasks"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
 variable "cloud_schedules" {
   description = "A list of cloud schedules"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
 variable "firestores" {
   description = "A list of firestores"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
 variable "vms" {
   description = "A list of virtual machines"
-  type        = map(any)
+  type        = any
   default     = {}
 }
 
