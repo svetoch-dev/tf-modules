@@ -2,6 +2,7 @@
 
 Enhancements:
 * `gcp`: use `any` as inputs to gcp module to avoid `all map elements must have the same type.` errors
+* `network`: use `any` as input for firewall rules module to avoid `all map elements must have the same type.` errors
 
 # gcp-v1.1.3
 
