@@ -1,6 +1,11 @@
 # gcp-v1.1.3
 
 Enhancements:
+* `gcp`: use `any` as inputs to gcp module to avoid `all map elements must have the same type.` errors
+
+# gcp-v1.1.3
+
+Enhancements:
 * `firestore`: Added the ability to use backups in firestore
 
 # gcp-v1.1.2
