@@ -131,6 +131,6 @@ variable "ip_addresses" {
 
 variable "firewall_rules" {
   description = "List of firewall rules"
-  type        = map(any)
+  type        = any
   default     = {}
 }
