@@ -1,4 +1,4 @@
-# gcp-v1.1.3
+# gcp-v1.1.4
 
 Enhancements:
 * `gcp`: use `any` as inputs to gcp module to avoid `all map elements must have the same type.` errors
