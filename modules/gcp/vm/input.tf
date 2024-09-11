@@ -111,3 +111,16 @@ variable "labels" {
   type        = map(string)
   default     = {}
 }
+
+variable "iam_roles" {
+  description = "Iam roles for the vm"
+  type = list(
+    object(
+      {
+        role    = string
+        members = list(string)
+      }
+    )
+  )
+  default = []
+}

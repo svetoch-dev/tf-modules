@@ -56,3 +56,13 @@ resource "google_compute_address" "public_ip" {
   name        = each.value.name
   description = each.value.description
 }
+
+resource "google_compute_instance_iam_binding" "this" {
+  for_each = {
+    for iam_role_obj in var.iam_roles :
+    iam_role_obj.role => iam_role_obj
+  }
+  instance_name = google_compute_instance_from_template.this.name
+  role          = each.value.role
+  members       = each.value.members
+}
