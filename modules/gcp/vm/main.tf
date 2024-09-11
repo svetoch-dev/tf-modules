@@ -54,6 +54,7 @@ resource "google_compute_address" "public_ip" {
     "${local.public_ip.static.name}" = local.public_ip.static
   }
   name        = each.value.name
+  region      = replace(var.zone, "/-[a-z]$/", "")
   description = each.value.description
 }
 

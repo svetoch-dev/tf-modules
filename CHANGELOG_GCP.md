@@ -1,8 +1,12 @@
+# gcp-v1.2.1
+
+fixes:
+* `vm`: create public ip in same region as vm
+
 # gcp-v1.2.0
 
 features:
 * `vm`: iam roles
-
 
 # gcp-v1.1.4
 
