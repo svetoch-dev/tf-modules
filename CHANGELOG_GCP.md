@@ -1,3 +1,9 @@
+# gcp-v1.2.0
+
+features:
+* `vm`: iam roles
+
+
 # gcp-v1.1.4
 
 Enhancements:

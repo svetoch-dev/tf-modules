@@ -405,6 +405,7 @@ module "vms" {
   service_account = each.value.service_account
   tags            = try(each.value.tags, [])
   labels          = try(each.value.labels, {})
+  iam_roles       = try(each.value.iam_roles, [])
 }
 
 /* pubsub */
