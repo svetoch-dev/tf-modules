@@ -1,3 +1,8 @@
+# gcp-v1.3.0
+
+features:
+* `vm`: ability to attach additional disks
+
 # gcp-v1.2.1
 
 fixes:

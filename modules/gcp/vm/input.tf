@@ -124,3 +124,17 @@ variable "iam_roles" {
   )
   default = []
 }
+
+variable "additional_disks" {
+  description = "Additional persistant disks to attach to vm"
+  type = list(
+    object(
+      {
+        name = string
+        size = number
+        type = string
+      }
+    )
+  )
+  default = []
+}

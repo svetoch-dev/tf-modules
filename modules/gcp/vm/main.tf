@@ -4,7 +4,7 @@ locals {
 }
 
 module "template" {
-  source = "git::https://git@github.com/terraform-google-modules/terraform-google-vm.git//modules/instance_template?ref=v11.1.0"
+  source = "git::https://git@github.com/terraform-google-modules/terraform-google-vm.git//modules/instance_template?ref=v12.0.0"
 
   machine_type = var.machine_type
   disk_size_gb = tostring(var.disk.size_gb)
@@ -18,6 +18,12 @@ module "template" {
   source_image_project = var.image.project
   source_image_family  = var.image.family
   metadata             = var.metadata
+  additional_disks = [
+    for disk in var.additional_disks :
+    {
+      source = google_compute_disk.disks[disk.name].name
+    }
+  ]
 
   tags = var.tags
 }
@@ -66,4 +72,15 @@ resource "google_compute_instance_iam_binding" "this" {
   instance_name = google_compute_instance_from_template.this.name
   role          = each.value.role
   members       = each.value.members
+}
+
+resource "google_compute_disk" "disks" {
+  for_each = {
+    for disk in var.additional_disks :
+    "${disk.name}" => disk
+  }
+  name = "${var.name}-${each.value.name}"
+  type = each.value.type
+  zone = var.zone
+  size = each.value.size
 }
