@@ -402,10 +402,11 @@ module "vms" {
   metadata = try(
     each.value.metadata, {}
   )
-  service_account = each.value.service_account
-  tags            = try(each.value.tags, [])
-  labels          = try(each.value.labels, {})
-  iam_roles       = try(each.value.iam_roles, [])
+  service_account  = each.value.service_account
+  tags             = try(each.value.tags, [])
+  labels           = try(each.value.labels, {})
+  iam_roles        = try(each.value.iam_roles, [])
+  additional_disks = try(each.value.additional_disks, [])
 }
 
 /* pubsub */
