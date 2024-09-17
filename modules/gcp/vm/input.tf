@@ -130,9 +130,10 @@ variable "additional_disks" {
   type = list(
     object(
       {
-        name = string
-        size = number
-        type = string
+        name        = string
+        size        = number
+        type        = string
+        auto_delete = optional(bool, false)
       }
     )
   )

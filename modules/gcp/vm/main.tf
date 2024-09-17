@@ -21,7 +21,8 @@ module "template" {
   additional_disks = [
     for disk in var.additional_disks :
     {
-      source = google_compute_disk.disks[disk.name].name
+      source      = google_compute_disk.disks[disk.name].name
+      auto_delete = disk.auto_delete
     }
   ]
 
