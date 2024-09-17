@@ -1,4 +1,4 @@
-# gcp-v1.3.0
+# gcp-v1.3.1
 
 Enhancements:
 * `vm`: ability to specify `auto_delete` property of attached additional disks
