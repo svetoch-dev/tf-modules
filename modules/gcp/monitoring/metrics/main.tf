@@ -29,7 +29,7 @@ resource "google_logging_metric" "logging_metric" {
     }
   }
 
-  // Добавляем bucket_options, только если они заданы
+  // buckets 
   dynamic "bucket_options" {
     for_each = var.bucket_type == "linear" && var.linear_buckets != null ? [1] : []
     content {
