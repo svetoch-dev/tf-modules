@@ -3,48 +3,31 @@ variable "metric_name" {
   type        = string
 }
 
-variable "display_name" {
-  description = "Metric displayed name"
-  type        = string
-}
-
 variable "filter" {
   description = "The filter for the logging metric."
   type        = string
 }
 
-variable "metric_kind" {
-  description = "The kind of the metric (DELTA or GAUGE)."
-  type        = string
-  default     = "DELTA"
-}
-
-variable "value_type" {
-  description = "The value type of the metric."
-  type        = string
-  default     = "INT64"
-}
-
-variable "unit" {
-  description = "The unit of the metric."
-  type        = string
-  default     = "1"
-}
-
-variable "labels" {
-  description = "labels"
-  type = list(object({
-    key         = string
-    value_type  = string
-    description = string
-  }))
-}
-
-variable "label_extractors" {
-  description = "Extractors for labels."
-  type        = map(string)
-  default     = {}
-}
+variable "metric_descriptor" {
+  description = "Metricc descriptor"
+  type = object({
+    metric_kind  = string
+    value_type   = string
+    unit         = string
+    display_name = string
+    labels = map(object({
+      key             = string
+      value_type      = string
+      description     = string
+      label_extractor = string
+    }))
+  })
+  default = {
+    metric_kind  = "DELTA"  
+    value_type   = "INT64"  
+    unit         = "1"        
+  }
+} 
 
 variable "value_extractor" {
   description = "Extractor for the value."
@@ -55,7 +38,7 @@ variable "value_extractor" {
 variable "bucket_type" {
   description = "The type of the bucket (linear, exponential, or explicit)."
   type        = string
-  default     = "linear"
+  default     = null
 }
 
 variable "linear_buckets" {

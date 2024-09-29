@@ -3,13 +3,13 @@ resource "google_logging_metric" "logging_metric" {
   filter = var.filter
 
   metric_descriptor {
-    metric_kind = var.metric_kind
-    value_type  = var.value_type 
-    unit        = var.unit
-    display_name = var.display_name
+    metric_kind  = var.metric_descriptor.metric_kind
+    value_type   = var.metric_descriptor.value_type
+    unit         = var.metric_descriptor.unit
+    display_name = var.metric_descriptor.display_name
 
     dynamic "labels" {
-      for_each = var.labels
+      for_each = var.metric_descriptor.labels
       content {
         key         = labels.value.key
         value_type  = labels.value.value_type
@@ -22,10 +22,10 @@ resource "google_logging_metric" "logging_metric" {
   disabled        = var.disabled
 
   dynamic "label_extractors" {
-    for_each = var.label_extractors
+    for_each = for_each.var.metric_descriptor.labels
     content {
-      key   = label_extractors.key
-      value = label_extractors.value
+      key   = labels.value.key
+      value = labels.value.label_extractor
     }
   }
 

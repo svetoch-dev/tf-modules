@@ -112,3 +112,9 @@ variable "pubsubs" {
   type        = any
   default     = {}
 }
+
+variable "monitoring" {
+  description = "Gcp project iam definition more info in submodule  ./monitoring"
+  type        = any
+  default     = {}
+}
