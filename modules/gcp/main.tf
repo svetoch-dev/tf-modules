@@ -433,6 +433,6 @@ module "pubsub" {
 
 module "monitoring" {
   source      = "./monitoring"
-  for_each    = var.monitoring
-  log_metrics = each.value.log_metrics
+  project_id  = var.project.id
+  log_metrics = var.monitoring.log_metrics
 }

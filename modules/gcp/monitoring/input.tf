@@ -4,7 +4,7 @@ variable "project_id" {
 }
 
 variable "log_metrics" {
-  description = "Массив метрик для логов"
+  description = "Log meterics"
   type = list(object({
     name           = string
     filter         = string
@@ -18,8 +18,8 @@ variable "log_metrics" {
       description = string
       extractor   = string
     })), [])
-    value_extractor = optional(string)
-    bucket_options = optional(object({
+    value_extractor  = optional(string)
+    bucket_options   = optional(object({
       linear_buckets = optional(object({
         num_finite_buckets = number
         width              = number

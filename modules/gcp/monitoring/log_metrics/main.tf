@@ -19,10 +19,8 @@ resource "google_logging_metric" "logging_metric" {
     }
   }
 
-  # Если указан value_extractor, добавляем его
   value_extractor = var.value_extractor
 
-  # Добавляем label_extractors
   dynamic "label_extractors" {
     for_each = var.labels
     content {
@@ -31,7 +29,6 @@ resource "google_logging_metric" "logging_metric" {
     }
   }
 
-  # Добавляем bucket_options, если они заданы
   dynamic "bucket_options" {
     for_each = var.bucket_options != null ? [var.bucket_options] : []
     content {

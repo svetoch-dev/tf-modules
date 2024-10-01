@@ -1,39 +1,39 @@
 variable "name" {
-  description = "Имя метрики"
+  description = "Metric name"
   type        = string
 }
 
 variable "filter" {
-  description = "Фильтр логов"
+  description = "log filters"
   type        = string
 }
 
 variable "metric_kind" {
-  description = "Тип метрики (DELTA, CUMULATIVE, GAUGE)"
+  description = "DELTA, CUMULATIVE, GAUGE"
   type        = string
   default     = "DELTA"
 }
 
 variable "value_type" {
-  description = "Тип значений метрики (INT64, DOUBLE, DISTRIBUTION)"
+  description = "INT64, DOUBLE, DISTRIBUTION"
   type        = string
   default     = "INT64"
 }
 
 variable "unit" {
-  description = "Единица измерения для метрики"
+  description = "Unit type"
   type        = string
   default     = "1"
 }
 
 variable "display_name" {
-  description = "Отображаемое имя метрики"
+  description = "Displayed metric name"
   type        = string
   default     = null
 }
 
 variable "labels" {
-  description = "Массив меток для метрики"
+  description = "Metric labels"
   type = list(object({
     key         = string
     value_type  = string
@@ -44,13 +44,13 @@ variable "labels" {
 }
 
 variable "value_extractor" {
-  description = "Экстрактор значения из логов"
+  description = "Ectractor values from logs"
   type        = string
   default     = null
 }
 
 variable "bucket_options" {
-  description = "Настройки для бакетов, если используется Distribution"
+  description = "Bucket options"
   type = object({
     linear_buckets = optional(object({
       num_finite_buckets = number
