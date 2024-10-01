@@ -1,13 +1,15 @@
-module "log_metric" {
-  source              = "./log_metrics"
-  for_each            = var.log_metrics
-  metric_name         = each.value.name
-  filter              = each.value.filter
-  metric_descriptor   = each.value.metric_descriptor
-  value_extractor     = each.value.value_extractor
-  disabled            = each.value.disabled
-  bucket_type         = each.value.bucket_type
-  linear_buckets      = each.value.linear_buckets
-  exponential_buckets = each.value.exponential_buckets
-  explicit_buckets    = each.value.explicit_buckets
+module "log_metrics" {
+  source = "./log_metrics"
+
+  for_each = { for metric in var.log_metrics : metric.name => metric }
+
+  name            = each.value.name
+  filter          = each.value.filter
+  metric_kind     = each.value.metric_kind
+  value_type      = each.value.value_type
+  unit            = each.value.unit
+  display_name    = each.value.display_name
+  labels          = each.value.labels
+  value_extractor = each.value.value_extractor
+  bucket_options  = each.value.bucket_options
 }

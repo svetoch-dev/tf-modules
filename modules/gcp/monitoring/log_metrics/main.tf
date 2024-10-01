@@ -1,15 +1,16 @@
 resource "google_logging_metric" "logging_metric" {
-  name   = var.metric_name
+  name   = var.name
   filter = var.filter
 
   metric_descriptor {
-    metric_kind  = var.metric_descriptor.metric_kind
-    value_type   = var.metric_descriptor.value_type
-    unit         = var.metric_descriptor.unit
-    display_name = var.metric_descriptor.display_name
+    metric_kind = var.metric_kind
+    value_type  = var.value_type
+    unit        = var.unit
+
+    display_name = coalesce(var.display_name, var.name)
 
     dynamic "labels" {
-      for_each = var.metric_descriptor.labels
+      for_each = var.labels
       content {
         key         = each.value.key
         value_type  = each.value.value_type
@@ -18,45 +19,36 @@ resource "google_logging_metric" "logging_metric" {
     }
   }
 
+  # Если указан value_extractor, добавляем его
   value_extractor = var.value_extractor
-  disabled        = var.disabled
 
+  # Добавляем label_extractors
   dynamic "label_extractors" {
-    for_each = for_each.var.metric_descriptor.labels
+    for_each = var.labels
     content {
       key   = each.value.key
-      value = each.value.label_extractor
+      value = each.value.extractor
     }
   }
 
-  // buckets 
+  # Добавляем bucket_options, если они заданы
   dynamic "bucket_options" {
-    for_each = var.bucket_type == "linear" && var.linear_buckets != null ? [1] : []
+    for_each = var.bucket_options != null ? [var.bucket_options] : []
     content {
       linear_buckets {
-        num_finite_buckets = var.linear_buckets.num_finite_buckets
-        width              = var.linear_buckets.width
-        offset             = var.linear_buckets.offset
+        num_finite_buckets = bucket_options.value.linear_buckets.num_finite_buckets
+        width              = bucket_options.value.linear_buckets.width
+        offset             = bucket_options.value.linear_buckets.offset
       }
-    }
-  }
 
-  dynamic "bucket_options" {
-    for_each = var.bucket_type == "exponential" && var.exponential_buckets != null ? [1] : []
-    content {
       exponential_buckets {
-        num_finite_buckets = var.exponential_buckets.num_finite_buckets
-        growth_factor      = var.exponential_buckets.growth_factor
-        scale              = var.exponential_buckets.scale
+        num_finite_buckets = bucket_options.value.exponential_buckets.num_finite_buckets
+        growth_factor      = bucket_options.value.exponential_buckets.growth_factor
+        scale              = bucket_options.value.exponential_buckets.scale
       }
-    }
-  }
 
-  dynamic "bucket_options" {
-    for_each = var.bucket_type == "explicit" && var.explicit_buckets != null ? [1] : []
-    content {
       explicit_buckets {
-        bounds = var.explicit_buckets
+        bounds = bucket_options.value.explicit_buckets.bounds
       }
     }
   }

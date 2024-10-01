@@ -1,69 +1,70 @@
-variable "metric_name" {
-  description = "The name of the logging metric."
+variable "name" {
+  description = "Имя метрики"
   type        = string
 }
 
 variable "filter" {
-  description = "The filter for the logging metric."
+  description = "Фильтр логов"
   type        = string
 }
 
-variable "metric_descriptor" {
-  description = "Metricc descriptor"
-  type = object({
-    metric_kind  = string
-    value_type   = string
-    unit         = string
-    display_name = string
-    labels = map(object({
-      key             = string
-      value_type      = string
-      description     = string
-      label_extractor = string
-    }))
-  })
-} 
+variable "metric_kind" {
+  description = "Тип метрики (DELTA, CUMULATIVE, GAUGE)"
+  type        = string
+  default     = "DELTA"
+}
+
+variable "value_type" {
+  description = "Тип значений метрики (INT64, DOUBLE, DISTRIBUTION)"
+  type        = string
+  default     = "INT64"
+}
+
+variable "unit" {
+  description = "Единица измерения для метрики"
+  type        = string
+  default     = "1"
+}
+
+variable "display_name" {
+  description = "Отображаемое имя метрики"
+  type        = string
+  default     = null
+}
+
+variable "labels" {
+  description = "Массив меток для метрики"
+  type = list(object({
+    key         = string
+    value_type  = string
+    description = string
+    extractor   = string
+  }))
+  default = []
+}
 
 variable "value_extractor" {
-  description = "Extractor for the value."
-  type        = string
-  default     = ""
-}
-
-variable "bucket_type" {
-  description = "The type of the bucket (linear, exponential, or explicit)."
+  description = "Экстрактор значения из логов"
   type        = string
   default     = null
 }
 
-variable "linear_buckets" {
-  description = "Configuration for linear buckets."
-  type        = object({
-    num_finite_buckets = number
-    width              = number
-    offset             = number
+variable "bucket_options" {
+  description = "Настройки для бакетов, если используется Distribution"
+  type = object({
+    linear_buckets = optional(object({
+      num_finite_buckets = number
+      width              = number
+      offset             = number
+    }), null)
+    exponential_buckets = optional(object({
+      num_finite_buckets = number
+      growth_factor      = number
+      scale              = number
+    }), null)
+    explicit_buckets = optional(object({
+      bounds = list(number)
+    }), null)
   })
   default = null
-}
-
-variable "exponential_buckets" {
-  description = "Configuration for exponential buckets."
-  type        = object({
-    num_finite_buckets = number
-    growth_factor      = number
-    scale              = number
-  })
-  default = null
-}
-
-variable "explicit_buckets" {
-  description = "Configuration for explicit buckets."
-  type        = list(number)
-  default     = null
-}
-
-variable "disabled" {
-    description = "Type 'true' if you want to disable metric"
-    type        = bool
-    default     = false
 }

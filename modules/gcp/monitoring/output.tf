@@ -1,4 +1,4 @@
-output "metric_names" {
-  description = "Metrics names"
-  value       = [for metric in var.log_metrics : metric.name]
+output "log_metric_names" {
+  description = "metrics names"
+  value       = module.log_metrics[*].logging_metric_name
 }
