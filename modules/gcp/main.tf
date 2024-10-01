@@ -433,6 +433,5 @@ module "pubsub" {
 
 module "monitoring" {
   source      = "./monitoring"
-  project_id  = var.project.id
   log_metrics = var.monitoring.log_metrics
 }

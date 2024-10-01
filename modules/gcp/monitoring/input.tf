@@ -1,8 +1,3 @@
-variable "project_id" {
-  description = "ID project"
-  type        = string
-}
-
 variable "log_metrics" {
   description = "Log meterics"
   type = list(object({
