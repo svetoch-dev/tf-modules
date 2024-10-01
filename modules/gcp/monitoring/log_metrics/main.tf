@@ -12,9 +12,9 @@ resource "google_logging_metric" "logging_metric" {
     dynamic "labels" {
       for_each = var.labels
       content {
-        key         = each.value.key
-        value_type  = each.value.value_type
-        description = each.value.description
+        key         = labels.value.key
+        value_type  = labels.value.value_type
+        description = labels.value.description
       }
     }
   }
