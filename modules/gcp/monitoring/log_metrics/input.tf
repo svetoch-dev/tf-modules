@@ -22,11 +22,6 @@ variable "metric_descriptor" {
       label_extractor = string
     }))
   })
-  default = {
-    metric_kind  = "DELTA"  
-    value_type   = "INT64"  
-    unit         = "1"        
-  }
 } 
 
 variable "value_extractor" {
