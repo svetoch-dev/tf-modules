@@ -11,13 +11,13 @@ variable "log_metrics" {
       labels = optional(map(object({
         key             = string
         value_type      = string
-        description     = string
+        description     = optional(string, "decr")
         label_extractor = string
       })))
     })
-    value_extractor     = string
+    value_extractor     = optional(string, "EXTRACT(value)")
     disabled            = optional(bool, false)
-    bucket_type         = optional(string)
+    bucket_type         = optional(string, null)
     linear_buckets      = optional(object({
       num_finite_buckets = number
       width              = number
