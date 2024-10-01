@@ -21,13 +21,7 @@ resource "google_logging_metric" "logging_metric" {
 
   value_extractor = var.value_extractor
 
-  dynamic "label_extractors" {
-    for_each = var.labels
-    content {
-      key   = each.value.key
-      value = each.value.extractor
-    }
-  }
+  label_extractors = { for label in var.labels : label.key => label.extractor }
 
   dynamic "bucket_options" {
     for_each = var.bucket_options != null ? [var.bucket_options] : []
