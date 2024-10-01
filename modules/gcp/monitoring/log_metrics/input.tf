@@ -15,7 +15,7 @@ variable "metric_kind" {
 }
 
 variable "value_type" {
-  description = "INT64, DOUBLE, DISTRIBUTION"
+  description = "BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, MONEY"
   type        = string
   default     = "INT64"
 }
