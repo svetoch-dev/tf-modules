@@ -11,9 +11,9 @@ resource "google_logging_metric" "logging_metric" {
     dynamic "labels" {
       for_each = var.metric_descriptor.labels
       content {
-        key         = labels.value.key
-        value_type  = labels.value.value_type
-        description = labels.value.description
+        key         = each.value.key
+        value_type  = each.value.value_type
+        description = each.value.description
       }
     }
   }
@@ -24,8 +24,8 @@ resource "google_logging_metric" "logging_metric" {
   dynamic "label_extractors" {
     for_each = for_each.var.metric_descriptor.labels
     content {
-      key   = labels.value.key
-      value = labels.value.label_extractor
+      key   = each.value.key
+      value = each.value.label_extractor
     }
   }
 
