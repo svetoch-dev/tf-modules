@@ -32,3 +32,21 @@ variable "log_metrics" {
   }))
   default = []
 }
+
+variable "dashboards" {
+  description = "Dasboards"
+  type = list(object({
+    display_name = string
+    columns      = optional(number, 2)
+    widgets      = optional(list(object{
+      type          = string
+      title         = string
+      filter        = optional(string)  # Metric filter or PromQL query
+      plot_type     = optional(string, "LINE")  # Default plot type
+      y_axis_label  = optional(string, "y1Axis")
+      scale         = optional(string, "LINEAR")
+      promql        = optional(string)  # For PromQL queries
+      columns       = optional(list(map(string))) # For timeSeriesTable
+    }))
+  }))
+}

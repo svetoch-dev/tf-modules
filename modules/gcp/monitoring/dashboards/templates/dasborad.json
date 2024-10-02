@@ -1,0 +1,249 @@
+{
+    "displayName": "[MS-POS] Connection errors dashboard",
+    "dashboardFilters": [],
+    "mosaicLayout": {
+      "columns": 48,
+      "tiles": [
+        {
+          "xPos": 24,
+          "width": 24,
+          "height": 16,
+          "widget": {
+            "title": "Logs",
+            "logsPanel": {
+              "filter": "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"ms-pos\" AND jsonPayload.message.msg:\"error in sending notification:\"\n",
+              "resourceNames": [
+                "projects/244346864016"
+              ]
+            }
+          }
+        },
+        {
+          "width": 24,
+          "height": 16,
+          "widget": {
+            "title": "Errors summary",
+            "xyChart": {
+              "chartOptions": {
+                "mode": "COLOR"
+              },
+              "dataSets": [
+                {
+                  "breakdowns": [],
+                  "dimensions": [],
+                  "measures": [],
+                  "plotType": "LINE",
+                  "targetAxis": "Y1",
+                  "timeSeriesQuery": {
+                    "prometheusQuery": "label_replace(\r\n  sum(rate(logging_googleapis_com:user_ConnectionErrorPOS{status_code=\"Connection error\"}[${__interval}])),\r\n  \"Connection_error\", \"Connection Error\", \"\", \"\"\r\n)",
+                    "unitOverride": ""
+                  }
+                },
+                {
+                  "breakdowns": [],
+                  "dimensions": [],
+                  "measures": [],
+                  "plotType": "LINE",
+                  "targetAxis": "Y1",
+                  "timeSeriesQuery": {
+                    "prometheusQuery": "label_replace(\r\n  sum(rate(logging_googleapis_com:user_ConnectionErrorPOS{status_code!=\"Connection error\"}[${__interval}])),\r\n  \"Connection_error\", \"3хх/4xx/5xx http error\", \"\", \"\"\r\n)",
+                    "unitOverride": "1"
+                  }
+                },
+                {
+                  "breakdowns": [],
+                  "dimensions": [],
+                  "measures": [],
+                  "plotType": "LINE",
+                  "targetAxis": "Y1",
+                  "timeSeriesQuery": {
+                    "prometheusQuery": "label_replace(\r\n  sum(rate(logging_googleapis_com:user_ConnectionErrorPOS{status_code=~\".*\"}[${__interval}])),\r\n  \"Connection_error\", \"All Errors\", \"\", \"\"\r\n)",
+                    "unitOverride": ""
+                  }
+                }
+              ],
+              "thresholds": [],
+              "yAxis": {
+                "label": "",
+                "scale": "LINEAR"
+              }
+            }
+          }
+        },
+        {
+          "yPos": 16,
+          "width": 24,
+          "height": 16,
+          "widget": {
+            "title": "Errors per Company",
+            "xyChart": {
+              "chartOptions": {
+                "mode": "COLOR"
+              },
+              "dataSets": [
+                {
+                  "breakdowns": [],
+                  "dimensions": [],
+                  "measures": [],
+                  "minAlignmentPeriod": "60s",
+                  "plotType": "LINE",
+                  "targetAxis": "Y1",
+                  "timeSeriesQuery": {
+                    "timeSeriesFilter": {
+                      "aggregation": {
+                        "alignmentPeriod": "60s",
+                        "crossSeriesReducer": "REDUCE_SUM",
+                        "groupByFields": [
+                          "metric.label.\"Company_id\""
+                        ],
+                        "perSeriesAligner": "ALIGN_RATE"
+                      },
+                      "filter": "metric.type=\"logging.googleapis.com/user/ConnectionErrorPOS\" resource.type=\"cloud_run_revision\""
+                    }
+                  }
+                }
+              ],
+              "thresholds": [],
+              "yAxis": {
+                "label": "",
+                "scale": "LINEAR"
+              }
+            }
+          }
+        },
+        {
+          "xPos": 24,
+          "yPos": 16,
+          "width": 24,
+          "height": 16,
+          "widget": {
+            "title": "Errors per Company/error type",
+            "xyChart": {
+              "chartOptions": {
+                "mode": "COLOR"
+              },
+              "dataSets": [
+                {
+                  "breakdowns": [],
+                  "dimensions": [],
+                  "measures": [],
+                  "minAlignmentPeriod": "60s",
+                  "plotType": "LINE",
+                  "targetAxis": "Y1",
+                  "timeSeriesQuery": {
+                    "timeSeriesFilter": {
+                      "aggregation": {
+                        "alignmentPeriod": "60s",
+                        "crossSeriesReducer": "REDUCE_SUM",
+                        "groupByFields": [
+                          "metric.label.\"Company_id\"",
+                          "metric.label.\"status_code\""
+                        ],
+                        "perSeriesAligner": "ALIGN_RATE"
+                      },
+                      "filter": "metric.type=\"logging.googleapis.com/user/ConnectionErrorPOS\" resource.type=\"cloud_run_revision\""
+                    }
+                  }
+                }
+              ],
+              "thresholds": [],
+              "yAxis": {
+                "label": "",
+                "scale": "LINEAR"
+              }
+            }
+          }
+        },
+        {
+          "widget": {
+            "title": "TOP Errors",
+            "timeSeriesTable": {
+              "columnSettings": [
+                {
+                  "alignment": "LEFT",
+                  "column": "Company_id",
+                  "visible": true
+                },
+                {
+                  "column": "status_code",
+                  "visible": true
+                },
+                {
+                  "column": "project_id",
+                  "visible": false
+                },
+                {
+                  "column": "value",
+                  "visible": true
+                },
+                {
+                  "column": "Metric",
+                  "visible": false
+                },
+                {
+                  "column": "configuration_name",
+                  "visible": false
+                },
+                {
+                  "column": "location",
+                  "visible": false
+                },
+                {
+                  "column": "revision_name",
+                  "visible": false
+                },
+                {
+                  "column": "service_name",
+                  "visible": false
+                },
+                {
+                  "column": "log",
+                  "visible": false
+                },
+                {
+                  "column": "webhook_type",
+                  "visible": false
+                }
+              ],
+              "dataSets": [
+                {
+                  "minAlignmentPeriod": "60s",
+                  "timeSeriesQuery": {
+                    "outputFullDuration": true,
+                    "timeSeriesFilter": {
+                      "aggregation": {
+                        "alignmentPeriod": "60s",
+                        "crossSeriesReducer": "REDUCE_SUM",
+                        "groupByFields": [
+                          "metric.label.\"Company_id\"",
+                          "metric.label.\"status_code\""
+                        ],
+                        "perSeriesAligner": "ALIGN_RATE"
+                      },
+                      "filter": "metric.type=\"logging.googleapis.com/user/ConnectionErrorPOS\" resource.type=\"cloud_run_revision\"",
+                      "pickTimeSeriesFilter": {
+                        "direction": "TOP",
+                        "numTimeSeries": 30,
+                        "rankingMethod": "METHOD_MEAN"
+                      }
+                    }
+                  }
+                }
+              ],
+              "displayColumnType": false,
+              "metricVisualization": "BAR",
+              "opsAnalyticsSettings": {
+                "maxRows": "0",
+                "pageSize": "0",
+                "showFilterBar": false
+              }
+            }
+          },
+          "height": 16,
+          "width": 24,
+          "yPos": 32
+        }
+      ]
+    },
+    "labels": {}
+  }
