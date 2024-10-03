@@ -14,11 +14,19 @@ variable "widgets" {
   type = list(object({
     type          = string            # "xyChart", "timeSeriesTable", "logsPanel", etc.
     title         = string            # Title of the widget
-    filter        = optional(string)  # Metric filter or PromQL query
-    plot_type     = optional(string, "LINE")  # Default plot type
     y_axis_label  = optional(string, "y1Axis")
     scale         = optional(string, "LINEAR")
-    promql        = optional(string)  # For PromQL queries
-    columns       = optional(list(map(string))) # For timeSeriesTable
+    columns       = optional(list(map(string)))  # For timeSeriesTable
+    data          = optional(list(object({
+      promql        = optional(string, null)
+      filter        = optional(string, null)
+      plot_type     = optional(string, "LINE")
+      agregation    = optional(object({
+        period = optional(string, "60s")
+        reducer = optional(string, "REDUCE_SUM")
+        aligner = optional(string, "ALIGN_SUM")
+        group_fields = optional(list(string), [])
+      }, null))
+    })))
   }))
 }

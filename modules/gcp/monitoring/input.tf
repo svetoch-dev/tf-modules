@@ -38,15 +38,53 @@ variable "dashboards" {
   type = list(object({
     display_name = string
     columns      = optional(number, 2)
-    widgets      = optional(list(object{
-      type          = string
+    tiles        = optional(list(object({
+      position   = object({
+        xpos   = optional(number, 0)
+        ypos   = optional(number, 0)
+        width  = optional(number, 24)
+        height = optional(number, 16)
+      })
+      type          = string # Must be xyChart, logsPanel, timeTable
       title         = string
-      filter        = optional(string)  # Metric filter or PromQL query
-      plot_type     = optional(string, "LINE")  # Default plot type
-      y_axis_label  = optional(string, "y1Axis")
-      scale         = optional(string, "LINEAR")
-      promql        = optional(string)  # For PromQL queries
-      columns       = optional(list(map(string))) # For timeSeriesTable
-    }))
+      chart_model   = optional(string, "COLOR")
+      datasets      = optional(list(object({
+        breakdowns    = optional(list, [])
+        dimensions    = optional(list, [])
+        measures      = optional(list, [])
+        plot_type     = optional(string, "LINE")
+        target_axis   = optional(string, "Y1")
+        metric_visual = optional(string, null) # Only for Time series table
+        promql        = optional(object({
+          query = string
+          unit  = optional(string, "1")
+        }), null)
+        filter      = optional(object({
+          query = string
+          aggregation = optional(object({
+            alighment_period = optional(string, "60s")
+            reducer          = optional(string, "REDUCE_SUM")
+            aligner          = optional(string, "ALIGN_SUM")
+            labels           = optional(list(string), [])
+          }),null)
+        }), null)
+        time_series_filter = optional(object({
+          direction    = optional(string, "TOP")
+          num_series     = optional(number, 30)
+          ranking_method = optional(string, "METHOD_MEAN")
+        }), null)
+      })), [])
+      columns     = optional(list(object({
+        alignment = optional(string, "")
+        column    = optional(string, "")
+        visible   = optional(bool, false)
+      })), [])
+      treshholds    = optional(list(string), [])
+      project_id    = optional(string)
+      yaxis         = optional(object({
+        label = optional(string, "")
+        scale = optional(string, "LINEAR")
+      }), {})
+    })), [])
   }))
 }
