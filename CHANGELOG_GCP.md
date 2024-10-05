@@ -1,3 +1,8 @@
+# gcp-v1.3.2
+
+fixes:
+* `pubsub`: var.subscriptions is null. (The given "for_each" argument value is unsuitable: the given "for_each" argument value is null. A map, or set of strings is allowed.)
+
 # gcp-v1.3.1
 
 Enhancements:
