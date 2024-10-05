@@ -64,5 +64,5 @@ variable "subscriptions" {
     subscribers                       = optional(list(string), [])
     viewers                           = optional(list(string), [])
   }))
-  default = null
+  default = {}
 }
