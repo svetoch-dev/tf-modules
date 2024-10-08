@@ -6,10 +6,9 @@
     "tiles": [
       %{ for tile in tiles ~}
       {
-        "xPos": ${tile.position.xpos},
-        "yPos": ${tile.position.ypos},
-        "width": ${tile.position.width},
-        "height": ${tile.position.height},
+        %{ for posparam, value in tile.position ~}
+        "${posparam}": ${value},
+        %{ endfor ~}
         "widget" : {
           "title": "${tile.title}",
           %{ if tile.type == "logsPanel" ~}

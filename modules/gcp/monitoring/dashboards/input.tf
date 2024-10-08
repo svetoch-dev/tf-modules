@@ -14,8 +14,8 @@ variable "tiles" {
   type = list(object({
     tiles        = optional(list(object({
       position   = object({
-        xpos   = optional(number, 0)
-        ypos   = optional(number, 0)
+        xPos   = optional(number, 0)
+        yPos   = optional(number, 0)
         width  = optional(number, 24)
         height = optional(number, 16)
       })
