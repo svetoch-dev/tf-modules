@@ -16,7 +16,7 @@ module "log_metrics" {
 
 module "dashboards" {
   source = "./dashboards"
-  for_each = var.dashboards
+  for_each = { for dashboard in var.dashboards : dashboard.display_name => dashboard }
   display_name = each.value.display_name
   columns = each.value.columns
   widgets = each.value.widgets
