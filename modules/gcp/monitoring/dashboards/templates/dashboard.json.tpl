@@ -6,7 +6,7 @@
     "tiles": [
       %{ for tile in tiles ~}
       {
-        %{ for posparam, value in tile.position ~}
+        %{ for posparam, value in lookup(tile, "position", 0) ~}
         "${posparam}": ${value},
         %{ endfor ~}
         "widget" : {
