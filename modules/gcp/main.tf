@@ -434,4 +434,5 @@ module "pubsub" {
 module "monitoring" {
   source      = "./monitoring"
   log_metrics = var.monitoring.log_metrics
+  dashboards  = var.monitoring.dashboards
 }
