@@ -4,7 +4,7 @@ data "template_file" "dashboard_json" {
   vars = {
     display_name = var.display_name
     columns      = var.columns
-    tiles        = var.tiles
+    tiles        = jsonencode(var.tiles)
   }
 }
 

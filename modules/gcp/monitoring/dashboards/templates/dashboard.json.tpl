@@ -4,7 +4,7 @@
   "mosaicLayout": {
     "columns": ${columns},
     "tiles": [
-      %{ for tile in tiles ~}
+      %{ for tile in jsondecode(tiles) ~}
       {
         %{ for posparam, value in tile.position ~}
         "${posparam}": ${value},
