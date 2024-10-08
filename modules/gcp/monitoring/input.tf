@@ -87,5 +87,5 @@ variable "dashboards" {
       }), {})
     })), [])
   }))
-  default = []
+  # default = []
 }
