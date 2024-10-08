@@ -19,5 +19,5 @@ module "dashboards" {
   for_each = { for dashboard in var.dashboards : dashboard.display_name => dashboard }
   display_name = each.value.display_name
   columns = each.value.columns
-  widgets = each.value.widgets
+  tiles = each.value.tiles
 }

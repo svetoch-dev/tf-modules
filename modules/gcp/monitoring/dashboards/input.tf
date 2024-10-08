@@ -9,8 +9,8 @@ variable "columns" {
   default     = 48
 }
 
-variable "widgets" {
-  description = "widgets"
+variable "tiles" {
+  description = "tiles with widgets"
   type = list(object({
     tiles        = optional(list(object({
       position   = object({
