@@ -49,9 +49,9 @@ variable "dashboards" {
       title         = string
       chart_model   = optional(string, "COLOR")
       datasets      = optional(list(object({
-        breakdowns    = optional(list, [])
-        dimensions    = optional(list, [])
-        measures      = optional(list, [])
+        breakdowns    = optional(list(string), [])
+        dimensions    = optional(list(string), [])
+        measures      = optional(list(string), [])
         plot_type     = optional(string, "LINE")
         target_axis   = optional(string, "Y1")
         metric_visual = optional(string, null) # Only for Time series table
