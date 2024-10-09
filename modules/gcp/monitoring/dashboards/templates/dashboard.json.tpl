@@ -59,11 +59,13 @@
             "dataSets": [
               %{ for index, dataset in tile.datasets}
               {
+                %{ if tile.type != "timeTable" ~}
                 "breakdowns": [],
                 "dimensions": [],
                 "measures": [],
                 "plotType": "LINE",
                 "targetAxis": "Y1",
+                %{ endif ~}
                 "timeSeriesQuery": {
                   %{ if dataset.promql != null ~}
                   "prometheusQuery": "${dataset.promql.query}",
