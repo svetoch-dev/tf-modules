@@ -16,7 +16,7 @@
             "filter": "${tile.logsPanel.filter}",
             "resourceNames": [
                 %{ for ind_res, resource in tile.logsPanel.resourceNames ~} 
-                "${resource}" %{ if ind_res != (length(tile.logsPanel.resourceNames)-1) ~}, %{ endif} 
+                "${resource}" %{ if ind_res != (length(tile.logsPanel.resourceNames)-1) ~}, %{ endif ~} 
                 %{ endfor ~}
               ]
           %{ endif ~}
@@ -29,7 +29,7 @@
                 "alignment": "${column.alignment}",
                 "column": "${column.column}",
                 "visible": ${column.visible}
-              },
+              } %{ if ind_columns != (length(tile.columns)-1) ~}, %{ endif ~}
               %{ endfor ~}
             ]
             %{ endif ~}
