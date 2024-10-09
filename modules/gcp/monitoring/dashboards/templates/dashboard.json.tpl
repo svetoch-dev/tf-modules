@@ -24,7 +24,7 @@
           "timeSeriesTable": {
             %{ if tile.columns != null ~}
             "columnSettings": [
-              %{ for column in tile.columns ~}
+              %{ for ind_columns, column in tile.columns ~}
               {
                 "alignment": "${column.alignment}",
                 "column": "${column.column}",
