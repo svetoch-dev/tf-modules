@@ -5,17 +5,86 @@
         "columns": 48,
         "tiles": [
             {
-                "height": 24,
+                "height": 16,
                 "width": 24,
                 "xPos": 0,
                 "yPos": 0,
                 "widget": {
-                    "title": "chart",
+                    "title": "Promql chart",
                     "xyChart": {
                         "chartOptions": {
                             "mode": "COLOR"
                         },
-                        "tresholds": [],
+                        "thresholds": [],
+                        "yAxis": {
+                            "label": "",
+                            "scale": "LINEAR"
+                        },
+                        "dataSets": [
+                            {
+                                "breakdowns": [],
+                                "dimensions": [],
+                                "measures": [],
+                                "plotType": "LINE",
+                                "targetAxis": "Y1",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "label_replace(sum(rate(logging_googleapis_com:user_POSWebhookErrors{status_code='Connection error'}[${__interval}])), 'Connection_error', 'Connection Error', '', '')",
+                                    "unitOverride": "1"
+                                }
+                            },
+                            {
+                                "breakdowns": [],
+                                "dimensions": [],
+                                "measures": [],
+                                "plotType": "LINE",
+                                "targetAxis": "Y1",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "label_replace(sum(rate(logging_googleapis_com:user_POSWebhookErrors{status_code!='Connection error'}[${__interval}])), 'Connection_error', '3xx/4xx/5xx Status code error', '', '')",
+                                    "unitOverride": "1"
+                                }
+                            },
+                            {
+                                "breakdowns": [],
+                                "dimensions": [],
+                                "measures": [],
+                                "plotType": "LINE",
+                                "targetAxis": "Y1",
+                                "timeSeriesQuery": {
+                                    "prometheusQuery": "label_replace(sum(rate(logging_googleapis_com:user_POSWebhookErrors{status_code=~'.*'}[${__interval}])), 'Connection_error', '3xx/4xx/5xx Status code error', '', '')",
+                                    "unitOverride": "1"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "height": 32,
+                "width": 24,
+                "xPos": 24,
+                "yPos": 0,
+                "widget": {
+                    "title": "logs panel",
+                    "logsPanel": {
+                        "filter": "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"ms-pos\" AND jsonPayload.message.msg:\"error in sending notification:\"",
+                        "resourceNames": [
+                            "projects/kitchenhub-app-sandbox"
+                        ]
+                    }
+                }
+            },
+            {
+                "height": 16,
+                "width": 24,
+                "xPos": 0,
+                "yPos": 16,
+                "widget": {
+                    "title": "filter chart",
+                    "xyChart": {
+                        "chartOptions": {
+                            "mode": "COLOR"
+                        },
+                        "thresholds": [],
                         "yAxis": {
                             "label": "",
                             "scale": "LINEAR"
@@ -29,7 +98,106 @@
                                 "targetAxis": "Y1",
                                 "timeSeriesQuery": {
                                     "timeSeriesFilter": {
-                                        "filter": "metric.type='logging.googleapis.com/user/ConnectionErrorPOS' resource.type='cloud_run_revision'"
+                                        "aggregation": {
+                                            "alignmentPeriod": "60s",
+                                            "crossSeriesReducer": "REDUCE_SUM",
+                                            "groupByFields": [
+                                                "metric.label.\"company_id\""
+                                            ],
+                                            "perSeriesAligner": "ALIGN_SUM"
+                                        },
+                                        "filter": "metric.type=\"logging.googleapis.com/user/POSWebhookErrors\" resource.type=\"cloud_run_revision\""
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "height": 16,
+                "width": 24,
+                "xPos": 0,
+                "yPos": 32,
+                "widget": {
+                    "title": "filter chart 2 labels chart",
+                    "xyChart": {
+                        "chartOptions": {
+                            "mode": "COLOR"
+                        },
+                        "thresholds": [],
+                        "yAxis": {
+                            "label": "",
+                            "scale": "LINEAR"
+                        },
+                        "dataSets": [
+                            {
+                                "breakdowns": [],
+                                "dimensions": [],
+                                "measures": [],
+                                "plotType": "LINE",
+                                "targetAxis": "Y1",
+                                "timeSeriesQuery": {
+                                    "timeSeriesFilter": {
+                                        "aggregation": {
+                                            "alignmentPeriod": "60s",
+                                            "crossSeriesReducer": "REDUCE_SUM",
+                                            "groupByFields": [
+                                                "metric.label.\"company_id\"",
+                                                "metric.label.\"status_code\""
+                                            ],
+                                            "perSeriesAligner": "ALIGN_SUM"
+                                        },
+                                        "filter": "metric.type=\"logging.googleapis.com/user/POSWebhookErrors\" resource.type=\"cloud_run_revision\""
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "height": 16,
+                "width": 24,
+                "xPos": 24,
+                "yPos": 32,
+                "widget": {
+                    "title": "timeTable",
+                    "timeSeriesTable": {
+                        "columnSettings": [
+                            {
+                                "alignment": "LEFT",
+                                "column": "company_id",
+                                "visible": "true"
+                            },
+                            {
+                                "column": "status_code",
+                                "visible": "true"
+                            },
+                            {
+                                "column": "value",
+                                "visible": "true"
+                            }
+                        ],
+                        "dataSets": [
+                            {
+                                "breakdowns": [],
+                                "dimensions": [],
+                                "measures": [],
+                                "plotType": "LINE",
+                                "targetAxis": "Y1",
+                                "timeSeriesQuery": {
+                                    "timeSeriesFilter": {
+                                        "aggregation": {
+                                            "alignmentPeriod": "60s",
+                                            "crossSeriesReducer": "REDUCE_SUM",
+                                            "groupByFields": [
+                                                "metric.label.\"company_id\"",
+                                                "metric.label.\"status_code\""
+                                            ],
+                                            "perSeriesAligner": "ALIGN_SUM"
+                                        },
+                                        "filter": "metric.type=\"logging.googleapis.com/user/POSWebhookErrors\" resource.type=\"cloud_run_revision\""
                                     }
                                 }
                             }

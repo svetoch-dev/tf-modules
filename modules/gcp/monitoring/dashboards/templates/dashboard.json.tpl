@@ -26,12 +26,14 @@
             "columnSettings": [
               %{ for ind_columns, column in tile.columns ~}
               {
+                %{ if column.alignment != "" ~}
                 "alignment": "${column.alignment}",
+                %{ endif ~}
                 "column": "${column.column}",
-                "visible": ${column.visible}
+                "visible": "${column.visible}"
               } %{ if ind_columns != (length(tile.columns)-1) ~}, %{ endif ~}
               %{ endfor ~}
-            ]
+            ],
             %{ endif ~}
           %{ endif ~}
           %{ if tile.type == "xyChart" ~}
@@ -75,7 +77,7 @@
                       "crossSeriesReducer": "${dataset.filter.aggregation.reducer}",
                       "groupByFields": [ 
                         %{ for ind_lab, label in dataset.filter.aggregation.labels ~} 
-                        "${label}" %{ if ind_lab != (length(dataset.filter.aggregation.labels)-1) ~}, %{ endif} 
+                        "${label}" %{ if ind_lab != (length(dataset.filter.aggregation.labels)-1) ~}, %{ endif ~} 
                         %{ endfor ~} ],
                       "perSeriesAligner": "${dataset.filter.aggregation.aligner}"
                     },
@@ -91,13 +93,13 @@
                   }
                   %{ endif ~}
                 }
-              }%{ if index != (length(tile.datasets)-1) ~}, %{ endif}
+              }%{ if index != (length(tile.datasets)-1) ~}, %{ endif ~}
               %{ endfor ~}
             ]
             %{ endif ~}
           }
         }
-      }%{ if idx != (length(jsondecode(tiles))-1) ~}, %{ endif}
+      }%{ if idx != (length(jsondecode(tiles))-1) ~}, %{ endif ~}
       %{ endfor ~}
     ]
   }
