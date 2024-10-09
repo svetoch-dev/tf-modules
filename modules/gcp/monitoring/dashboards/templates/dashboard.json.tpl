@@ -71,7 +71,7 @@
                     "aggregation": {
                       "alignmentPeriod": "${dataset.filter.aggregation.alighment_period}",
                       "crossSeriesReducer": "${dataset.filter.aggregation.reducer}",
-                      "groupByFields": [ %{ for label in dataset.filter.aggregation.labels ~} ${label}, %{ endfor ~} ],
+                      "groupByFields": [ %{ for label in dataset.filter.aggregation.labels ~} "${label}", %{ endfor ~} ],
                       "perSeriesAligner": "${dataset.filter.aggregation.aligner}"
                     },
                     %{ endif ~}
