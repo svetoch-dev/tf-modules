@@ -4,7 +4,7 @@
   "mosaicLayout": {
     "columns": ${columns},
     "tiles": [
-      %{ for tile in jsondecode(tiles) ~}
+      %{ for idx, tile in jsondecode(tiles) ~}
       {
         %{ for posparam, value in tile.position ~}
         "${posparam}": ${value},
@@ -37,18 +37,22 @@
             "chartOptions": {
               "mode": "${tile.chart_mode}"
             },
+            %{ if tile.tresholds != [] ~}
             "tresholds" : [
               %{ for treshold in tile.tresholds ~}
               ${treshold},
               %{ endfor ~}
             ],
+            %{ else ~}
+            "tresholds": [],
+            %{ endif ~}
             "yAxis" : {
               "label": "${tile.yaxis.label}",
               "scale": "${tile.yaxis.scale}"
-            }
+            },
           %{ endif ~}
             "dataSets": [
-              %{ for dataset in tile.datasets}
+              %{ for index, dataset in tile.datasets}
               {
                 "breakdowns": [],
                 "dimensions": [],
@@ -70,23 +74,23 @@
                       "perSeriesAligner": "${dataset.filter.aggregation.aligner}"
                     },
                     %{ endif ~}
-                    "filter": "${dataset.filter.query}",
-                    %{ if dataset.filter.time_series_filter != null ~}
+                    "filter": "${dataset.filter.query}"
+                    %{ if dataset.time_series_filter != null ~}
                     "pickTimeSeriesFilter": {
-                      "direction": "${dataset.filter.time_series_filter.direction}",
-                      "numTimeSeries": ${dataset.filter.time_series_filter.num_series},
-                      "rankingMethod": "${dataset.filter.time_series_filter.ranking_method}"
+                      "direction": "${dataset.time_series_filter.direction}",
+                      "numTimeSeries": ${dataset.time_series_filter.num_series},
+                      "rankingMethod": "${dataset.time_series_filter.ranking_method}"
                     }
                     %{ endif ~}
                   }
                   %{ endif ~}
                 }
-              },
+              }%{ if index != (length(tile.datasets)-1) ~}, %{ endif}
               %{ endfor ~}
-            ],
+            ]
           }
         }
-      },
+      }%{ if idx != (length(jsondecode(tiles))-1) ~}, %{ endif}
       %{ endfor ~}
     ]
   }

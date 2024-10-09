@@ -1,0 +1,42 @@
+{
+    "displayName": "test dashboard",
+    "dashboardFilters": [],
+    "mosaicLayout": {
+        "columns": 48,
+        "tiles": [
+            {
+                "height": 24,
+                "width": 24,
+                "xPos": 0,
+                "yPos": 0,
+                "widget": {
+                    "title": "chart",
+                    "xyChart": {
+                        "chartOptions": {
+                            "mode": "COLOR"
+                        },
+                        "tresholds": [],
+                        "yAxis": {
+                            "label": "",
+                            "scale": "LINEAR"
+                        },
+                        "dataSets": [
+                            {
+                                "breakdowns": [],
+                                "dimensions": [],
+                                "measures": [],
+                                "plotType": "LINE",
+                                "targetAxis": "Y1",
+                                "timeSeriesQuery": {
+                                    "timeSeriesFilter": {
+                                        "filter": "metric.type='logging.googleapis.com/user/ConnectionErrorPOS' resource.type='cloud_run_revision'"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
