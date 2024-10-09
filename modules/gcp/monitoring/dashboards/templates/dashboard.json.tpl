@@ -84,8 +84,7 @@
                       "perSeriesAligner": "${dataset.filter.aggregation.aligner}"
                     },
                     %{ endif ~}
-                    "filter": "${dataset.filter.query}"
-                    %{ if dataset.time_series_filter != null ~}
+                    "filter": "${dataset.filter.query}" %{ if dataset.time_series_filter != null ~} ,
                     "pickTimeSeriesFilter": {
                       "direction": "${dataset.time_series_filter.direction}",
                       "numTimeSeries": ${dataset.time_series_filter.num_series},

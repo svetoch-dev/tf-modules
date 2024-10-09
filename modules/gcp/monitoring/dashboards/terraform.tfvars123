@@ -126,11 +126,6 @@ tiles        = [
     }]
     datasets = [
     {
-      time_seies_filter = {
-        direction      = "TOP"
-        num_series     = 30
-        ranking_method = "METHOD_MEAN"
-      },
       filter = {
         query = "metric.type=\\\"logging.googleapis.com/user/POSWebhookErrors\\\" resource.type=\\\"cloud_run_revision\\\""
         aggregation = {
@@ -142,8 +137,13 @@ tiles        = [
               "metric.label.\\\"status_code\\\"",
             ]
         }
+      },
+      time_series_filter = {
+        direction      = "TOP"
+        num_series     = 60
+        ranking_method = "METHOD_MEAN"
       }
     }]
     yaxis = {}
-  }
+  },
 ]

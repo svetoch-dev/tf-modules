@@ -74,7 +74,7 @@ variable "dashboards" {
           }),null)
         }), null)
         time_series_filter = optional(object({
-          direction    = optional(string, "TOP")
+          direction      = optional(string, "TOP")
           num_series     = optional(number, 30)
           ranking_method = optional(string, "METHOD_MEAN")
         }), null)
