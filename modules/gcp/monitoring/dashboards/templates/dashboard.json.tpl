@@ -15,7 +15,9 @@
           "logsPanel": {
             "filter": "${tile.logsPanel.filter}",
             "resourceNames": [
-                %{ for resource in tile.logsPanel.resourceNames ~} "${resource}", %{ endfor ~}
+                %{ for ind_res, resource in tile.logsPanel.resourceNames ~} 
+                "${resource}" %{ if ind_res != (length(tile.logsPanel.resourceNames)-1) ~}, %{ endif} 
+                %{ endfor ~}
               ]
           %{ endif ~}
           %{ if tile.type == "timeTable" ~}
@@ -71,7 +73,10 @@
                     "aggregation": {
                       "alignmentPeriod": "${dataset.filter.aggregation.alighment_period}",
                       "crossSeriesReducer": "${dataset.filter.aggregation.reducer}",
-                      "groupByFields": [ %{ for label in dataset.filter.aggregation.labels ~} "${label}", %{ endfor ~} ],
+                      "groupByFields": [ 
+                        %{ for ind_lab, label in dataset.filter.aggregation.labels ~} 
+                        "${label}" %{ if ind_lab != (length(dataset.filter.aggregation.labels)-1) ~}, %{ endif} 
+                        %{ endfor ~} ],
                       "perSeriesAligner": "${dataset.filter.aggregation.aligner}"
                     },
                     %{ endif ~}
