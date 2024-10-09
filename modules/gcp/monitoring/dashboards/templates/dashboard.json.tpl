@@ -37,14 +37,14 @@
             "chartOptions": {
               "mode": "${tile.chart_mode}"
             },
-            %{ if tile.tresholds != [] ~}
-            "tresholds" : [
-              %{ for treshold in tile.tresholds ~}
+            %{ if tile.thresholds != [] ~}
+            "thresholds" : [
+              %{ for treshold in tile.thresholds ~}
               ${treshold},
               %{ endfor ~}
             ],
             %{ else ~}
-            "tresholds": [],
+            "thresholds": [],
             %{ endif ~}
             "yAxis" : {
               "label": "${tile.yaxis.label}",

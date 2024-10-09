@@ -52,7 +52,7 @@ variable "tiles" {
       column    = optional(string, "")
       visible   = optional(bool, false)
     })), [])
-    tresholds    = optional(list(string), [])
+    thresholds    = optional(list(string), [])
     project_id    = optional(string)
     yaxis         = optional(object({
       label = optional(string, "")
