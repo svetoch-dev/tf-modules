@@ -15,7 +15,7 @@
           "logsPanel": {
             "filter": "${tile.filter}",
             "resourceNames": [
-                "projects/${tile.project_id}",
+                %{ for resource in tile.filter.resource_names ~} ${resource}, { endfor ~}
               ]
           %{ endif ~}
           %{ if tile.type == "timeTable" ~}
@@ -51,6 +51,7 @@
               "scale": "${tile.yaxis.scale}"
             },
           %{ endif ~}
+            %{ if tile.type != "logsPanel" ~}
             "dataSets": [
               %{ for index, dataset in tile.datasets}
               {
@@ -88,6 +89,7 @@
               }%{ if index != (length(tile.datasets)-1) ~}, %{ endif}
               %{ endfor ~}
             ]
+            %{ endif ~}
           }
         }
       }%{ if idx != (length(jsondecode(tiles))-1) ~}, %{ endif}

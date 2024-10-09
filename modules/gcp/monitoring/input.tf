@@ -40,8 +40,8 @@ variable "dashboards" {
     columns      = optional(number, 2)
     tiles        = optional(list(object({
       position   = object({
-        xpos   = optional(number, 0)
-        ypos   = optional(number, 0)
+        xPos   = optional(number, 0)
+        yPos   = optional(number, 0)
         width  = optional(number, 24)
         height = optional(number, 16)
       })
@@ -61,6 +61,7 @@ variable "dashboards" {
         }), null)
         filter      = optional(object({
           query = string
+          resource_names = optional(list(string), []) # only for logs panel
           aggregation = optional(object({
             alighment_period = optional(string, "60s")
             reducer          = optional(string, "REDUCE_SUM")
@@ -79,7 +80,7 @@ variable "dashboards" {
         column    = optional(string, "")
         visible   = optional(bool, false)
       })), [])
-      treshholds    = optional(list(string), [])
+      thresholds    = optional(list(string), [])
       project_id    = optional(string)
       yaxis         = optional(object({
         label = optional(string, "")
