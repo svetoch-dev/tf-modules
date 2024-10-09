@@ -15,7 +15,7 @@
           "logsPanel": {
             "filter": "${tile.filter}",
             "resourceNames": [
-                %{ for resource in tile.filter.resource_names ~} ${resource}, { endfor ~}
+                %{ for resource in tile.filter.resource_names ~} ${resource}, %{ endfor ~}
               ]
           %{ endif ~}
           %{ if tile.type == "timeTable" ~}
