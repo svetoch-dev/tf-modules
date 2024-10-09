@@ -18,10 +18,14 @@ variable "tiles" {
       width  = optional(number, 24)
       height = optional(number, 16)
     })
-    type          = string # Must be xyChart, logsPanel, timeTable
-    title         = string
-    chart_mode    = optional(string, "COLOR")
-    datasets      = optional(list(object({
+    type       = string # Must be xyChart, logsPanel, timeTable
+    title      = string
+    chart_mode = optional(string, "COLOR")
+    logsPanel  = optional(object({           # only for logs panel
+      filter        = optional(string, "")
+      resourceNames = optional(list(string), [])
+    }), null)
+    datasets   = optional(list(object({
       breakdowns    = optional(list(string), [])
       dimensions    = optional(list(string), [])
       measures      = optional(list(string), [])
@@ -34,7 +38,6 @@ variable "tiles" {
       }), null)
       filter      = optional(object({
         query = string
-        resource_names = optional(list(string), []) # only for logs panel
         aggregation = optional(object({
           alighment_period = optional(string, "60s")
           reducer          = optional(string, "REDUCE_SUM")

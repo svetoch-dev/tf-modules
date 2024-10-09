@@ -48,6 +48,10 @@ variable "dashboards" {
       type          = string # Must be xyChart, logsPanel, timeTable
       title         = optional(string, "Dashboard Title")
       chart_model   = optional(string, "COLOR")
+      logsPanel     = optional(object({           # only for logs panel
+        filter        = optional(string, "")
+        resourceNames = optional(list(string), [])
+      }), null)
       datasets      = optional(list(object({
         breakdowns    = optional(list(string), [])
         dimensions    = optional(list(string), [])
