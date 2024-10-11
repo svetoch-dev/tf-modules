@@ -67,6 +67,9 @@
                 "targetAxis": "Y1",
                 %{ endif ~}
                 "timeSeriesQuery": {
+                  %{ if tile.type == "timeTable" ~}
+                  "outputFullDuration": true,
+                  %{ endif ~}
                   %{ if dataset.promql != null ~}
                   "prometheusQuery": "${dataset.promql.query}",
                   "unitOverride": "${dataset.promql.unit}"
