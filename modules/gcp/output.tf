@@ -74,7 +74,3 @@ output "tasks" {
     task_name => task_obj.task
   }
 }
-
-output "dashboard_json" {
-  value = module.monitoring.dashboard_json
-}
