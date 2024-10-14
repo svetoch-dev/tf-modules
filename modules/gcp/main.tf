@@ -428,3 +428,11 @@ module "pubsub" {
     module.iam,
   ]
 }
+
+/* monoitoring */
+
+module "monitoring" {
+  source      = "./monitoring"
+  log_metrics = var.monitoring.log_metrics
+  dashboards  = var.monitoring.dashboards
+}
