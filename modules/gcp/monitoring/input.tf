@@ -58,7 +58,6 @@ variable "dashboards" {
         measures      = optional(list(string), [])
         plot_type     = optional(string, "LINE")
         target_axis   = optional(string, "Y1")
-        metric_visual = optional(string, null) # Only for Time series table
         promql        = optional(object({
           query = string
           unit  = optional(string, "1")
@@ -73,17 +72,18 @@ variable "dashboards" {
             labels           = optional(list(string), [])
           }),null)
         }), null)
-        time_series_filter = optional(object({
+        time_series_filter = optional(object({      # only for Time series table
           direction      = optional(string, "TOP")
           num_series     = optional(number, 30)
           ranking_method = optional(string, "METHOD_MEAN")
         }), null)
       })), [])
-      columns     = optional(list(object({
+      columns     = optional(list(object({      # only for Time series table
         alignment = optional(string, "")
         column    = optional(string, "")
         visible   = optional(bool, false)
       })), [])
+      metric_visual = optional(string, "BAR") # only for Time series table
       thresholds    = optional(list(string), [])
       project_id    = optional(string)
       yaxis         = optional(object({
@@ -92,5 +92,5 @@ variable "dashboards" {
       }), {})
     })), [])
   }))
-  # default = []
+  default = []
 }

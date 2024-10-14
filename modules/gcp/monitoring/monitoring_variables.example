@@ -1,0 +1,187 @@
+locals {
+  monitoring = {
+    log_metrics = [
+      {
+        name         = "ExampleMetric"
+        filter       = "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"service_name\" AND jsonPayload.message.msg:\"sample text\""
+        metric_kind  = "DELTA"
+        value_type   = "INT64"
+        unit         = "1"
+        display_name = "ExampleMetric"
+
+        labels = [
+          {
+            key         = "label1"
+            value_type  = "STRING"
+            description = "label1"
+            extractor   = "EXTRACT(jsonPayload.message.label1)"
+          },
+          {
+            key         = "label2"
+            value_type  = "STRING"
+            description = "label2"
+            extractor   = "EXTRACT(jsonPayload.message.label2)"
+          },
+          {
+            key         = "label3"
+            value_type  = "STRING"
+            description = "label3"
+            extractor   = "EXTRACT(jsonPayload.label3)"
+          },
+        ]
+      },
+    ]
+    dashboards = [
+      {
+        display_name = "test dashboard", 
+        columns      = 48
+        tiles = [
+          {
+            position = {
+              xPos   = 0
+              yPos   = 0
+              width  = 24
+              height = 16
+            }
+            type        = "xyChart"
+            title       = "Promql chart"
+            chart_model = "COLOR"
+            datasets = [
+              {
+                promql = {
+                  query = "label_replace(sum(rate(logging_googleapis_com:user_ExampleMetric{label1="some value"}[$${__interval}])), 'Name', 'label name', '', '')",
+                },
+              },
+              {
+                promql = {
+                  query = "label_replace(sum(rate(logging_googleapis_com:user_ExampleMetric{label1!="some value"}[$${__interval}])), 'Name', 'label name', '', '')",
+                },
+              },
+              {
+                promql = {
+                  query = "label_replace(sum(rate(logging_googleapis_com:user_ExampleMetric{label1e=~'.*'}[$${__interval}])), 'Name', 'label name', '', '')",
+                },
+              }
+            ]
+            yaxis = {}
+          },
+          {
+            position = {
+              xPos   = 24
+              yPos   = 0
+              width  = 24
+              height = 32
+            }
+            type  = "logsPanel"
+            title = "logs panel"
+            logsPanel = {
+              filter = "resource.type=\\\"cloud_run_revision\\\" AND resource.labels.service_name=\\\"service_name\\\" AND jsonPayload.message.msg:\\\"some text\\\"",
+              resourceNames = [
+                "projects/project-id"
+              ]
+            }
+          },
+          {
+            position = {
+              xPos   = 0
+              yPos   = 16
+              width  = 24
+              height = 16
+            }
+            type        = "xyChart"
+            title       = "filter chart"
+            chart_model = "COLOR"
+            datasets = [
+              {
+                filter = {
+                  query = "metric.type=\\\"logging.googleapis.com/user/ExampleMetric\\\" resource.type=\\\"cloud_run_revision\\\""
+                  aggregation = {
+                    alighment_period = "60s"
+                    reducer          = "REDUCE_SUM"
+                    aligner          = "ALIGN_SUM"
+                    labels = [
+                      "metric.label.\\\"label1\\\"",
+                    ]
+                  }
+                }
+              }
+            ]
+            yaxis = {}
+          },
+          {
+            position = {
+              xPos   = 0
+              yPos   = 32
+              width  = 24
+              height = 16
+            }
+            type        = "xyChart"
+            title       = "filter chart 2 labels chart"
+            chart_model = "COLOR"
+            datasets = [
+              {
+                filter = {
+                  query = "metric.type=\\\"logging.googleapis.com/user/ExampleMetric\\\" resource.type=\\\"cloud_run_revision\\\""
+                  aggregation = {
+                    alighment_period = "60s"
+                    reducer          = "REDUCE_SUM"
+                    aligner          = "ALIGN_SUM"
+                    labels = [
+                      "metric.label.\\\"label1\\\"",
+                      "metric.label.\\\"label2\\\"",
+                    ]
+                  }
+                }
+              }
+            ]
+            yaxis = {}
+          },
+          {
+            position = {
+              xPos   = 24
+              yPos   = 32
+              width  = 24
+              height = 16
+            }
+            type  = "timeTable"
+            title = "timeTable"
+            columns = [
+              {
+                alignment = "LEFT"
+                column    = "label1"
+                visible   = true
+              },
+              {
+                column  = "label2",
+                visible = true
+              },
+              {
+                column  = "value",
+                visible = true
+            }]
+            datasets = [
+              {
+                filter = {
+                  query = "metric.type=\\\"logging.googleapis.com/user/ExampleMetric\\\" resource.type=\\\"cloud_run_revision\\\""
+                  aggregation = {
+                    alighment_period = "60s"
+                    reducer          = "REDUCE_SUM"
+                    aligner          = "ALIGN_SUM"
+                    labels = [
+                      "metric.label.\\\"label1\\\"",
+                      "metric.label.\\\"label2\\\"",
+                    ]
+                  }
+                },
+                time_series_filter = {
+                  direction      = "TOP"
+                  num_series     = 30
+                  ranking_method = "METHOD_MEAN"
+                }
+            }]
+            yaxis = {}
+          },
+        ]
+    }, ]
+  }
+}

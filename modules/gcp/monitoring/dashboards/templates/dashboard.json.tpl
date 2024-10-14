@@ -22,6 +22,7 @@
           %{ endif ~}
           %{ if tile.type == "timeTable" ~}
           "timeSeriesTable": {
+            "metricVisualization": ${tile.metric_visual},
             %{ if tile.columns != null ~}
             "columnSettings": [
               %{ for ind_columns, column in tile.columns ~}
