@@ -1,8 +1,15 @@
+
 # gcp-v1.4.0
 
 Added `monitoring` module:
  - ability to creating `log based metrics`
  - ability to creating `dashboards`
+
+# gcp-v1.3.2
+
+fixes:
+* `pubsub`: var.subscriptions is null. (The given "for_each" argument value is unsuitable: the given "for_each" argument value is null. A map, or set of strings is allowed.)
+
 
 # gcp-v1.3.1
 

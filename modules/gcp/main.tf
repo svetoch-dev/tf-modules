@@ -422,7 +422,7 @@ module "pubsub" {
   editors                    = try(each.value.editors, [])
   admins                     = try(each.value.admins, [])
   viewers                    = try(each.value.viewers, [])
-  subscriptions              = try(each.value.subscriptions, null)
+  subscriptions              = try(each.value.subscriptions, {})
   depends_on = [
     module.enable_apis,
     module.iam,
