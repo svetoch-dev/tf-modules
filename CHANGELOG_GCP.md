@@ -1,7 +1,7 @@
 # gcp-v1.4.1
 
 features:
-* `gcs`: ability to set `retention_duration_seconds` for `soft_delete_policy`
+* `gcs`: ability to set `retention_duration_seconds` for `soft_delete_policy` using variable `soft_delete_duration`
 fixes:
 * `monitoring`: fix `var.monitoring is object with no attributes`
 
