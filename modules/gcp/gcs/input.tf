@@ -20,6 +20,11 @@ variable "labels" {
   default     = null
 }
 
+variable "soft_delete_duration" {
+  description = "The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. The value must be in between 604800(7 days) and 7776000(90 days). 0 = disabled."
+  type = number
+  default = 604800
+}
 
 variable "bucket_policy_only" {
   description = "Enables Bucket Policy Only access to a bucket."

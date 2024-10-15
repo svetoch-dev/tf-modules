@@ -177,6 +177,7 @@ module "gcs" {
       members = each.value.viewers
     }
   ]
+  soft_delete_duration = try(each.value.soft_delete_duration, 604800)
   versioning           = try(each.value.versioning, false)
   lifecycle_rules      = try(each.value.lifecycle_rules, [])
   cors                 = try(each.value.cors, [])
@@ -433,6 +434,6 @@ module "pubsub" {
 
 module "monitoring" {
   source      = "./monitoring"
-  log_metrics = var.monitoring.log_metrics
-  dashboards  = var.monitoring.dashboards
+  log_metrics = try(var.monitoring.log_metrics, [])
+  dashboards  = try(var.monitoring.dashboards, [])
 }
