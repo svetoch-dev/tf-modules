@@ -163,24 +163,24 @@ module "gcs" {
   location           = each.value.location
   bucket_policy_only = try(each.value.bucket_policy_only, false)
   storage_class      = try(each.value.storage_class, "STANDARD")
-  iam_roles = try([
+  iam_roles = [
     {
       role    = "roles/storage.objectAdmin"
-      members = try(each.value.admins, null)
+      members = try(each.value.admins, [])
     },
     {
       role    = "roles/storage.objectCreator"
-      members = try(each.value.creators, null)
+      members = try(each.value.creators, [])
     },
     {
       role    = "roles/storage.objectViewer"
-      members = try(each.value.viewers, null)
+      members = try(each.value.viewers, [])
     },
     {
       role    = "roles/storage.objectUser"
-      members = try(each.value.users, null)
+      members = try(each.value.users, [])
     }
-  ], [])
+  ]
   soft_delete_duration = try(each.value.soft_delete_duration, 604800)
   versioning           = try(each.value.versioning, false)
   lifecycle_rules      = try(each.value.lifecycle_rules, [])

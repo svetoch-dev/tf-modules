@@ -179,7 +179,6 @@ variable "iam_roles" {
       }
     )
   )
-  default = []
 }
 
 variable "pubsub_notifications" {
