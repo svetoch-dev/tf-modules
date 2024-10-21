@@ -11,7 +11,7 @@ variable "location" {
 variable "storage_class" {
   description = "The Storage Class of the new bucket."
   type        = string
-  default     = null
+  default     = "STANDARD"
 }
 
 variable "labels" {
@@ -35,7 +35,7 @@ variable "bucket_policy_only" {
 variable "versioning" {
   description = "While set to true, versioning is fully enabled for this bucket."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "autoclass" {
