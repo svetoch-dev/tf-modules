@@ -180,7 +180,7 @@ module "gcs" {
       role    = "roles/storage.objectUser"
       members = try(each.value.users, null)
     }
-  ], null)
+  ], [])
   soft_delete_duration = try(each.value.soft_delete_duration, 604800)
   versioning           = try(each.value.versioning, false)
   lifecycle_rules      = try(each.value.lifecycle_rules, [])

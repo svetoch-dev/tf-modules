@@ -96,6 +96,7 @@ resource "google_storage_bucket_iam_binding" "bindings" {
   for_each = {
     for iam_role_obj in var.iam_roles :
     iam_role_obj.role => iam_role_obj
+    if var.iam_roles != []
   }
   bucket = google_storage_bucket.bucket.name
   role   = each.value.role
