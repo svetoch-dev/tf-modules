@@ -175,6 +175,10 @@ module "gcs" {
     {
       role    = "roles/storage.objectViewer"
       members = try(each.value.viewers, [])
+    },
+    {
+      role    = "roles/storage.objectUser"
+      members = try(each.value.users, [])
     }
   ]
   soft_delete_duration = try(each.value.soft_delete_duration, 604800)
