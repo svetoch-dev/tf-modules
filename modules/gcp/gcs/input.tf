@@ -179,6 +179,7 @@ variable "iam_roles" {
       }
     )
   )
+  default = null
 }
 
 variable "pubsub_notifications" {
