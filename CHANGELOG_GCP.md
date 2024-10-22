@@ -1,3 +1,10 @@
+# gcp-v1.5.0
+
+features:
+* `gcs`: added new role 'storage.objectUser'
+fixes:
+* `gcs`: fixed creation of empty google_storage_bucket_iam_building resources. (when executing terraform apply, you will be prompted to delete empty resources)
+
 # gcp-v1.4.1
 
 features:
