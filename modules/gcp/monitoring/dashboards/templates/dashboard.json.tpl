@@ -31,7 +31,7 @@
                 "alignment": "${column.alignment}",
                 %{ endif ~}
                 "column": "${column.column}",
-                "visible": "${column.visible}"
+                "visible": ${column.visible}
               } %{ if ind_columns != (length(tile.columns)-1) ~}, %{ endif ~}
               %{ endfor ~}
             ],

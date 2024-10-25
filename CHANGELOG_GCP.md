@@ -1,5 +1,10 @@
 # gcp-v1.5.0
 
+fixes:
+* `monitoring/dashboards`: use `templatefile` because `registry.terraform.io/hashicorp/template` provider in depricated and dosent support darwin_arm64 packages
+
+# gcp-v1.5.0
+
 features:
 * `gcs`: added new role 'storage.objectUser'
 fixes:
