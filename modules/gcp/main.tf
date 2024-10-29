@@ -100,7 +100,7 @@ module "gke" {
 /* cloudsql */
 
 module "cloudsql_postgres" {
-  source              = "git::https://github.com/terraform-google-modules/terraform-google-sql-db.git//modules/postgresql?ref=master"
+  source              = "git::https://github.com/terraform-google-modules/terraform-google-sql-db.git//modules/postgresql?ref=v22.1.0"
   for_each            = var.cloudsql_postgres
   project_id          = var.project.id
   name                = each.key

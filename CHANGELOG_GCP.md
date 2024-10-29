@@ -1,3 +1,9 @@
+# gcp-v1.5.1
+
+fixes:
+* `monitoring/dashboards`: use `templatefile` because `registry.terraform.io/hashicorp/template` provider in depricated and dosent support darwin_arm64 packages
+* `cloudsql`: pin version of cloudsql module to v22.1.0
+
 # gcp-v1.5.0
 
 features:
