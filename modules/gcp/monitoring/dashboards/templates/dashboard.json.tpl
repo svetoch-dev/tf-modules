@@ -6,8 +6,9 @@
       %{ for idx, tile in jsondecode(tiles) ~}
       {
         %{ for posparam, value in tile.position ~}
-        
+        %{ if value != 0 ~}
         "${posparam}": ${value},
+        %{ endif ~}
         %{ endfor ~}
         "widget" : {
           "title": "${tile.title}",

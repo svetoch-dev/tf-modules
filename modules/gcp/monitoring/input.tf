@@ -40,8 +40,8 @@ variable "dashboards" {
     columns      = optional(number, 2)
     tiles        = optional(list(object({
       position   = object({
-        xPos   = optional(number, null)
-        yPos   = optional(number, null)
+        xPos   = optional(number, 0)
+        yPos   = optional(number, 0)
         width  = optional(number, 24)
         height = optional(number, 16)
       })
