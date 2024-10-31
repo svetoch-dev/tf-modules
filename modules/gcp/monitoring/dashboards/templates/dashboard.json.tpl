@@ -59,6 +59,9 @@
             "dataSets": [
               %{ for index, dataset in tile.datasets}
               {
+                %{ if if tile.type == "timeTable" ~}
+                "minAlignmentPeriod": "${dataset.filter.min_aligment_period}",
+                %{ endif ~}
                 %{ if tile.type != "timeTable" ~}
                 %{ if dataset.breakdowns != [] ~}
                 "breakdowns": [
@@ -114,8 +117,8 @@
                     %{ endif ~}
                   }
                   %{ endif ~}
-                },
-                "minAlignmentPeriod": "${dataset.filter.min_aligment_period}",
+                }
+                
               }%{ if index != (length(tile.datasets)-1) ~}, %{ endif ~}
               %{ endfor ~}
             ]
