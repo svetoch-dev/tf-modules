@@ -18,7 +18,6 @@ variable "timeouts" {
   description = "timeouts for index job"
   type = object({
     create = optional(string, "50m")
-    update = optional(string, "50m")
     delete = optional(string, "50m")
   })
 }
