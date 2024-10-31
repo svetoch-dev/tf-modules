@@ -53,5 +53,7 @@ variable "datastore_indices" {
       }
     )
   )
-  default = {}
+  default = {
+    timeouts = {}
+  }
 }
