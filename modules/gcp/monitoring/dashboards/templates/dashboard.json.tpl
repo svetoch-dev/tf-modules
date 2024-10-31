@@ -1,6 +1,5 @@
 {
   "displayName": "${display_name}",
-  "dashboardFilters": [],
   "mosaicLayout": {
     "columns": ${columns},
     "tiles": [
@@ -48,11 +47,11 @@
               ${treshold},
               %{ endfor ~}
             ],
-            %{ else ~}
-            "thresholds": [],
             %{ endif ~}
             "yAxis" : {
+              %{ if tile.yaxis.label != "" ~}
               "label": "${tile.yaxis.label}",
+              %{ endif ~}
               "scale": "${tile.yaxis.scale}"
             },
           %{ endif ~}
@@ -61,9 +60,27 @@
               %{ for index, dataset in tile.datasets}
               {
                 %{ if tile.type != "timeTable" ~}
-                "breakdowns": [],
-                "dimensions": [],
-                "measures": [],
+                %{ if dataset.breakdowns != [] ~}
+                "breakdowns": [
+                  ${ for breakdown in dataset.breakdowns ~}
+                  "${breakdown}",
+                  ${ endfor ~}
+                ],
+                %{ endif ~}
+                %{ if dataset.dimensions != [] ~}
+                "dimensions": [
+                  %{ for dimension in dataset.dimensions ~}
+                  "${dimension}",
+                  %{ endfor ~}
+                ],
+                %{ endif ~}
+                %{ if dataset.measures != [] ~}
+                "measures": [
+                  %{ for measure in dataset.measures ~}
+                  "${measure}"
+                  %{ endfor ~}
+                ],
+                %{ endif ~} 
                 "plotType": "LINE",
                 "targetAxis": "Y1",
                 %{ endif ~}
@@ -95,7 +112,8 @@
                       "rankingMethod": "${dataset.time_series_filter.ranking_method}"
                     }
                     %{ endif ~}
-                  }
+                  },
+                  "minAlignmentPeriod": "${dataset.filter.min_aligment_period}"
                   %{ endif ~}
                 }
               }%{ if index != (length(tile.datasets)-1) ~}, %{ endif ~}
