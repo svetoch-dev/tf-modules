@@ -6,6 +6,7 @@
       %{ for idx, tile in jsondecode(tiles) ~}
       {
         %{ for posparam, value in tile.position ~}
+        
         "${posparam}": ${value},
         %{ endfor ~}
         "widget" : {
