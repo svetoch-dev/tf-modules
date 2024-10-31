@@ -13,8 +13,8 @@ variable "tiles" {
   description = "tiles with widgets"
   type = list(object({
     position = object({
-      xPos   = optional(number, 0)
-      yPos   = optional(number, 0)
+      xPos   = optional(number, null)
+      yPos   = optional(number, null)
       width  = optional(number, 24)
       height = optional(number, 16)
     })
