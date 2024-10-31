@@ -112,10 +112,10 @@
                       "rankingMethod": "${dataset.time_series_filter.ranking_method}"
                     }
                     %{ endif ~}
-                  },
-                  "minAlignmentPeriod": "${dataset.filter.min_aligment_period}"
+                  }
                   %{ endif ~}
-                }
+                },
+                "minAlignmentPeriod": "${dataset.filter.min_aligment_period}",
               }%{ if index != (length(tile.datasets)-1) ~}, %{ endif ~}
               %{ endfor ~}
             ]
