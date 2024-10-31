@@ -62,9 +62,9 @@
                 %{ if tile.type != "timeTable" ~}
                 %{ if dataset.breakdowns != [] ~}
                 "breakdowns": [
-                  ${ for breakdown in dataset.breakdowns ~}
+                  %{ for breakdown in dataset.breakdowns ~}
                   "${breakdown}",
-                  ${ endfor ~}
+                  %{ endfor ~}
                 ],
                 %{ endif ~}
                 %{ if dataset.dimensions != [] ~}
