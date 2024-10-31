@@ -9,7 +9,7 @@ resource "google_datastore_index" "this" {
     }
   }
 
-  timeouts = {
+  timeouts {
     create = var.timeouts.create
     update = var.timeouts.update
     delete = var.timeouts.delete
