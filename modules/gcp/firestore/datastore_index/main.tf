@@ -8,4 +8,9 @@ resource "google_datastore_index" "this" {
       direction = properties.value.direction
     }
   }
+
+  timeouts {
+    create = var.timeouts.create
+    delete = var.timeouts.delete
+  }
 }

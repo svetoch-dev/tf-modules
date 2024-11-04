@@ -1,3 +1,9 @@
+# gcp-v1.5.2
+
+fixes:
+* `monitoring/dashboards`: added if statements to delete unnecessary fields in dashboards
+* `firestore indecies`: added indexies job timeouts (default 50 minutes for create/delete operations) 
+
 # gcp-v1.5.1
 
 fixes:

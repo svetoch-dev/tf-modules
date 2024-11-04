@@ -15,4 +15,5 @@ module "datastore_indices" {
   for_each   = var.datastore_indices
   kind       = each.value.kind
   properties = each.value.properties
+  timeouts   = each.value.timeouts
 }

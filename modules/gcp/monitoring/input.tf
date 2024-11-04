@@ -64,6 +64,7 @@ variable "dashboards" {
         }), null)
         filter      = optional(object({
           query = string
+          min_aligment_period = optional(string, "0s")
           resource_names = optional(list(string), []) # only for logs panel
           aggregation = optional(object({
             alighment_period = optional(string, "60s")

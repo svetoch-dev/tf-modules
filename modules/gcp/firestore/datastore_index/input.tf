@@ -13,3 +13,15 @@ variable "properties" {
     )
   )
 }
+
+variable "timeouts" {
+  description = "timeouts for index job"
+  type = object({
+    create = optional(string, "50m")
+    delete = optional(string, "50m")
+  })
+  default = {
+    create = "50m"
+    delete = "50m"
+  }
+}

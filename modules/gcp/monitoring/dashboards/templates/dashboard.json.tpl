@@ -1,13 +1,14 @@
 {
   "displayName": "${display_name}",
-  "dashboardFilters": [],
   "mosaicLayout": {
     "columns": ${columns},
     "tiles": [
       %{ for idx, tile in jsondecode(tiles) ~}
       {
         %{ for posparam, value in tile.position ~}
+        %{ if value != 0 ~}
         "${posparam}": ${value},
+        %{ endif ~}
         %{ endfor ~}
         "widget" : {
           "title": "${tile.title}",
@@ -48,11 +49,11 @@
               ${treshold},
               %{ endfor ~}
             ],
-            %{ else ~}
-            "thresholds": [],
             %{ endif ~}
             "yAxis" : {
+              %{ if tile.yaxis.label != "" ~}
               "label": "${tile.yaxis.label}",
+              %{ endif ~}
               "scale": "${tile.yaxis.scale}"
             },
           %{ endif ~}
@@ -60,10 +61,31 @@
             "dataSets": [
               %{ for index, dataset in tile.datasets}
               {
+                %{ if tile.type == "timeTable" ~}
+                "minAlignmentPeriod": "${dataset.filter.min_aligment_period}",
+                %{ endif ~}
                 %{ if tile.type != "timeTable" ~}
-                "breakdowns": [],
-                "dimensions": [],
-                "measures": [],
+                %{ if dataset.breakdowns != [] ~}
+                "breakdowns": [
+                  %{ for breakdown in dataset.breakdowns ~}
+                  "${breakdown}",
+                  %{ endfor ~}
+                ],
+                %{ endif ~}
+                %{ if dataset.dimensions != [] ~}
+                "dimensions": [
+                  %{ for dimension in dataset.dimensions ~}
+                  "${dimension}",
+                  %{ endfor ~}
+                ],
+                %{ endif ~}
+                %{ if dataset.measures != [] ~}
+                "measures": [
+                  %{ for measure in dataset.measures ~}
+                  "${measure}"
+                  %{ endfor ~}
+                ],
+                %{ endif ~} 
                 "plotType": "LINE",
                 "targetAxis": "Y1",
                 %{ endif ~}
@@ -98,6 +120,7 @@
                   }
                   %{ endif ~}
                 }
+                
               }%{ if index != (length(tile.datasets)-1) ~}, %{ endif ~}
               %{ endfor ~}
             ]
