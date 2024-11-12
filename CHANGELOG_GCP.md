@@ -1,3 +1,10 @@
+# gcp-v1.6.0
+
+features:
+  * `gke`:
+    * `enabled` flag
+    * `deletion_protection` attribute
+
 # gcp-v1.5.2
 
 fixes:
