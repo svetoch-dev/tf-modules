@@ -1,3 +1,9 @@
+# gcp-v1.6.1
+
+fixes:
+* `monitoring/dashboards`: changed  goupByFields field default from [] to null
+* `firestore indecies`: changed indexies job timeouts default from 50 minutes to 90 minutes for create/delete operations
+
 # gcp-v1.6.0
 
 features:
