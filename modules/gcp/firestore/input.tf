@@ -48,12 +48,12 @@ variable "datastore_indices" {
         )
         timeouts = optional(
           object({
-            create = optional(string, "50m")
-            delete = optional(string, "50m")
+            create = optional(string, "90m")
+            delete = optional(string, "90m")
           }),
           { 
-            create = "50m",
-            delete = "50m" 
+            create = "90m",
+            delete = "90m" 
           }
         )
       }

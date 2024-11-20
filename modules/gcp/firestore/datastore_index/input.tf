@@ -17,11 +17,11 @@ variable "properties" {
 variable "timeouts" {
   description = "timeouts for index job"
   type = object({
-    create = optional(string, "50m")
-    delete = optional(string, "50m")
+    create = optional(string, "90m")
+    delete = optional(string, "90m")
   })
   default = {
-    create = "50m"
-    delete = "50m"
+    create = "90m"
+    delete = "90m"
   }
 }
