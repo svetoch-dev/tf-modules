@@ -103,10 +103,12 @@
                     "aggregation": {
                       "alignmentPeriod": "${dataset.filter.aggregation.alighment_period}",
                       "crossSeriesReducer": "${dataset.filter.aggregation.reducer}",
+                      %{ if dataset.filter.aggregation.labels != null ~}
                       "groupByFields": [ 
                         %{ for ind_lab, label in dataset.filter.aggregation.labels ~} 
                         "${label}" %{ if ind_lab != (length(dataset.filter.aggregation.labels)-1) ~}, %{ endif ~} 
                         %{ endfor ~} ],
+                      %{ endif ~}
                       "perSeriesAligner": "${dataset.filter.aggregation.aligner}"
                     },
                     %{ endif ~}

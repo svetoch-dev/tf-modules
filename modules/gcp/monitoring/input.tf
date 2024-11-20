@@ -70,7 +70,7 @@ variable "dashboards" {
             alighment_period = optional(string, "60s")
             reducer          = optional(string, "REDUCE_SUM")
             aligner          = optional(string, "ALIGN_SUM")
-            labels           = optional(list(string), [])
+            labels           = optional(list(string), null)
           }),null)
         }), null)
         time_series_filter = optional(object({      # only for Time series table
