@@ -17,3 +17,11 @@ module "datastore_indices" {
   properties = each.value.properties
   timeouts   = each.value.timeouts
 }
+
+module "firestore_index" {
+  source     = "./firestore_index"
+  for_each   = var.firestore_indecies
+  collection = each.value.collection
+  fields     = each.value.fields
+  timeouts   = each.value.timeouts
+}

@@ -61,3 +61,33 @@ variable "datastore_indices" {
   )
   default = {}
 }
+
+variable "firestore_indecies" {
+  description = "firestore indices definition"
+  type = map(
+    object(
+      {
+        collection = string
+        fields = list(
+          object(
+            {
+              field_path = string
+              order      = string
+            }
+          )
+        )
+        timeouts = optional(
+          object({
+            create = optional(string, "90m")
+            delete = optional(string, "90m")
+          }),
+          { 
+            create = "90m",
+            delete = "90m" 
+          }
+        )
+      }
+    )
+  )
+  default = {}
+}
