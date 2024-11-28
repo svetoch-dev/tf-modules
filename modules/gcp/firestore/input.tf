@@ -67,7 +67,9 @@ variable "firestore_indecies" {
   type = map(
     object(
       {
-        collection = string
+        collection  = string
+        api_scope   = optional(string, "DATASTORE_MODE_API")
+        query_scope = optional(string, "COLLECTION_GROUP")
         fields = list(
           object(
             {

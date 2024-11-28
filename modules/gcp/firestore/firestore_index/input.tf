@@ -1,6 +1,18 @@
 variable "collection" {
   description = "The collection being indexed"
-  type = string
+  type        = string
+}
+
+variable "api_scope" {
+  description = "api scope, must be ANY_API or DATASTORE_MODE_API"
+  type        = string
+  default     = "DATASTORE_MODE_API"
+}
+
+variable "query_scope" {
+  description = "query scope, must be COLLECTION, COLLECTION_GROUP or COLLECTION_RECURSIVE"
+  type        = string
+  default     = "COLLECTION_GROUP"
 }
 
 variable "fields" {

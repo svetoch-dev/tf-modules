@@ -1,5 +1,7 @@
 resource "google_firestore_index" "this" {
-  collection = var.collection
+  collection  = var.collection
+  api_scope   = var.api_scope
+  query_scope = var.query_scope 
 
   dynamic "fields" {
     for_each = var.fields
