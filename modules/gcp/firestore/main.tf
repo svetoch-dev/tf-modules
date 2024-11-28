@@ -18,7 +18,7 @@ module "datastore_indices" {
   timeouts   = each.value.timeouts
 }
 
-module "firestore_index" {
+module "firestore_indecies" {
   source     = "./firestore_index"
   for_each   = var.firestore_indecies
   collection = each.value.collection
