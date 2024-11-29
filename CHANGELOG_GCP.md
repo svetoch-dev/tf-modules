@@ -1,10 +1,5 @@
 # gcp-v1.7.0
 
-fixes:
-* `gcp/firestore/firestore/main`: del garbage from code
-
-# gcp-v1.7.0
-
 features:
 * `gcp/firestore/firestore_index`: added firestore index module to firestore in gcp
 
