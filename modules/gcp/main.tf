@@ -385,10 +385,11 @@ module "cloud_schedules" {
 /* firestore */
 
 module "firestores" {
-  source            = "./firestore"
-  for_each          = var.firestores
-  db                = each.value.db
-  datastore_indices = try(each.value.datastore_indices, {})
+  source             = "./firestore"
+  for_each           = var.firestores
+  db                 = each.value.db
+  datastore_indices  = try(each.value.datastore_indices, {})
+  firestore_indecies = try(each.value.firestore_indecies, {})
 }
 
 /* vms */
