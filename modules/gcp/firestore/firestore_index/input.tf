@@ -15,6 +15,12 @@ variable "query_scope" {
   default     = "COLLECTION_GROUP"
 }
 
+variable "database" {
+  description = "database name"
+  type        = string
+  default     = "(default)" 
+}
+
 variable "fields" {
   description = "An ordered list of properties to index on"
   type = list(

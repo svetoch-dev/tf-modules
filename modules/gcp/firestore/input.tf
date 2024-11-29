@@ -70,6 +70,7 @@ variable "firestore_indecies" {
         collection  = string
         api_scope   = optional(string, "DATASTORE_MODE_API")
         query_scope = optional(string, "COLLECTION_GROUP")
+        database    = optional(string, "(default)")
         fields = list(
           object(
             {
