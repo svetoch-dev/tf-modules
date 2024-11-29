@@ -28,5 +28,3 @@ module "firestore_indecies" {
   fields      = each.value.fields
   timeouts    = each.value.timeouts
 }
-
-CICAgKCm_JwJ
