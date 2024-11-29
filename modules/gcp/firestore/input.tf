@@ -51,9 +51,9 @@ variable "datastore_indices" {
             create = optional(string, "90m")
             delete = optional(string, "90m")
           }),
-          { 
+          {
             create = "90m",
-            delete = "90m" 
+            delete = "90m"
           }
         )
       }
@@ -84,9 +84,9 @@ variable "firestore_indecies" {
             create = optional(string, "90m")
             delete = optional(string, "90m")
           }),
-          { 
+          {
             create = "90m",
-            delete = "90m" 
+            delete = "90m"
           }
         )
       }
