@@ -5,16 +5,18 @@ variable "repositories" {
       {
         name = string
         org  = string
-        deploy_keys = map(
-          object(
-            {
-              name        = string
-              public_key  = optional(string, "")
-              private_key = optional(string, "")
-              read_only   = bool
-              create      = optional(bool, false)
-            }
-          )
+        deploy_keys = optional(
+          map(
+            object(
+              {
+                name        = string
+                public_key  = optional(string, "")
+                private_key = optional(string, "")
+                read_only   = bool
+                create      = optional(bool, false)
+              }
+            )
+          ), {}
         )
         secrets = optional(
           map(
