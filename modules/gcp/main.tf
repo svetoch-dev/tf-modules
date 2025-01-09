@@ -443,7 +443,8 @@ module "pubsub" {
 /* monoitoring */
 
 module "monitoring" {
-  source      = "./monitoring"
-  log_metrics = try(var.monitoring.log_metrics, [])
-  dashboards  = try(var.monitoring.dashboards, [])
+  source                = "./monitoring"
+  log_metrics           = try(var.monitoring.log_metrics, [])
+  dashboards            = try(var.monitoring.dashboards, [])
+  notification_channels = try(var.monitoring.notification_channels, [])
 }

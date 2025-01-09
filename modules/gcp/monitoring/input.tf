@@ -95,3 +95,12 @@ variable "dashboards" {
   }))
   default = []
 }
+
+variable "notification_channels" {
+  type = list(object({
+    displayed_name = string
+    type           = string
+    labels         = optional(map(string), {})
+  }))
+  default = []
+}
