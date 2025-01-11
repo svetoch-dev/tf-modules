@@ -24,7 +24,7 @@ module "dashboards" {
 
 module "notification_channels" {
   source   = "./notification_channels"
-  for_each = { for notification_channel in var.notification_channels : notification_channel.display_name => otification_channel }
+  for_each = { for notification_channel in var.notification_channels : notification_channel.display_name => notification_channel }
   name     = each.value.display_name
   type     = each.value.type
   labels   = each.value.labels
