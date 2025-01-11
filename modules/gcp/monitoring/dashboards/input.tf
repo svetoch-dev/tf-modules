@@ -37,7 +37,7 @@ variable "tiles" {
       }), null)
       filter = optional(object({
         query = string
-        min_aligment_period = optional(string, null)
+        min_aligment_period = optional(string, "")
         aggregation = optional(object({
           alighment_period = optional(string, "60s")
           reducer          = optional(string, "REDUCE_SUM")
