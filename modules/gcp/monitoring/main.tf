@@ -24,8 +24,8 @@ module "dashboards" {
 
 module "notification_channels" {
   source   = "./notification_channels"
-  for_each = { for notification_channel in var.notification_channels : notification_channel.display_name => notification_channel }
-  name     = each.value.display_name
+  for_each = { for notification_channel in var.notification_channels : notification_channel.displayed_name => notification_channel }
+  name     = each.value.displayed_name
   type     = each.value.type
   labels   = each.value.labels
 }
@@ -34,7 +34,7 @@ module "alert_policies" {
   source                = "./alert_policies"
   for_each              = { for alert_policie in var.alert_policies : alert_policie.display_name => alert_policie }
   display_name          = each.value.display_name
-  combiner              = each.value.display_name
+  combiner              = each.value.combiner
   alert_strategy        = each.value.alert_strategy
   conditions            = each.value.conditions
   severity              = each.value.severity

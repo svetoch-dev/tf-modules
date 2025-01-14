@@ -27,10 +27,10 @@ variable "conditions" {
     threshold_value = number
     trigger_count   = number
     aggregation = object({
-      alignment_period     = string
-      per_series_aligner   = string
-      cross_series_reducer = string
-      group_by_fields      = list(string)
+      alignment_period     = optional(string, "60s")
+      per_series_aligner   = optional(string, "REDUCE_SUM")
+      cross_series_reducer = optional(string, "ALIGN_SUM")
+      group_by_fields      = optional(list(string), [])
     })
   }))
   default = []
