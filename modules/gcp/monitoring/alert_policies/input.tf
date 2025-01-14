@@ -9,7 +9,7 @@ variable "combiner" {
   default     = "OR"
 }
 
-variable "alert_strategies" {
+variable "alert_strategy" {
   description = "A list of alert strategies for the alert policy."
   type = list(object({
     auto_close           = string

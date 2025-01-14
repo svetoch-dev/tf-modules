@@ -35,7 +35,7 @@ module "alert_policies" {
   for_each              = { for alert_policie in var.alert_policies : alert_policie.display_name => alert_policie }
   display_name          = each.value.display_name
   combiner              = each.value.display_name
-  alert_strategies      = each.value.alert_strategies
+  alert_strategy        = each.value.alert_strategy
   conditions            = each.value.conditions
   severity              = each.value.severity
   user_labels           = each.value.user_labels

@@ -3,7 +3,7 @@ resource "google_monitoring_alert_policy" "alert_policy" {
   combiner     = var.combiner
 
   dynamic "alert_strategy" {
-    for_each = var.alert_strategies
+    for_each = var.alert_strategy
     content {
       auto_close           = alert_strategy.value.auto_close
       notification_prompts = alert_strategy.value.notification_prompts

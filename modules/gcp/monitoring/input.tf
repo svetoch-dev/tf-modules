@@ -110,7 +110,7 @@ variable "alert_policies" {
     display_name = string
     combiner     = optional(string, "OR")
     severity     = optional(string, "WARNING")
-    alert_strategies = optional(list(object({
+    alert_strategy = optional(list(object({
       auto_close = optional(string, "1800s")
       notification_prompts = optional(list(string),
         [
