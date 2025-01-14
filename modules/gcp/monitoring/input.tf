@@ -117,7 +117,7 @@ variable "alert_policies" {
       display_name    = string
       filter          = string
       duration        = optional(string, "0s")
-      comprasion      = optional(string, "COMPARISON_GT")
+      comparison      = optional(string, "COMPARISON_GT")
       threshold_value = number
       trigger_count   = number
       aggregation = object({
