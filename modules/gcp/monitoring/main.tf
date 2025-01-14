@@ -15,11 +15,11 @@ module "log_metrics" {
 }
 
 module "dashboards" {
-  source = "./dashboards"
-  for_each = { for dashboard in var.dashboards : dashboard.display_name => dashboard }
+  source       = "./dashboards"
+  for_each     = { for dashboard in var.dashboards : dashboard.display_name => dashboard }
   display_name = each.value.display_name
-  columns = each.value.columns
-  tiles = each.value.tiles
+  columns      = each.value.columns
+  tiles        = each.value.tiles
 }
 
 module "notification_channels" {
@@ -29,3 +29,15 @@ module "notification_channels" {
   type     = each.value.type
   labels   = each.value.labels
 }
+
+module "alert_policies" {
+  source                = "./alert_policies"
+  for_each              = { for alert_policie in var.alert_policies : alert_policie.display_name => alert_policie }
+  display_name          = each.value.display_name
+  combiner              = each.value.display_name
+  alert_strategies      = each.value.alert_strategies
+  conditions            = each.value.conditions
+  severity              = each.value.severity
+  user_labels           = each.value.user_labels
+  notification_channels = each.value.notification_channels
+} 
