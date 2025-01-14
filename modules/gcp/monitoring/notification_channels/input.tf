@@ -10,6 +10,6 @@ variable "type" {
 
 variable "labels" {
   type = map(string)
-  description = "Needet labels for notification channel. For everyone channel need some specify labels"
+  description = "Needet labels for notification channel. For everyone channel need some specify labels. More info in https://cloud.google.com/monitoring/alerts/using-channels-api"
   default = {}
 }

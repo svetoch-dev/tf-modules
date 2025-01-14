@@ -1,3 +1,8 @@
+# gcp-v1.8.0
+
+features:
+* `gcp/monitoring`: added notification channels and alertin modules for gcp
+
 # gcp-v1.7.0
 
 features:
