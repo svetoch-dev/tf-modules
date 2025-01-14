@@ -447,4 +447,5 @@ module "monitoring" {
   log_metrics           = try(var.monitoring.log_metrics, [])
   dashboards            = try(var.monitoring.dashboards, [])
   notification_channels = try(var.monitoring.notification_channels, [])
+  alert_policies        = try(var.monitoring.alert_policies, [])
 }
