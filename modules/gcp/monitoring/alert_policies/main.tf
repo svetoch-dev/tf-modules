@@ -6,7 +6,6 @@ resource "google_monitoring_alert_policy" "alert_policy" {
     for_each = var.alert_strategy
     content {
       auto_close           = alert_strategy.value.auto_close
-      notification_prompts = alert_strategy.value.notification_prompts
     }
   }
 

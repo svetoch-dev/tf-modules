@@ -112,11 +112,6 @@ variable "alert_policies" {
     severity     = optional(string, "WARNING")
     alert_strategy = optional(list(object({
       auto_close = optional(string, "1800s")
-      notification_prompts = optional(list(string),
-        [
-          "OPENED",
-          "CLOSED"
-      ])
     })), null)
     conditions = optional(list(object({
       display_name    = string
