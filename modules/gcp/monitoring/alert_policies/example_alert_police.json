@@ -1,10 +1,8 @@
 {
-    "name": "projects/project-ID/alertPolicies/alert_policie_ID",
     "displayName": "name",
     "combiner": "OR",
     "conditions": [
       {
-        "name": "projects/project-ID/alertPolicies/alert_policie_ID/conditions/3737558800428016573",
         "displayName": "name",
         "conditionThreshold": {
           "aggregations": [
@@ -28,17 +26,10 @@
       }
     ],
     "alertStrategy": {
-      "autoClose": "1800s",
-      "notificationPrompts": [
-        "OPENED",
-        "CLOSED"
-      ],
-      "notification_channel_strategy": {
-        "notification_channel_names": "projects/kitchenhub-app-prod/notificationChannels/15413045090028699701"
-      }
+      "autoClose": "1800s"
     },
     "notificationChannels": [
-      "projects/kitchenhub-app-prod/notificationChannels/15413045090028699701"
+      "projects/project-ID/notificationChannels/channelID"
     ],
     "severity": "WARNING",
     "userLabels": {
