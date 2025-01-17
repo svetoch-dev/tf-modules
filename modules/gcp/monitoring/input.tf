@@ -105,6 +105,7 @@ variable "notification_channels" {
   default = []
 }
 
+# TODO: 
 variable "alert_policies" {
   type = list(object({
     display_name = string
@@ -114,21 +115,20 @@ variable "alert_policies" {
       auto_close = optional(string, "1800s")
     })), null)
     conditions = optional(list(object({
-      display_name    = string
-      filter          = string
-      duration        = optional(string, "0s")
-      comparison      = optional(string, "COMPARISON_GT")
-      threshold_value = number
-      trigger_count   = number
-      aggregation = object({
-        alighment_period     = optional(string, "60s")
-        per_series_aligner   = optional(string, "REDUCE_SUM")
-        cross_series_reducer = optional(string, "ALIGN_SUM")
-        group_by_fields      = optional(list(string), [])
-      })
+      display_name         = string
+      filter               = string
+      duration             = optional(string, "0s")
+      comparison           = optional(string, "COMPARISON_GT")
+      threshold_value      = number
+      trigger_count        = number
+      alighment_period     = optional(string, "60s")
+      per_series_aligner   = optional(string, null)
+      cross_series_reducer = optional(string, null)
+      group_by_fields      = optional(list(string), [])
     })), [])
     user_labels           = optional(map(string), {})
     notification_channels = optional(list(string), [])
   }))
   default = []
 }
+

@@ -9,31 +9,33 @@ variable "combiner" {
   default     = "OR"
 }
 
-variable "alert_strategy" {
+variable "alert_strategy_auto_close" {
   description = "A list of alert strategies for the alert policy."
-  type = list(object({
-    auto_close           = string
-  }))
-  default = []
+  type        = string
+  default     = null
 }
 
 variable "conditions" {
-  description = "A list of conditions for the alert policy."
+  description = "value"
   type = list(object({
-    display_name    = string
-    filter          = string
-    duration        = string
-    comparison      = string
-    threshold_value = number
-    trigger_count   = number
-    aggregation = object({
+    display_name = string
+    condition_treshhold = optional(object({
+      filter               = string
+      duration             = string
+      comparison           = string
+      threshold_value      = number
+      trigger_count        = optional(number, 1)
+      trigger_percent      = optional(number, null)
       alignment_period     = optional(string, "60s")
-      per_series_aligner   = optional(string, "REDUCE_SUM")
-      cross_series_reducer = optional(string, "ALIGN_SUM")
+      per_series_aligner   = optional(string, null)
+      cross_series_reducer = optional(string, null)
       group_by_fields      = optional(list(string), [])
-    })
+    }), null)
+    conditions_promql = optional(object({
+      query    = string
+      duration = optional(string, null)
+    }))
   }))
-  default = []
 }
 
 variable "severity" {

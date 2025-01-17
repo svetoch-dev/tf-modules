@@ -1,11 +1,11 @@
-resource "google_monitoring_alert_policy" "alert_policy" {
+resource "google_monitoring_alert_policy" "default" {
   display_name = var.display_name
   combiner     = var.combiner
 
   dynamic "alert_strategy" {
-    for_each = var.alert_strategy
+    for_each = var.alert_strategy_auto_close != null ? [1] : []
     content {
-      auto_close           = alert_strategy.value.auto_close
+      auto_close = alert_strategy.value.auto_close
     }
   }
 
@@ -14,26 +14,39 @@ resource "google_monitoring_alert_policy" "alert_policy" {
     content {
       display_name = conditions.value.display_name
 
-      condition_threshold {
-        filter          = conditions.value.filter
-        duration        = conditions.value.duration
-        comparison      = conditions.value.comparison
-        threshold_value = conditions.value.threshold_value
+      dynamic "condition_threshold" {
+        for_each = var.conditions.condition_threshold != null ? [1] : []
+        content {
+          filter          = condition_threshold.value.filter
+          duration        = condition_threshold.value.duration
+          comparison      = condition_threshold.value.comparison
+          threshold_value = condition_threshold.value.threshold_value
 
-        trigger {
-          count = conditions.value.trigger_count
+          trigger {
+            count   = condition_threshold.value.trigger_count
+            percent = condition_threshold.value.trigger_percent
+          }
+
+          aggregations {
+            alignment_period     = condition_threshold.value.aggregation.alignment_period
+            per_series_aligner   = condition_threshold.value.aggregation.per_series_aligner
+            cross_series_reducer = condition_threshold.value.aggregation.cross_series_reducer
+            group_by_fields      = condition_threshold.value.aggregation.group_by_fields
+          }
         }
+      }
 
-        aggregations {
-          alignment_period     = conditions.value.aggregation.alignment_period
-          per_series_aligner   = conditions.value.aggregation.per_series_aligner
-          cross_series_reducer = conditions.value.aggregation.cross_series_reducer
-          group_by_fields      = conditions.value.aggregation.group_by_fields
+      dynamic "condition_prometheus_query_language" {
+        for_each = var.conditions.condition_promql != null ? [1] : []
+        content {
+          query    = condition_prometheus_query_language.value.query
+          duration = condition_prometheus_query_language.value.duration
         }
       }
     }
   }
-  notification_channels = var.notification_channels
+  notification_channels = var.notification_channels # TODO: use not ification channels from module
   severity              = var.severity
   user_labels           = var.user_labels
 }
+
