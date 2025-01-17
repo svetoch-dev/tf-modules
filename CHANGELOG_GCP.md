@@ -1,3 +1,8 @@
+# gcp-v1.7.1
+
+features:
+* `gcp`: output vm attributes
+
 # gcp-v1.7.0
 
 features:
