@@ -1,6 +1,11 @@
 # gcp-v1.7.1
 
 features:
+* `gcp/gke`: gcsfuse csi driver support
+
+# gcp-v1.7.1
+
+features:
 * `gcp`: output vm attributes
 
 # gcp-v1.7.0
