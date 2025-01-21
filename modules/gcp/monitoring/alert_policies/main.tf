@@ -1,7 +1,7 @@
 data "google_monitoring_notification_channel" "channels" {
   for_each = toset([
     for name in var.notification_channels : name
-    if !startswith(name_or_id, "projects/")
+    if !startswith(name, "projects/")
   ])
 
   display_name = each.key
