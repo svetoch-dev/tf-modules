@@ -113,7 +113,7 @@ variable "alert_policies" {
     alert_strategy_auto_close = optional(string, null)
     conditions = optional(list(object({
       display_name = string
-      condition_treshhold = optional(object({
+      condition_treshold = optional(object({
         filter               = string
         duration             = optional(string, "0s")
         comparison           = optional(string, "COMPARISON_GT")
@@ -128,7 +128,7 @@ variable "alert_policies" {
       conditions_promql = optional(object({
         query    = string
         duration = optional(string, null)
-      }))
+      }), null)
     })), [])
     user_labels           = optional(map(string), {})
     notification_channels = optional(list(string), [])

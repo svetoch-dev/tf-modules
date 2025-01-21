@@ -19,7 +19,7 @@ variable "conditions" {
   description = "value"
   type = list(object({
     display_name = string
-    condition_treshhold = optional(object({
+    condition_treshold = optional(object({
       filter               = string
       duration             = optional(string, "0s")
       comparison           = optional(string, "COMPARISON_GT")
@@ -34,7 +34,7 @@ variable "conditions" {
     conditions_promql = optional(object({
       query    = string
       duration = optional(string, null)
-    }))
+    }), null)
   }))
 }
 
