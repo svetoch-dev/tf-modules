@@ -74,3 +74,10 @@ output "tasks" {
     task_name => task_obj.task
   }
 }
+
+output "vms" {
+  value = {
+    for vm_name, vm_obj in module.vms :
+    vm_name => vm_obj.vm
+  }
+}
