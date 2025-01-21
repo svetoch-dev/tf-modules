@@ -118,7 +118,7 @@ variable "alert_policies" {
     alert_strategy_auto_close = optional(string, null)
     conditions = optional(list(object({
       display_name = string
-      condition_treshold = optional(object({
+      condition_threshold = optional(object({
         filter               = string
         duration             = optional(string, "0s")
         comparison           = optional(string, "COMPARISON_GT")
