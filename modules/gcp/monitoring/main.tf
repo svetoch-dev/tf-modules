@@ -32,10 +32,7 @@ module "notification_channels" {
 }
 
 module "alert_policies" {
-  source = "./alert_policy"
-  depends_on = [
-    notification_channels.google_monitoring_notification_channel.default
-  ]
+  source                    = "./alert_policy"
   for_each                  = { for alert_policy in var.alert_policies : alert_policy.display_name => alert_policy }
   display_name              = each.value.display_name
   alert_strategy_auto_close = each.value.alert_strategy_auto_close
@@ -44,4 +41,8 @@ module "alert_policies" {
   severity                  = each.value.severity
   user_labels               = each.value.user_labels
   notification_channels     = each.value.notification_channels
+
+  depends_on = [
+    module.notification_channels
+  ]
 } 
