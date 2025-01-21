@@ -1,4 +1,4 @@
-# gcp-v1.7.1
+# gcp-v1.7.2
 
 features:
 * `gcp/gke`: gcsfuse csi driver support
