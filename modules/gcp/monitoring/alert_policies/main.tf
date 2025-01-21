@@ -51,9 +51,11 @@ resource "google_monitoring_alert_policy" "default" {
       }
     }
   }
-  notification_channels = [for name in var.notification_channels : try(
-    data.google_monitoring_notification_channel.channels[name].id,
-    name
+  notification_channels = [for name in var.notification_channels : (
+    startswith(name_or_id, "projects/") ? name : try(
+      data.google_monitoring_notification_channel.channels[name].id,
+      name
+    )
   )]
   severity    = var.severity
   user_labels = var.user_labels
