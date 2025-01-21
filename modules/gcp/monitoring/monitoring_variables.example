@@ -183,7 +183,70 @@ locals {
           },
         ]
     }, ]
-    
+    notification_channels = [
+      {
+        displayed_name = "email_channel"
+        type           = "email"
+        labels = {
+          email_address = "example@example.com"
+        }
+      },
+      {
+        displayed_name = "slack_channel"
+        type           = "slack"
+        labels = {
+          "channel_name" = "#foobar"
+        }
+        sensitive_labels = {
+          auth_token = "123123123"
+        }
+      },
+    ]
+    alert_policies = [
+      {
+        display_name   = "standard alert"
+        conditions = [{
+          display_name = "Request Latency"
+          condition_threshold = ({
+            filter          = "resource.type = \"cloud_run_revision\" AND metric.type = \"run.googleapis.com/request_latencies\" AND metric.labels.response_code_class = one_of(\"4xx\", \"5xx\", \"3xx\")"
+            threshold_value = 450
+            duration             = "0s"               # optional 
+            comparison           = "COMPARISON_GT"    # optional 
+            trigger_count        = 1                  # optional 
+            alignment_period     = "60s"              # optional 
+            per_series_aligner   = "ALIGN_RATE"       # optional 
+            cross_series_reducer = "REDUCE_SUM"       # optional 
+          })
+        }]
+        user_labels = {
+          "type_policy" : "test"
+        }
+        severity = "WARNING"
+        notification_channels = [
+          "email_channel",
+          "projects/project-id/notificationChannels/id"
+        ]
+      },
+      {
+        display_name   = "Promql_alert"
+        conditions = [{
+          display_name = "Promql-query"
+          condition_promql = {
+            query    = <<EOT
+              rate(cloudrun_googleapis_com:request_count{response_status="500"}[1m])
+            EOT
+          }
+        }]
+        user_labels = {
+          "type_policy" : "test"
+        }
+        severity = "WARNING"
+        notification_channels = [
+          "email_channel",
+          "projects/project-id/notificationChannels/id"
+        ]
+      }
+    ]
   }
 }
 

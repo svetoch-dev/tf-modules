@@ -130,7 +130,7 @@ variable "alert_policies" {
         cross_series_reducer = optional(string, null)
         group_by_fields      = optional(list(string), [])
       }), null)
-      conditions_promql = optional(object({
+      condition_promql = optional(object({
         query    = string
         duration = optional(string, null)
       }), null)
