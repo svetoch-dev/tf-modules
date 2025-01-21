@@ -19,7 +19,7 @@ variable "conditions" {
   description = "value"
   type = list(object({
     display_name = string
-    condition_treshold = optional(object({
+    condition_threshold = optional(object({
       filter               = string
       duration             = optional(string, "0s")
       comparison           = optional(string, "COMPARISON_GT")
@@ -31,7 +31,7 @@ variable "conditions" {
       cross_series_reducer = optional(string, null)
       group_by_fields      = optional(list(string), [])
     }), null)
-    conditions_promql = optional(object({
+    condition_promql = optional(object({
       query    = string
       duration = optional(string, null)
     }), null)
