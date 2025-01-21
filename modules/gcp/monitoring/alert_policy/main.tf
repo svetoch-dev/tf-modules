@@ -37,10 +37,10 @@ resource "google_monitoring_alert_policy" "default" {
           }
 
           aggregations {
-            alignment_period     = condition_threshold.value.aggregation.alignment_period
-            per_series_aligner   = condition_threshold.value.aggregation.per_series_aligner
-            cross_series_reducer = condition_threshold.value.aggregation.cross_series_reducer
-            group_by_fields      = condition_threshold.value.aggregation.group_by_fields
+            alignment_period     = condition_threshold.value.alignment_period
+            per_series_aligner   = condition_threshold.value.per_series_aligner
+            cross_series_reducer = condition_threshold.value.cross_series_reducer
+            group_by_fields      = condition_threshold.value.group_by_fields
           }
         }
       }
