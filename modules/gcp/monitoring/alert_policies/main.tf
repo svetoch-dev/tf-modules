@@ -1,3 +1,9 @@
+data "google_monitoring_notification_channel" "channels" {
+  for_each = toset(var.notification_channels)
+
+  display_name = each.key
+}
+
 resource "google_monitoring_alert_policy" "default" {
   display_name = var.display_name
   combiner     = var.combiner
@@ -45,8 +51,11 @@ resource "google_monitoring_alert_policy" "default" {
       }
     }
   }
-  notification_channels = var.notification_channels # TODO: use not ification channels from module
-  severity              = var.severity
-  user_labels           = var.user_labels
+  notification_channels = [for name in var.notification_channels : try(
+    data.google_monitoring_notification_channel.channels[name].id,
+    name
+  )]
+  severity    = var.severity
+  user_labels = var.user_labels
 }
 
