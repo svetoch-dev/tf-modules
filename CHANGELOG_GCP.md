@@ -1,7 +1,7 @@
 # gcp-v1.8.0
 
 features:
-* `gcp/monitoring`: added notification channels and alertin modules for gcp
+* `gcp/monitoring`: added notification channels and alerting modules for gcp
 
 fixes: 
 * `gcp/monitoring/dashboards`: fixed the default alignment period. Because if default value is used, tf will add this field every time

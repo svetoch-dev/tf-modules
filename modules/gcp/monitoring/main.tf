@@ -31,8 +31,8 @@ module "notification_channels" {
   sensitive_labels = each.value.sensitive_labels
 }
 
-module "alert_policy" {
-  source                    = "./alert_policies"
+module "alert_policies" {
+  source                    = "./alert_policy"
   for_each                  = { for alert_policy in var.alert_policies : alert_policy.display_name => alert_policy }
   display_name              = each.value.display_name
   alert_strategy_auto_close = each.value.alert_strategy_auto_close
