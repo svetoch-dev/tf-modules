@@ -1,3 +1,4 @@
+
 # gcp-v1.8.0
 
 features:
@@ -5,6 +6,16 @@ features:
 
 fixes: 
 * `gcp/monitoring/dashboards`: fixed the default alignment period. Because if default value is used, tf will add this field every time
+
+# gcp-v1.7.2
+
+features:
+* `gcp/gke`: gcsfuse csi driver support
+
+# gcp-v1.7.1
+
+features:
+* `gcp`: output vm attributes
 
 # gcp-v1.7.0
 

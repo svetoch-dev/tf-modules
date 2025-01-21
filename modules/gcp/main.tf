@@ -54,6 +54,7 @@ module "gke" {
   enable_shielded_nodes           = each.value.enable_shielded_nodes
   network_policy                  = each.value.network_policy
   network_policy_provider         = each.value.network_policy_provider
+  gcs_fuse_csi_driver             = try(each.value.gcs_fuse_csi_driver, false)
   logging_enabled_components = try(
     each.value.logging_enabled_components,
     [
