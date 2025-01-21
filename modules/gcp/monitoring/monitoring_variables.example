@@ -183,5 +183,8 @@ locals {
           },
         ]
     }, ]
+    
   }
 }
+
+### TODO: add examples for all monitoring modules 

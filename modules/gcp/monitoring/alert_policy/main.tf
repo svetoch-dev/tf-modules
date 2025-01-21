@@ -63,8 +63,5 @@ resource "google_monitoring_alert_policy" "default" {
   severity    = var.severity
   user_labels = var.user_labels
 
-  depends_on = [
-    google_monitoring_notification_channel.default
-  ]
 }
 
