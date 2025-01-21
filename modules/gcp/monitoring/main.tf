@@ -23,11 +23,12 @@ module "dashboards" {
 }
 
 module "notification_channels" {
-  source   = "./notification_channels"
-  for_each = { for notification_channel in var.notification_channels : notification_channel.displayed_name => notification_channel }
-  name     = each.value.displayed_name
-  type     = each.value.type
-  labels   = each.value.labels
+  source           = "./notification_channels"
+  for_each         = { for notification_channel in var.notification_channels : notification_channel.displayed_name => notification_channel }
+  name             = each.value.displayed_name
+  type             = each.value.type
+  labels           = each.value.labels
+  sensitive_labels = each.value.sensitive_labels
 }
 
 module "alert_policy" {
