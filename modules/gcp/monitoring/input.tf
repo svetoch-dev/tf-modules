@@ -105,7 +105,7 @@ variable "notification_channels" {
       auth_token  = optional(string)
       password    = optional(string)
       service_key = optional(string)
-    }), {})
+    }), null)
   }))
   default = []
 }
