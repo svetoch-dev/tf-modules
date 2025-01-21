@@ -30,15 +30,14 @@ module "notification_channels" {
   labels   = each.value.labels
 }
 
-# TODO: alert_policy
 module "alert_policy" {
-  source                = "./alert_policies"
-  for_each              = { for alert_policy in var.alert_policies : alert_policy.display_name => alert_policy }
-  display_name          = each.value.display_name
-  combiner              = each.value.combiner
-  alert_strategy        = each.value.alert_strategy
-  conditions            = each.value.conditions
-  severity              = each.value.severity
-  user_labels           = each.value.user_labels
-  notification_channels = each.value.notification_channels
+  source                    = "./alert_policies"
+  for_each                  = { for alert_policy in var.alert_policies : alert_policy.display_name => alert_policy }
+  display_name              = each.value.display_name
+  alert_strategy_auto_close = each.value.alert_strategy_auto_close
+  combiner                  = each.value.combiner
+  conditions                = each.value.conditions
+  severity                  = each.value.severity
+  user_labels               = each.value.user_labels
+  notification_channels     = each.value.notification_channels
 } 
