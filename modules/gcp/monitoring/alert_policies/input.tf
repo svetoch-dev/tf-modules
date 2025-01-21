@@ -21,8 +21,8 @@ variable "conditions" {
     display_name = string
     condition_treshhold = optional(object({
       filter               = string
-      duration             = string
-      comparison           = string
+      duration             = optional(string, "0s")
+      comparison           = optional(string, "COMPARISON_GT")
       threshold_value      = number
       trigger_count        = optional(number, 1)
       trigger_percent      = optional(number, null)

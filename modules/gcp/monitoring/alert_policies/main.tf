@@ -3,7 +3,7 @@ resource "google_monitoring_alert_policy" "default" {
   combiner     = var.combiner
 
   dynamic "alert_strategy" {
-    for_each = var.alert_strategy_auto_close != null ? [1] : []
+    for_each = var.alert_strategy_auto_close != null ? [var.alert_strategy_auto_close] : []
     content {
       auto_close = alert_strategy.value.auto_close
     }
@@ -15,7 +15,7 @@ resource "google_monitoring_alert_policy" "default" {
       display_name = conditions.value.display_name
 
       dynamic "condition_threshold" {
-        for_each = var.conditions.condition_threshold != null ? [1] : []
+        for_each = var.conditions.condition_threshold != null ? [var.conditions.condition_threshold] : []
         content {
           filter          = condition_threshold.value.filter
           duration        = condition_threshold.value.duration
@@ -37,7 +37,7 @@ resource "google_monitoring_alert_policy" "default" {
       }
 
       dynamic "condition_prometheus_query_language" {
-        for_each = var.conditions.condition_promql != null ? [1] : []
+        for_each = var.conditions.condition_promql != null ? [var.conditions.condition_promql] : []
         content {
           query    = condition_prometheus_query_language.value.query
           duration = condition_prometheus_query_language.value.duration
