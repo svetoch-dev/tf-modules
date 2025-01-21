@@ -101,6 +101,11 @@ variable "notification_channels" {
     displayed_name = string
     type           = string
     labels         = optional(map(string), {})
+    sensitive_labels = optional(object({
+      auth_token  = optional(string)
+      password    = optional(string)
+      service_key = optional(string)
+    }), {})
   }))
   default = []
 }
