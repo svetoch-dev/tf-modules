@@ -40,7 +40,7 @@ resource "google_monitoring_alert_policy" "default" {
           }
 
           dynamic "aggregations" {
-            for_each = condition_threshold.value.aggregations != null ? [condition_threshold.value.aggregationsr] : []
+            for_each = condition_threshold.value.aggregations != null ? [condition_threshold.value.aggregations] : []
             content {
               alignment_period     = aggregations.value.alignment_period
               per_series_aligner   = aggregations.value.per_series_aligner

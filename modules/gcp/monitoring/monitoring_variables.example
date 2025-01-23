@@ -212,7 +212,10 @@ locals {
             threshold_value = 450
             duration             = "0s"                        # optional 
             comparison           = "COMPARISON_GT"             # optional 
-            trigger_count        = 1                           # optional 
+            trigger = {                                        # optional 
+              trigger_count      = 1                           # or trigger_percent (number)
+            }
+            
             alignment_period     = "60s"                       # optional 
             per_series_aligner   = "ALIGN_PERCENTILE_99"       # optional 
             cross_series_reducer = "REDUCE_SUM"                # optional 
