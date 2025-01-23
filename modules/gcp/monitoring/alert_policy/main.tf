@@ -31,16 +31,22 @@ resource "google_monitoring_alert_policy" "default" {
           comparison      = condition_threshold.value.comparison
           threshold_value = condition_threshold.value.threshold_value
 
-          trigger {
-            count   = condition_threshold.value.trigger_count
-            percent = condition_threshold.value.trigger_percent
+          dynamic "trigger" {
+            for_each = condition_threshold.value.trigger != null ? [condition_threshold.value.trigger] : []
+            content {
+              count   = trigger.value.trigger_count
+              percent = trigger.value.trigger_percent
+            }
           }
 
-          aggregations {
-            alignment_period     = condition_threshold.value.alignment_period
-            per_series_aligner   = condition_threshold.value.per_series_aligner
-            cross_series_reducer = condition_threshold.value.cross_series_reducer
-            group_by_fields      = condition_threshold.value.group_by_fields
+          dynamic "aggregations" {
+            for_each = condition_threshold.value.aggregations != null ? [condition_threshold.value.aggregationsr] : []
+            content {
+              alignment_period     = aggregations.value.alignment_period
+              per_series_aligner   = aggregations.value.per_series_aligner
+              cross_series_reducer = aggregations.value.cross_series_reducer
+              group_by_fields      = aggregations.value.group_by_fields
+            }
           }
         }
       }

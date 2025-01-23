@@ -119,16 +119,20 @@ variable "alert_policies" {
     conditions = optional(list(object({
       display_name = string
       condition_threshold = optional(object({
-        filter               = string
-        duration             = optional(string, "0s")
-        comparison           = optional(string, "COMPARISON_GT")
-        threshold_value      = number
-        trigger_count        = optional(number, 1)
-        trigger_percent      = optional(number, null)
-        alignment_period     = optional(string, "60s")
-        per_series_aligner   = optional(string, null)
-        cross_series_reducer = optional(string, null)
-        group_by_fields      = optional(list(string), [])
+        filter          = string
+        threshold_value = number
+        duration        = optional(string, "0s")
+        comparison      = optional(string, "COMPARISON_GT")
+        trigger = optional(object({
+          trigger_count   = optional(number, null)
+          trigger_percent = optional(number, null)
+        }), null)
+        aggregations = optional(object({
+          alignment_period     = optional(string, null)
+          per_series_aligner   = optional(string, null)
+          cross_series_reducer = optional(string, null)
+          group_by_fields      = optional(list(string), [])
+        }), null)
       }), null)
       condition_promql = optional(object({
         query    = string
