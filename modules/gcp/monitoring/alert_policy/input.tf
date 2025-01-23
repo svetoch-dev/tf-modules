@@ -29,7 +29,7 @@ variable "conditions" {
         trigger_percent = optional(number, null)
       }), null)
       aggregations = optional(object({
-        alignment_period     = optional(string, "60s")
+        alignment_period     = optional(string, null)
         per_series_aligner   = optional(string, null)
         cross_series_reducer = optional(string, null)
         group_by_fields      = optional(list(string), [])

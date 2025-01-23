@@ -216,9 +216,8 @@ locals {
               trigger_count      = 1                           # or trigger_percent (number)
             }
             
-            alignment_period     = "60s"                       # optional 
+            alignment_period     = "60s"                       # optional (required if per_series_aligner or cross_series_reducer exist)
             per_series_aligner   = "ALIGN_PERCENTILE_99"       # optional 
-            cross_series_reducer = "REDUCE_SUM"                # optional 
           })
         }]
         user_labels = {
