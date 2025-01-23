@@ -204,20 +204,23 @@ locals {
     ]
     alert_policies = [
       {
-        display_name   = "standard alert"
+        display_name = "standard alert"
         conditions = [{
           display_name = "Request Latency"
           condition_threshold = ({
-            filter          = "resource.type = \"cloud_run_revision\" AND metric.type = \"run.googleapis.com/request_latencies\" AND metric.labels.response_code_class = one_of(\"4xx\", \"5xx\", \"3xx\")"
-            threshold_value = 450
-            duration             = "0s"                        # optional 
-            comparison           = "COMPARISON_GT"             # optional 
-            trigger = {                                        # optional 
-              trigger_count      = 1                           # or trigger_percent (number)
+            filter             = "resource.type = \"cloud_run_revision\" AND metric.type = \"run.googleapis.com/request_count\" AND metric.labels.response_code_class = \"5xx\""
+            threshold_value    = 10
+            aggregations = {
+              alignment_period = "60s"                # required if per_series_aligner is set
+              per_series_aligner = "ALIGN_SUM"        # what make with data during alighment_period; required if metric kind is "DELTA"
+              group_by_fields = [
+                "metric.label.response_code_class"    # group data by labels from metric
+              ]
+              cross_series_reducer = "REDUCE_SUM"     # if after filtering there is more that one series
             }
-            
-            alignment_period     = "60s"                       # optional (required if per_series_aligner or cross_series_reducer exist)
-            per_series_aligner   = "ALIGN_PERCENTILE_99"       # optional 
+            trigger = {
+              trigger_count = 1
+            }
           })
         }]
         user_labels = {
@@ -225,7 +228,7 @@ locals {
         }
         severity = "WARNING"
         notification_channels = [
-          "email_channel",
+          "email_channel", 
           "projects/project-id/notificationChannels/id"
         ]
       },
@@ -251,5 +254,3 @@ locals {
     ]
   }
 }
-
-### TODO: add examples for all monitoring modules 
