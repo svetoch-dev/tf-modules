@@ -116,7 +116,7 @@ variable "alert_policies" {
     combiner     = optional(string, "OR")
     severity     = optional(string, "WARNING")
     alert_strategy_auto_close = optional(object({
-      auto_close = string
+      auto_close = optional(string, null)
     }), null)
     conditions = optional(list(object({
       display_name = string
