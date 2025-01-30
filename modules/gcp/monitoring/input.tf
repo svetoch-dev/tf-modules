@@ -112,10 +112,12 @@ variable "notification_channels" {
 
 variable "alert_policies" {
   type = list(object({
-    display_name              = string
-    combiner                  = optional(string, "OR")
-    severity                  = optional(string, "WARNING")
-    alert_strategy_auto_close = optional(string, null)
+    display_name = string
+    combiner     = optional(string, "OR")
+    severity     = optional(string, "WARNING")
+    alert_strategy_auto_close = optional(object({
+      auto_close = string
+    }), null)
     conditions = optional(list(object({
       display_name = string
       condition_threshold = optional(object({

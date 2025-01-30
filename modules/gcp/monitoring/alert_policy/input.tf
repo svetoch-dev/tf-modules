@@ -11,8 +11,10 @@ variable "combiner" {
 
 variable "alert_strategy_auto_close" {
   description = "A list of alert strategies for the alert policy."
-  type        = string
-  default     = null
+  type = object({
+    auto_close = string
+  })
+  default = null
 }
 
 variable "conditions" {
