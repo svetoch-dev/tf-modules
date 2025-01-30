@@ -12,7 +12,7 @@ resource "google_monitoring_alert_policy" "default" {
   combiner     = var.combiner
 
   dynamic "alert_strategy" {
-    for_each = var.alert_strategy_auto_close != null ? [var.alert_strategy_auto_close] : []
+    for_each = var.alert_strategy != null ? [var.alert_strategy] : []
     content {
       auto_close = alert_strategy.value.auto_close
     }

@@ -9,7 +9,7 @@ variable "combiner" {
   default     = "OR"
 }
 
-variable "alert_strategy_auto_close" {
+variable "alert_strategy" {
   description = "A list of alert strategies for the alert policy."
   type = object({
     auto_close = optional(string, null)

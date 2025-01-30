@@ -1,4 +1,11 @@
+# gcp-v1.8.1
 
+features:
+* `gcp/monitoring/alert_policy`: added block for documentation about policy
+
+fixes: 
+* `gcp/monitoring/alert_policy`: auto_close param has wrong naming
+  
 # gcp-v1.8.0
 
 features:
