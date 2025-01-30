@@ -112,10 +112,17 @@ variable "notification_channels" {
 
 variable "alert_policies" {
   type = list(object({
-    display_name              = string
-    combiner                  = optional(string, "OR")
-    severity                  = optional(string, "WARNING")
-    alert_strategy_auto_close = optional(string, null)
+    display_name = string
+    combiner     = optional(string, "OR")
+    severity     = optional(string, "WARNING")
+    alert_strategy = optional(object({
+      auto_close = optional(string, null)
+    }), null)
+    documentation = optional(object({
+      content   = optional(string, null)
+      mime_type = optional(string, "text/markdown")
+      subject   = optional(string, null)
+    }))
     conditions = optional(list(object({
       display_name = string
       condition_threshold = optional(object({
@@ -131,7 +138,7 @@ variable "alert_policies" {
           alignment_period     = optional(string, null)
           per_series_aligner   = optional(string, null)
           cross_series_reducer = optional(string, null)
-          group_by_fields      = optional(list(string), [])
+          group_by_fields      = optional(list(string), null)
         }), null)
       }), null)
       condition_promql = optional(object({
