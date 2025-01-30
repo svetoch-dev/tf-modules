@@ -133,7 +133,7 @@ variable "alert_policies" {
           alignment_period     = optional(string, null)
           per_series_aligner   = optional(string, null)
           cross_series_reducer = optional(string, null)
-          group_by_fields      = optional(list(string), [])
+          group_by_fields      = optional(list(string), null)
         }), null)
       }), null)
       condition_promql = optional(object({
