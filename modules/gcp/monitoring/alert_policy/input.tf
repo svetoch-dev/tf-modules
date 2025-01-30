@@ -17,6 +17,16 @@ variable "alert_strategy_auto_close" {
   default = null
 }
 
+variable "documentation" {
+  description = "description about alert policy"
+  type = object({
+    content   = optional(string, null)
+    mime_type = optional(string, "text/markdown")
+    subject   = optional(string, null)
+  })
+  default = null
+}
+
 variable "conditions" {
   description = "value"
   type = list(object({

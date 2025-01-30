@@ -118,6 +118,11 @@ variable "alert_policies" {
     alert_strategy_auto_close = optional(object({
       auto_close = optional(string, null)
     }), null)
+    documentation = optional(object({
+      content   = optional(string, null)
+      mime_type = optional(string, "text/markdown")
+      subject   = optional(string, null)
+    }))
     conditions = optional(list(object({
       display_name = string
       condition_threshold = optional(object({

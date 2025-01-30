@@ -18,6 +18,15 @@ resource "google_monitoring_alert_policy" "default" {
     }
   }
 
+  dynamic "documentation" {
+    for_each = var.documentation != null ? [var.documentation] : []
+    content {
+      content   = documentation.value.content
+      mime_type = documentation.value.mime_type
+      subject   = documentation.value.subject
+    }
+  }
+
   dynamic "conditions" {
     for_each = var.conditions
     content {
