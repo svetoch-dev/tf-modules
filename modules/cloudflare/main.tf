@@ -17,3 +17,10 @@ module "pages" {
   build_config       = each.value.build_config
   deployment_configs = try(each.value.deployment_configs, null)
 }
+
+modules "dns_zones" {
+  source   = "./dns_zone"
+  for_each = var.dns_zones
+  zone     = each.value.zone
+  records  = each.value.records
+}
