@@ -14,12 +14,25 @@ variable "records" {
   type = list(
     object(
       {
-        name      = string
-        ttl       = optional(number, 1) #1 is automatic ttl
-        type      = string
-        proxied   = optional(bool, true)
-        value     = string
-        pritority = optional(number)
+        name     = string
+        type     = string
+        value    = optional(string)
+        ttl      = optional(number, 1) #1 is automatic ttl
+        proxied  = optional(bool, false)
+        priority = optional(number)
+        data = optional(
+          object(
+            {
+              service  = optional(string)
+              name     = optional(string)
+              proto    = optional(string)
+              target   = optional(string)
+              port     = optional(number)
+              weight   = optional(number)
+              priority = optional(number)
+            }
+          )
+        )
       }
     )
   )
