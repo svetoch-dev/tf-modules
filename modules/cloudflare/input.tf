@@ -9,3 +9,9 @@ variable "pages" {
   type        = any
   default     = {}
 }
+
+variable "dns_zones" {
+  description = "Map of cloudflare dns zones configuration"
+  type        = any
+  default     = {}
+}
