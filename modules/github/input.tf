@@ -4,7 +4,6 @@ variable "repositories" {
     object(
       {
         name = string
-        org  = string
         deploy_keys = optional(
           map(
             object(
