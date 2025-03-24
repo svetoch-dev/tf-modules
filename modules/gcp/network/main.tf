@@ -1,5 +1,5 @@
 module "vpc" {
-  source                  = "git::https://github.com/terraform-google-modules/terraform-google-network//modules/vpc?ref=v9.0.0"
+  source                  = "git::https://github.com/terraform-google-modules/terraform-google-network//modules/vpc?ref=v10.0.0"
   project_id              = var.vpc.project_id
   network_name            = var.vpc.name
   description             = var.vpc.description
@@ -8,7 +8,7 @@ module "vpc" {
 }
 
 module "subnets" {
-  source           = "git::https://github.com/terraform-google-modules/terraform-google-network//modules/subnets?ref=v9.0.0"
+  source           = "git::https://github.com/terraform-google-modules/terraform-google-network//modules/subnets?ref=v10.0.0"
   project_id       = module.vpc.project_id
   network_name     = module.vpc.network_name
   subnets          = local.subnets
@@ -33,7 +33,7 @@ resource "google_vpc_access_connector" "cloudrun_connector" {
 }
 
 module "cloud_routers" {
-  source     = "git::https://github.com/terraform-google-modules/terraform-google-cloud-router.git?ref=v6.0.2"
+  source     = "git::https://github.com/terraform-google-modules/terraform-google-cloud-router.git?ref=v6.3.0"
   for_each   = var.routers
   name       = each.key
   project    = module.vpc.project_id
@@ -52,7 +52,7 @@ resource "google_compute_address" "ip_addresses" {
 }
 
 module "cloud_nats" {
-  source                         = "git::https://github.com/terraform-google-modules/terraform-google-cloud-nat.git?ref=v5.0.0"
+  source                         = "git::https://github.com/terraform-google-modules/terraform-google-cloud-nat.git?ref=v5.3.0"
   for_each                       = var.nat_gws
   router                         = each.value.router_name
   project_id                     = module.vpc.project_id
