@@ -32,36 +32,6 @@ variable "db" {
   )
 }
 
-variable "datastore_indices" {
-  description = "datastore indices definition"
-  type = map(
-    object(
-      {
-        kind = string
-        properties = list(
-          object(
-            {
-              name      = string
-              direction = string
-            }
-          )
-        )
-        timeouts = optional(
-          object({
-            create = optional(string, "90m")
-            delete = optional(string, "90m")
-          }),
-          {
-            create = "90m",
-            delete = "90m"
-          }
-        )
-      }
-    )
-  )
-  default = {}
-}
-
 variable "firestore_indecies" {
   description = "firestore indices definition"
   type = map(

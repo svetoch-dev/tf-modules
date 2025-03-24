@@ -10,14 +10,6 @@ module "db" {
   backup                  = var.db.backup
 }
 
-module "datastore_indices" {
-  source     = "./datastore_index"
-  for_each   = var.datastore_indices
-  kind       = each.value.kind
-  properties = each.value.properties
-  timeouts   = each.value.timeouts
-}
-
 module "firestore_indecies" {
   source      = "./firestore_index"
   for_each    = var.firestore_indecies
