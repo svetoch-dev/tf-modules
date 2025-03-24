@@ -46,13 +46,14 @@ resource "google_compute_instance_from_template" "this" {
   source_instance_template = module.template.self_link
   network_interface {
     subnetwork = var.network_config.subnet
-    access_config = local.public_ip == null ? null : [
-      {
-        nat_ip                 = local.public_ip.ephemeral == true ? null : google_compute_address.public_ip[local.public_ip.static.name].address
-        network_tier           = local.public_ip.network_tier
+    dynamic "access_config" {
+      for_each = local.public_ip == null ? {} : { "this" = local.public_ip }
+      content {
+        nat_ip                 = access_config.value.ephemeral == true ? null : google_compute_address.public_ip[access_config.value.static.name].address
+        network_tier           = access_config.value.network_tier
         public_ptr_domain_name = ""
       }
-    ]
+    }
   }
 }
 
