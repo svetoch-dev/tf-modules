@@ -29,7 +29,7 @@ module "network" {
 
 
 module "gke" {
-  source = "git::https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v30.2.0"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v36.1.0"
   for_each = {
     for cluster_name, cluster_obj in var.gke_clusters :
     cluster_name => cluster_obj
