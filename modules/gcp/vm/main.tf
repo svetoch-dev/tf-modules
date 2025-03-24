@@ -4,7 +4,7 @@ locals {
 }
 
 module "template" {
-  source = "git::https://git@github.com/terraform-google-modules/terraform-google-vm.git//modules/instance_template?ref=v13.2.4"
+  source = "git::https://git@github.com/terraform-google-modules/terraform-google-vm.git//modules/instance_template?ref=v12.1.2"
 
   machine_type = var.machine_type
   disk_size_gb = tostring(var.disk.size_gb)
