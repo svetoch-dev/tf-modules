@@ -397,7 +397,7 @@ module "firestores" {
 module "vms" {
   source       = "./vm"
   for_each     = var.vms
-  project_id   = var.project.id
+  project      = var.project
   name         = each.value.name
   machine_type = each.value.machine_type
   disk = try(

@@ -3,9 +3,12 @@ variable "name" {
   type        = string
 }
 
-variable "project_id" {
-  description = "gcp project id"
-  type        = string
+variable "project" {
+  description = "Project configuration"
+  type = object({
+    id     = string
+    region = string
+  })
 }
 
 variable "machine_type" {
