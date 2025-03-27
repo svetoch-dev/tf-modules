@@ -13,6 +13,8 @@ Features
   * `terraform-google-cloud-route` v6.0.2 -> v6.3.0
   * `terraform-google-cloud-nat` v5.0.0 -> v5.3.0
   * `terraform-google-vm` v12.0.0 -> v13.2.4
+* `gcp/monitoring/alert_policy` - `notification_prompts` attr for `alert_strategy` var 
+
 
 Enhancements:
 * `versions.tf` file in all modules
