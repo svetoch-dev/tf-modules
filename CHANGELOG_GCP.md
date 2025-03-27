@@ -1,3 +1,25 @@
+# gcp-v2.0.0
+
+BrakingChanges:
+* Removal of `gcp/firestore/datastore_indices`
+
+Features
+* `google`, `google-beta` providers updated to 6.27.0
+* third party modules update
+  * `google-project-factory` v14.5.0 -> v18.0.0
+  * `gke` v30.2.0 -> v36.1.0
+  * `postgresql` v22.1.0 -> v25.2.2
+  * `terraform-google-network` v9.0.0 -> v10.0.0
+  * `terraform-google-cloud-route` v6.0.2 -> v6.3.0
+  * `terraform-google-cloud-nat` v5.0.0 -> v5.3.0
+  * `terraform-google-vm` v12.0.0 -> v13.2.4
+
+Enhancements:
+* `versions.tf` file in all modules
+
+fixes:
+* lint
+
 # gcp-v1.8.1
 
 features:
