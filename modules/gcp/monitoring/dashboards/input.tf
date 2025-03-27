@@ -36,7 +36,7 @@ variable "tiles" {
         unit  = optional(string, "1")
       }), null)
       filter = optional(object({
-        query = string
+        query               = string
         min_aligment_period = optional(string, "")
         aggregation = optional(object({
           alighment_period = optional(string, "60s")

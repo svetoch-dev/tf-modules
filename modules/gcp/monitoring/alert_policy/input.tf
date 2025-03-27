@@ -13,6 +13,10 @@ variable "alert_strategy" {
   description = "A list of alert strategies for the alert policy."
   type = object({
     auto_close = optional(string, null)
+    notification_prompts = optional(
+      list(string),
+      ["OPENED", "CLOSED"]
+    )
   })
   default = null
 }

@@ -17,7 +17,7 @@ resource "google_storage_bucket" "bucket" {
 
   soft_delete_policy {
     retention_duration_seconds = var.soft_delete_duration
-    }
+  }
 
   dynamic "retention_policy" {
     for_each = var.retention_policy == null ? [] : [var.retention_policy]

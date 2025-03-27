@@ -18,7 +18,7 @@ variable "query_scope" {
 variable "database" {
   description = "database name"
   type        = string
-  default     = "(default)" 
+  default     = "(default)"
 }
 
 variable "fields" {

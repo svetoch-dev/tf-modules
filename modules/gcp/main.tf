@@ -1,5 +1,5 @@
 module "enable_apis" {
-  source = "git::https://github.com/terraform-google-modules/terraform-google-project-factory//modules/project_services?ref=v14.5.0"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-project-factory//modules/project_services?ref=v18.0.0"
 
   project_id = var.project.id
 
@@ -29,7 +29,7 @@ module "network" {
 
 
 module "gke" {
-  source = "git::https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v30.2.0"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v36.1.0"
   for_each = {
     for cluster_name, cluster_obj in var.gke_clusters :
     cluster_name => cluster_obj
@@ -106,7 +106,7 @@ module "gke" {
 /* cloudsql */
 
 module "cloudsql_postgres" {
-  source              = "git::https://github.com/terraform-google-modules/terraform-google-sql-db.git//modules/postgresql?ref=v22.1.0"
+  source              = "git::https://github.com/terraform-google-modules/terraform-google-sql-db.git//modules/postgresql?ref=v25.2.2"
   for_each            = var.cloudsql_postgres
   project_id          = var.project.id
   name                = each.key
@@ -389,7 +389,6 @@ module "firestores" {
   source             = "./firestore"
   for_each           = var.firestores
   db                 = each.value.db
-  datastore_indices  = try(each.value.datastore_indices, {})
   firestore_indecies = try(each.value.firestore_indecies, {})
 }
 
@@ -398,7 +397,7 @@ module "firestores" {
 module "vms" {
   source       = "./vm"
   for_each     = var.vms
-  project_id   = var.project.id
+  project      = var.project
   name         = each.value.name
   machine_type = each.value.machine_type
   disk = try(
