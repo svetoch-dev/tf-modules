@@ -1,15 +1,15 @@
 variable "name" {
-  type = string
+  type        = string
   description = "name for log router sink"
 }
 
 variable "destination" {
-  type = string
+  type        = string
   description = "Destination for log router sink, where logs will be sent"
 }
 
 variable "filter" {
-  type = string
+  type        = string
   description = "Filter for logs, that will select logs to send to the destination"
 }
 
