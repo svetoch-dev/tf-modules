@@ -14,11 +14,11 @@ variable "log_router" {
     name = string
     destination = string
     filter = string
-    exclusions = list(object({
+    exclusions = optional(list(object({
       name        = string
       description = optional(string, "Default description")
       filter      = string
-    }), null)
+    })), [])
   }))
   default = []
 }
