@@ -14,6 +14,6 @@ module "log_router" {
   for_each = { for sink in var.log_router : sink.name => sink }
   name        = each.value.name
   destination = each.value.destination
-  filter      = each.value.destination
+  filter      = each.value.filter
   exclusions  = each.value.exclusions
 }
