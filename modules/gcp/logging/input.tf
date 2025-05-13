@@ -7,3 +7,18 @@ variable "log_bucket" {
   }))
   default = []
 }
+
+variable "log_router" {
+  description = "Log router"
+  type = list(object({
+    name = string
+    description = string
+    filter = string
+    exclusions = list(object({
+      name        = string
+      description = string
+      filter      = string
+    }), null)
+  }))
+  default = []
+}
