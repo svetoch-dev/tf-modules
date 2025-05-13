@@ -12,11 +12,11 @@ variable "log_router" {
   description = "Log router"
   type = list(object({
     name = string
-    description = string
+    destination = string
     filter = string
     exclusions = list(object({
       name        = string
-      description = string
+      description = optional(string, "Default description")
       filter      = string
     }), null)
   }))
