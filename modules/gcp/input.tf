@@ -118,3 +118,9 @@ variable "monitoring" {
   type        = any
   default     = {}
 }
+
+variable "logging" {
+  description = "Logging settings"
+  type        = any
+  default     = {}
+}

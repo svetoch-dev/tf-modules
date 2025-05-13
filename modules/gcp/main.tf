@@ -449,3 +449,10 @@ module "monitoring" {
   notification_channels = try(var.monitoring.notification_channels, [])
   alert_policies        = try(var.monitoring.alert_policies, [])
 }
+
+/* logging */
+
+module "logging" {
+  source     = "./logging"
+  log_bucket = try(var.logging.log_bucket, [])
+}
