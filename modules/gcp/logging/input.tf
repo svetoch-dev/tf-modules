@@ -15,9 +15,11 @@ variable "log_router" {
     bq_dataset_name = optional(string)
     log_bucket_name = optional(string)
     pubsub_topic_id = optional(string)
-    filter = string
+    filter   = string
+    disabled = optional(bool, false)
     exclusions = optional(map(object({
       description = optional(string, "Default description")
+      disabled    = optional(bool, false)
       filter      = string
     })), {})
   }))

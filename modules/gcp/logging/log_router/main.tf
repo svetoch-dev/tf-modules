@@ -27,6 +27,7 @@ resource "google_logging_project_sink" "this" {
   name        = var.name
   destination = local.destination
   filter      = var.filter
+  disabled    = var.disabled
 
   dynamic "exclusions" {
     for_each = var.exclusions != {} ? var.exclusions : {}
@@ -34,6 +35,7 @@ resource "google_logging_project_sink" "this" {
       name        = exclusions.key
       description = exclusions.value.description
       filter      = exclusions.value.filter
+      disabled    = exclusions.value.disabled
     }
   }
 }

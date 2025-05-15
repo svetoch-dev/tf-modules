@@ -13,6 +13,7 @@ variable "exclusions" {
   type = map(object({
     description = string
     filter      = string
+    disabled    = optional(bool, false)
   }))
   default = {}
 }
@@ -39,4 +40,10 @@ variable "pubsub_topic_id" {
   type        = string
   default     = null
   description = "Pub/Sub topic ID for destination"
+}
+
+variable "disabled" {
+  type = bool
+  default = false
+  description = "If set to True, then this sink is disabled and it does not exclude any log entries."
 }

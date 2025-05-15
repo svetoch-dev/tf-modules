@@ -19,5 +19,6 @@ module "log_router" {
   log_bucket_name = each.value.log_bucket_name
   pubsub_topic_id = each.value.pubsub_topic_id
   filter          = each.value.filter
+  disabled        = each.value.disabled
   exclusions      = each.value.exclusions
 }
