@@ -454,6 +454,6 @@ module "monitoring" {
 
 module "logging" {
   source     = "./logging"
-  log_bucket = try(var.logging.log_bucket, [])
-  log_router = try(var.logging.log_router, [])
+  log_bucket = try(var.logging.log_bucket, {})
+  log_router = try(var.logging.log_router, {})
 }

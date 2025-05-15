@@ -1,3 +1,9 @@
+variable "description" {
+  description = "Description"
+  type        = string
+  default     = ""
+}
+
 variable "location" {
   description = "Location for log bucket"
   type        = string

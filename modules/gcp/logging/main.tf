@@ -3,9 +3,10 @@ module "log_bucket" {
 
   for_each = var.log_bucket
 
+  bucket_id      = each.key
   location       = each.value.location
   retention_days = each.value.retention_days
-  bucket_id      = each.key
+  description    = each.value.description
 }
 
 module "log_router" {

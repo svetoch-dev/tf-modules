@@ -3,6 +3,7 @@ variable "log_bucket" {
   type = map(object({
     location       = optional(string, "global")
     retention_days = optional(number, 30)
+    description    = optional(string, "")
   }))
   default = {}
 }
