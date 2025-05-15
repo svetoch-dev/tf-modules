@@ -18,7 +18,7 @@ variable "log_router" {
     exclusions = optional(map(object({
       description = optional(string, "Default description")
       filter      = string
-    })), [])
+    })), {})
   }))
   default = {}
 }
