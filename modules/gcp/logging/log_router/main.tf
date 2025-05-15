@@ -24,7 +24,6 @@ locals {
 }
 
 resource "google_logging_project_sink" "this" {
-  project     = data.google_project.project.project_id
   name        = var.name
   destination = local.destination
   filter      = var.filter
