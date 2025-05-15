@@ -1,3 +1,11 @@
+# gcp-v2.1.0
+
+features:
+* `gcp/logging`: added logging module for logging configuration in gcp
+* `gcp/logging/log_bucket`: we can create custom buckets for logs
+* `gcp/logging/log_router`: we can create sinks for routing logs to different log buckets
+
+
 # gcp-v2.0.0
 
 BrakingChanges:
