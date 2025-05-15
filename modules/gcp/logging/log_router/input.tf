@@ -5,7 +5,7 @@ variable "name" {
 
 variable "filter" {
   type        = string
-  description = "Filter for logs, that will select logs to send to the destination"
+  description = "Filter for logs, that will select logs to send to the destination. Type \"\" if u want sink all log events "
 }
 
 variable "exclusions" {

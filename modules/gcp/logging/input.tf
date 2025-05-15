@@ -15,7 +15,7 @@ variable "log_router" {
     bq_dataset_name = optional(string)
     log_bucket_name = optional(string)
     pubsub_topic_id = optional(string)
-    filter   = string
+    filter   = string # type "\"\"" if u want sink all log events 
     disabled = optional(bool, false)
     exclusions = optional(map(object({
       description = optional(string, "Default description")
