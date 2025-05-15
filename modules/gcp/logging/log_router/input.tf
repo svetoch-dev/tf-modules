@@ -11,7 +11,6 @@ variable "filter" {
 variable "exclusions" {
   description = "Exclusions list"
   type = map(object({
-    name        = string
     description = string
     filter      = string
   }))
