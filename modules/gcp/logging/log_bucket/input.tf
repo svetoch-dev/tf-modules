@@ -8,6 +8,10 @@ variable "retention_days" {
   description = "Retention period in days for log bucket"
   type        = number
   default     = 30
+  validation {
+    condition     = var.retention_days >= 1
+    error_message = "Retention period must be at least 1 day"
+  }
 }
 
 variable "bucket_id" {
