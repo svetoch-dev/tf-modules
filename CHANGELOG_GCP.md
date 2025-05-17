@@ -1,3 +1,8 @@
+# gcp-v2.1.1
+
+Fixes:
+* `gcp/gcs/force_destroy` the value of the variable was not transmitted
+
 # gcp-v2.1.0
 
 features:
