@@ -187,6 +187,7 @@ module "gcs" {
       members = try(each.value.users, [])
     }
   ]
+  force_destroy        = try(each.value.force_destroy, false)
   soft_delete_duration = try(each.value.soft_delete_duration, 604800)
   versioning           = try(each.value.versioning, false)
   lifecycle_rules      = try(each.value.lifecycle_rules, [])
