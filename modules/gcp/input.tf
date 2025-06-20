@@ -124,3 +124,9 @@ variable "logging" {
   type        = any
   default     = {}
 }
+
+variable "alloydbs" {
+  description = "Alloydb clusters"
+  type        = any
+  default     = {}
+}
