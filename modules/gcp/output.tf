@@ -26,6 +26,13 @@ output "nats" {
   }
 }
 
+output "service_peering" {
+  value = {
+    for network_name, network_obj in module.network :
+    network_name => network_obj.service_peering
+  }
+}
+
 output "iam" {
   value = module.iam
 }

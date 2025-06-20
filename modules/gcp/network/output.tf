@@ -36,3 +36,7 @@ output "nats" {
     )
   }
 }
+
+output "service_peering" {
+  value = module.google_services_peering
+}
