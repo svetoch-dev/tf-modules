@@ -29,7 +29,7 @@ module "network" {
 
 
 module "gke" {
-  source = "git::https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v36.1.0"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v36.3.0"
   for_each = {
     for cluster_name, cluster_obj in var.gke_clusters :
     cluster_name => cluster_obj
@@ -37,6 +37,7 @@ module "gke" {
   }
   project_id                      = var.project.id
   deletion_protection             = try(each.value.deletion_protection, true)
+  release_channel                 = try(each.value.release_channel, "STABLE")
   kubernetes_version              = each.value.kubernetes_version
   name                            = each.value.name
   regional                        = each.value.regional

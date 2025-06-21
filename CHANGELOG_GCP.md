@@ -1,3 +1,10 @@
+# gcp-v2.2.0
+
+Features
+* update module `gke` v36.1.0 -> v36.3.0
+* add ability to set release_channel for 'gke'
+* change default 'REGULAR' release_channel to 'STABLE' (improve stability)
+
 # gcp-v2.1.1
 
 Fixes:
