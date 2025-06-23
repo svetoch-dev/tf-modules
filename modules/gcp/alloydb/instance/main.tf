@@ -10,8 +10,8 @@ resource "google_alloydb_instance" "default" {
   display_name      = var.display_name
 
   machine_config {
-    cpu_count    = var.machine_config.cpu_count
-    machine_type = var.machine_config.machine_type
+    cpu_count    = var.machine.cpu_count
+    machine_type = var.machine.machine_type
   }
 
   query_insights_config {
@@ -23,18 +23,18 @@ resource "google_alloydb_instance" "default" {
 
 
   dynamic "read_pool_config" {
-    for_each = var.read_pool_config == null ? {} : { "stub" = var.read_pool_config }
+    for_each = var.read_pool == null ? {} : { "stub" = var.read_pool }
     content {
       node_count = read_pool_config.value.node_count
     }
   }
 
-  dynamic "network" {
+  dynamic "network_config" {
     for_each = var.network == null ? {} : { "stub" = var.network }
     content {
-      authorized_external_networks = network.value.authorized_external_networks
-      enable_public_ip             = network.value.enable_public_ip
-      enable_outbound_public_ip    = network.value.enable_outbound_public_ip
+      authorized_external_networks = network_config.value.authorized_external_networks
+      enable_public_ip             = network_config.value.enable_public_ip
+      enable_outbound_public_ip    = network_config.value.enable_outbound_public_ip
     }
   }
 }
