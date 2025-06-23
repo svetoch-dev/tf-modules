@@ -10,8 +10,8 @@ resource "google_alloydb_instance" "default" {
   display_name      = var.display_name
 
   machine_config {
-    cpu_count    = var.machine.cpu_count
-    machine_type = var.machine.machine_type
+    cpu_count    = var.machine_config.cpu_count
+    machine_type = var.machine_config.machine_type
   }
 
   query_insights_config {
