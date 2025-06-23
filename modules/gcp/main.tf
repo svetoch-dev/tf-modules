@@ -467,6 +467,7 @@ module "alloydb" {
   name                             = each.value.name
   region                           = each.value.region
   database_version                 = each.value.database_version
+  instances                        = each.value.instances
   cluster_type                     = try(each.value.cluster_type, "PRIMARY")
   project_id                       = try(each.value.project_id, var.project.id)
   subscription_type                = try(each.value.subscription_type, "STANDARD")

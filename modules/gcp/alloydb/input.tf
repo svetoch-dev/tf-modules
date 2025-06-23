@@ -111,3 +111,70 @@ variable "users" {
   )
   default = null
 }
+
+variable "instances" {
+  description = "Alloydb instances"
+  type = map(
+    object(
+      {
+        name              = string
+        instance_type     = string
+        labels            = optional(map, string)
+        annotations       = optional(map, string)
+        database_flags    = optional(map, string)
+        availability_type = string
+        gce_zone          = optional(string, "")
+        display_name      = optional(string, "")
+
+        machine_config = object(
+          {
+            cpu_count    = number
+            machine_type = optional(string)
+          }
+        )
+
+        query_insights_config = optional(
+          object(
+            {
+              query_string_length     = optional(bool, true)
+              record_application_tags = optional(string, "on")
+              record_client_address   = optional(string, "on")
+              query_plans_per_minute  = optional(number, 5)
+            }
+          ),
+          {
+            query_string_length     = true
+            record_application_tags = "on"
+            record_client_address   = "on"
+            query_plans_per_minute  = 5
+          }
+        )
+
+
+        read_pool = optional(
+          object(
+            {
+              node_count = number
+            }
+          )
+        )
+
+        network = optional(
+          object(
+            {
+              authorized_external_networks = list(
+                object(
+                  {
+                    cidr_range = string
+                  }
+                )
+              )
+              enable_public_ip          = bool
+              enable_outbound_public_ip = optional(bool, false)
+            }
+          )
+        )
+      }
+    )
+  )
+}
