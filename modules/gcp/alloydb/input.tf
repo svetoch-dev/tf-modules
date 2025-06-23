@@ -67,7 +67,7 @@ variable "network_config" {
       allocated_ip_range = optional(string)
     }
   )
-  default = {}
+  default = null
 }
 
 variable "restore_continuous_backup_source" {
@@ -78,7 +78,7 @@ variable "restore_continuous_backup_source" {
       point_in_time = string
     }
   )
-  default = {}
+  default = null
 }
 
 variable "continuous_backup_config" {
@@ -96,9 +96,7 @@ variable "continuous_backup_config" {
       )
     }
   )
-  default = {
-    enabled = true
-  }
+  default = null
 }
 
 variable "users" {
@@ -112,5 +110,5 @@ variable "users" {
       }
     )
   )
-  default = {}
+  default = null
 }
