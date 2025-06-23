@@ -38,7 +38,7 @@ resource "google_alloydb_cluster" "main" {
       enabled              = continuous_backup_config.value.enabled
       recovery_window_days = continuous_backup_config.value.recovery_window_days
       dynamic "encryption_config" {
-        for_each = continuous_backup_config.value.encryption_config
+        for_each = continuous_backup_config.value.encryption_config == null ? {} : { "stub" = continuous_backup_config.value.encryption_config }
         content {
           kms_key_name = encryption_config.value.kms_key
         }
