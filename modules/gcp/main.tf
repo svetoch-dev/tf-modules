@@ -473,10 +473,10 @@ module "alloydb" {
   database_version                 = try(each.value.database_version, "POSTGRES_17")
   labels                           = try(each.value.labels, {})
   annotations                      = try(each.value.annotations, {})
-  encryption_config                = try(each.value.encryption_config, {})
-  network_config                   = try(each.value.network_config, {})
-  restore_continuous_backup_source = try(each.value.restore_continuous_backup_source, {})
-  continuous_backup_config         = try(each.value.continuous_backup_config, {})
+  encryption_config                = try(each.value.encryption_config)
+  network_config                   = try(each.value.network_config)
+  restore_continuous_backup_source = try(each.value.restore_continuous_backup_source)
+  continuous_backup_config         = try(each.value.continuous_backup_config)
 
   users = try(each.value.users, {})
 }
