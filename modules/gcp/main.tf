@@ -470,7 +470,7 @@ module "alloydb" {
   project_id                       = try(each.value.project_id, var.project.id)
   subscription_type                = try(each.value.subscription_type, "STANDARD")
   deletion_policy                  = try(each.value.deletion_policy, "DEFAULT")
-  database_version                 = try(database_version, "POSTGRES_17")
+  database_version                 = try(each.value.database_version, "POSTGRES_17")
   labels                           = try(each.value.labels, {})
   annotations                      = try(each.value.annotations, {})
   encryption_config                = try(each.value.encryption_config, {})
