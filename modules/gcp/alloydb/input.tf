@@ -137,8 +137,8 @@ variable "instances" {
           object(
             {
               query_string_length     = optional(number, 1024)
-              record_application_tags = optional(string, "on")
-              record_client_address   = optional(string, "on")
+              record_application_tags = optional(bool, true)
+              record_client_address   = optional(bool, true)
               query_plans_per_minute  = optional(number, 5)
             }
           ),
