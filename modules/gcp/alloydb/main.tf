@@ -45,10 +45,6 @@ resource "google_alloydb_cluster" "main" {
       }
     }
   }
-
-  lifecycle {
-    ignore_changes = [instance_type]
-  }
 }
 
 module "instance" {
