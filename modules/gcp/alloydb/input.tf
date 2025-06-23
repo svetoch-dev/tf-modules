@@ -119,9 +119,9 @@ variable "instances" {
       {
         name              = string
         instance_type     = string
-        labels            = optional(map, string)
-        annotations       = optional(map, string)
-        database_flags    = optional(map, string)
+        labels            = optional(map(string), {})
+        annotations       = optional(map(string), {})
+        database_flags    = optional(map(string), {})
         availability_type = string
         gce_zone          = optional(string, "")
         display_name      = optional(string, "")
