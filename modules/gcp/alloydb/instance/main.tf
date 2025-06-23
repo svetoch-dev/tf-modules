@@ -1,4 +1,4 @@
-resource "google_alloydb_instance" "default" {
+resource "google_alloydb_instance" "main" {
   cluster           = var.cluster
   instance_id       = var.name
   instance_type     = var.instance_type
@@ -32,9 +32,14 @@ resource "google_alloydb_instance" "default" {
   dynamic "network_config" {
     for_each = var.network == null ? {} : { "stub" = var.network }
     content {
-      authorized_external_networks = network_config.value.authorized_external_networks
-      enable_public_ip             = network_config.value.enable_public_ip
-      enable_outbound_public_ip    = network_config.value.enable_outbound_public_ip
+      dynamic "authorized_external_networks" {
+        for_each = network_config.value.authorized_external_networks
+        content {
+          cidr_range = authorized_external_networks.value.cidr_range
+        }
+      }
+      enable_public_ip          = network_config.value.enable_public_ip
+      enable_outbound_public_ip = network_config.value.enable_outbound_public_ip
     }
   }
 }
