@@ -133,7 +133,7 @@ variable "instances" {
           }
         )
 
-        query_insights_config = optional(
+        query_insights = optional(
           object(
             {
               query_string_length     = optional(number, 1024)
