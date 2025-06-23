@@ -70,7 +70,7 @@ module "instance" {
 
   machine_config = each.value.machine_config
 
-  query_insights_config = each.value.query_insights_config
+  query_insights = each.value.query_insights
 
   network = each.value.network
 }
