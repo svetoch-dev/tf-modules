@@ -144,8 +144,8 @@ variable "instances" {
           ),
           {
             query_string_length     = 1024
-            record_application_tags = "on"
-            record_client_address   = "on"
+            record_application_tags = true
+            record_client_address   = true
             query_plans_per_minute  = 5
           }
         )
