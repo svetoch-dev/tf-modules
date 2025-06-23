@@ -466,11 +466,11 @@ module "alloydb" {
   for_each                         = var.alloydbs
   name                             = each.value.name
   region                           = each.value.region
+  database_version                 = each.value.database_version
   cluster_type                     = try(each.value.cluster_type, "PRIMARY")
   project_id                       = try(each.value.project_id, var.project.id)
   subscription_type                = try(each.value.subscription_type, "STANDARD")
   deletion_policy                  = try(each.value.deletion_policy, "DEFAULT")
-  database_version                 = try(each.value.database_version, "POSTGRES_17")
   labels                           = try(each.value.labels, {})
   annotations                      = try(each.value.annotations, {})
   encryption_config                = try(each.value.encryption_config, null)

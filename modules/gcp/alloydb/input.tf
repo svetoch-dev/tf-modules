@@ -11,7 +11,6 @@ variable "region" {
 variable "database_version" {
   description = "postgresql version"
   type        = string
-  default     = "POSTGRES_17"
 }
 
 variable "labels" {
@@ -27,7 +26,7 @@ variable "annotations" {
 }
 
 variable "cluster_type" {
-  description = "Alloydb cluster type"
+  description = "Alloydb cluster type PRIMARY/SECONDARY"
   type        = string
   default     = "PRIMARY"
 }
