@@ -56,7 +56,7 @@ variable "encryption_config" {
       kms_key = string
     }
   )
-  default = {}
+  default = null
 }
 
 variable "network_config" {
