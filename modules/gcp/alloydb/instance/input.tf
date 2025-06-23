@@ -62,14 +62,14 @@ variable "query_insights" {
   description = "Postgres query analtics configuration"
   type = object(
     {
-      query_string_length     = optional(bool, true)
+      query_string_length     = optional(number, 1024)
       record_application_tags = optional(string, "on")
       record_client_address   = optional(string, "on")
       query_plans_per_minute  = optional(number, 5)
     }
   )
   default = {
-    query_string_length     = true
+    query_string_length     = 1024
     record_application_tags = "on"
     record_client_address   = "on"
     query_plans_per_minute  = 5
