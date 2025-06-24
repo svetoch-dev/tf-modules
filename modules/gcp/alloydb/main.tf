@@ -47,7 +47,7 @@ resource "google_alloydb_cluster" "main" {
   }
 }
 
-module "instance" {
+module "instances" {
   source = "./instance"
   for_each = {
     for instance_name, instance_obj in var.instances :
@@ -71,7 +71,7 @@ module "instance" {
   network = each.value.network
 }
 
-module "instance_readonly" {
+module "instances_readonly" {
   source = "./instance"
   for_each = {
     for instance_name, instance_obj in var.instances :
