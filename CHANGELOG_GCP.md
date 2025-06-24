@@ -1,3 +1,9 @@
+# gcp-v2.3.0
+
+Features
+* alloydb gcp module
+* update google/google-beta providers to `6.40.0`
+
 # gcp-v2.2.0
 
 Features
