@@ -85,7 +85,6 @@ module "instance_readonly" {
   annotations       = each.value.annotations
   database_flags    = each.value.database_flags
   availability_type = each.value.availability_type
-  gce_zone          = each.value.gce_zone
   display_name      = each.value.display_name
 
   machine_config = each.value.machine_config
@@ -94,6 +93,20 @@ module "instance_readonly" {
 
   read_pool = each.value.read_pool
   network   = each.value.network
+
+  depends_on = [
+    module.instance
+  ]
+}
+
+module "users" {
+  source         = "./user"
+  for_each       = var.users
+  cluster        = google_alloydb_cluster.main.name
+  user_id        = each.value.user_id
+  user_type      = each.value.user_type
+  database_roles = each.value.database_roles
+  password       = each.value.password
 
   depends_on = [
     module.instance

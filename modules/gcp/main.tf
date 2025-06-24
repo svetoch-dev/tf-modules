@@ -467,7 +467,6 @@ module "alloydb" {
   name                             = each.value.name
   region                           = each.value.region
   database_version                 = each.value.database_version
-  instances                        = each.value.instances
   cluster_type                     = try(each.value.cluster_type, "PRIMARY")
   project_id                       = try(each.value.project_id, var.project.id)
   subscription_type                = try(each.value.subscription_type, "STANDARD")
@@ -478,6 +477,6 @@ module "alloydb" {
   network_config                   = try(each.value.network_config, null)
   restore_continuous_backup_source = try(each.value.restore_continuous_backup_source, null)
   continuous_backup_config         = try(each.value.continuous_backup_config, null)
-
-  users = try(each.value.users, {})
+  instances                        = try(each.value.instances, null)
+  users                            = try(each.value.users, null)
 }

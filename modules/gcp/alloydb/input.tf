@@ -103,9 +103,10 @@ variable "users" {
   type = map(
     object(
       {
-        name           = string
+        user_id        = string
         type           = optional(string, "ALLOYDB_BUILT_IN")
         database_roles = optional(list(string))
+        password       = optional(string)
       }
     )
   )
@@ -177,4 +178,5 @@ variable "instances" {
       }
     )
   )
+  default = null
 }
