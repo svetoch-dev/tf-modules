@@ -54,7 +54,7 @@ module "instances" {
     instance_name => instance_obj
     if instance_obj.instance_type == "PRIMARY" || instance_obj.instance_type == "SECONDARY"
   }
-  cluster           = google_alloydb_cluster.main.name
+  cluster_id        = google_alloydb_cluster.main.name
   name              = each.value.name
   instance_type     = each.value.instance_type
   labels            = each.value.labels
@@ -78,7 +78,7 @@ module "instances_readonly" {
     instance_name => instance_obj
     if instance_obj.instance_type == "READ_POOL"
   }
-  cluster           = google_alloydb_cluster.main.name
+  cluster_id        = google_alloydb_cluster.main.name
   name              = each.value.name
   instance_type     = each.value.instance_type
   labels            = each.value.labels

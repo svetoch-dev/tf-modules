@@ -1,5 +1,5 @@
 resource "google_alloydb_instance" "main" {
-  cluster           = var.cluster
+  cluster           = var.cluster_id
   instance_id       = var.name
   instance_type     = var.instance_type
   labels            = var.labels

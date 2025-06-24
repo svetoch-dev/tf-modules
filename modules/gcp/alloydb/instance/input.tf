@@ -14,7 +14,7 @@ variable "gce_zone" {
   default     = null
 }
 
-variable "cluster" {
+variable "cluster_id" {
   description = "Alloydb cluster id projects/{project}/locations/{location}/clusters/{cluster_id}'"
   type        = string
 }
