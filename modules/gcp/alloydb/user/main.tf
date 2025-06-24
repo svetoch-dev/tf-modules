@@ -14,7 +14,6 @@ resource "google_alloydb_user" "user" {
 }
 
 resource "random_password" "password" {
-  count   = var.password == null && var.user_type == "ALLOYDB_BUILT_IN" ? 1 : 0
   length  = 32
   special = false
 }
