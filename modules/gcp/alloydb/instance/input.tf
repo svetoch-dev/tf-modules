@@ -11,7 +11,7 @@ variable "instance_type" {
 variable "gce_zone" {
   description = "Alloydb instance zone when availability type is zonal"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "cluster" {
@@ -22,6 +22,7 @@ variable "cluster" {
 variable "availability_type" {
   description = "Alloydb instance availability type - ZONAL/REGIONAL"
   type        = string
+  default     = null
 }
 
 variable "machine_config" {
@@ -55,7 +56,7 @@ variable "database_flags" {
 variable "display_name" {
   description = "Alloydb instance display name"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "query_insights" {

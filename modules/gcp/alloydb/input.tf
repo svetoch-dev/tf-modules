@@ -123,9 +123,9 @@ variable "instances" {
         labels            = optional(map(string), {})
         annotations       = optional(map(string), {})
         database_flags    = optional(map(string), {})
-        availability_type = string
-        gce_zone          = optional(string, "")
-        display_name      = optional(string, "")
+        availability_type = optional(string)
+        gce_zone          = optional(string)
+        display_name      = optional(string)
 
         machine_config = object(
           {
