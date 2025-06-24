@@ -95,7 +95,7 @@ module "instances_readonly" {
   network   = each.value.network
 
   depends_on = [
-    module.instance
+    module.instances
   ]
 }
 
@@ -109,6 +109,6 @@ module "users" {
   password       = each.value.password
 
   depends_on = [
-    module.instance
+    module.instances
   ]
 }
