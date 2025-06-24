@@ -104,7 +104,7 @@ variable "users" {
     object(
       {
         user_id        = string
-        type           = optional(string, "ALLOYDB_BUILT_IN")
+        user_type      = optional(string, "ALLOYDB_BUILT_IN")
         database_roles = optional(list(string))
         password       = optional(string)
       }
