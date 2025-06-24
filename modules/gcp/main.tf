@@ -477,6 +477,6 @@ module "alloydb" {
   network_config                   = try(each.value.network_config, null)
   restore_continuous_backup_source = try(each.value.restore_continuous_backup_source, null)
   continuous_backup_config         = try(each.value.continuous_backup_config, null)
-  instances                        = try(each.value.instances, null)
-  users                            = try(each.value.users, null)
+  instances                        = try(each.value.instances, {})
+  users                            = try(each.value.users, {})
 }

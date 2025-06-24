@@ -110,7 +110,7 @@ variable "users" {
       }
     )
   )
-  default = null
+  default = {}
 }
 
 variable "instances" {
@@ -178,5 +178,5 @@ variable "instances" {
       }
     )
   )
-  default = null
+  default = {}
 }
