@@ -88,3 +88,10 @@ output "vms" {
     vm_name => vm_obj.vm
   }
 }
+
+output "alloydbs" {
+  value = {
+    for db_name, db_obj in module.alloydbs :
+    db_name => db_obj
+  }
+}

@@ -461,7 +461,7 @@ module "logging" {
 }
 
 /* allydb */
-module "alloydb" {
+module "alloydbs" {
   source                           = "./alloydb"
   for_each                         = var.alloydbs
   name                             = each.value.name
