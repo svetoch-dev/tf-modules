@@ -1,5 +1,5 @@
 locals {
-  password_choice = var.password == null ? random_password.password[0].result : var.password
+  password_choice = var.password == null ? random_password.password.result : var.password
   password        = var.user_type == "ALLOYDB_BUILT_IN" ? local.password_choice : null
 }
 
