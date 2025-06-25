@@ -5,7 +5,7 @@ locals {
 
 
 resource "google_alloydb_user" "user" {
-  cluster   = var.cluster
+  cluster   = var.cluster_id
   user_id   = var.user_id
   user_type = var.user_type
   password  = local.password

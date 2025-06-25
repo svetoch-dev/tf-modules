@@ -102,7 +102,7 @@ module "instances_readonly" {
 module "users" {
   source         = "./user"
   for_each       = var.users
-  cluster        = google_alloydb_cluster.main.name
+  cluster_id     = google_alloydb_cluster.main.name
   user_id        = each.value.user_id
   user_type      = each.value.user_type
   database_roles = each.value.database_roles

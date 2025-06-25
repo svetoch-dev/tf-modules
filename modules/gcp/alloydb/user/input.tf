@@ -3,7 +3,7 @@ variable "user_id" {
   type        = string
 }
 
-variable "cluster" {
+variable "cluster_id" {
   description = "Alloydb cluster id projects/{project}/locations/{location}/clusters/{cluster_id}'"
   type        = string
 }
