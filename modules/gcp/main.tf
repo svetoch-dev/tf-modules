@@ -327,7 +327,7 @@ module "cloudrun_services" {
 }
 
 module "cloudrun_jobs" {
-  source      = "./cloudrun_jobs"
+  source      = "./cloudrun_job"
   for_each    = var.cloudrun_jobs
   name        = each.value.name
   project_id  = var.project.id
