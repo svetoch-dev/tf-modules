@@ -71,12 +71,14 @@ variable "containers" {
             )
           )
         )
-        ports = list(
-          object(
-            {
-              name           = optional(string)
-              container_port = number
-            }
+        ports = optional(
+          list(
+            object(
+              {
+                name           = optional(string)
+                container_port = number
+              }
+            )
           )
         )
         env = optional(
