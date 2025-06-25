@@ -459,3 +459,24 @@ module "logging" {
   log_bucket = try(var.logging.log_bucket, {})
   log_router = try(var.logging.log_router, {})
 }
+
+/* allydb */
+module "alloydbs" {
+  source                           = "./alloydb"
+  for_each                         = var.alloydbs
+  name                             = each.value.name
+  region                           = each.value.region
+  database_version                 = each.value.database_version
+  cluster_type                     = try(each.value.cluster_type, "PRIMARY")
+  project_id                       = try(each.value.project_id, var.project.id)
+  subscription_type                = try(each.value.subscription_type, "STANDARD")
+  deletion_policy                  = try(each.value.deletion_policy, "DEFAULT")
+  labels                           = try(each.value.labels, {})
+  annotations                      = try(each.value.annotations, {})
+  encryption_config                = try(each.value.encryption_config, null)
+  network_config                   = try(each.value.network_config, null)
+  restore_continuous_backup_source = try(each.value.restore_continuous_backup_source, null)
+  continuous_backup_config         = try(each.value.continuous_backup_config, null)
+  instances                        = try(each.value.instances, {})
+  users                            = try(each.value.users, {})
+}

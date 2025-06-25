@@ -11,8 +11,8 @@ module "log_bucket" {
 
 module "log_router" {
   source = "./log_router"
-  
-  for_each = var.log_router
+
+  for_each        = var.log_router
   name            = each.key
   gcs_bucket_name = each.value.gcs_bucket_name
   bq_dataset_name = each.value.bq_dataset_name

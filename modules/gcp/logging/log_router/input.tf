@@ -43,7 +43,7 @@ variable "pubsub_topic_id" {
 }
 
 variable "disabled" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "If set to True, then this sink is disabled and it does not exclude any log entries."
 }
