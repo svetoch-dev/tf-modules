@@ -61,6 +61,13 @@ output "cloudrun_services" {
   }
 }
 
+output "cloudrun_jobs" {
+  value = {
+    for cloudrun_job_name, cloudrun_job_obj in module.cloudrun_jobs :
+    cloudrun_job_name => cloudrun_job_obj.cloudrun_job
+  }
+}
+
 output "application_lbs" {
   value = {
     for application_lb_name, application_lb_obj in module.application_lbs :

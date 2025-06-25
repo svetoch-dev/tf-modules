@@ -130,3 +130,9 @@ variable "alloydbs" {
   type        = any
   default     = {}
 }
+
+variable "cloudrun_jobs" {
+  description = "cloudrun jobs"
+  type        = any
+  default     = {}
+}
