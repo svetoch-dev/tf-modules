@@ -41,7 +41,7 @@ resource "google_cloud_run_v2_job" "this" {
           }
 
           dynamic "ports" {
-            for_each = containers.value.ports == null ? {} : containers.value.ports
+            for_each = containers.value.ports == null ? [] : containers.value.ports
             content {
               container_port = ports.value.container_port
               name           = ports.value.name
