@@ -87,6 +87,23 @@ variable "read_pool" {
   default = null
 }
 
+variable "client_connection_config" {
+  description = "Alloydb instance client connection configuration"
+  type = object(
+    {
+      require_connectors = optional(bool, false)
+      ssl_config = optional(
+        object(
+          {
+            ssl_mode = string
+          }
+        )
+      )
+    }
+  )
+  default = null
+}
+
 variable "network" {
   description = "Alloydb instance network configuration"
   type = object(

@@ -160,6 +160,21 @@ variable "instances" {
           )
         )
 
+        client_connection_config = optional(
+          object(
+            {
+              require_connectors = optional(bool, false)
+              ssl_config = optional(
+                object(
+                  {
+                    ssl_mode = string
+                  }
+                )
+              )
+            }
+          )
+        )
+
         network = optional(
           object(
             {

@@ -42,4 +42,17 @@ resource "google_alloydb_instance" "main" {
       enable_outbound_public_ip = network_config.value.enable_outbound_public_ip
     }
   }
+
+  dynamic "client_connection_config" {
+    for_each = var.client_connection_config == null ? {} : { "stub" = var.client_connection_config }
+    content {
+      require_connectors = client_connection_config.value.require_connectors
+      dynamic "ssl_config" {
+        for_each = client_connection_config.value.ssl_config == null ? {} : { "stub" = client_connection_config.value.ssl_config }
+        content {
+          ssl_mode = ssl_config.value.ssl_mode
+        }
+      }
+    }
+  }
 }

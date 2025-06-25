@@ -54,15 +54,16 @@ module "instances" {
     instance_name => instance_obj
     if instance_obj.instance_type == "PRIMARY" || instance_obj.instance_type == "SECONDARY"
   }
-  cluster_id        = google_alloydb_cluster.main.name
-  name              = each.value.name
-  instance_type     = each.value.instance_type
-  labels            = each.value.labels
-  annotations       = each.value.annotations
-  database_flags    = each.value.database_flags
-  availability_type = each.value.availability_type
-  gce_zone          = each.value.gce_zone
-  display_name      = each.value.display_name
+  cluster_id               = google_alloydb_cluster.main.name
+  name                     = each.value.name
+  instance_type            = each.value.instance_type
+  labels                   = each.value.labels
+  annotations              = each.value.annotations
+  database_flags           = each.value.database_flags
+  availability_type        = each.value.availability_type
+  gce_zone                 = each.value.gce_zone
+  display_name             = each.value.display_name
+  client_connection_config = each.value.client_connection_config
 
   machine_config = each.value.machine_config
 
@@ -78,14 +79,15 @@ module "instances_readonly" {
     instance_name => instance_obj
     if instance_obj.instance_type == "READ_POOL"
   }
-  cluster_id        = google_alloydb_cluster.main.name
-  name              = each.value.name
-  instance_type     = each.value.instance_type
-  labels            = each.value.labels
-  annotations       = each.value.annotations
-  database_flags    = each.value.database_flags
-  availability_type = each.value.availability_type
-  display_name      = each.value.display_name
+  cluster_id               = google_alloydb_cluster.main.name
+  name                     = each.value.name
+  instance_type            = each.value.instance_type
+  labels                   = each.value.labels
+  annotations              = each.value.annotations
+  database_flags           = each.value.database_flags
+  availability_type        = each.value.availability_type
+  display_name             = each.value.display_name
+  client_connection_config = each.value.client_connection_config
 
   machine_config = each.value.machine_config
 
