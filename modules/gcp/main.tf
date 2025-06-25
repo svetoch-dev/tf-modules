@@ -332,9 +332,9 @@ module "cloudrun_jobs" {
   name        = each.value.name
   project_id  = var.project.id
   location    = each.value.location
-  parallelism = each.value.parallelism
-  timeout     = each.value.timeout
-  max_retries = each.value.max_retries
+  parallelism = try(each.value.parallelism, 1)
+  timeout     = try(each.value.timeout, null)
+  max_retries = try(each.value.max_retries, 3)
   labels = try(
     each.value.labels,
     null
