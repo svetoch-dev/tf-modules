@@ -1,3 +1,8 @@
+# gcp-v2.4.0
+
+Features:
+* cloudrun job module
+
 # gcp-v2.3.0
 
 Features
