@@ -326,6 +326,35 @@ module "cloudrun_services" {
   ]
 }
 
+module "cloudrun_jobs" {
+  source      = "./cloudrun_job"
+  for_each    = var.cloudrun_jobs
+  name        = each.value.name
+  project_id  = var.project.id
+  location    = each.value.location
+  parallelism = try(each.value.parallelism, 1)
+  timeout     = try(each.value.timeout, null)
+  max_retries = try(each.value.max_retries, 3)
+  labels = try(
+    each.value.labels,
+    null
+  )
+  execution_environment = try(
+    each.value.execution_environment,
+    "EXECUTION_ENVIRONMENT_GEN2"
+  )
+
+  containers      = each.value.containers
+  service_account = each.value.service_account
+  vpc_access      = try(each.value.vpc_access, null)
+  volumes         = try(each.value.volumes, {})
+
+  depends_on = [
+    module.enable_apis,
+    module.iam,
+  ]
+}
+
 /* albs */
 
 module "application_lbs" {
