@@ -32,6 +32,14 @@ resource "google_alloydb_cluster" "main" {
     }
   }
 
+  dynamic "initial_user" {
+    for_each = var.initial_user == null ? {} : { "stub" = var.initial_user }
+    content {
+      user     = initial_user.value.user
+      password = initial_user.value.password == null ? random_password.password.result : initial_user.value.password
+    }
+  }
+
   dynamic "continuous_backup_config" {
     for_each = var.continuous_backup_config == null ? {} : { "stub" = var.continuous_backup_config }
     content {
@@ -113,4 +121,9 @@ module "users" {
   depends_on = [
     module.instances
   ]
+}
+
+resource "random_password" "password" {
+  length  = 32
+  special = false
 }
