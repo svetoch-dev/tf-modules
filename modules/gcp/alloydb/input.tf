@@ -58,6 +58,17 @@ variable "encryption_config" {
   default = null
 }
 
+variable "initial_user" {
+  description = "Alloydb cluster initial user"
+  type = object(
+    {
+      user     = string
+      password = optional(string, null)
+    }
+  )
+  default = null
+}
+
 variable "network_config" {
   description = "Alloydb cluster network config"
   type = object(

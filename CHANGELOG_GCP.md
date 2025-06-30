@@ -1,3 +1,8 @@
+# gcp-v2.5.0
+
+Enhancements:
+* alloydb initial user support
+
 # gcp-v2.4.0
 
 Features:
