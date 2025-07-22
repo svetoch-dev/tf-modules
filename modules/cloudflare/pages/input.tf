@@ -31,6 +31,18 @@ variable "git_source" {
   )
 }
 
+variable "custom_domains" {
+  description = "Custom domains that would be mapped to the production branch deployment"
+  type = map(
+    object(
+      {
+        name = string
+      }
+    )
+  )
+  default = {}
+}
+
 variable "build_config" {
   description = "Build configuration"
   type = object(

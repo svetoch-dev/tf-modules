@@ -15,6 +15,7 @@ module "pages" {
   production_branch  = each.value.production_branch
   git_source         = each.value.git_source
   build_config       = each.value.build_config
+  custom_domains     = try(each.value.custom_domains, {})
   deployment_configs = try(each.value.deployment_configs, null)
 }
 

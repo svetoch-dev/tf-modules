@@ -1,3 +1,10 @@
+resource "cloudflare_pages_domain" "this" {
+  for_each     = var.custom_domains
+  account_id   = var.account_id
+  project_name = var.name
+  domain       = each.value.name
+}
+
 resource "cloudflare_pages_project" "this" {
   account_id        = var.account_id
   name              = var.name
