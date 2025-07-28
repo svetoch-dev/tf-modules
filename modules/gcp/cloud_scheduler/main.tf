@@ -3,7 +3,7 @@ resource "google_cloud_scheduler_job" "this" {
   description      = var.description
   time_zone        = var.timezone
   schedule         = var.schedule
-  region           = var.location == null ? google_client_config.this.region : var.location
+  region           = var.location == null ? data.google_client_config.this.region : var.location
   paused           = var.paused
   attempt_deadline = var.attempt_deadline
 
