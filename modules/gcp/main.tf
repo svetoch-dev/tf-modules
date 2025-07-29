@@ -107,7 +107,7 @@ module "gke" {
 /* cloudsql */
 
 module "cloudsql_postgres" {
-  source              = "git::https://github.com/terraform-google-modules/terraform-google-sql-db.git//modules/postgresql?ref=v25.2.2"
+  source              = "./cloudsql/postgres"
   for_each            = var.cloudsql_postgres
   project_id          = var.project.id
   name                = each.key
@@ -120,7 +120,6 @@ module "cloudsql_postgres" {
   availability_type   = each.value.settings.availability_type
   deletion_protection = each.value.deletion_protection
   iam_users           = each.value.iam_users
-  user_password       = random_password.cloudsql_passwords[each.key].result
   user_name           = each.value.user.name
   user_labels = merge(
     each.value.user_labels,
@@ -153,13 +152,6 @@ module "cloudsql_postgres" {
   ]
 }
 
-/* Secrets */
-
-resource "random_password" "cloudsql_passwords" {
-  for_each = var.cloudsql_postgres
-  length   = 32
-  special  = false
-}
 
 /* GCS */
 
