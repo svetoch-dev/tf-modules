@@ -1,3 +1,8 @@
+# gcp-v2.5.1
+
+Enhancements:
+* `cloud_schedules` - settable region attribute
+
 # gcp-v2.5.0
 
 Enhancements:

@@ -411,6 +411,7 @@ module "cloud_schedules" {
   paused           = try(each.value.paused, false)
   attempt_deadline = try(each.value.attempt_deadline, null)
   retry_configs    = try(each.value.retry_configs, null)
+  location         = try(each.value.location, null)
   http_target      = each.value.http_target
 }
 
