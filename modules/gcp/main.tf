@@ -107,7 +107,7 @@ module "gke" {
 /* cloudsql */
 
 module "cloudsql_postgres" {
-  source              = "./cloudsql/postgres"
+  source              = "./cloudsql/postgresql"
   for_each            = var.cloudsql_postgres
   project_id          = var.project.id
   name                = each.key
