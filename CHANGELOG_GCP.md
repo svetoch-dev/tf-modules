@@ -1,3 +1,11 @@
+# gcp-v2.6.0
+
+Features:
+* `cloudsql_postgres` - generate password in `cloudsql/postgres` module
+
+Enhancements:
+* `cloudsql/postgres` - copy of public module
+
 # gcp-v2.5.1
 
 Enhancements:
