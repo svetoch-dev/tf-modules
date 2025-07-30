@@ -121,6 +121,7 @@ module "cloudsql_postgres" {
   deletion_protection = each.value.deletion_protection
   iam_users           = each.value.iam_users
   user_name           = each.value.user.name
+  enable_default_db   = try(each.value.enable_default_db, false)
   user_labels = merge(
     each.value.user_labels,
     {
