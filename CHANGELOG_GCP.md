@@ -1,3 +1,8 @@
+# gcp-v2.6.1
+
+Enhancements:
+* `cloudsql_postgres` - `enable_default_db` defaults to false
+
 # gcp-v2.6.0
 
 Features:
