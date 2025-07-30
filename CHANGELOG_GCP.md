@@ -1,3 +1,8 @@
+# gcp-v2.6.2
+
+Enhancements:
+* `cloudsql_postgres` - `edition` defaults to `ENTERPRISE`
+
 # gcp-v2.6.1
 
 Enhancements:
