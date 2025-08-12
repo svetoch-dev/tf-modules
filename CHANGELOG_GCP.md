@@ -1,6 +1,11 @@
 # gcp-v2.6.2
 
 Enhancements:
+* `cloudrun_service` - request timeout attribute
+
+# gcp-v2.6.2
+
+Enhancements:
 * `cloudsql_postgres` - `edition` defaults to `ENTERPRISE`
 
 # gcp-v2.6.1
