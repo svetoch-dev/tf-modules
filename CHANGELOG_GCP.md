@@ -1,3 +1,8 @@
+# gcp-v2.6.3
+
+Enhancements:
+* `cloudrun_service` - request timeout attribute
+
 # gcp-v2.6.2
 
 Enhancements:
