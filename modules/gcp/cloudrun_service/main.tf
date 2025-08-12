@@ -6,6 +6,7 @@ resource "google_cloud_run_v2_service" "this" {
   template {
     execution_environment            = var.execution_environment
     max_instance_request_concurrency = var.max_instance_requests
+    timeout                          = var.request_timeout
     service_account                  = var.service_account
     labels                           = var.labels
     dynamic "volumes" {

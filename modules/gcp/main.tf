@@ -293,6 +293,7 @@ module "cloudrun_services" {
     each.value.labels,
     null
   )
+  request_timeout       = try(each.value.reques_timeout, "300s")
   max_instance_requests = try(each.value.max_instance_requests, 80)
   execution_environment = try(
     each.value.execution_environment,

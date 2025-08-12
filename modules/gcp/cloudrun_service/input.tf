@@ -18,6 +18,12 @@ variable "location" {
   type        = string
 }
 
+variable "request_timeout" {
+  description = "max allowed time for an instance to respond to a request"
+  type        = string
+  default     = "300s"
+}
+
 variable "execution_environment" {
   description = "Cloudrun execution environment EXECUTION_ENVIRONMENT_GEN2|EXECUTION_ENVIRONMENT_GEN1"
   type        = string
