@@ -1,3 +1,8 @@
+variable "project_id" {
+  description = "Gcp project id"
+  type        = string
+}
+
 variable "log_bucket" {
   description = "Log bucket"
   type = map(object({

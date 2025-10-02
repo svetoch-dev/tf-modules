@@ -3,6 +3,7 @@ module "log_bucket" {
 
   for_each = var.log_bucket
 
+  project_id     = var.project.id
   bucket_id      = each.key
   location       = each.value.location
   retention_days = each.value.retention_days
@@ -15,6 +16,7 @@ module "log_router" {
   for_each = var.log_router
 
   name            = each.key
+  project_id      = var.project.id
   gcs_bucket_name = each.value.gcs_bucket_name
   bq_dataset_name = each.value.bq_dataset_name
   log_bucket_name = each.value.log_bucket_name
@@ -32,6 +34,7 @@ module "log_audit" {
 
   for_each = var.log_audit
 
-  service = each.value.service
-  configs = each.value.configs
+  project_id = var.project.id
+  service    = each.value.service
+  configs    = each.value.configs
 }

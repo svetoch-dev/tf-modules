@@ -1,3 +1,8 @@
+variable "project_id" {
+  description = "Gcp project id"
+  type        = string
+}
+
 variable "service" {
   description = "Audit service name"
   type        = string
