@@ -4,7 +4,7 @@ variable "project_id" {
 }
 
 variable "service" {
-  description = "Audit service name"
+  description = "Audit service name.The special value 'allServices' covers all services"
   type        = string
 }
 
