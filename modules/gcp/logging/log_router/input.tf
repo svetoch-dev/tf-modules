@@ -1,3 +1,8 @@
+variable "project_id" {
+  description = "Gcp project id"
+  type        = string
+}
+
 variable "name" {
   type        = string
   description = "name for log router sink"

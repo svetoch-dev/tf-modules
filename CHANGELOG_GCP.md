@@ -1,3 +1,13 @@
+# gcp-v2.7.0
+
+Features:
+* `logging` - `log_audit` module for enabling audit logs
+
+Enhancements:
+* `logging`
+  * `depends_on` for logging modules
+  * use `var.project_id` instead of datasource in order to use `depends_on` in modules
+
 # gcp-v2.6.3
 
 Enhancements:

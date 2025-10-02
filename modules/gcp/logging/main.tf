@@ -3,6 +3,7 @@ module "log_bucket" {
 
   for_each = var.log_bucket
 
+  project_id     = var.project_id
   bucket_id      = each.key
   location       = each.value.location
   retention_days = each.value.retention_days
@@ -12,8 +13,10 @@ module "log_bucket" {
 module "log_router" {
   source = "./log_router"
 
-  for_each        = var.log_router
+  for_each = var.log_router
+
   name            = each.key
+  project_id      = var.project_id
   gcs_bucket_name = each.value.gcs_bucket_name
   bq_dataset_name = each.value.bq_dataset_name
   log_bucket_name = each.value.log_bucket_name
@@ -21,4 +24,17 @@ module "log_router" {
   filter          = each.value.filter
   disabled        = each.value.disabled
   exclusions      = each.value.exclusions
+  depends_on = [
+    module.log_bucket
+  ]
+}
+
+module "log_audit" {
+  source = "./log_audit"
+
+  for_each = var.log_audit
+
+  project_id = var.project_id
+  service    = each.value.service
+  configs    = each.value.configs
 }

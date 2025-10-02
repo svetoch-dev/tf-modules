@@ -481,8 +481,14 @@ module "monitoring" {
 
 module "logging" {
   source     = "./logging"
+  project_id = try(var.logging.project_id, var.project.id)
   log_bucket = try(var.logging.log_bucket, {})
   log_router = try(var.logging.log_router, {})
+  log_audit  = try(var.logging.log_audit, {})
+  depends_on = [
+    module.gcs,
+    module.pubsub,
+  ]
 }
 
 /* allydb */

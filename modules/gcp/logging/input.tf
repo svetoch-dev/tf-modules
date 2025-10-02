@@ -1,3 +1,8 @@
+variable "project_id" {
+  description = "Gcp project id"
+  type        = string
+}
+
 variable "log_bucket" {
   description = "Log bucket"
   type = map(object({
@@ -22,6 +27,20 @@ variable "log_router" {
       disabled    = optional(bool, false)
       filter      = string
     })), {})
+  }))
+  default = {}
+}
+
+variable "log_audit" {
+  description = "Log audit"
+  type = map(object({
+    service = string
+    configs = list(object({
+      type = string
+      exempted_members = optional(
+        list(string)
+      )
+    }))
   }))
   default = {}
 }
