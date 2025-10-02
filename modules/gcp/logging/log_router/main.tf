@@ -1,5 +1,3 @@
-data "google_project" "project" {}
-
 locals {
   # Count how many destination variables are set
   destination_count = (
@@ -16,9 +14,9 @@ locals {
 
   # Determine destination based on which variable is set
   destination = coalesce(
-    try("logging.googleapis.com/projects/${data.google_project.project.project_id}/locations/global/buckets/${var.log_bucket_name}", null),
-    try("bigquery.googleapis.com/projects/${data.google_project.project.project_id}/datasets/${var.bq_dataset_name}", null),
-    try("pubsub.googleapis.com/projects/${data.google_project.project.project_id}/topics/${var.pubsub_topic_id}", null),
+    try("logging.googleapis.com/projects/${var.project_id}/locations/global/buckets/${var.log_bucket_name}", null),
+    try("bigquery.googleapis.com/projects/${var.project_id}/datasets/${var.bq_dataset_name}", null),
+    try("pubsub.googleapis.com/projects/${var.project_id}/topics/${var.pubsub_topic_id}", null),
     try("storage.googleapis.com/${var.gcs_bucket_name}", null)
   )
 }
