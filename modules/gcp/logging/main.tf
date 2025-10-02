@@ -12,7 +12,8 @@ module "log_bucket" {
 module "log_router" {
   source = "./log_router"
 
-  for_each        = var.log_router
+  for_each = var.log_router
+
   name            = each.key
   gcs_bucket_name = each.value.gcs_bucket_name
   bq_dataset_name = each.value.bq_dataset_name
@@ -21,4 +22,13 @@ module "log_router" {
   filter          = each.value.filter
   disabled        = each.value.disabled
   exclusions      = each.value.exclusions
+}
+
+module "log_audit" {
+  source = "./log_audit"
+
+  for_each = var.log_audit
+
+  service = each.value.service
+  configs = each.vlaue.configs
 }

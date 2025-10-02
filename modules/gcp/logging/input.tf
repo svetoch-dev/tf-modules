@@ -25,3 +25,17 @@ variable "log_router" {
   }))
   default = {}
 }
+
+variable "log_audit" {
+  description = "Log audit"
+  type = map(object({
+    service = string
+    configs = list(object({
+      type = string
+      exempted_members = optional(
+        list(string)
+      )
+    }))
+  }))
+  default = {}
+}
