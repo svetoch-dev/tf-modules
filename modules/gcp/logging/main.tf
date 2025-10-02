@@ -30,5 +30,5 @@ module "log_audit" {
   for_each = var.log_audit
 
   service = each.value.service
-  configs = each.vlaue.configs
+  configs = each.value.configs
 }
