@@ -22,6 +22,9 @@ module "log_router" {
   filter          = each.value.filter
   disabled        = each.value.disabled
   exclusions      = each.value.exclusions
+  depends_on = [
+    module.log_bucket
+  ]
 }
 
 module "log_audit" {

@@ -484,6 +484,10 @@ module "logging" {
   log_bucket = try(var.logging.log_bucket, {})
   log_router = try(var.logging.log_router, {})
   log_audit  = try(var.logging.log_audit, {})
+  depends_on = [
+    module.gcs,
+    module.pubsub,
+  ]
 }
 
 /* allydb */
