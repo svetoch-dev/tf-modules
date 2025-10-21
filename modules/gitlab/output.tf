@@ -4,8 +4,8 @@ output "repositories" {
   value = {
     for repo_name, repo_obj in var.repositories :
     repo_name => {
-      ssh_url  = format("git@%s:%s/%s", var.domain, repo_obj.org, repo_name)
-      http_url = format("https://%s/%s/%s", var.domain, repo_obj.org, repo_name)
+      ssh_url  = format("git@%s:%s/%s", var.domain, repo_obj.org, repo_obj.name)
+      http_url = format("https://%s/%s/%s", var.domain, repo_obj.org, repo_obj.name)
       org      = repo_obj.org
       deploy_keys = {
         for key_name, key_obj in repo_obj.deploy_keys :
