@@ -1,6 +1,13 @@
 # gcp-v2.7.0
 
 Features:
+* `networking` - use own vpc module
+* `networking/vpc/peering` - new vpc peering module
+
+
+# gcp-v2.7.0
+
+Features:
 * `logging` - `log_audit` module for enabling audit logs
 
 Enhancements:
