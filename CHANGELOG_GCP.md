@@ -1,4 +1,4 @@
-# gcp-v2.7.0
+# gcp-v2.8.0
 
 Features:
 * `networking` - use own vpc module
