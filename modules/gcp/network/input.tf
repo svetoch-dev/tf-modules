@@ -34,7 +34,7 @@ variable "vpc" {
           object(
             {
               name                   = string
-              peer_network_id        = string
+              peer_network           = string
               create_reverse_peering = optional(bool, false)
             }
           )
