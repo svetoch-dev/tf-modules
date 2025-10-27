@@ -4,6 +4,7 @@ module "vpc" {
   network_name            = var.vpc.name
   description             = var.vpc.description
   routing_mode            = var.vpc.routing_mode
+  peering                 = var.vpc.peering
   auto_create_subnetworks = var.vpc.auto_create_subnetworks
 }
 
