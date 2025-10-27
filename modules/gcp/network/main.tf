@@ -1,5 +1,5 @@
 module "vpc" {
-  source                  = "git::https://github.com/terraform-google-modules/terraform-google-network//modules/vpc?ref=v10.0.0"
+  source                  = "./vpc"
   project_id              = var.vpc.project_id
   network_name            = var.vpc.name
   description             = var.vpc.description
@@ -14,6 +14,8 @@ module "subnets" {
   subnets          = local.subnets
   secondary_ranges = local.secondary_ranges
 }
+
+
 
 resource "google_vpc_access_connector" "cloudrun_connector" {
   for_each = {
@@ -90,7 +92,6 @@ module "google_services_peering" {
     prefix_length = 16
   }
 }
-
 
 module "firewall_rules" {
   source  = "./firewall-rules"
