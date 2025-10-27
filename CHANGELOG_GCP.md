@@ -1,3 +1,10 @@
+# gcp-v2.8.0
+
+Features:
+* `networking` - use own vpc module
+* `networking/vpc/peering` - new vpc peering module
+
+
 # gcp-v2.7.0
 
 Features:

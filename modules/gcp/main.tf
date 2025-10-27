@@ -13,13 +13,12 @@ module "network" {
   for_each = var.networks
   source   = "./network"
 
-  vpc = {
-    name                    = each.value.vpc.name
-    project_id              = module.enable_apis.project_id
-    description             = try(each.value.vpc.description, "")
-    routing_mode            = try(each.value.vpc.routing_mode, "GLOBAL")
-    auto_create_subnetworks = try(each.value.vpc.auto_create_subnetworks, false)
-  }
+  vpc = merge(
+    each.value.vpc,
+    {
+      project_id = module.enable_apis.project_id
+    }
+  )
   subnets        = each.value.subnets
   routers        = each.value.routers
   ip_addresses   = each.value.ip_addresses
