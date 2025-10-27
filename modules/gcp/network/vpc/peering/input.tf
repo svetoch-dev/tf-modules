@@ -8,7 +8,7 @@ variable "network" {
   type        = string
 }
 
-variable "peer_network_id" {
+variable "peer_network" {
   description = "The self_link of the network to peer with."
   type        = string
 }
