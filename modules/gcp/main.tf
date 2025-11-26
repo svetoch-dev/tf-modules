@@ -193,8 +193,8 @@ module "gcs" {
     each.value.labels,
     {
       resource_type = "gcs_bucket",
-      bucket_name   = each.key,
-      name          = each.key,
+      bucket_name   = try(each.value.name, each.key),
+      name          = try(each.value.name, each.key),
     }
   )
   depends_on = [
@@ -294,6 +294,7 @@ module "cloudrun_services" {
   )
   request_timeout       = try(each.value.request_timeout, "300s")
   max_instance_requests = try(each.value.max_instance_requests, 80)
+  deletion_protection   = try(each.value.deletion_protection, true)
   execution_environment = try(
     each.value.execution_environment,
     "EXECUTION_ENVIRONMENT_GEN2"

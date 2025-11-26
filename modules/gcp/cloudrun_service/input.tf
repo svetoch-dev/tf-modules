@@ -8,6 +8,12 @@ variable "project_id" {
   type        = string
 }
 
+variable "deletion_protection" {
+  description = "Cloudrun deletion protection"
+  type        = bool
+  default     = true
+}
+
 variable "labels" {
   description = "Cloudrun service project id"
   type        = map(string)
