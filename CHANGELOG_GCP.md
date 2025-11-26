@@ -1,3 +1,10 @@
+# gcp-v2.8.1
+Enhancements:
+* `cloudrun_service` - ability to set deletion_protection attr
+
+Fixes:
+* `gcs` - gcs main.tf module name labels now have the same logic as name attr
+
 # gcp-v2.8.0
 
 Features:
