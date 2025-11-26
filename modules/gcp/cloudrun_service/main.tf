@@ -1,7 +1,8 @@
 resource "google_cloud_run_v2_service" "this" {
-  name     = var.name
-  location = var.location
-  ingress  = var.ingress
+  name                = var.name
+  location            = var.location
+  deletion_protection = var.deletion_protection
+  ingress             = var.ingress
 
   template {
     execution_environment            = var.execution_environment
