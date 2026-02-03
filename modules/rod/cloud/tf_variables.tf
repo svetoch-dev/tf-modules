@@ -34,7 +34,7 @@ variable "env" {
               region          = string
               default_zone    = string
               multi_region    = string
-              available_zones = string
+              available_zones = list(string)
             }
           )
           network = object(
