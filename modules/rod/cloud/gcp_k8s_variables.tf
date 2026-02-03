@@ -18,24 +18,19 @@ locals {
           preemptible        = false
           spot               = true
           initial_node_count = 0
-          oauth_scopes = {
-            #All k8s permissions for nodes
-            #are set on serviceaccount level
-            #not by using oauth scopes. This
-            #scopes are default ones
-            main = [
-              "https://www.googleapis.com/auth/userinfo.email",
-              "https://www.googleapis.com/auth/cloud-platform"
-            ]
-          }
-
+          #All k8s permissions for nodes
+          #are set on serviceaccount level
+          #not by using oauth scopes. This
+          #scopes are default ones
+          oauth_scopes = [
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/cloud-platform"
+          ]
           labels = {
-            main = {
-              main = "true"
-            }
+            main = "true"
           }
-          taints = {
-          }
+          taints = [
+          ]
         },
         on-demand = {
           name               = "on-demand"
@@ -53,32 +48,25 @@ locals {
           preemptible        = false
           spot               = false
           initial_node_count = 0
-          oauth_scopes = {
-            #All k8s permissions for nodes
-            #are set on serviceaccount level
-            #not by using oauth scopes. This
-            #scopes are default ones
-            on-demand = [
-              "https://www.googleapis.com/auth/userinfo.email",
-              "https://www.googleapis.com/auth/cloud-platform"
-            ]
-          }
-
+          #All k8s permissions for nodes
+          #are set on serviceaccount level
+          #not by using oauth scopes. This
+          #scopes are default ones
+          oauth_scopes = [
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/cloud-platform"
+          ]
           labels = {
-            on-demand = {
-              on-demand = "true"
-            }
+            on-demand = "true"
           }
-          taints = {
-            on-demand = [
-              {
-                key    = "on-demand"
-                value  = true
-                effect = "NO_SCHEDULE"
-              },
-            ]
-          }
-        },
+          taints = [
+            {
+              key    = "on-demand"
+              value  = true
+              effect = "NO_SCHEDULE"
+            },
+          ]
+        }
       },
       var.env.short_name != "int" ? {} : {
         runner = {
@@ -97,31 +85,24 @@ locals {
           preemptible        = false
           spot               = true
           initial_node_count = 0
-          oauth_scopes = {
-            #All k8s permissions for nodes
-            #are set on serviceaccount level
-            #not by using oauth scopes. This
-            #scopes are default ones
-            runner = [
-              "https://www.googleapis.com/auth/userinfo.email",
-              "https://www.googleapis.com/auth/cloud-platform"
-            ]
-          }
-
+          #All k8s permissions for nodes
+          #are set on serviceaccount level
+          #not by using oauth scopes. This
+          #scopes are default ones
+          oauth_scopes = [
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/cloud-platform"
+          ]
           labels = {
-            runner = {
-              runner = "true"
-            }
+            runner = "true"
           }
-          taints = {
-            runner = [
-              {
-                key    = "runner"
-                value  = true
-                effect = "NO_SCHEDULE"
-              },
-            ]
-          }
+          taints = [
+            {
+              key    = "runner"
+              value  = true
+              effect = "NO_SCHEDULE"
+            },
+          ]
         },
       }
     )
