@@ -165,7 +165,26 @@ locals {
 
       master_global_access_enabled = false # We use public endpoint for master access so setting false to ignore
 
-      node_pools = values(local.gcp_k8s_cluster_nodes[var.env.short_name])
+      node_pools = [
+        for node_pool in values(local.gcp_k8s_cluster_nodes[var.env.short_name]) :
+        {
+          name               = node_pool.name
+          machine_type       = node_pool.machine_type
+          node_locations     = node_pool.node_locations
+          min_count          = node_pool.min_count
+          max_count          = node_pool.max_count
+          local_ssd_count    = node_pool.local_ssd_count
+          disk_size_gb       = node_pool.disk_size_gb
+          disk_type          = node_pool.disk_type
+          image_type         = node_pool.image_type
+          auto_repair        = node_pool.auto_repair
+          auto_upgrade       = node_pool.auto_upgrade
+          service_account    = node_pool.service_account
+          preemptible        = node_pool.preemptible
+          spot               = node_pool.spot
+          initial_node_count = node_pool.initial_node_count
+        }
+      ]
 
       node_pools_oauth_scopes = merge(
         {
