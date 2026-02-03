@@ -176,10 +176,9 @@ locals {
         "env" = var.env.short_name
       }
       master_authorized_networks = [
-        for authNetKey, authNetObj in local.networks["main"].authorized_networks :
         {
-          cidr_block   = authNetObj.cidr_block
-          display_name = authNetObj.display_name
+          cidr_block   = "0.0.0.0/0"
+          display_name = "Allow all"
         }
       ]
 

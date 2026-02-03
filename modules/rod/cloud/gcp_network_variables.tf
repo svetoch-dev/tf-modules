@@ -1,12 +1,6 @@
 locals {
   gcp_networks = {
     main = {
-      authorized_networks = {
-        allow-all = {
-          cidr_block   = "0.0.0.0/0"
-          display_name = "Allow all"
-        }
-      }
       vpc = {
         name = "main"
       }
