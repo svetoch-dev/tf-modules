@@ -136,12 +136,12 @@ locals {
       zones               = var.env.cloud.location.available_zones
       kubernetes_version  = "latest"
 
-      subnetwork              = module.gcp.subnets["main"]["vms"].name
-      network                 = module.gcp.vpcs["main"].network_name
+      subnetwork              = module.gcp["this"].subnets["main"]["vms"].name
+      network                 = module.gcp["this"].vpcs["main"].network_name
       network_policy          = true
       network_policy_provider = "CALICO"
-      ip_range_pods           = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
-      ip_range_services       = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].range_name
+      ip_range_pods           = module.gcp["this"].subnets["main"]["vms"].secondary_ip_range[0].range_name
+      ip_range_services       = module.gcp["this"].subnets["main"]["vms"].secondary_ip_range[1].range_name
 
       http_load_balancing             = true
       horizontal_pod_autoscaling      = true
@@ -184,14 +184,14 @@ locals {
 
       master_global_access_enabled = false # We use public endpoint for master access so setting false to ignore
 
-      node_pools = values(local.gcp_k8s_cluster_nodes)
+      node_pools = values(local.gcp_k8s_cluster_nodes[var.env.short_name])
 
       node_pools_oauth_scopes = merge(
         {
           all = []
         },
         {
-          for node_name, node_obj in local.gcp_k8s_cluster_nodes :
+          for node_name, node_obj in local.gcp_k8s_cluster_nodes[var.env.short_name] :
           node_name => node_obj.oauth_scopes
         }
       )
@@ -208,7 +208,7 @@ locals {
           }
         },
         {
-          for node_name, node_obj in local.gcp_k8s_cluster_nodes :
+          for node_name, node_obj in local.gcp_k8s_cluster_nodes[var.env.short_name] :
           node_name => node_obj.labels
         }
       )
@@ -228,7 +228,7 @@ locals {
           all = []
         },
         {
-          for node_name, node_obj in local.gcp_k8s_cluster_nodes :
+          for node_name, node_obj in local.gcp_k8s_cluster_nodes[var.env.short_name] :
           node_name => node_obj.taints
         }
       )
