@@ -44,7 +44,6 @@ variable "env" {
               k8s_service_cidr = string
             }
           )
-          registry = string
           buckets = object(
             {
               deletion_protection = bool
