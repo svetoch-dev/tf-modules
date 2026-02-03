@@ -5,7 +5,7 @@ locals {
         main = {
           name               = "main"
           machine_type       = "t2d-standard-4"
-          node_locations     = var.env.cloud.default_zone
+          node_locations     = var.env.cloud.location.default_zone
           min_count          = 0
           max_count          = 10
           local_ssd_count    = 0
@@ -40,7 +40,7 @@ locals {
         on-demand = {
           name               = "on-demand"
           machine_type       = "t2d-standard-4"
-          node_locations     = var.env.cloud.default_zone
+          node_locations     = var.env.cloud.location.default_zone
           min_count          = 0
           max_count          = 10
           local_ssd_count    = 0
@@ -80,11 +80,11 @@ locals {
           }
         },
       },
-      var.env.shor_name != "int" ? {} : {
+      var.env.short_name != "int" ? {} : {
         runner = {
           name               = "runner"
           machine_type       = "t2d-standard-4"
-          node_locations     = var.env.cloud.default_zone
+          node_locations     = var.env.cloud.location.default_zone
           min_count          = 0
           max_count          = 20
           local_ssd_count    = 0
@@ -132,8 +132,8 @@ locals {
       enabled             = var.env.kubernetes.enabled
       deletion_protection = var.env.kubernetes.deletion_protection
       regional            = var.env.kubernetes.regional
-      region              = var.env.cloud.region
-      zones               = var.env.cloud.available_zones
+      region              = var.env.cloud.location.region
+      zones               = var.env.cloud.location.available_zones
       kubernetes_version  = "latest"
 
       subnetwork              = module.gcp.subnets["main"]["vms"].name

@@ -13,7 +13,7 @@ locals {
       subnets = {
         "vms" = {
           ip_cidr_range = var.env.cloud.network.vm_cidr
-          region        = var.env.cloud.region
+          region        = var.env.cloud.location.region
           description   = "VM subnet"
           secondary_ip_range = [
             {
@@ -29,7 +29,7 @@ locals {
       }
       nat_gws = {
         "nat-gw" = {
-          region      = var.env.cloud.region
+          region      = var.env.cloud.location.region
           router_name = "router"
           ip_address_names = [
             "nat-gw-ip-1"
@@ -41,13 +41,13 @@ locals {
       }
       routers = {
         "router" = {
-          region = var.env.cloud.region
+          region = var.env.cloud.location.region
         }
       }
       ip_addresses = [
         {
           name        = "nat-gw-ip-1"
-          description = "ip address for nat gw ${var.env.cloud.region}"
+          description = "ip address for nat gw ${var.env.cloud.location.region}"
         }
       ]
       firewall_rules = {
