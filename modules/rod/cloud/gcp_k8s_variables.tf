@@ -5,7 +5,7 @@ locals {
         main = {
           name               = "main"
           machine_type       = "t2d-standard-4"
-          node_locations     = local.env.cloud.default_zone
+          node_locations     = var.env.cloud.default_zone
           min_count          = 0
           max_count          = 10
           local_ssd_count    = 0
@@ -40,7 +40,7 @@ locals {
         on-demand = {
           name               = "on-demand"
           machine_type       = "t2d-standard-4"
-          node_locations     = local.env.cloud.default_zone
+          node_locations     = var.env.cloud.default_zone
           min_count          = 0
           max_count          = 10
           local_ssd_count    = 0
@@ -84,7 +84,7 @@ locals {
         runner = {
           name               = "runner"
           machine_type       = "t2d-standard-4"
-          node_locations     = local.env.cloud.default_zone
+          node_locations     = var.env.cloud.default_zone
           min_count          = 0
           max_count          = 20
           local_ssd_count    = 0
@@ -93,7 +93,7 @@ locals {
           image_type         = "COS_CONTAINERD"
           auto_repair        = true
           auto_upgrade       = true
-          service_account    = "k8s-nodes@${local.env.cloud.id}.iam.gserviceaccount.com"
+          service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
           preemptible        = false
           spot               = true
           initial_node_count = 0

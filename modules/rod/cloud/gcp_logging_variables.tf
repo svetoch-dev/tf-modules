@@ -19,7 +19,7 @@ NOT LOG_ID("container.googleapis.com/controller-manager")
         EOF
       }
       k8s = {
-        gcs_bucket_name = format("%s-logs-%s", var.company.name, local.env.short_name)
+        gcs_bucket_name = format("%s-logs-%s", var.company.name, var.env.short_name)
         filter          = <<EOF
 LOG_ID("cloudaudit.googleapis.com/data_access") OR
 LOG_ID("cloudaudit.googleapis.com/activity") OR
