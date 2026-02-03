@@ -1,6 +1,5 @@
 output "vpcs" {
-  value = try(
-    module.gcp.vpcs,
-    null
+  value = merge(
+    var.env.cloud.name == "gcp" ? module.gcp.vpcs : {},
   )
 }

@@ -105,8 +105,10 @@ locals {
         generate_key = false
       }
       runner = var.env.short_name != "int" ? null : {
-        description  = "service account for ci runners"
-        roles        = []
+        description = "service account for ci runners"
+        roles = [
+          "roles/owner"
+        ]
         custom_roles = []
         sa_iam_bindings = var.env.initial_start ? {} : {
           "roles/iam.workloadIdentityUser" = concat(
@@ -131,12 +133,6 @@ locals {
     }
 
     roles = {
-      owners = {
-        role = "roles/owner"
-        members = [
-          "serviceAccount:runner@${var.envs.internal.cloud.id}.iam.gserviceaccount.com"
-        ]
-      }
     }
   }
 }
