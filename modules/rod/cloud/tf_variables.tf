@@ -26,14 +26,25 @@ variable "env" {
       initial_start = optional(bool, false)
       cloud = object(
         {
-          name            = string
-          id              = string
-          numeric_id      = optional(string)
-          region          = string
-          default_zone    = string
-          multi_region    = string
-          available_zones = list(string)
-          registry        = string
+          name       = string
+          id         = string
+          numeric_id = optional(string)
+          location = object(
+            {
+              region          = string
+              default_zone    = string
+              multi_region    = string
+              available_zones = string
+            }
+          )
+          network = object(
+            {
+              vm_cidr          = string
+              k8s_pod_cidr     = string
+              k8s_service_cidr = string
+            }
+          )
+          registry = string
           buckets = object(
             {
               deletion_protection = bool

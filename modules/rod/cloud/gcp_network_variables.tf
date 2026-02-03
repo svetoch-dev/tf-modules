@@ -7,24 +7,22 @@ locals {
           display_name = "Allow all"
         }
       }
-      db_authorized_networks = {
-      }
       vpc = {
         name = "main"
       }
       subnets = {
         "vms" = {
-          ip_cidr_range = "10.0.0.0/20"
+          ip_cidr_range = var.env.cloud.network.vm_cidr
           region        = var.env.cloud.region
           description   = "VM subnet"
           secondary_ip_range = [
             {
-              range_name    = format("%s-pods", var.env.short_name)
-              ip_cidr_range = "10.4.0.0/14"
+              range_name    = "pods"
+              ip_cidr_range = var.env.cloud.network.k8s_pod_cidr
             },
             {
-              range_name    = format("%s-services", var.env.short_name)
-              ip_cidr_range = "10.1.0.0/20"
+              range_name    = "services"
+              ip_cidr_range = var.env.cloud.network.k8s_service_cidr
             }
           ]
         }
@@ -56,13 +54,13 @@ locals {
         admission-webhooks = {
           direction = "INGRESS"
           source_ranges = [
-            "172.16.0.0/28"
+            "172.16.0.0/28" #gke control plane
           ]
           target_tags = []
           description = null
           allow = {
-            "tcp" = {
-              ports = [
+            tcp = {
+              ports = var.env.short_name == "int" ? [] : [
                 "8080", #konghq
                 "9443", #rabbitmq operator
               ]
