@@ -61,7 +61,7 @@ locals {
       ]
       viewers = [
       ]
-      creators = var.env.init_state ? [] : [
+      creators = var.env.initial_start ? [] : [
         "serviceAccount:service-${var.env.cloud.numeric_id}@gcp-sa-logging.iam.gserviceaccount.com"
       ]
       lifecycle_rules = [{

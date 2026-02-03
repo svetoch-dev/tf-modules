@@ -7,7 +7,7 @@ module "gcp" {
   } : {}
   project = {
     id     = var.env.cloud.id
-    region = var.env.cloud.region
+    region = var.env.cloud.location.region
   }
 
   activate_apis = local.gcp_activate_apis
