@@ -81,4 +81,5 @@ variable "overrides" {
       gcp_registries   = optional(any)
     }
   )
+  default = null
 }
