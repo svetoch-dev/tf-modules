@@ -80,5 +80,14 @@ variable "overrides" {
       gcp_registries    = optional(any)
     }
   )
-  default = null
+  default = {
+    gcp_activate_apis = null
+    gcp_buckets       = null
+    gcp_dns_zones     = null
+    gcp_iam           = null
+    gcp_k8s_clusters  = null
+    gcp_logging       = null
+    gcp_networks      = null
+    gcp_registries    = null
+  }
 }
