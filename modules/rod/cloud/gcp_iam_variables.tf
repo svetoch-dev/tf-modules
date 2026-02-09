@@ -42,7 +42,7 @@ locals {
         roles = [
           "projects/${var.env.cloud.id}/roles/k8sNodeServiceAccount"
         ]
-        sa_iam_bindings = var.env.initial_start ? {} : {
+        sa_iam_bindings = {
         }
         generate_key = false
       }
@@ -51,7 +51,7 @@ locals {
         roles = [
           "roles/dns.admin"
         ]
-        sa_iam_bindings = var.env.initial_start ? {} : var.env.initial_start ? {} : {
+        sa_iam_bindings = var.env.initial_start ? {} : {
           "roles/iam.workloadIdentityUser" = [
             "serviceAccount:${var.env.cloud.id}.svc.id.goog[external-dns/external-dns]",
           ]
@@ -74,8 +74,37 @@ locals {
           "projects/${var.env.cloud.id}/roles/bucketList"
         ]
         sa_iam_bindings = var.env.initial_start ? {} : {
+          "roles/iam.workloadIdentityUser" = concat(
+            [
+              "serviceAccount:${var.env.cloud.id}.svc.id.goog[postgres/postgres]",
+            ],
+            [
+              for app_name, app_obj in var.apps :
+              "serviceAccount:${var.env.cloud.id}.svc.id.goog[${app_obj.name}/postgres]"
+            ]
+          )
+        }
+        generate_key = false
+      }
+      argocd = {
+        description = "argocd service account"
+        roles = [
+        ]
+        custom_roles = []
+        sa_iam_bindings = var.env.initial_start ? {} : {
           "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${var.env.cloud.id}.svc.id.goog[postgres/postgres]",
+            "serviceAccount:${var.env.cloud.id}.svc.id.goog[argocd/argocd]",
+          ]
+        }
+        generate_key = false
+      },
+      grafana = {
+        description  = "service account for grafana"
+        roles        = []
+        custom_roles = []
+        sa_iam_bindings = var.env.initial_start ? {} : {
+          "roles/iam.workloadIdentityUser" = [
+            "serviceAccount:${var.env.cloud.id}.svc.id.goog[grafana/grafana]",
           ]
         }
         generate_key = false
@@ -104,7 +133,7 @@ locals {
         }
         generate_key = false
       }
-      runner = var.env.short_name != "int" ? null : {
+      runner = {
         description = "service account for ci runners"
         roles = [
           "roles/owner"
@@ -118,7 +147,7 @@ locals {
         }
         generate_key = false
       }
-      runner-app = var.env.short_name != "int" ? null : {
+      runner-app = {
         description  = "service account for app ci runners"
         roles        = []
         custom_roles = []

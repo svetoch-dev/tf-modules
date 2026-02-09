@@ -1,111 +1,107 @@
 locals {
   gcp_k8s_cluster_nodes = {
-    "${var.env.short_name}" = merge(
-      {
-        main = {
-          name               = "main"
-          machine_type       = "t2d-standard-4"
-          node_locations     = var.env.cloud.location.default_zone
-          min_count          = 0
-          max_count          = 10
-          local_ssd_count    = 0
-          disk_size_gb       = 45
-          disk_type          = "pd-ssd"
-          image_type         = "COS_CONTAINERD"
-          auto_repair        = true
-          auto_upgrade       = true
-          service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-          preemptible        = false
-          spot               = true
-          initial_node_count = 0
-          #All k8s permissions for nodes
-          #are set on serviceaccount level
-          #not by using oauth scopes. This
-          #scopes are default ones
-          oauth_scopes = [
-            "https://www.googleapis.com/auth/userinfo.email",
-            "https://www.googleapis.com/auth/cloud-platform"
-          ]
-          labels = {
-            main = "true"
-          }
-          taints = [
-          ]
-        },
-        on-demand = {
-          name               = "on-demand"
-          machine_type       = "t2d-standard-4"
-          node_locations     = var.env.cloud.location.default_zone
-          min_count          = 0
-          max_count          = 10
-          local_ssd_count    = 0
-          disk_size_gb       = 45
-          disk_type          = "pd-ssd"
-          image_type         = "COS_CONTAINERD"
-          auto_repair        = true
-          auto_upgrade       = true
-          service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-          preemptible        = false
-          spot               = false
-          initial_node_count = 0
-          #All k8s permissions for nodes
-          #are set on serviceaccount level
-          #not by using oauth scopes. This
-          #scopes are default ones
-          oauth_scopes = [
-            "https://www.googleapis.com/auth/userinfo.email",
-            "https://www.googleapis.com/auth/cloud-platform"
-          ]
-          labels = {
-            on-demand = "true"
-          }
-          taints = [
-            {
-              key    = "on-demand"
-              value  = true
-              effect = "NO_SCHEDULE"
-            },
-          ]
+    "${var.env.short_name}" = {
+      main = {
+        name               = "main"
+        machine_type       = "t2d-standard-4"
+        node_locations     = var.env.cloud.location.default_zone
+        min_count          = 0
+        max_count          = 10
+        local_ssd_count    = 0
+        disk_size_gb       = 45
+        disk_type          = "pd-ssd"
+        image_type         = "COS_CONTAINERD"
+        auto_repair        = true
+        auto_upgrade       = true
+        service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
+        preemptible        = false
+        spot               = true
+        initial_node_count = 0
+        #All k8s permissions for nodes
+        #are set on serviceaccount level
+        #not by using oauth scopes. This
+        #scopes are default ones
+        oauth_scopes = [
+          "https://www.googleapis.com/auth/userinfo.email",
+          "https://www.googleapis.com/auth/cloud-platform"
+        ]
+        labels = {
+          main = "true"
         }
+        taints = [
+        ]
       },
-      var.env.short_name != "int" ? {} : {
-        runner = {
-          name               = "runner"
-          machine_type       = "t2d-standard-4"
-          node_locations     = var.env.cloud.location.default_zone
-          min_count          = 0
-          max_count          = 20
-          local_ssd_count    = 0
-          disk_size_gb       = 120
-          disk_type          = "pd-ssd"
-          image_type         = "COS_CONTAINERD"
-          auto_repair        = true
-          auto_upgrade       = true
-          service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-          preemptible        = false
-          spot               = true
-          initial_node_count = 0
-          #All k8s permissions for nodes
-          #are set on serviceaccount level
-          #not by using oauth scopes. This
-          #scopes are default ones
-          oauth_scopes = [
-            "https://www.googleapis.com/auth/userinfo.email",
-            "https://www.googleapis.com/auth/cloud-platform"
-          ]
-          labels = {
-            runner = "true"
-          }
-          taints = [
-            {
-              key    = "runner"
-              value  = true
-              effect = "NO_SCHEDULE"
-            },
-          ]
-        },
+      on-demand = {
+        name               = "on-demand"
+        machine_type       = "t2d-standard-4"
+        node_locations     = var.env.cloud.location.default_zone
+        min_count          = 0
+        max_count          = 10
+        local_ssd_count    = 0
+        disk_size_gb       = 45
+        disk_type          = "pd-ssd"
+        image_type         = "COS_CONTAINERD"
+        auto_repair        = true
+        auto_upgrade       = true
+        service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
+        preemptible        = false
+        spot               = false
+        initial_node_count = 0
+        #All k8s permissions for nodes
+        #are set on serviceaccount level
+        #not by using oauth scopes. This
+        #scopes are default ones
+        oauth_scopes = [
+          "https://www.googleapis.com/auth/userinfo.email",
+          "https://www.googleapis.com/auth/cloud-platform"
+        ]
+        labels = {
+          on-demand = "true"
+        }
+        taints = [
+          {
+            key    = "on-demand"
+            value  = true
+            effect = "NO_SCHEDULE"
+          },
+        ]
       }
-    )
+      runner = {
+        name               = "runner"
+        machine_type       = "t2d-standard-4"
+        node_locations     = var.env.cloud.location.default_zone
+        min_count          = 0
+        max_count          = 20
+        local_ssd_count    = 0
+        disk_size_gb       = 120
+        disk_type          = "pd-ssd"
+        image_type         = "COS_CONTAINERD"
+        auto_repair        = true
+        auto_upgrade       = true
+        service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
+        preemptible        = false
+        spot               = true
+        initial_node_count = 0
+        #All k8s permissions for nodes
+        #are set on serviceaccount level
+        #not by using oauth scopes. This
+        #scopes are default ones
+        oauth_scopes = [
+          "https://www.googleapis.com/auth/userinfo.email",
+          "https://www.googleapis.com/auth/cloud-platform"
+        ]
+        labels = {
+          runner = "true"
+        }
+        taints = [
+          {
+            key    = "runner"
+            value  = true
+            effect = "NO_SCHEDULE"
+          },
+        ]
+      },
+    }
   }
   gcp_k8s_clusters = {
     "${var.env.short_name}" = {
@@ -166,7 +162,7 @@ locals {
       master_global_access_enabled = false # We use public endpoint for master access so setting false to ignore
 
       node_pools = [
-        for node_pool in values(local.gcp_k8s_cluster_nodes[var.env.short_name]) :
+        for node_pool in values(local.gcp_k8s_cluster_nodes_merged[var.env.short_name]) :
         {
           name               = node_pool.name
           machine_type       = node_pool.machine_type

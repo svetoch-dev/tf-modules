@@ -54,9 +54,7 @@ locals {
           description = null
           allow = {
             tcp = {
-              ports = var.env.short_name == "int" ? [] : [
-                "8080", #konghq
-                "9443", #rabbitmq operator
+              ports = [
               ]
             }
           }
