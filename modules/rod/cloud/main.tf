@@ -10,12 +10,12 @@ module "gcp" {
     region = var.env.cloud.location.region
   }
 
-  activate_apis = local.gcp_activate_apis
-  networks      = local.gcp_networks
-  gke_clusters  = local.gcp_k8s_clusters
-  logging       = local.gcp_logging
-  gars          = local.gcp_registries
-  iam           = local.gcp_iam
-  dns_zones     = local.gcp_dns_zones
-  gcs           = local.gcp_buckets
+  activate_apis = local.gcp_activate_apis_merged
+  networks      = local.gcp_networks_merged
+  gke_clusters  = local.gcp_k8s_clusters_merged
+  logging       = local.gcp_logging_merged
+  gars          = local.gcp_registries_merged
+  iam           = local.gcp_iam_merged
+  dns_zones     = local.gcp_dns_zones_merged
+  gcs           = local.gcp_buckets_merged
 }
