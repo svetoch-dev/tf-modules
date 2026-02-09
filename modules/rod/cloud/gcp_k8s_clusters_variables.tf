@@ -1,6 +1,6 @@
 locals {
   gcp_k8s_cluster_nodes = {
-    "${var.env.short_name}" = {
+    tostring(var.env.short_name) = {
       main = {
         name               = "main"
         machine_type       = "t2d-standard-4"
@@ -104,7 +104,7 @@ locals {
     }
   }
   gcp_k8s_clusters = {
-    "${var.env.short_name}" = {
+    tostring(var.env.short_name) = {
       name                = var.env.short_name
       enabled             = var.env.kubernetes.enabled
       deletion_protection = var.env.kubernetes.deletion_protection
