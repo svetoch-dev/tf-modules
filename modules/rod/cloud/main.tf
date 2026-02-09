@@ -11,11 +11,11 @@ module "gcp" {
   }
 
   activate_apis = local.gcp_activate_apis_merged
-  networks      = local.gcp_networks_merged
+  gcs           = local.gcp_buckets_merged
+  dns_zones     = local.gcp_dns_zones_merged
+  iam           = local.gcp_iam_merged
   gke_clusters  = local.gcp_k8s_clusters_merged
   logging       = local.gcp_logging_merged
+  networks      = local.gcp_networks_merged
   gars          = local.gcp_registries_merged
-  iam           = local.gcp_iam_merged
-  dns_zones     = local.gcp_dns_zones_merged
-  gcs           = local.gcp_buckets_merged
 }
