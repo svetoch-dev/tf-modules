@@ -1,3 +1,8 @@
+# gcp-v2.8.2
+Enhancements:
+* `all modules` - try to create only none null objects
+
+
 # gcp-v2.8.1
 Enhancements:
 * `cloudrun_service` - ability to set deletion_protection attr

@@ -180,6 +180,7 @@ locals {
           spot               = node_pool.spot
           initial_node_count = node_pool.initial_node_count
         }
+        if node_pool != null
       ]
 
       node_pools_oauth_scopes = merge(

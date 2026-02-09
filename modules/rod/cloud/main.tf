@@ -1,5 +1,5 @@
 module "gcp" {
-  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/gcp?ref=gcp-v2.7.0"
+  source = "../../gcp"
   #Use for_each so that resources path prefix
   #would be module.gcp["this"]
   for_each = var.env.cloud.name == "gcp" ? {

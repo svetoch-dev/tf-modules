@@ -10,8 +10,12 @@ module "enable_apis" {
 /* network */
 
 module "network" {
-  for_each = var.networks
-  source   = "./network"
+  for_each = {
+    for network_name, network_obj in var.networks :
+    network_name => network_obj
+    if network_obj != null
+  }
+  source = "./network"
 
   vpc = merge(
     each.value.vpc,
@@ -32,7 +36,7 @@ module "gke" {
   for_each = {
     for cluster_name, cluster_obj in var.gke_clusters :
     cluster_name => cluster_obj
-    if try(cluster_obj.enabled, true) == true
+    if try(cluster_obj.enabled, true) == true && cluster_obj != null
   }
   project_id                      = var.project.id
   deletion_protection             = try(each.value.deletion_protection, true)
@@ -106,8 +110,12 @@ module "gke" {
 /* cloudsql */
 
 module "cloudsql_postgres" {
-  source              = "./cloudsql/postgresql"
-  for_each            = var.cloudsql_postgres
+  source = "./cloudsql/postgresql"
+  for_each = {
+    for cloudsql_postgres_name, cloudsql_postgres_obj in var.cloudsql_postgres :
+    cloudsql_postgres_name => cloudsql_postgres_obj
+    if cloudsql_postgres_obj != null
+  }
   project_id          = var.project.id
   name                = each.key
   database_version    = each.value.postgresql_version
@@ -157,8 +165,12 @@ module "cloudsql_postgres" {
 /* GCS */
 
 module "gcs" {
-  source             = "./gcs"
-  for_each           = var.gcs
+  source = "./gcs"
+  for_each = {
+    for gcs_name, gcs_obj in var.gcs :
+    gcs_name => gcs_obj
+    if gcs_obj != null
+  }
   name               = try(each.value.name, each.key)
   location           = each.value.location
   bucket_policy_only = try(each.value.bucket_policy_only, false)
@@ -206,8 +218,12 @@ module "gcs" {
 /* gar */
 
 module "gars" {
-  source             = "./gar"
-  for_each           = var.gars
+  source = "./gar"
+  for_each = {
+    for gar_name, gar_obj in var.gars :
+    gar_name => gar_obj
+    if gar_obj != null
+  }
   repository_id      = each.key
   location           = each.value.location
   description        = try(each.value.description, "")
@@ -252,10 +268,14 @@ module "iam" {
 /* dns */
 
 module "dns" {
-  source   = "./dns"
-  for_each = var.dns_zones
-  zone     = each.value.zone
-  records  = each.value.records
+  source = "./dns"
+  for_each = {
+    for dns_zone_name, dns_zone_obj in var.dns_zones :
+    dns_zone_name => dns_zone_obj
+    if dns_zone_obj != null
+  }
+  zone    = each.value.zone
+  records = each.value.records
   depends_on = [
     module.enable_apis,
   ]
@@ -265,8 +285,12 @@ module "dns" {
 /* Memorystore */
 
 module "redis" {
-  source         = "./memorystore_redis"
-  for_each       = var.redis_instances
+  source = "./memorystore_redis"
+  for_each = {
+    for redis_instance_name, redis_instance_obj in var.redis_instances :
+    redis_instance_name => redis_instance_obj
+    if redis_instance_obj != null
+  }
   name           = each.value.name
   memory_size_gb = each.value.memory_size_gb
   redis_configs  = each.value.redis_configs
@@ -283,8 +307,12 @@ module "redis" {
 /* cloudrun */
 
 module "cloudrun_services" {
-  source     = "./cloudrun_service"
-  for_each   = var.cloudrun_services
+  source = "./cloudrun_service"
+  for_each = {
+    for cloudrun_services_name, cloudrun_services_obj in var.cloudrun_services :
+    cloudrun_services_name => cloudrun_services_obj
+    if cloudrun_services_obj != null
+  }
   name       = each.value.name
   project_id = var.project.id
   location   = each.value.location
@@ -322,8 +350,12 @@ module "cloudrun_services" {
 }
 
 module "cloudrun_jobs" {
-  source      = "./cloudrun_job"
-  for_each    = var.cloudrun_jobs
+  source = "./cloudrun_job"
+  for_each = {
+    for cloudrun_jobs_name, cloudrun_jobs_obj in var.cloudrun_jobs :
+    cloudrun_jobs_name => cloudrun_jobs_obj
+    if cloudrun_jobs_obj != null
+  }
   name        = each.value.name
   project_id  = var.project.id
   location    = each.value.location
@@ -353,8 +385,12 @@ module "cloudrun_jobs" {
 /* albs */
 
 module "application_lbs" {
-  source       = "./application_loadbalancer"
-  for_each     = var.application_lbs
+  source = "./application_loadbalancer"
+  for_each = {
+    for application_lb_name, application_lb_obj in var.application_lbs :
+    application_lb_name => application_lb_obj
+    if application_lb_obj != null
+  }
   name         = each.value.name
   backends     = each.value.backends
   http_target  = each.value.http_target
@@ -364,8 +400,12 @@ module "application_lbs" {
 /* kms */
 
 module "kms" {
-  source   = "./kms"
-  for_each = var.kms_key_rings
+  source = "./kms"
+  for_each = {
+    for kms_key_ring_name, kms_key_ring_obj in var.kms_key_rings :
+    kms_key_ring_name => kms_key_ring_obj
+    if kms_key_ring_obj != null
+  }
   key_ring = {
     name     = each.value.name
     location = try(each.value.location, var.project.region)
@@ -380,8 +420,12 @@ module "kms" {
 /* cloud tasks */
 
 module "cloud_tasks" {
-  source        = "./cloud_task"
-  for_each      = var.cloud_tasks
+  source = "./cloud_task"
+  for_each = {
+    for cloud_task_name, cloud_task_obj in var.cloud_tasks :
+    cloud_task_name => cloud_task_obj
+    if cloud_task_obj != null
+  }
   name          = each.value.name
   location      = each.value.location
   rate_limits   = each.value.rate_limits
@@ -397,8 +441,12 @@ module "cloud_tasks" {
 /* cloud scheduler */
 
 module "cloud_schedules" {
-  source           = "./cloud_scheduler"
-  for_each         = var.cloud_schedules
+  source = "./cloud_scheduler"
+  for_each = {
+    for cloud_schedule_name, cloud_schedule_obj in var.cloud_schedules :
+    cloud_schedule_name => cloud_schedule_obj
+    if cloud_schedule_obj != null
+  }
   name             = each.value.name
   schedule         = each.value.schedule
   description      = try(each.value.description, "")
@@ -413,8 +461,12 @@ module "cloud_schedules" {
 /* firestore */
 
 module "firestores" {
-  source             = "./firestore"
-  for_each           = var.firestores
+  source = "./firestore"
+  for_each = {
+    for firestore_name, firestore_obj in var.firestores :
+    firestore_name => firestore_obj
+    if firestore_obj != null
+  }
   db                 = each.value.db
   firestore_indecies = try(each.value.firestore_indecies, {})
 }
@@ -422,8 +474,12 @@ module "firestores" {
 /* vms */
 
 module "vms" {
-  source       = "./vm"
-  for_each     = var.vms
+  source = "./vm"
+  for_each = {
+    for vm_name, vm_obj in var.vms :
+    vm_name => vm_obj
+    if vm_obj != null
+  }
   project      = var.project
   name         = each.value.name
   machine_type = each.value.machine_type
@@ -450,8 +506,12 @@ module "vms" {
 /* pubsub */
 
 module "pubsub" {
-  source                     = "./pubsub"
-  for_each                   = var.pubsubs
+  source = "./pubsub"
+  for_each = {
+    for pubsub_name, pubsub_obj in var.pubsubs :
+    pubsub_name => pubsub_obj
+    if pubsub_obj != null
+  }
   name                       = each.key
   message_retention_duration = try(each.value.message_retention_duration, "")
   regions                    = try(each.value.regions, [])
@@ -493,8 +553,12 @@ module "logging" {
 
 /* allydb */
 module "alloydbs" {
-  source                           = "./alloydb"
-  for_each                         = var.alloydbs
+  source = "./alloydb"
+  for_each = {
+    for alloydb_name, alloydb_obj in var.alloydbs :
+    alloydb_name => alloydb_obj
+    if alloydb_obj != null
+  }
   name                             = each.value.name
   region                           = each.value.region
   database_version                 = each.value.database_version
