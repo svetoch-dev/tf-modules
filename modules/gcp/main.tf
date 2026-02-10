@@ -194,8 +194,8 @@ module "gcs" {
       #module because we want to keep all provider
       #related objects in cloud modules
 
-      members = each.value.admins == null ? [] : [
-        for admin in each.value.admins :
+      members = [
+        for admin in try(each.value.admins, []) :
         templatestring(
           admin,
           {
@@ -212,8 +212,8 @@ module "gcs" {
       #module because we want to keep all provider
       #related objects in cloud modules
 
-      members = each.value.creators == null ? [] : [
-        for creator in each.value.creators :
+      members = [
+        for creator in try(each.value.creators, []) :
         templatestring(
           creator,
           {
@@ -230,8 +230,8 @@ module "gcs" {
       #module because we want to keep all provider
       #related objects in cloud modules
 
-      members = each.value.viewers == null ? [] : [
-        for viewer in each.value.viewers :
+      members = [
+        for viewer in try(each.value.viewers, []) :
         templatestring(
           viewer,
           {
@@ -247,8 +247,8 @@ module "gcs" {
       #this complexity is needed only for rod/cloud
       #module because we want to keep all provider
       #related objects in cloud modules
-      members = each.value.users == null ? [] : [
-        for user in each.value.users :
+      members = [
+        for user in try(each.value.users, []) :
         templatestring(
           user,
           {
