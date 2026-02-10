@@ -474,12 +474,8 @@ module "firestores" {
 /* vms */
 
 module "vms" {
-  source = "./vm"
-  for_each = {
-    for vm_name, vm_obj in var.vms :
-    vm_name => vm_obj
-    if vm_obj != null
-  }
+  source       = "./vm"
+  for_each     = var.vms
   project      = var.project
   name         = each.value.name
   machine_type = each.value.machine_type
