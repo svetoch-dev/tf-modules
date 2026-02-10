@@ -38,15 +38,13 @@ variable "env" {
       initial_start = optional(bool, false)
       cloud = object(
         {
-          name       = string
-          id         = string
-          numeric_id = optional(string)
+          name = string
+          id   = string
           location = object(
             {
-              region          = string
-              default_zone    = string
-              multi_region    = string
-              available_zones = list(string)
+              region       = string
+              default_zone = string
+              multi_region = string
             }
           )
           network = object(

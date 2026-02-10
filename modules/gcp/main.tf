@@ -1,3 +1,10 @@
+/* data */
+
+data "google_project" "project" {}
+data "google_compute_zones" "available" {}
+
+/* apis */
+
 module "enable_apis" {
   source = "git::https://github.com/terraform-google-modules/terraform-google-project-factory//modules/project_services?ref=v18.0.0"
 
@@ -38,14 +45,17 @@ module "gke" {
     cluster_name => cluster_obj
     if try(cluster_obj.enabled, true) == true && cluster_obj != null
   }
-  project_id                      = var.project.id
-  deletion_protection             = try(each.value.deletion_protection, true)
-  release_channel                 = try(each.value.release_channel, "STABLE")
-  kubernetes_version              = each.value.kubernetes_version
-  name                            = each.value.name
-  regional                        = each.value.regional
-  region                          = each.value.region
-  zones                           = each.value.zones
+  project_id          = var.project.id
+  deletion_protection = try(each.value.deletion_protection, true)
+  release_channel     = try(each.value.release_channel, "STABLE")
+  kubernetes_version  = each.value.kubernetes_version
+  name                = each.value.name
+  regional            = each.value.regional
+  region              = each.value.region
+  zones = try(
+    each.value.zones,
+    data.google_compute_zones.available.names
+  )
   network                         = each.value.network
   subnetwork                      = each.value.subnetwork
   ip_range_pods                   = each.value.ip_range_pods
@@ -177,20 +187,75 @@ module "gcs" {
   storage_class      = try(each.value.storage_class, "STANDARD")
   iam_roles = [
     {
-      role    = "roles/storage.objectAdmin"
-      members = try(each.value.admins, [])
+      role = "roles/storage.objectAdmin"
+      #Needed for SA with numeric ids like
+      #serviceAccount:service-111111111@gcp-sa-logging.iam.gserviceaccount.com
+      #this complexity is needed only for rod/cloud
+      #module because we want to keep all provider
+      #related objects in cloud modules
+
+      members = each.value.admins == null ? [] : [
+        for admin in each.value.admins :
+        templatestring(
+          admin,
+          {
+            project_numeric_id = data.google_project.project.number
+          }
+        )
+      ]
     },
     {
-      role    = "roles/storage.objectCreator"
-      members = try(each.value.creators, [])
+      role = "roles/storage.objectCreator"
+      #Needed for SA with numeric ids like
+      #serviceAccount:service-111111111@gcp-sa-logging.iam.gserviceaccount.com
+      #this complexity is needed only for rod/cloud
+      #module because we want to keep all provider
+      #related objects in cloud modules
+
+      members = each.value.creators == null ? [] : [
+        for creator in each.value.creators :
+        templatestring(
+          creator,
+          {
+            project_numeric_id = data.google_project.project.number
+          }
+        )
+      ]
     },
     {
-      role    = "roles/storage.objectViewer"
-      members = try(each.value.viewers, [])
+      role = "roles/storage.objectViewer"
+      #Needed for SA with numeric ids like
+      #serviceAccount:service-111111111@gcp-sa-logging.iam.gserviceaccount.com
+      #this complexity is needed only for rod/cloud
+      #module because we want to keep all provider
+      #related objects in cloud modules
+
+      members = each.value.viewers == null ? [] : [
+        for viewer in each.value.viewers :
+        templatestring(
+          viewer,
+          {
+            project_numeric_id = data.google_project.project.number
+          }
+        )
+      ]
     },
     {
-      role    = "roles/storage.objectUser"
-      members = try(each.value.users, [])
+      role = "roles/storage.objectUser"
+      #Needed for SA with numeric ids like
+      #serviceAccount:service-111111111@gcp-sa-logging.iam.gserviceaccount.com
+      #this complexity is needed only for rod/cloud
+      #module because we want to keep all provider
+      #related objects in cloud modules
+      members = each.value.users == null ? [] : [
+        for user in each.value.users :
+        templatestring(
+          user,
+          {
+            project_numeric_id = data.google_project.project.number
+          }
+        )
+      ]
     }
   ]
   force_destroy        = try(each.value.force_destroy, false)
@@ -572,3 +637,6 @@ module "alloydbs" {
   instances                        = try(each.value.instances, {})
   users                            = try(each.value.users, {})
 }
+
+
+

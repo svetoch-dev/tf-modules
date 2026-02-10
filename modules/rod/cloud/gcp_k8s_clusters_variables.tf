@@ -110,7 +110,6 @@ locals {
       deletion_protection = var.env.kubernetes.deletion_protection
       regional            = var.env.kubernetes.regional
       region              = var.env.cloud.location.region
-      zones               = var.env.cloud.location.available_zones
       kubernetes_version  = "latest"
 
       subnetwork              = module.gcp["this"].subnets["main"]["vms"].name
