@@ -188,7 +188,7 @@ locals {
           all = []
         },
         {
-          for node_name, node_obj in local.gcp_k8s_cluster_nodes[var.env.short_name] :
+          for node_name, node_obj in local.gcp_k8s_cluster_nodes_merged[var.env.short_name] :
           node_name => node_obj.oauth_scopes
         }
       )
@@ -205,7 +205,7 @@ locals {
           }
         },
         {
-          for node_name, node_obj in local.gcp_k8s_cluster_nodes[var.env.short_name] :
+          for node_name, node_obj in local.gcp_k8s_cluster_nodes_merged[var.env.short_name] :
           node_name => node_obj.labels
         }
       )
@@ -225,7 +225,7 @@ locals {
           all = []
         },
         {
-          for node_name, node_obj in local.gcp_k8s_cluster_nodes[var.env.short_name] :
+          for node_name, node_obj in local.gcp_k8s_cluster_nodes_merged[var.env.short_name] :
           node_name => node_obj.taints
         }
       )
