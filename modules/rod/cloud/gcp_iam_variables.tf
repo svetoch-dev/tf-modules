@@ -136,7 +136,6 @@ locals {
       runner = {
         description = "service account for ci runners"
         roles = [
-          "roles/owner"
         ]
         custom_roles = []
         sa_iam_bindings = var.env.initial_start ? {} : {
