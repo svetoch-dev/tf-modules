@@ -15,6 +15,7 @@ variable "ci" {
       type = string
     }
   )
+  default = null
 }
 
 variable "apps" {
