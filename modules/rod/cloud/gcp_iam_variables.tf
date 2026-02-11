@@ -138,10 +138,11 @@ locals {
         roles = [
         ]
         custom_roles = []
-        sa_iam_bindings = var.env.initial_start || var.ci == null ? {} : {
-          "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${var.env.cloud.id}.svc.id.goog[${var.ci.type}-runner/runner]"
-          ]
+        sa_iam_bindings = var.env.initial_start ? {} : {
+          "roles/iam.workloadIdentityUser" = concat(
+            var.ci.type == "gha" ? ["serviceAccount:${var.env.cloud.id}.svc.id.goog[gha-runner/runner]"] : [],
+            var.ci.type == "gl" ? ["serviceAccount:${var.env.cloud.id}.svc.id.goog[gl-runner/runner]"] : [],
+          )
         }
         generate_key = false
       }
@@ -149,10 +150,11 @@ locals {
         description  = "service account for app ci runners"
         roles        = []
         custom_roles = []
-        sa_iam_bindings = var.env.initial_start || var.ci == null ? {} : {
-          "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${var.env.cloud.id}.svc.id.goog[${var.ci.type}-runner-app/runner-app]"
-          ]
+        sa_iam_bindings = var.env.initial_start ? {} : {
+          "roles/iam.workloadIdentityUser" = concat(
+            var.ci.type == "gha" ? ["serviceAccount:${var.env.cloud.id}.svc.id.goog[gha-runner-app/runner-app]"] : [],
+            var.ci.type == "gl" ? ["serviceAccount:${var.env.cloud.id}.svc.id.goog[gl-runner/runner-app]"] : [],
+          )
         }
         generate_key = false
       }
