@@ -188,6 +188,7 @@ locals {
         {
           for node_name, node_obj in local.gcp_k8s_cluster_nodes_merged[var.env.short_name] :
           node_name => node_obj.oauth_scopes
+          if node_obj != null
         }
       )
 
@@ -205,6 +206,7 @@ locals {
         {
           for node_name, node_obj in local.gcp_k8s_cluster_nodes_merged[var.env.short_name] :
           node_name => node_obj.labels
+          if node_obj != null
         }
       )
 
@@ -225,6 +227,7 @@ locals {
         {
           for node_name, node_obj in local.gcp_k8s_cluster_nodes_merged[var.env.short_name] :
           node_name => node_obj.taints
+          if node_obj != null
         }
       )
 

@@ -98,17 +98,6 @@ locals {
         }
         generate_key = false
       },
-      grafana = {
-        description  = "service account for grafana"
-        roles        = []
-        custom_roles = []
-        sa_iam_bindings = var.env.initial_start ? {} : {
-          "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${var.env.cloud.id}.svc.id.goog[grafana/grafana]",
-          ]
-        }
-        generate_key = false
-      }
       grafana-loki = {
         description  = "service account for loki"
         roles        = []
