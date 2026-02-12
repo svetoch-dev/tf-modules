@@ -4,7 +4,7 @@ locals {
       #force_destroy should be oposite to deletion_protection
       force_destroy      = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class      = var.env.cloud.buckets.multi_regional ? "MULTI_REGIONAL" : "STANDARD"
-      location           = var.env.cloud.buckets.multi_regional ? local.env.cloud.multi_region : var.env.cloud.location.region
+      location           = var.env.cloud.buckets.multi_regional ? var.env.cloud.multi_region : var.env.cloud.location.region
       bucket_policy_only = true
       admins = [
         "serviceAccount:grafana-loki@${var.env.cloud.id}.iam.gserviceaccount.com"
@@ -16,7 +16,7 @@ locals {
       #force_destroy should be oposite to deletion_protection
       force_destroy      = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class      = var.env.cloud.buckets.multi_regional ? "MULTI_REGIONAL" : "STANDARD"
-      location           = var.env.cloud.buckets.multi_regional ? local.env.cloud.multi_region : var.env.cloud.location.region
+      location           = var.env.cloud.buckets.multi_regional ? var.env.cloud.multi_region : var.env.cloud.location.region
       bucket_policy_only = true
       admins = [
         "serviceAccount:thanos@${var.env.cloud.id}.iam.gserviceaccount.com"
@@ -26,7 +26,7 @@ locals {
       #force_destroy should be oposite to deletion_protection
       force_destroy      = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class      = var.env.cloud.buckets.multi_regional ? "MULTI_REGIONAL" : "STANDARD"
-      location           = var.env.cloud.buckets.multi_regional ? local.env.cloud.multi_region : var.env.cloud.location.region
+      location           = var.env.cloud.buckets.multi_regional ? var.env.cloud.multi_region : var.env.cloud.location.region
       bucket_policy_only = true
       admins = [
         "serviceAccount:postgres@${var.env.cloud.id}.iam.gserviceaccount.com"
@@ -36,7 +36,7 @@ locals {
       #force_destroy should be oposite to deletion_protection
       force_destroy      = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class      = var.env.cloud.buckets.multi_regional ? "MULTI_REGIONAL" : "STANDARD"
-      location           = var.env.cloud.buckets.multi_regional ? local.env.cloud.multi_region : var.env.cloud.location.region
+      location           = var.env.cloud.buckets.multi_regional ? var.env.cloud.multi_region : var.env.cloud.location.region
       bucket_policy_only = true
       admins = [
         "serviceAccount:postgres@${var.env.cloud.id}.iam.gserviceaccount.com"
