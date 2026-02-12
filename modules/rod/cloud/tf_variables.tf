@@ -58,6 +58,7 @@ variable "env" {
           buckets = object(
             {
               deletion_protection = bool
+              multi_regional      = bool
             }
           )
         }

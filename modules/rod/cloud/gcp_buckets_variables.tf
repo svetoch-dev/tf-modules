@@ -3,9 +3,9 @@ locals {
     format("%s-loki-%s", var.company.name, var.env.short_name) = {
       #force_destroy should be oposite to deletion_protection
       force_destroy      = var.env.cloud.buckets.deletion_protection ? false : true
-      storage_class      = "STANDARD"
+      storage_class      = var.env.cloud.buckets.multi_regional ? "MULTI_REGIONAL" : "STANDARD"
+      location           = var.env.cloud.buckets.multi_regional ? local.env.cloud.multi_region : var.env.cloud.location.region
       bucket_policy_only = true
-      location           = var.env.cloud.location.region
       admins = [
         "serviceAccount:grafana-loki@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
@@ -15,9 +15,9 @@ locals {
     format("%s-thanos-%s", var.company.name, var.env.short_name) = {
       #force_destroy should be oposite to deletion_protection
       force_destroy      = var.env.cloud.buckets.deletion_protection ? false : true
-      storage_class      = "STANDARD"
+      storage_class      = var.env.cloud.buckets.multi_regional ? "MULTI_REGIONAL" : "STANDARD"
+      location           = var.env.cloud.buckets.multi_regional ? local.env.cloud.multi_region : var.env.cloud.location.region
       bucket_policy_only = true
-      location           = var.env.cloud.location.region
       admins = [
         "serviceAccount:thanos@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
@@ -25,9 +25,9 @@ locals {
     format("%s-postgres-%s", var.company.name, var.env.short_name) = {
       #force_destroy should be oposite to deletion_protection
       force_destroy      = var.env.cloud.buckets.deletion_protection ? false : true
-      storage_class      = "STANDARD"
+      storage_class      = var.env.cloud.buckets.multi_regional ? "MULTI_REGIONAL" : "STANDARD"
+      location           = var.env.cloud.buckets.multi_regional ? local.env.cloud.multi_region : var.env.cloud.location.region
       bucket_policy_only = true
-      location           = var.env.cloud.location.region
       admins = [
         "serviceAccount:postgres@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
@@ -35,9 +35,9 @@ locals {
     format("%s-postgres-backup-%s", var.company.name, var.env.short_name) = {
       #force_destroy should be oposite to deletion_protection
       force_destroy      = var.env.cloud.buckets.deletion_protection ? false : true
-      storage_class      = "STANDARD"
+      storage_class      = var.env.cloud.buckets.multi_regional ? "MULTI_REGIONAL" : "STANDARD"
+      location           = var.env.cloud.buckets.multi_regional ? local.env.cloud.multi_region : var.env.cloud.location.region
       bucket_policy_only = true
-      location           = var.env.cloud.location.region
       admins = [
         "serviceAccount:postgres@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
