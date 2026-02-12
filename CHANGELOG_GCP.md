@@ -1,6 +1,7 @@
 # gcp-v2.8.2
 Enhancements:
 * `all modules` - try to create only none null objects
+* `gcs` - render $${project_numeric_id} template for role members
 
 
 # gcp-v2.8.1
