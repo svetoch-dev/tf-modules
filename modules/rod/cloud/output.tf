@@ -25,3 +25,14 @@ output "k8s_clusters" {
     null
   )
 }
+
+output "iam" {
+  value = lookup(
+    {
+      gcp = module.gcp["this"].iam
+    },
+    var.env.cloud.name,
+    null
+  )
+  sensitive = true
+}
