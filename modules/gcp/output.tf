@@ -20,10 +20,7 @@ output "subnets" {
 }
 
 output "gke" {
-  value = {
-    for gke_name, gke_obj in module.gke :
-    gke_name => gke_obj.subnets
-  }
+  value = module.gke
 }
 
 output "nats" {
