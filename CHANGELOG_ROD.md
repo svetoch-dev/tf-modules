@@ -8,6 +8,7 @@ Features:
   * fix issue with disabling a node pool via overrides
   * do not pin provider versions
   * output `k8s_clusters` info
+  * output `iam` info
   * use lookup function to choose which cloud module should be outputed
 
 
