@@ -4,7 +4,7 @@ locals {
       main = {
         name               = "main"
         machine_type       = "t2d-standard-4"
-        node_locations     = var.env.cloud.location.default_zone
+        node_locations     = join(",", var.env.kubernetes.node_locations)
         min_count          = 0
         max_count          = 10
         local_ssd_count    = 0
@@ -34,7 +34,7 @@ locals {
       on-demand = {
         name               = "on-demand"
         machine_type       = "t2d-standard-4"
-        node_locations     = var.env.cloud.location.default_zone
+        node_locations     = join(",", var.env.kubernetes.node_locations)
         min_count          = 0
         max_count          = 10
         local_ssd_count    = 0
@@ -69,7 +69,7 @@ locals {
       runner = {
         name               = "runner"
         machine_type       = "t2d-standard-4"
-        node_locations     = var.env.cloud.location.default_zone
+        node_locations     = join(",", var.env.kubernetes.node_locations)
         min_count          = 0
         max_count          = 20
         local_ssd_count    = 0
