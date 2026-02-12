@@ -15,6 +15,7 @@ variable "ci" {
       type = string
     }
   )
+  default = null
 }
 
 variable "apps" {
@@ -66,7 +67,7 @@ variable "env" {
           {
             enabled             = bool
             regional            = bool
-            deletion_protection = bool
+            deletion_protection = optional(bool, true)
             location            = string
             auth_group          = optional(string, "")
           }
