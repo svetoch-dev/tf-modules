@@ -1,3 +1,9 @@
+# gcp-v2.8.3
+
+Enhancements:
+* output gke info
+
+
 # gcp-v2.8.2
 Enhancements:
 * `all modules` - try to create only none null objects
