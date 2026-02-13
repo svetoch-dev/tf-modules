@@ -10,5 +10,5 @@ module "github" {
     "this" = ""
   } : {}
 
-  repositories = local.repos_merged
+  repositories = local.repositories_merged
 }

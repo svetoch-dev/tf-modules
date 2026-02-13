@@ -1,5 +1,5 @@
 locals {
-  repos = {
+  repositories = {
     infrastructure = {
       name = "infrastructure"
       org  = var.ci.group
