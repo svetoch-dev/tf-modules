@@ -7,9 +7,9 @@ module "github" {
   source = "../../github"
   #Use for_each so that resources path prefix
   #would be module.github["this"]
-  for_each = var.ci.type == "gha" ? {
-    "this" = ""
-  } : {}
+#  for_each = var.ci.type == "gha" ? {
+#    "this" = ""
+#  } : {}
 
   repositories = local.repositories_merged
 }
