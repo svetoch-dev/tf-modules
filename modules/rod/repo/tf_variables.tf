@@ -19,7 +19,6 @@ variable "ci" {
   default = null
 }
 
-
 variable "overrides" {
   description = "Repositories attribute overrides"
   type = object(
