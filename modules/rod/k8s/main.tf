@@ -3,6 +3,7 @@ module "gcp_client_config" {
   for_each = var.env.cloud.name == "gcp" ? {
     "this" = ""
   } : {}
+  source = "../../gcp/client_config"
 }
 
 module "k8s" {
