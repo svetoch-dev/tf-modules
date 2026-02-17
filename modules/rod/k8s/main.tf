@@ -13,7 +13,7 @@ module "k8s" {
           gcp = data.google_client_config.client.access_token
           yc  = data.yandex_client_config.client.iam_token
         },
-        var.env.cloud
+        var.env.cloud.name
       )
     }
   )
