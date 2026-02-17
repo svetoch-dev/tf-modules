@@ -3,7 +3,6 @@ variable "k8s_api" {
   type = object(
     {
       endpoint = string
-      token    = string
       ca_cert  = string
     }
   )
