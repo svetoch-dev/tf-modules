@@ -3,9 +3,9 @@ terraform {
     google = {
       source = "hashicorp/google"
     }
-    yandex = {
-      source = "yandex-cloud/yandex"
-    }
+    #yandex = {
+    #  source = "yandex-cloud/yandex"
+    #}
     deepmerge = {
       source  = "isometry/deepmerge"
       version = "1.2.1"

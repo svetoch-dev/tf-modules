@@ -1,6 +1,6 @@
 data "google_client_config" "client" {}
 
-data "yandex_client_config" "client" {}
+#data "yandex_client_config" "client" {}
 
 
 module "k8s" {
@@ -11,7 +11,7 @@ module "k8s" {
       token = lookup(
         {
           gcp = data.google_client_config.client.access_token
-          yc  = data.yandex_client_config.client.iam_token
+          #yc  = data.yandex_client_config.client.iam_token
         },
         var.env.cloud.name
       )
