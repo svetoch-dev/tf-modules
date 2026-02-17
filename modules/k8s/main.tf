@@ -1,5 +1,5 @@
 provider "kubernetes" {
-  host                   = "https://${var.k8s_api.endpoint}"
+  host                   = var.k8s_api.endpoint
   token                  = var.k8s_api.token
   cluster_ca_certificate = var.k8s_api.ca_cert
 }
