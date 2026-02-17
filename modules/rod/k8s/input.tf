@@ -52,7 +52,7 @@ variable "overrides" {
       namespaces = optional(any)
     }
   )
-  bbdefault = {
+  default = {
     rbac       = null
     namespaces = null
   }
