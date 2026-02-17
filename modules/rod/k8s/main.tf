@@ -1,9 +1,15 @@
-#data "yandex_client_config" "client" {}
 module "gcp_client_config" {
   for_each = var.env.cloud.name == "gcp" ? {
     "this" = ""
   } : {}
   source = "../../gcp/client_config"
+}
+
+module "yc_client_config" {
+  for_each = var.env.cloud.name == "yc" ? {
+    "this" = ""
+  } : {}
+  source = "../../yc/client_config"
 }
 
 module "k8s" {
@@ -14,7 +20,7 @@ module "k8s" {
       token = lookup(
         {
           gcp = module.gcp_client_config["this"].this.access_token
-          #yc  = data.yandex_client_config.client.iam_token
+          yc  = module.gcp_client_config["this"].this.iam_token
         },
         var.env.cloud.name
       )
