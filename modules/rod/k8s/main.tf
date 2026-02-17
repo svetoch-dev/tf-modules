@@ -13,7 +13,7 @@ module "k8s" {
     {
       token = lookup(
         {
-          gcp = module.gcp_client_config.this.access_token
+          gcp = module.gcp_client_config["this"].this.access_token
           #yc  = data.yandex_client_config.client.iam_token
         },
         var.env.cloud.name
