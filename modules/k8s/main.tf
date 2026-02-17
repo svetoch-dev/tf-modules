@@ -7,9 +7,6 @@ provider "kubernetes" {
 module "namespaces" {
   source     = "./namespaces"
   namespaces = var.namespaces
-  providers = {
-    kubernetes = kubernetes
-  }
 }
 
 module "rbac" {
@@ -22,9 +19,6 @@ module "rbac" {
   depends_on = [
     module.namespaces,
   ]
-  providers = {
-    kubernetes = kubernetes
-  }
 }
 
 module "services" {
@@ -33,7 +27,4 @@ module "services" {
   depends_on = [
     module.namespaces,
   ]
-  providers = {
-    kubernetes = kubernetes
-  }
 }
