@@ -17,6 +17,6 @@ module "k8s" {
       )
     }
   )
-  rbac       = local.rbac
-  namespaces = local.namespaces
+  rbac       = local.rbac_merged
+  namespaces = local.namespaces_merged
 }
