@@ -1,7 +1,19 @@
-variable "cloud_id" { type = optional(string) }
-variable "folder_id" { type = optional(string) }
-variable "zone" { type = optional(string) }
-variable "sa_key_file" { type = optional(string) }
+variable "cloud_id" {
+  type    = string
+  default = null
+}
+variable "folder_id" {
+  type    = string
+  default = null
+}
+variable "zone" {
+  type    = string
+  default = null
+}
+variable "sa_key_file" {
+  type    = string
+  default = null
+}
 
 providers "yandex" {
   cloud_id  = var.cloud_id
