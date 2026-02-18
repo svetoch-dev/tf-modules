@@ -10,8 +10,6 @@ locals {
           create    = true
         }
       }
-      secrets = {
-      }
     }
   }
 }
