@@ -1,7 +1,7 @@
 locals {
   repositories = {
-    infrastructure = {
-      name = "infrastructure"
+    infrastructure1 = {
+      name = "infrastructure1"
       org  = var.ci.group
       deploy_keys = {
         argocd = {
