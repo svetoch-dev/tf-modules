@@ -1,9 +1,9 @@
-# k8s-v1.0.0-alpha-p1
-BrakingChanges:
-* configure provider inside module
+# k8s-v0.3.0
+
+Features:
+* create only not null resources
 
 Enhancements:
-* create only not null resources
 * update provider to 2.38.0
 
 # k8s-v0.2.0
