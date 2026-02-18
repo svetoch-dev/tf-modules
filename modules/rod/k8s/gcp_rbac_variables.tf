@@ -10,6 +10,7 @@ locals {
           }
         }
       )
+      if service_account_obj != null
     }
     cluster_role_binding = {
       argocd = var.env.short_name == "int" ? null : {
