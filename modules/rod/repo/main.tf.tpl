@@ -1,6 +1,5 @@
 provider "github" {
   owner = var.ci.group
-  token = var.token
 }
 
 module "github" {
