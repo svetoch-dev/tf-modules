@@ -19,10 +19,6 @@ variable "ci" {
   default = null
 }
 
-variable "token" {
- type = string
-}
-
 variable "overrides" {
   description = "Repositories attribute overrides"
   type = object(
