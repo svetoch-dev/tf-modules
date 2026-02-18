@@ -1,13 +1,3 @@
-variable "company" {
-  description = "Company related info"
-  type = object(
-    {
-      name   = string
-      domain = string
-    }
-  )
-}
-
 variable "ci" {
   description = "Ci related info"
   type = object(
@@ -19,6 +9,8 @@ variable "ci" {
   default = null
 }
 
+
+
 variable "overrides" {
   description = "Repositories attribute overrides"
   type = object(
@@ -27,6 +19,6 @@ variable "overrides" {
     }
   )
   default = {
-    repositories = null
+    repositories = {}
   }
 }
