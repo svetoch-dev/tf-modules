@@ -1,3 +1,5 @@
 output "this" {
-  value = data.yandex_client_config.client
+  value = {
+    token = data.yandex_client_config.client.iam_token
+  }
 }

@@ -1,3 +1,5 @@
 output "this" {
-  value = data.google_client_config.client
+  value = {
+    token = data.google_client_config.client.access_token
+  }
 }
