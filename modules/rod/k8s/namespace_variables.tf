@@ -1,9 +1,9 @@
 locals {
   namespaces = merge(
     {
-      argocd = {
+      argocd = var.env.short_name == "int" ? {
         name = "argocd"
-      }
+      } : null
       cert-manager = {
         name = "cert-manager"
       }
@@ -13,9 +13,9 @@ locals {
       fluent = {
         name = "fluent"
       }
-      grafana = {
+      grafana = var.env.short_name == "int" ? {
         name = "grafana"
-      }
+      } : null
       konghq = {
         name = "konghq"
       }
@@ -37,18 +37,18 @@ locals {
       redis = {
         name = "redis"
       }
-      "${var.ci.type}-runner" = {
+      "${var.ci.type}-runner" = var.env.short_name == "int" ? {
         name = "${var.ci.type}-runner"
-      }
-      "${var.ci.type}-runner-app" = {
+      } : null
+      "${var.ci.type}-runner-app" = var.env.short_name == "int" ? {
         name = "${var.ci.type}-runner-app"
-      }
+      } : null
     },
-    var.ci.type != "gha" ? {} : {
+    var.ci.type == "gha" && var.env.short_name == "int" ? {
       gha-operator = {
         name = "gha-operator"
       }
-    },
+    } : {},
     {
       for app_name, app_obj in var.apps :
       app_name => {

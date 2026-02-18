@@ -2,10 +2,10 @@ locals {
   rbac_main = {
     service_accounts = merge(
       {
-        argocd = {
+        argocd = var.env.short_name == "int" ? {
           namespace = "argocd"
           name      = "argocd"
-        }
+        } : null
         external-dns = {
           namespace = "external-dns"
           name      = "external-dns"
@@ -22,14 +22,14 @@ locals {
           name      = "postgres"
           namespace = "postgres"
         }
-        runner = {
+        runner = var.env.short_name == "int" ? {
           namespace = "${var.ci.type}-runner"
           name      = "runner"
-        }
-        runner-app = {
+        } : null
+        runner-app = var.env.short_name == "int" ? {
           namespace = "${var.ci.type}-runner-app"
           name      = "runner-app"
-        }
+        } : null
         thanos = {
           namespace = "prometheus"
           name      = "thanos"
