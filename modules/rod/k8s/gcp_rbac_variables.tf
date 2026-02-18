@@ -6,7 +6,7 @@ locals {
         service_account_obj,
         {
           annotations = {
-            "iam.gke.io/gcp-service-account" = "${service_account_name}@${var.env.cloud.id}.iam.gserviceaccount.com"
+            "iam.gke.io/gcp-service-account" = "${service_account_obj.name}@${var.env.cloud.id}.iam.gserviceaccount.com"
           }
         }
       )
