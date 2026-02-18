@@ -1,4 +1,4 @@
-variable "provider" {
+variable "provider_config" {
   description = "provider configuration"
   type = object(
     {
