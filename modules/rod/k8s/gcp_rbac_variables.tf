@@ -11,5 +11,14 @@ locals {
         }
       )
     }
+    cluster_role_binding = {
+      argocd = var.env.short_name == "int" ? null : {
+        subject = {
+          argocd = {
+            name = "argocd@${var.int_env.cloud.id}.iam.gserviceaccount.com"
+          }
+        }
+      }
+    }
   }
 }

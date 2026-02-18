@@ -46,7 +46,7 @@ locals {
     cluster_roles = {
     }
     cluster_role_binding = {
-      argocd = {
+      argocd = var.env.short_name == "int" ? null : {
         labels      = {},
         annotations = {},
         role_ref = {
@@ -57,7 +57,7 @@ locals {
           argocd = {
             api_group = "rbac.authorization.k8s.io"
             kind      = "User"
-            #You need to override this
+            #This is overriden in per cloud rbac versions
             name      = ""
             namespace = ""
           }
