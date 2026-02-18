@@ -41,6 +41,8 @@ variable "env" {
   description = "Environment description"
   type = object(
     {
+      name       = string
+      short_name = string
       cloud = object(
         {
           name = string
