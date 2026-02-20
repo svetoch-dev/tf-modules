@@ -1,6 +1,5 @@
 /* data */
 
-data "google_project" "project" {}
 data "google_compute_zones" "available" {}
 
 /* apis */
@@ -187,75 +186,20 @@ module "gcs" {
   storage_class      = try(each.value.storage_class, "STANDARD")
   iam_roles = [
     {
-      role = "roles/storage.objectAdmin"
-      #Needed for SA with numeric ids like
-      #serviceAccount:service-111111111@gcp-sa-logging.iam.gserviceaccount.com
-      #this complexity is needed only for rod/cloud
-      #module because we want to keep all provider
-      #related objects in cloud modules
-
-      members = [
-        for admin in try(each.value.admins, []) :
-        templatestring(
-          admin,
-          {
-            project_numeric_id = data.google_project.project.number
-          }
-        )
-      ]
+      role    = "roles/storage.objectAdmin"
+      members = try(each.value.admins, [])
     },
     {
-      role = "roles/storage.objectCreator"
-      #Needed for SA with numeric ids like
-      #serviceAccount:service-111111111@gcp-sa-logging.iam.gserviceaccount.com
-      #this complexity is needed only for rod/cloud
-      #module because we want to keep all provider
-      #related objects in cloud modules
-
-      members = [
-        for creator in try(each.value.creators, []) :
-        templatestring(
-          creator,
-          {
-            project_numeric_id = data.google_project.project.number
-          }
-        )
-      ]
+      role    = "roles/storage.objectCreator"
+      members = try(each.value.creators, [])
     },
     {
-      role = "roles/storage.objectViewer"
-      #Needed for SA with numeric ids like
-      #serviceAccount:service-111111111@gcp-sa-logging.iam.gserviceaccount.com
-      #this complexity is needed only for rod/cloud
-      #module because we want to keep all provider
-      #related objects in cloud modules
-
-      members = [
-        for viewer in try(each.value.viewers, []) :
-        templatestring(
-          viewer,
-          {
-            project_numeric_id = data.google_project.project.number
-          }
-        )
-      ]
+      role    = "roles/storage.objectViewer"
+      members = try(each.value.viewers, [])
     },
     {
-      role = "roles/storage.objectUser"
-      #Needed for SA with numeric ids like
-      #serviceAccount:service-111111111@gcp-sa-logging.iam.gserviceaccount.com
-      #this complexity is needed only for rod/cloud
-      #module because we want to keep all provider
-      #related objects in cloud modules
-      members = [
-        for user in try(each.value.users, []) :
-        templatestring(
-          user,
-          {
-            project_numeric_id = data.google_project.project.number
-          }
-        )
-      ]
+      role    = "roles/storage.objectUser"
+      members = try(each.value.users, [])
     }
   ]
   force_destroy        = try(each.value.force_destroy, false)
