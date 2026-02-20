@@ -1,10 +1,13 @@
+provider "google" {
+  project = var.env.cloud.id
+  region  = var.env.cloud.location.region
+  zone    = var.env.cloud.location.default_zone
+}
+
+data "google_project" "project" {}
+
 module "gcp" {
   source = "../../gcp"
-  #Use for_each so that resources path prefix
-  #would be module.gcp["this"]
-  for_each = var.env.cloud.name == "gcp" ? {
-    "this" = ""
-  } : {}
   project = {
     id     = var.env.cloud.id
     region = var.env.cloud.location.region
