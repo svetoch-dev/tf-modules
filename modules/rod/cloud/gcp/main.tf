@@ -4,6 +4,12 @@ provider "google" {
   zone    = var.env.cloud.location.default_zone
 }
 
+provider "google-beta" {
+  project = var.env.cloud.id
+  region  = var.env.cloud.location.region
+  zone    = var.env.cloud.location.default_zone
+}
+
 data "google_project" "project" {}
 
 module "gcp" {
