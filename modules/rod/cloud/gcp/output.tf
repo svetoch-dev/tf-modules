@@ -2,7 +2,7 @@ output "network" {
   value = lookup(
     {
       gcp = {
-        for network_name, vpc_obj in module.gcp["this"].vpcs :
+        for network_name, vpc_obj in module.gcp.vpcs :
         network_name => {
           vpcs            = module.gcp.vpcs[network_name]
           subnets         = module.gcp.subnets[network_name]
