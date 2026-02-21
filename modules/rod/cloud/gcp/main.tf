@@ -13,7 +13,7 @@ provider "google-beta" {
 data "google_project" "project" {}
 
 module "gcp" {
-  source = "../../gcp"
+  source = "../../../gcp"
   project = {
     id     = var.env.cloud.id
     region = var.env.cloud.location.region
