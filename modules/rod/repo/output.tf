@@ -5,3 +5,6 @@ output "repos" {
   sensitive   = true
 }
 */
+output "debug_merged" {
+  value = local.repositories_merged
+}
