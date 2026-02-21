@@ -1,3 +1,9 @@
+# rod-v0.4.0
+
+Features:
+* `rod/cloud` moved to `rod/cloud/gcp`
+* `rod/cloud/gcp` add `int only` logic to resources
+
 # rod-v0.3.0
 Features:
 * `rod/k8s` module

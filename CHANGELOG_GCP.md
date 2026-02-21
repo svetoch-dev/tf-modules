@@ -1,3 +1,8 @@
+# gcp-v2.8.4
+
+Fix:
+* remove the gcs roles templating logic
+
 # gcp-v2.8.3
 
 Enhancements:
