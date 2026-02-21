@@ -66,7 +66,7 @@ locals {
           },
         ]
       }
-      runner = {
+      runner = var.env.short_name == "int" ? {
         name               = "runner"
         machine_type       = "t2d-standard-4"
         node_locations     = join(",", var.env.kubernetes.node_locations)
@@ -100,7 +100,7 @@ locals {
             effect = "NO_SCHEDULE"
           },
         ]
-      },
+      } : null,
     }
   }
   gcp_k8s_clusters = {
