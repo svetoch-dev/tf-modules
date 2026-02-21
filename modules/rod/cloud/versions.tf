@@ -1,20 +1,16 @@
 terraform {
   required_providers {
     google = {
-      source  = "hashicorp/google"
-      version = "6.40.0"
+      source = "hashicorp/google"
     }
     google-beta = {
-      source  = "hashicorp/google-beta"
-      version = "6.40.0"
+      source = "hashicorp/google-beta"
     }
     random = {
-      source  = "hashicorp/random"
-      version = "3.6.3"
+      source = "hashicorp/random"
     }
     null = {
-      source  = "hashicorp/null"
-      version = "3.2.3"
+      source = "hashicorp/null"
     }
     deepmerge = {
       source  = "isometry/deepmerge"

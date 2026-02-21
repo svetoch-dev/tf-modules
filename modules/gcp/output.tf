@@ -19,6 +19,10 @@ output "subnets" {
   }
 }
 
+output "gke" {
+  value = module.gke
+}
+
 output "nats" {
   value = {
     for network_name, network_obj in module.network :

@@ -58,6 +58,7 @@ variable "env" {
           buckets = object(
             {
               deletion_protection = bool
+              multi_regional      = bool
             }
           )
         }
@@ -68,7 +69,7 @@ variable "env" {
             enabled             = bool
             regional            = bool
             deletion_protection = optional(bool, true)
-            location            = string
+            node_locations      = list(string)
             auth_group          = optional(string, "")
           }
         )
