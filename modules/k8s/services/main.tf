@@ -2,6 +2,7 @@ resource "kubernetes_service" "external" {
   for_each = {
     for service_name, service_obj in var.external :
     "${service_name}.${service_obj.namespace}" => service_obj
+    if service_obj != null
   }
   metadata {
     name      = split(".", each.key)[0]

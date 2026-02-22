@@ -1,3 +1,7 @@
+# rod-v0.3.0
+Features:
+* `rod/k8s` module
+
 # rod-v0.2.0
 
 Features:
