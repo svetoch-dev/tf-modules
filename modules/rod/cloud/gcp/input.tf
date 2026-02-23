@@ -1,3 +1,14 @@
+variable "provider_config" {
+  description = "provider configuration"
+  type = object(
+    {
+      id           = string
+      region       = string
+      default_zone = string
+    }
+  )
+}
+
 variable "company" {
   description = "Company related info"
   type = object(
@@ -28,6 +39,12 @@ variable "apps" {
     )
   )
   default = {}
+}
+
+variable "int_env" {
+  description = "Definition of internal environment"
+  #should have the same schema as var.env below
+  type = any
 }
 
 variable "env" {
