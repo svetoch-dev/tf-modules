@@ -1,3 +1,17 @@
+# rod-v0.5.0
+
+BrakingCahge:
+* `rod/cloud/gcp` remove provider_config input
+
+Enhancement:
+* `rod/cloud/gcp` apps input remove defaults
+
+# rod-v0.4.0
+
+Features:
+* `rod/cloud` moved to `rod/cloud/gcp`
+* `rod/cloud/gcp` add `int only` logic to resources
+
 # rod-v0.3.0
 Features:
 * `rod/k8s` module

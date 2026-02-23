@@ -27,7 +27,12 @@ variable "apps" {
       }
     )
   )
-  default = {}
+}
+
+variable "int_env" {
+  description = "Definition of internal environment"
+  #should have the same schema as var.env below
+  type = any
 }
 
 variable "env" {
