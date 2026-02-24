@@ -70,7 +70,7 @@ variable "envs" {
                 k8s_service_cidr = string
               }
             )
-            registry     = string
+            registry = string
             buckets = optional(
               object(
                 {
