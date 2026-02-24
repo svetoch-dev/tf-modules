@@ -10,6 +10,9 @@ Features:
   * white list gcp ips needed for IAP
   * iam:postgres:workload_identity: create only if app has `postgres = true`
 
+Enhancements:
+* `rod/cloud/gcp`: logs bucket use `soft_deletion_retention = 0` 
+
 # rod-v0.5.0
 
 Braking changes:
