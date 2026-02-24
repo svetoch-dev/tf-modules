@@ -45,6 +45,23 @@ locals {
         }
       ]
       firewall_rules = {
+        ssh = {
+          direction = "INGRESS"
+          source_ranges = [
+            "35.235.240.0/20"
+          ]
+          target_tags = []
+          #https://docs.cloud.google.com/iap/docs/using-tcp-forwarding
+          description = "google ip range that is need for iap forwarding to work"
+          allow = {
+            "tcp" = {
+              ports = [
+                "22",
+              ]
+            }
+          }
+          deny = {}
+        }
         admission-webhooks = {
           direction = "INGRESS"
           source_ranges = [

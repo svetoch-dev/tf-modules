@@ -36,11 +36,12 @@ locals {
         }
       },
       {
-        for app_name, app_obj in var.apps :
+        for app_name, app_obj in var.env.apps :
         "${app_name}.postgres" => {
           namespace = app_obj.name
           name      = "postgres"
         }
+        if app_obj.postgres == true
       }
     )
     cluster_roles = {
