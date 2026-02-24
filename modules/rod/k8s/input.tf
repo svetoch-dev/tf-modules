@@ -24,7 +24,10 @@ variable "apps" {
   type = map(
     object(
       {
-        name = string
+        name     = string
+        postgres = optional(bool, false)
+        redis    = optional(bool, false)
+        rabbitmq = optional(bool, false)
       }
     )
   )

@@ -41,6 +41,7 @@ locals {
           namespace = app_obj.name
           name      = "postgres"
         }
+        if app_obj.postgres == true
       }
     )
     cluster_roles = {
