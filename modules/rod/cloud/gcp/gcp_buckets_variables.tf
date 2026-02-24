@@ -73,9 +73,9 @@ locals {
     }
     format("%s-runners-cache-%s", var.company.name, local.env.short_name) = var.env.short_name == "int" ? {
       storage_class = "STANDARD"
-      location      = local.env.cloud.region
+      location      = var.env.cloud.region
       admins = [
-        "serviceAccount:runner-app@${local.env.cloud.id}.iam.gserviceaccount.com"
+        "serviceAccount:runner-app@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
     } : []
   }
