@@ -37,7 +37,7 @@ variable "env" {
             postgres = optional(bool, false)
             redis    = optional(bool, false)
             rabbitmq = optional(bool, false)
-            devs     = optional(list, [])
+            devs     = optional(list(string), [])
           }
         )
       )
