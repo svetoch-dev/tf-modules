@@ -1,3 +1,7 @@
+# rod-v0.6.1
+Fixes:
+* `rod/cloud/gcp`: runners-cache bucket `bucket_policy_only   = true`
+
 # rod-v0.6.0
 
 Braking changes:
