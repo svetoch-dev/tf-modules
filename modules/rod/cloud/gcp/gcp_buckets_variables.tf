@@ -77,6 +77,6 @@ locals {
       admins = [
         "serviceAccount:runner-app@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
-    } : []
+    } : {}
   }
 }
