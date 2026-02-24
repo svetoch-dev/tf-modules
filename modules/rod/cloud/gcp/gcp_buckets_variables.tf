@@ -71,7 +71,7 @@ locals {
         }
       }]
     }
-    format("%s-runners-cache-%s", var.company.name, local.env.short_name) = var.env.short_name == "int" ? {
+    format("%s-runners-cache-%s", var.company.name, var.env.short_name) = var.env.short_name == "int" ? {
       storage_class = "STANDARD"
       location      = var.env.cloud.region
       admins = [
