@@ -79,6 +79,14 @@ locals {
       admins = [
         "serviceAccount:runner-app@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
+      lifecycle_rules = [{
+        action = {
+          type = "Delete"
+        }
+        condition = {
+          age = 30
+        }
+      }]
     } : null
   }
 }
