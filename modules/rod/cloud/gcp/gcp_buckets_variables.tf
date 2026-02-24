@@ -9,8 +9,6 @@ locals {
       admins = [
         "serviceAccount:grafana-loki@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
-      lifecycle_rules = [
-      ]
     }
     format("%s-thanos-%s", var.company.name, var.env.short_name) = {
       #force_destroy should be oposite to deletion_protection
@@ -73,5 +71,12 @@ locals {
         }
       }]
     }
+    format("%s-runners-cache-%s", var.company.name, local.env.short_name) = var.env.short_name == "int" ? {
+      storage_class = "STANDARD"
+      location      = local.env.cloud.region
+      admins = [
+        "serviceAccount:runner-app@${local.env.cloud.id}.iam.gserviceaccount.com"
+      ]
+    } : []
   }
 }
