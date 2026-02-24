@@ -15,21 +15,6 @@ variable "ci" {
       type = string
     }
   )
-  default = null
-}
-
-variable "apps" {
-  description = "Application related info"
-  type = map(
-    object(
-      {
-        name     = string
-        postgres = optional(bool, false)
-        redis    = optional(bool, false)
-        rabbitmq = optional(bool, false)
-      }
-    )
-  )
 }
 
 variable "int_env" {
@@ -45,6 +30,17 @@ variable "env" {
       name          = string
       short_name    = string
       initial_start = optional(bool, false)
+      apps = map(
+        object(
+          {
+            name     = string
+            postgres = optional(bool, false)
+            redis    = optional(bool, false)
+            rabbitmq = optional(bool, false)
+            devs     = optional(list, [])
+          }
+        )
+      )
       cloud = object(
         {
           name = string

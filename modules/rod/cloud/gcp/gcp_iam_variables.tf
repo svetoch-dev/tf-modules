@@ -79,7 +79,7 @@ locals {
               "serviceAccount:${var.env.cloud.id}.svc.id.goog[postgres/postgres]",
             ],
             [
-              for app_name, app_obj in var.apps :
+              for app_name, app_obj in var.env.apps :
               "serviceAccount:${var.env.cloud.id}.svc.id.goog[${app_obj.name}/postgres]"
               if app_obj.postgres == true
             ]

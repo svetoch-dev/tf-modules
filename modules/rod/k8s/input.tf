@@ -19,21 +19,6 @@ variable "ci" {
   default = null
 }
 
-variable "apps" {
-  description = "Application related info"
-  type = map(
-    object(
-      {
-        name     = string
-        postgres = optional(bool, false)
-        redis    = optional(bool, false)
-        rabbitmq = optional(bool, false)
-      }
-    )
-  )
-  default = {}
-}
-
 variable "int_env" {
   description = "Definition of internal environment"
   #should have the same schema as var.env below
@@ -46,6 +31,17 @@ variable "env" {
     {
       name       = string
       short_name = string
+      apps = map(
+        object(
+          {
+            name     = string
+            postgres = optional(bool, false)
+            redis    = optional(bool, false)
+            rabbitmq = optional(bool, false)
+            devs     = optional(list, [])
+          }
+        )
+      )
       cloud = object(
         {
           name = string
