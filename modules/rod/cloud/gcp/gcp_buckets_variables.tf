@@ -78,6 +78,7 @@ locals {
       storage_class        = "STANDARD"
       location             = var.env.cloud.location.region
       soft_delete_duration = 0
+      bucket_policy_only   = true
       admins = [
         "serviceAccount:runner-app@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
