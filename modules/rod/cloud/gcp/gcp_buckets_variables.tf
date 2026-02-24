@@ -75,7 +75,7 @@ locals {
       #force_destroy should be oposite to deletion_protection 
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
-      location      = var.env.cloud.region
+      location      = var.env.cloud.location.region
       admins = [
         "serviceAccount:runner-app@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
