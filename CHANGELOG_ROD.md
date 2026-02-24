@@ -1,6 +1,25 @@
+# rod-v0.6.1
+Fixes:
+* `rod/cloud/gcp`: runners-cache bucket `bucket_policy_only   = true`
+
+# rod-v0.6.0
+
+Braking changes:
+* `rod/cloud/gcp`: var.apps moved under var.env
+* `rod/k8s`: var.apps moved under var.env
+
+Features:
+* `rod/cloud/gcp`:
+  * runners-cache bucket
+  * white list gcp ips needed for IAP
+  * iam:postgres:workload_identity: create only if app has `postgres = true`
+
+Enhancements:
+* `rod/cloud/gcp`: logs bucket use `soft_deletion_retention = 0` 
+
 # rod-v0.5.0
 
-BrakingCahge:
+Braking changes:
 * `rod/cloud/gcp` remove provider_config input
 
 Enhancement:
