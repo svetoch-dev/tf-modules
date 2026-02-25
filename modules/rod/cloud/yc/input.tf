@@ -82,3 +82,25 @@ variable "env" {
     }
   )
 }
+
+variable "overrides" {
+  description = "Cloud attribute overrides"
+  type = object(
+    {
+      yc_buckets      = optional(any)
+      yc_dns_zones    = optional(any)
+      yc_iam          = optional(any)
+      yc_k8s_clusters = optional(any)
+      yc_networks     = optional(any)
+      yc_registries   = optional(any)
+    }
+  )
+  default = {
+    yc_buckets      = null
+    yc_dns_zones    = null
+    yc_iam          = null
+    yc_k8s_clusters = null
+    yc_networks     = null
+    yc_registries   = null
+  }
+}
