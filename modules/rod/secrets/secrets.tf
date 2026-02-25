@@ -1,7 +1,7 @@
 locals {
   secrets = merge(
-    local.argocd-clusters,
-    local.argocd-repos,
+    var.env.short_name == "int" ? local.argocd-clusters : {},
+    var.env.short_name == "int" ? local.argocd-repos : {},
     local.import_secrets,
   )
 }
