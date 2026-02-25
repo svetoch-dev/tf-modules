@@ -1,10 +1,12 @@
-provider "kubernetes" {
-  host                   = var.k8s_api.endpoint
-  token                  = var.k8s_api.token
-  cluster_ca_certificate = var.k8s_api.ca_cert
-}
 
 module "secrets" {
-  source  = "../../secrets"
-  secrets = local.secrets_merged
+  source            = "git::https://github.com/svetoch-dev/tf-modules.git//modules/secrets?ref=gcp-v2.8.4"
+  for_each          = local.secrets_merged
+  name              = each.value.name
+  secrets_to_import = try(each.value.secrets_to_import, [])
+  secrets_data      = try(each.value.secrets_data, {})
+  labels            = each.value.labels
+  annotations       = each.value.annotations
+  k8s               = each.value.k8s
+  base64_secrets    = try(each.value.base64_secrets, false)
 }
