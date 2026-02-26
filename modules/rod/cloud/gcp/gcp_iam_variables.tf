@@ -79,14 +79,15 @@ locals {
               "serviceAccount:${var.env.cloud.id}.svc.id.goog[postgres/postgres]",
             ],
             [
-              for app_name, app_obj in var.apps :
+              for app_name, app_obj in var.env.apps :
               "serviceAccount:${var.env.cloud.id}.svc.id.goog[${app_obj.name}/postgres]"
+              if app_obj.postgres == true
             ]
           )
         }
         generate_key = false
       }
-      argocd = {
+      argocd = var.env.short_name == "int" ? {
         description = "argocd service account"
         roles = [
         ]
@@ -97,7 +98,7 @@ locals {
           ]
         }
         generate_key = false
-      },
+      } : null,
       grafana-loki = {
         description  = "service account for loki"
         roles        = []
@@ -122,7 +123,7 @@ locals {
         }
         generate_key = false
       }
-      runner = {
+      runner = var.env.short_name == "int" ? {
         description = "service account for ci runners"
         roles = [
         ]
@@ -133,8 +134,8 @@ locals {
           ]
         }
         generate_key = false
-      }
-      runner-app = {
+      } : null
+      runner-app = var.env.short_name == "int" ? {
         description  = "service account for app ci runners"
         roles        = []
         custom_roles = []
@@ -144,10 +145,16 @@ locals {
           ]
         }
         generate_key = false
-      }
+      } : null
     }
 
     roles = {
+      owners = {
+        role = "roles/owner"
+        members = [
+          "serviceAccount:runner@${var.int_env.cloud.id}.iam.gserviceaccount.com"
+        ]
+      }
     }
   }
 }

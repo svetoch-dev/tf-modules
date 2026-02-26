@@ -66,7 +66,7 @@ locals {
           },
         ]
       }
-      runner = {
+      runner = var.env.short_name == "int" ? {
         name               = "runner"
         machine_type       = "t2d-standard-4"
         node_locations     = join(",", var.env.kubernetes.node_locations)
@@ -100,7 +100,7 @@ locals {
             effect = "NO_SCHEDULE"
           },
         ]
-      },
+      } : null,
     }
   }
   gcp_k8s_clusters = {
@@ -111,12 +111,12 @@ locals {
       regional            = var.env.kubernetes.regional
       region              = var.env.cloud.location.region
 
-      subnetwork              = module.gcp["this"].subnets["main"]["vms"].name
-      network                 = module.gcp["this"].vpcs["main"].network_name
+      subnetwork              = module.gcp.subnets["main"]["vms"].name
+      network                 = module.gcp.vpcs["main"].network_name
       network_policy          = true
       network_policy_provider = "CALICO"
-      ip_range_pods           = module.gcp["this"].subnets["main"]["vms"].secondary_ip_range[0].range_name
-      ip_range_services       = module.gcp["this"].subnets["main"]["vms"].secondary_ip_range[1].range_name
+      ip_range_pods           = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
+      ip_range_services       = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].range_name
 
       http_load_balancing             = true
       horizontal_pod_autoscaling      = true

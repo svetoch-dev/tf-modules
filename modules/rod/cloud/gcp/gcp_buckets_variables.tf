@@ -9,8 +9,6 @@ locals {
       admins = [
         "serviceAccount:grafana-loki@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
-      lifecycle_rules = [
-      ]
     }
     format("%s-thanos-%s", var.company.name, var.env.short_name) = {
       #force_destroy should be oposite to deletion_protection
@@ -52,17 +50,18 @@ locals {
     }
     format("%s-logs-%s", var.company.name, var.env.short_name) = {
       #force_destroy should be oposite to deletion_protection 
-      force_destroy      = var.env.cloud.buckets.deletion_protection ? false : true
-      storage_class      = "STANDARD"
-      location           = var.env.cloud.location.region
-      bucket_policy_only = true
+      force_destroy        = var.env.cloud.buckets.deletion_protection ? false : true
+      storage_class        = "STANDARD"
+      location             = var.env.cloud.location.region
+      bucket_policy_only   = true
+      soft_delete_duration = 0
       admins = [
         "serviceAccount:fluent@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
       viewers = [
       ]
       creators = var.env.initial_start ? [] : [
-        "serviceAccount:service-$${project_numeric_id}@gcp-sa-logging.iam.gserviceaccount.com"
+        "serviceAccount:service-${data.google_project.project.number}@gcp-sa-logging.iam.gserviceaccount.com"
       ]
       lifecycle_rules = [{
         action = {
@@ -73,5 +72,24 @@ locals {
         }
       }]
     }
+    format("%s-runners-cache-%s", var.company.name, var.env.short_name) = var.env.short_name == "int" ? {
+      #force_destroy should be oposite to deletion_protection 
+      force_destroy        = var.env.cloud.buckets.deletion_protection ? false : true
+      storage_class        = "STANDARD"
+      location             = var.env.cloud.location.region
+      soft_delete_duration = 0
+      bucket_policy_only   = true
+      admins = [
+        "serviceAccount:runner-app@${var.env.cloud.id}.iam.gserviceaccount.com"
+      ]
+      lifecycle_rules = [{
+        action = {
+          type = "Delete"
+        }
+        condition = {
+          age = 30
+        }
+      }]
+    } : null
   }
 }

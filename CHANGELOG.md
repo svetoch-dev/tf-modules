@@ -1,3 +1,17 @@
+# v0.4.1
+[rod-v0.6.1](CHANGELOG_ROD.md#rod-v061)
+
+# v0.4.0
+[rod-v0.6.0](CHANGELOG_ROD.md#rod-v060)
+
+# v0.3.0
+[rod-v0.5.0](CHANGELOG_ROD.md#rod-v050)
+
+# v0.2.0
+
+[rod-v0.4.0](CHANGELOG_ROD.md#rod-v040)
+[gcp-v2.8.4](CHANGELOG_GCP.md#gcp-v284)
+
 # v0.1.0
 
 Initial global version. Versions included:
