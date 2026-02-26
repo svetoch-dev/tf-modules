@@ -155,7 +155,7 @@ locals {
           [
             for user_name, user_obj in var.env.users :
             "user:${user_obj.name}"
-            if user_obj.role == "admin"
+            if contains(user_obj.roles, "admin")
           ],
           [
             "serviceAccount:runner@${var.int_env.cloud.id}.iam.gserviceaccount.com"
@@ -167,7 +167,7 @@ locals {
         members = [
           for user_name, user_obj in var.env.users :
           "user:${user_obj.name}"
-          if user_obj.role == "dev"
+          if contains(user_obj.roles, "dev")
         ]
       }
     }
