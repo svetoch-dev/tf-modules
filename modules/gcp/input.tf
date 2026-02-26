@@ -15,6 +15,7 @@ variable "gcs" {
 variable "activate_apis" {
   description = "What apis need to be activated in a gcp project"
   type        = list(string)
+  default     = []
 }
 
 variable "gke_clusters" {
