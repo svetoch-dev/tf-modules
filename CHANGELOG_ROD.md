@@ -1,3 +1,19 @@
+# rod-v0.7.0
+Features:
+* `rod/cloud/gcp`: 
+  * `var.env` users attribute
+  * `var.env.apps` access_roles attribute to set what role can access app
+  * grant developers custom gcp role to users with dev role
+  * grant owners gcp role to users with admin role
+* `rod/k8s`: 
+  * `var.env` users attribute
+  * `var.env.apps` access_roles attribute to set what role can access app
+* `rod/cloud/yc`: initial commit
+
+Fixes:
+* `yc/client_config` fix provider inputs and vars
+
+
 # rod-v0.6.1
 Fixes:
 * `rod/cloud/gcp`: runners-cache bucket `bucket_policy_only   = true`
