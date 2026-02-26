@@ -154,7 +154,7 @@ locals {
         members = concat(
           [
             for user_name, user_obj in var.env.users :
-            "user:${user_obj.name}@${var.int_env.cloud.id}.iam.gserviceaccount.com"
+            "user:${user_obj.name}"
             if user_obj.role == "admin"
           ],
           [
@@ -163,10 +163,10 @@ locals {
         )
       }
       devs = {
-        role = "projects/${local.env.cloud.id}/roles/developers"
+        role = "projects/${var.env.cloud.id}/roles/developers"
         members = [
           for user_name, user_obj in var.env.users :
-          "user:${user_obj.name}@${var.int_env.cloud.id}.iam.gserviceaccount.com"
+          "user:${user_obj.name}"
           if user_obj.role == "dev"
         ]
       }
