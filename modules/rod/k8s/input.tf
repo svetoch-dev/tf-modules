@@ -31,6 +31,14 @@ variable "env" {
     {
       name       = string
       short_name = string
+      users = map(
+        object(
+          {
+            name  = string
+            roles = list(string)
+          }
+        )
+      )
       apps = map(
         object(
           {
@@ -38,7 +46,16 @@ variable "env" {
             postgres = optional(bool, false)
             redis    = optional(bool, false)
             rabbitmq = optional(bool, false)
-            devs     = optional(list(string), [])
+            access_roles = optional(
+              object(
+                {
+                  port_forward = optional(string, "dev")
+                }
+              ),
+              {
+                port_forward = "dev"
+              }
+            )
           }
         )
       )
