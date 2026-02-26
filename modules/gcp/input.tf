@@ -33,15 +33,15 @@ variable "iam" {
   description = "Gcp project iam definition more info in submodule  ./iam"
   type = object(
     {
-      custom_roles     = optional(any)
-      service_accounts = optional(any)
-      roles            = optional(any)
+      custom_roles     = optional(any, {})
+      service_accounts = optional(any, {})
+      roles            = optional(any, {})
     }
   )
   default = {
-    custom_roles     = null
-    service_accounts = null
-    roles            = null
+    custom_roles     = {}
+    service_accounts = {}
+    roles            = {}
   }
 }
 
