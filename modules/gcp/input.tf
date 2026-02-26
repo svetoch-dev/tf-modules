@@ -31,8 +31,18 @@ variable "networks" {
 
 variable "iam" {
   description = "Gcp project iam definition more info in submodule  ./iam"
-  type        = any
-  default     = {}
+  type = object(
+    {
+      custom_roles     = optional(any)
+      service_accounts = optional(any)
+      roles            = optional(any)
+    }
+  )
+  default = {
+    custom_roles     = null
+    service_accounts = null
+    roles            = null
+  }
 }
 
 variable "gars" {
