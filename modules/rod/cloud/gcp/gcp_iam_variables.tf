@@ -151,8 +151,23 @@ locals {
     roles = {
       owners = {
         role = "roles/owner"
+        members = concat(
+          [
+            for user_name, user_obj in var.env.users :
+            "user:${user_obj.name}@${var.int_env.cloud.id}.iam.gserviceaccount.com"
+            if user_obj.role == "admin"
+          ],
+          [
+            "serviceAccount:runner@${var.int_env.cloud.id}.iam.gserviceaccount.com"
+          ]
+        )
+      }
+      devs = {
+        role = "projects/${local.env.cloud.id}/roles/developers"
         members = [
-          "serviceAccount:runner@${var.int_env.cloud.id}.iam.gserviceaccount.com"
+          for user_name, user_obj in var.env.users :
+          "user:${user_obj.name}@${var.int_env.cloud.id}.iam.gserviceaccount.com"
+          if user_obj.role == "dev"
         ]
       }
     }
