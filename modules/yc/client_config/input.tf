@@ -5,7 +5,7 @@ variable "provider_config" {
       id           = string
       region       = string
       default_zone = string
-      foder_id     = string
+      folder_id    = string
     }
   )
 }
