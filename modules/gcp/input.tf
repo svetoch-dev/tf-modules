@@ -15,6 +15,7 @@ variable "gcs" {
 variable "activate_apis" {
   description = "What apis need to be activated in a gcp project"
   type        = list(string)
+  default     = []
 }
 
 variable "gke_clusters" {
@@ -31,8 +32,18 @@ variable "networks" {
 
 variable "iam" {
   description = "Gcp project iam definition more info in submodule  ./iam"
-  type        = any
-  default     = {}
+  type = object(
+    {
+      custom_roles     = optional(any, {})
+      service_accounts = optional(any, {})
+      roles            = optional(any, {})
+    }
+  )
+  default = {
+    custom_roles     = {}
+    service_accounts = {}
+    roles            = {}
+  }
 }
 
 variable "gars" {

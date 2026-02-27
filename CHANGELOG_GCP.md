@@ -1,3 +1,9 @@
+# gcp-v2.8.5
+
+Enhancements:
+* `var.iam` add defaults
+* `var.activate_apis` defaults to []
+
 # gcp-v2.8.4
 
 Fix:

@@ -60,8 +60,9 @@ variable "env" {
       )
       cloud = object(
         {
-          name = string
-          id   = string
+          name      = string
+          id        = string
+          folder_id = string
           location = object(
             {
               region       = string
@@ -103,26 +104,20 @@ variable "overrides" {
   description = "Cloud attribute overrides"
   type = object(
     {
-      gcp_activate_apis     = optional(any)
-      gcp_buckets           = optional(any)
-      gcp_dns_zones         = optional(any)
-      gcp_iam               = optional(any)
-      gcp_k8s_clusters      = optional(any)
-      gcp_logging           = optional(any)
-      gcp_networks          = optional(any)
-      gcp_registries        = optional(any)
-      gcp_k8s_cluster_nodes = optional(any)
+      yc_buckets      = optional(any)
+      yc_dns_zones    = optional(any)
+      yc_iam          = optional(any)
+      yc_k8s_clusters = optional(any)
+      yc_networks     = optional(any)
+      yc_registries   = optional(any)
     }
   )
   default = {
-    gcp_activate_apis     = null
-    gcp_buckets           = null
-    gcp_dns_zones         = null
-    gcp_iam               = null
-    gcp_k8s_clusters      = null
-    gcp_k8s_cluster_nodes = null
-    gcp_logging           = null
-    gcp_networks          = null
-    gcp_registries        = null
+    yc_buckets      = null
+    yc_dns_zones    = null
+    yc_iam          = null
+    yc_k8s_clusters = null
+    yc_networks     = null
+    yc_registries   = null
   }
 }
