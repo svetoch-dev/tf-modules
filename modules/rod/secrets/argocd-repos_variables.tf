@@ -1,7 +1,7 @@
 locals {
   argocd-repos = merge(
     {
-      for repo_name, repo_obj in try(var.remote_state.repo.repos, {}) :
+      for repo_name, repo_obj in var.repos :
       repo_name => {
         name = "argocd-${repo_obj.org}-${repo_name}"
         secrets_data = {

@@ -1,11 +1,11 @@
 locals {
   argocd-clusters = {
-    for cluster_name, cluster_obj in var.remote_state.k8s_clusters :
+    for cluster_name, cluster_obj in var.k8s_clusters :
     "${cluster_name}-cluster" => {
       name = "${cluster_name}-cluster"
       secrets_data = {
         name   = cluster_name
-        server = "https://${var.remote_state.k8s_clusters[cluster_name].endpoint}"
+        server = "https://${cluster_obj.endpoint}"
         config = <<EOF
 {
   "execProviderConfig": {
@@ -15,7 +15,7 @@ locals {
   },
   "tlsClientConfig": {
     "insecure": false,
-    "caData": "${var.remote_state.k8s_clusters[cluster_name].ca_certificate}"
+    "caData": "${cluster_obj.ca_certificate}"
   }
 }
 EOF
