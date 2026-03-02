@@ -31,6 +31,9 @@ locals {
           "storage.buckets.list",
           "storage.buckets.get",
           "container.clusters.get",
+          "container.pods.list",
+          "container.pods.get",
+
           "observability.scopes.get",
           "resourcemanager.projects.get",
         ]
