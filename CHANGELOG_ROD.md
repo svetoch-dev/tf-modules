@@ -1,3 +1,8 @@
+# rod-v0.7.1
+Enhancements:
+* add permissions `container.pods.list`, `container.pods.get` to gcp_iam `developer` role
+
+
 # rod-v0.7.0
 Features:
 * `rod/cloud/gcp`: 
