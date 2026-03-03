@@ -1,5 +1,5 @@
 locals {
-  import_secrets = var.env.initial_start ? {} : {
+  import_secrets = {
     for secret_name, secret_obj in var.env.import_secrets :
     "${secret_name}" => {
       name              = secret_obj.name
