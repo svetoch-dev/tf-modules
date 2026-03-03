@@ -8,8 +8,7 @@ variable "argocd_clusters" {
       }
     )
   )
-  default   = {}
-  sensitive = true
+  default = {}
 }
 
 variable "repos" {
