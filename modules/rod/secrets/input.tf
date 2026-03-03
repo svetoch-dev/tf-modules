@@ -1,5 +1,5 @@
-variable "k8s_clusters" {
-  description = "K8s clusters description"
+variable "argocd_clusters" {
+  description = "Configuration for external K8s clusters to be registered in ArgoCD"
   type = map(
     object(
       {
@@ -8,6 +8,8 @@ variable "k8s_clusters" {
       }
     )
   )
+  default   = {}
+  sensitive = true
 }
 
 variable "repos" {

@@ -1,6 +1,6 @@
 locals {
   argocd-clusters = {
-    for cluster_name, cluster_obj in var.k8s_clusters :
+    for cluster_name, cluster_obj in var.argocd_clusters :
     "${cluster_name}-cluster" => {
       name = "${cluster_name}-cluster"
       secrets_data = {
@@ -24,12 +24,10 @@ EOF
         enabled   = true
         namespace = "argocd"
       }
-      annotations = {
-      }
+      annotations = {}
       labels = {
         "argocd.argoproj.io/secret-type" = "cluster"
       }
     }
-    if cluster_name != "int"
   }
 }
