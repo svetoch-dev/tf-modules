@@ -1,5 +1,4 @@
-
-module "secrets" {
+module "rod_secrets" {
   source            = "../../secrets"
   for_each          = local.secrets_merged
   name              = each.value.name
