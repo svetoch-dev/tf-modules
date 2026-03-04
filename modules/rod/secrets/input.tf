@@ -47,7 +47,6 @@ variable "env" {
           }
         )
       )
-      default = {}
     }
   )
 }
