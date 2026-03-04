@@ -1,13 +1,13 @@
 locals {
   argocd-repos = merge(
     {
-      for repo_name, repo_obj in var.repos :
+      for repo_name, repo_obj in var.argocd_repos :
       repo_name => {
         name = "argocd-${repo_obj.org}-${repo_name}"
         secrets_data = {
           type          = "git"
           url           = repo_obj.ssh_url
-          sshPrivateKey = repo_obj.deploy_keys["argocd"].private_key_openssh
+          sshPrivateKey = repo_obj.private_key_openssh
         }
         k8s = {
           enabled   = true
@@ -19,7 +19,6 @@ locals {
           "argocd.argoproj.io/secret-type" = "repository"
         }
       }
-      if contains(keys(repo_obj.deploy_keys), "argocd") && var.env.short_name == "int"
     }
   )
 }

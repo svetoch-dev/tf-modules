@@ -11,17 +11,18 @@ variable "argocd_clusters" {
   default = {}
 }
 
-variable "repos" {
-  description = "Repositories description"
+variable "argocd_repos" {
+  description = "Argocd repositories description"
   type = map(
     object(
       {
-        deploy_keys = optional(any, {})
-        org         = string
-        ssh_url     = string
+        private_key_openssh = string
+        org                 = string
+        ssh_url             = string
       }
     )
   )
+  default = {}
 }
 
 variable "env" {
