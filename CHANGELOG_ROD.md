@@ -1,3 +1,8 @@
+# rod-v0.8.0
+Features:
+* `rod/secrets` module
+
+
 # rod-v0.7.0
 Features:
 * `rod/cloud/gcp`: 
@@ -18,8 +23,8 @@ Fixes:
 Fixes:
 * `rod/cloud/gcp`: runners-cache bucket `bucket_policy_only   = true`
 
-# rod-v0.6.0
 
+# rod-v0.6.0
 Braking changes:
 * `rod/cloud/gcp`: var.apps moved under var.env
 * `rod/k8s`: var.apps moved under var.env
@@ -33,26 +38,27 @@ Features:
 Enhancements:
 * `rod/cloud/gcp`: logs bucket use `soft_deletion_retention = 0` 
 
-# rod-v0.5.0
 
+# rod-v0.5.0
 Braking changes:
 * `rod/cloud/gcp` remove provider_config input
 
 Enhancement:
 * `rod/cloud/gcp` apps input remove defaults
 
-# rod-v0.4.0
 
+# rod-v0.4.0
 Features:
 * `rod/cloud` moved to `rod/cloud/gcp`
 * `rod/cloud/gcp` add `int only` logic to resources
+
 
 # rod-v0.3.0
 Features:
 * `rod/k8s` module
 
-# rod-v0.2.0
 
+# rod-v0.2.0
 Features:
 * `rod/cloud`:
   * new attribute `var.env.cloud.buckets.multi_regional` that controlls if the buckets are created in multiple regions
@@ -66,6 +72,5 @@ Features:
 
 
 # rod-v0.1.0
-
 Features:
 * `rod/cloud` module
