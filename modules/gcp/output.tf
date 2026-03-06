@@ -23,6 +23,10 @@ output "gke" {
   value = module.gke
 }
 
+output "gke_poc" {
+  value = module.gke_poc
+}
+
 output "nats" {
   value = {
     for network_name, network_obj in module.network :
