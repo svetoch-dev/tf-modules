@@ -116,6 +116,44 @@ module "gke" {
   ]
 }
 
+module "gke_poc" {
+  source = "./gke_poc"
+  for_each = {
+    for cluster_name, cluster_obj in var.gke_poc_clusters :
+    cluster_name => cluster_obj
+    if try(cluster_obj.enabled, true) == true && cluster_obj != null
+  }
+  project_id          = var.project.id
+  deletion_protection = try(each.value.deletion_protection, true)
+  version             = try(each.value.version, "latest")
+  name                = each.value.name
+  regional            = try(each.value.regional, true)
+  region              = try(each.value.region, null)
+  zones = try(
+    each.value.zones,
+    data.google_compute_zones.available.names
+  )
+  network                    = try(each.value.network, {})
+  features                   = try(each.value.features, {})
+  logging_enabled_components = try(each.value.logging_enabled_components, ["SYSTEM_COMPONENTS", "WORKLOADS"])
+  security                   = try(each.value.security, {})
+  maintenance                = try(each.value.maintenance, {})
+  labels = merge(
+    try(each.value.labels, {}),
+    {
+      resource_type = "gke_cluster",
+      cluster_name  = each.value.name,
+    },
+  )
+  node_pools = try(each.value.node_pools, {})
+
+  depends_on = [
+    module.enable_apis,
+    module.network,
+    module.iam,
+  ]
+}
+
 /* cloudsql */
 
 module "cloudsql_postgres" {

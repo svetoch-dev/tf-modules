@@ -147,3 +147,9 @@ variable "cloudrun_jobs" {
   type        = any
   default     = {}
 }
+
+variable "gke_poc_clusters" {
+  description = "A list of gke poc clusters"
+  type        = any
+  default     = {}
+}
