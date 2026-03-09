@@ -1,3 +1,8 @@
+# rod-v0.9.0
+Features:
+* `rod/repos` module
+
+
 # rod-v0.8.0
 Features:
 * `rod/secrets` module
