@@ -1,5 +1,5 @@
-output "repos" {
+output "repo" {
   description = "Repositories"
-  value       = module.repos.repositories
+  value       = module.github.repositories
   sensitive   = true
 }
