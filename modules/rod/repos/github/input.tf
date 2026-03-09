@@ -9,6 +9,12 @@ variable "repo" {
   )
 }
 
+variable "token" {
+  description = "git repository token"
+  type        = string
+  default     = ""
+}
+
 variable "overrides" {
   description = "Repositories attribute overrides"
   type = object(

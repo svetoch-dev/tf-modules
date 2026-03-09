@@ -1,5 +1,6 @@
 provider "github" {
   owner = var.repo.group
+  token = var.token
 }
 
 module "github" {
