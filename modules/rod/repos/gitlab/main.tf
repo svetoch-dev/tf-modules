@@ -1,7 +1,7 @@
 provider "gitlab" {
 }
 
-module "repos" {
+module "gitlab" {
   source       = "../../../gitlab"
   repositories = local.repos_merged
 }
