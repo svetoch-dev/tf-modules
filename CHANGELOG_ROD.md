@@ -1,3 +1,7 @@
+# rod-v0.9.1
+Fixes:
+* `rod/repos` module - required provider has been added
+
 # rod-v0.9.0
 Features:
 * `rod/repos` module
