@@ -1,3 +1,6 @@
+# v0.7.1
+[rod-v0.9.1](CHANGELOG_ROD.md#rod-v091)
+
 # v0.7.0
 [rod-v0.9.0](CHANGELOG_ROD.md#rod-v090)
 
