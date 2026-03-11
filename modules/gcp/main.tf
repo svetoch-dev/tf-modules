@@ -244,6 +244,7 @@ module "gars" {
   remote_repository  = try(each.value.remote_repository, null)
   depends_on = [
     module.enable_apis,
+    module.iam,
   ]
 }
 

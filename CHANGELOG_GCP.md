@@ -1,3 +1,8 @@
+# gcp-v2.8.6
+
+Fixes:
+* `gar` depend on iam
+
 # gcp-v2.8.5
 
 Enhancements:
