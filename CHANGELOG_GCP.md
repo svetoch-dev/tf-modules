@@ -2,6 +2,7 @@
 
 Fixes:
 * `gar` depend on iam
+* `networking` depend google_services_peering on module.subnets in order to avoid subnet creation errors due to overlaping address ranges
 
 # gcp-v2.8.5
 
