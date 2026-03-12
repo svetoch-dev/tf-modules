@@ -1,3 +1,7 @@
+# rod-v0.9.2
+
+[gcp-v2.8.6](CHANGELOG_GCP.md#gcp-v286)
+
 # rod-v0.9.1
 Fixes:
 * `rod/repos` module - required provider has been added

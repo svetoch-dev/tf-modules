@@ -92,6 +92,9 @@ module "google_services_peering" {
   peering_net = {
     prefix_length = 16
   }
+  depends_on = [
+    module.subnets
+  ]
 }
 
 module "firewall_rules" {
