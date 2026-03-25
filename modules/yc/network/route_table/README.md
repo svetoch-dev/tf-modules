@@ -45,11 +45,11 @@ module "route_table" {
 |------|-------------|------|---------|:--------:|
 | `folder_id` | The folder where the route table will be created. | `string` | n/a | yes |
 | `network_id` | The network where the route table will be created. | `string` | n/a | yes |
-| `name` | Route table name. | `string` | n/a | yes |
+| `name` | Route table name. | `string` | `null` | no |
 | `description` | Route table description. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the route table. | `map(string)` | `{}` | no |
-| `static_routes` | Static routes to create in the route table. | `list(object({ destination_prefix = string, gateway_id = optional(string), next_hop_address = optional(string) }))` | `[]` | no |
-| `timeouts` | Custom timeouts for the route table resource. | `object({ create = optional(string), update = optional(string), delete = optional(string) })` | `null` | no |
+| `static_routes` | Static routes to create in the route table. | <pre>list(object({<br>  destination_prefix = string<br>  gateway_id         = optional(string)<br>  next_hop_address   = optional(string)<br>}))</pre> | `[]` | no |
+| `timeouts` | Custom timeouts for the route table resource. | <pre>object({<br>  create = optional(string)<br>  update = optional(string)<br>  delete = optional(string)<br>})</pre> | `null` | no |
 
 ## Outputs
 

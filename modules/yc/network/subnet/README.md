@@ -48,13 +48,13 @@ module "subnet" {
 | `folder_id` | The folder where the subnet will be created. | `string` | n/a | yes |
 | `network_id` | The VPC network ID. | `string` | n/a | yes |
 | `ip_cidr_ranges` | IPv4 CIDR blocks for the subnet. | `list(string)` | n/a | yes |
-| `name` | Subnet name. | `string` | n/a | no |
+| `name` | Subnet name. | `string` | `null` | no |
 | `description` | Subnet description. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the subnet. | `map(string)` | `{}` | no |
-| `zone` | Subnet zone. | `string` | n/a | no |
-| `dhcp_options` | Options for DHCP clients in the subnet. | `object({ domain_name = optional(string), domain_name_servers = optional(list(string)), ntp_servers = optional(list(string)) })` | `null` | no |
+| `zone` | Subnet zone. | `string` | `null` | no |
+| `dhcp_options` | Options for DHCP clients in the subnet. | <pre>object({<br>  domain_name         = optional(string)<br>  domain_name_servers = optional(list(string))<br>  ntp_servers         = optional(list(string))<br>})</pre> | `null` | no |
 | `route_table_id` | Route table ID to attach to the subnet. | `string` | `null` | no |
-| `timeouts` | Custom timeouts for the subnet resource. | `object({ create = optional(string), update = optional(string), delete = optional(string) })` | `null` | no |
+| `timeouts` | Custom timeouts for the subnet resource. | <pre>object({<br>  create = optional(string)<br>  update = optional(string)<br>  delete = optional(string)<br>})</pre> | `null` | no |
 
 ## Outputs
 

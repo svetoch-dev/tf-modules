@@ -6,7 +6,7 @@ Creates a `yandex_vpc_gateway` resource configured as a shared egress gateway.
 
 ```hcl
 module "nat" {
-  source = "./modules/yc/network/nat"
+  source = "./modules/yc/network/gateway"
 
   folder_id   = "b1gxxxxxxxxxxxxxxx"
   name        = "example-nat"
@@ -15,9 +15,6 @@ module "nat" {
   labels = {
     env = "dev"
   }
-
-  shared_egress_gateway = {}
-
   timeouts = {
     create = "5m"
     update = "5m"
@@ -41,8 +38,7 @@ module "nat" {
 | `name` | NAT gateway name. | `string` | `null` | no |
 | `description` | NAT gateway description. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the NAT gateway. | `map(string)` | `{}` | no |
-| `shared_egress_gateway` | Shared egress gateway configuration. Keep non-null to create a NAT gateway of this type. | `object({})` | `{}` | no |
-| `timeouts` | Custom timeouts for the NAT gateway resource. | `object({ create = optional(string), update = optional(string), delete = optional(string) })` | `null` | no |
+| `timeouts` | Custom timeouts for the NAT gateway resource. | <pre>object({<br>  create = optional(string)<br>  update = optional(string)<br>  delete = optional(string)<br>})</pre> | `null` | no |
 
 ## Outputs
 
@@ -53,4 +49,4 @@ module "nat" {
 ## Notes
 
 - The module exposes all currently settable attributes of `yandex_vpc_gateway`.
-- For this resource type, `shared_egress_gateway` is the gateway mode currently supported by the provider.
+- For this resource type, `shared_egress_gateway` is the gateway mode currently supported by the provider and is enabled internally by the module.

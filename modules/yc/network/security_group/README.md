@@ -56,9 +56,9 @@ module "security_group" {
 | `name` | Security group name. | `string` | `null` | no |
 | `description` | Security group description. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the security group. | `map(string)` | `{}` | no |
-| `ingress` | Ingress rules for the security group. | `list(object({ description = optional(string), from_port = optional(number), labels = optional(map(string)), port = optional(number), predefined_target = optional(string), protocol = string, security_group_id = optional(string), to_port = optional(number), v4_cidr_blocks = optional(list(string)), v6_cidr_blocks = optional(list(string)) }))` | `[]` | no |
-| `egress` | Egress rules for the security group. | `list(object({ description = optional(string), from_port = optional(number), labels = optional(map(string)), port = optional(number), predefined_target = optional(string), protocol = string, security_group_id = optional(string), to_port = optional(number), v4_cidr_blocks = optional(list(string)), v6_cidr_blocks = optional(list(string)) }))` | `[]` | no |
-| `timeouts` | Custom timeouts for the security group resource. | `object({ create = optional(string), update = optional(string), delete = optional(string) })` | `null` | no |
+| `ingress` | Ingress rules for the security group. | <pre>list(object({<br>  description       = optional(string)<br>  from_port         = optional(number)<br>  labels            = optional(map(string))<br>  port              = optional(number)<br>  predefined_target = optional(string)<br>  protocol          = string<br>  security_group_id = optional(string)<br>  to_port           = optional(number)<br>  v4_cidr_blocks    = optional(list(string))<br>  v6_cidr_blocks    = optional(list(string))<br>}))</pre> | `[]` | no |
+| `egress` | Egress rules for the security group. | <pre>list(object({<br>  description       = optional(string)<br>  from_port         = optional(number)<br>  labels            = optional(map(string))<br>  port              = optional(number)<br>  predefined_target = optional(string)<br>  protocol          = string<br>  security_group_id = optional(string)<br>  to_port           = optional(number)<br>  v4_cidr_blocks    = optional(list(string))<br>  v6_cidr_blocks    = optional(list(string))<br>}))</pre> | `[]` | no |
+| `timeouts` | Custom timeouts for the security group resource. | <pre>object({<br>  create = optional(string)<br>  update = optional(string)<br>  delete = optional(string)<br>})</pre> | `null` | no |
 
 ## Outputs
 
