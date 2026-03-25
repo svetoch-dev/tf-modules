@@ -53,9 +53,39 @@ variable "ip_addresses" {
   type = map(
     object(
       {
-        name        = string
-        description = string
-        zone        = string
+        name                = optional(string)
+        description         = optional(string, null)
+        labels              = optional(map(string), {})
+        deletion_protection = optional(bool, false)
+        dns_record = optional(
+          list(
+            object(
+              {
+                dns_zone_id = string
+                fqdn        = string
+                ptr         = optional(bool)
+                ttl         = optional(number)
+              }
+            )
+          ),
+          []
+        )
+        external_ipv4_address = object(
+          {
+            zone_id                  = optional(string)
+            ddos_protection_provider = optional(string)
+            outgoing_smtp_capability = optional(string)
+          }
+        )
+        timeouts = optional(
+          object(
+            {
+              create = optional(string)
+              update = optional(string)
+              delete = optional(string)
+            }
+          )
+        )
       }
     )
   )

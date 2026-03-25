@@ -16,6 +16,13 @@ output "nat_gws" {
   }
 }
 
+output "ip_addresses" {
+  value = {
+    for ip_name, ip_obj in module.ip_addresses :
+    ip_name => ip_obj.this
+  }
+}
+
 output "firewall_rules" {
   value = {
     for rule_name, rule_obj in module.firewall_rules :

@@ -59,16 +59,17 @@ module "subnets" {
   route_table_id = module.route_tables[each.key].this.id
 }
 
-resource "yandex_vpc_address" "ip_addresses" {
-  for_each = var.ip_addresses
-
-  name        = each.value.name
-  description = each.value.description
-  folder_id   = module.vpc.this.folder_id
-
-  external_ipv4_address {
-    zone_id = each.value.zone
-  }
+module "ip_addresses" {
+  source                = "./ip_address"
+  for_each              = var.ip_addresses
+  name                  = try(each.value.name, null)
+  description           = each.value.description
+  folder_id             = module.vpc.this.folder_id
+  labels                = each.value.labels
+  deletion_protection   = each.value.deletion_protection
+  dns_record            = each.value.dns_record
+  external_ipv4_address = each.value.external_ipv4_address
+  timeouts              = try(each.value.timeouts, null)
 }
 
 module "firewall_rules" {
