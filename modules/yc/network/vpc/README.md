@@ -40,7 +40,7 @@ module "vpc" {
 | `name` | The name of the network being created. | `string` | n/a | yes |
 | `description` | An optional description of this resource. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the network. | `map(string)` | `{}` | no |
-| `timeouts` | Custom timeouts for the VPC network resource. | <pre>object({<br>  create = optional(string)<br>  update = optional(string)<br>  delete = optional(string)<br>})</pre> | `null` | no |
+| `timeouts` | Custom timeouts for the VPC network resource. | `object` | `null` | no |
 
 ## Outputs
 
@@ -52,3 +52,13 @@ module "vpc" {
 
 - The module exposes all currently settable attributes of `yandex_vpc_network`.
 - Read-only resource fields such as `id`, `created_at`, `default_security_group_id`, and `subnet_ids` are available through the `this` output.
+
+## Type Details
+
+### `timeouts`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `create` | `string` | no | Timeout for create operations. |
+| `update` | `string` | no | Timeout for update operations. |
+| `delete` | `string` | no | Timeout for delete operations. |

@@ -38,7 +38,7 @@ module "nat" {
 | `name` | NAT gateway name. | `string` | n/a | yes |
 | `description` | NAT gateway description. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the NAT gateway. | `map(string)` | `{}` | no |
-| `timeouts` | Custom timeouts for the NAT gateway resource. | <pre>object({<br>  create = optional(string)<br>  update = optional(string)<br>  delete = optional(string)<br>})</pre> | `null` | no |
+| `timeouts` | Custom timeouts for the NAT gateway resource. | `object` | `null` | no |
 
 ## Outputs
 
@@ -50,3 +50,13 @@ module "nat" {
 
 - The module exposes all currently settable attributes of `yandex_vpc_gateway`.
 - For this resource type, `shared_egress_gateway` is the gateway mode currently supported by the provider and is enabled internally by the module.
+
+## Type Details
+
+### `timeouts`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `create` | `string` | no | Timeout for create operations. |
+| `update` | `string` | no | Timeout for update operations. |
+| `delete` | `string` | no | Timeout for delete operations. |

@@ -48,8 +48,8 @@ module "route_table" {
 | `name` | Route table name. | `string` | n/a | yes|
 | `description` | Route table description. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the route table. | `map(string)` | `{}` | no |
-| `static_routes` | Static routes to create in the route table. | <pre>list(object({<br>  destination_prefix = string<br>  gateway_id         = optional(string)<br>  next_hop_address   = optional(string)<br>}))</pre> | `[]` | no |
-| `timeouts` | Custom timeouts for the route table resource. | <pre>object({<br>  create = optional(string)<br>  update = optional(string)<br>  delete = optional(string)<br>})</pre> | `null` | no |
+| `static_routes` | Static routes to create in the route table. | `list(object)` | `[]` | no |
+| `timeouts` | Custom timeouts for the route table resource. | `object` | `null` | no |
 
 ## Outputs
 
@@ -61,3 +61,21 @@ module "route_table" {
 
 - The module exposes all currently settable attributes of `yandex_vpc_route_table`.
 - Each `static_route` entry should set only one of `gateway_id` or `next_hop_address`.
+
+## Type Details
+
+### `static_routes[]`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `destination_prefix` | `string` | yes | Route prefix in CIDR notation. |
+| `gateway_id` | `string` | no | Gateway ID used as next hop. |
+| `next_hop_address` | `string` | no | Explicit next-hop IP address. |
+
+### `timeouts`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `create` | `string` | no | Timeout for create operations. |
+| `update` | `string` | no | Timeout for update operations. |
+| `delete` | `string` | no | Timeout for delete operations. |

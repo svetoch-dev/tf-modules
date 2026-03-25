@@ -52,9 +52,9 @@ module "subnet" {
 | `description` | Subnet description. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the subnet. | `map(string)` | `{}` | no |
 | `zone` | Subnet zone. | `string` | `null` | no |
-| `dhcp_options` | Options for DHCP clients in the subnet. | <pre>object({<br>  domain_name         = optional(string)<br>  domain_name_servers = optional(list(string))<br>  ntp_servers         = optional(list(string))<br>})</pre> | `null` | no |
+| `dhcp_options` | Options for DHCP clients in the subnet. | `object` | `null` | no |
 | `route_table_id` | Route table ID to attach to the subnet. | `string` | `null` | no |
-| `timeouts` | Custom timeouts for the subnet resource. | <pre>object({<br>  create = optional(string)<br>  update = optional(string)<br>  delete = optional(string)<br>})</pre> | `null` | no |
+| `timeouts` | Custom timeouts for the subnet resource. | `object` | `null` | no |
 
 ## Outputs
 
@@ -66,3 +66,21 @@ module "subnet" {
 
 - The module exposes all currently settable attributes of `yandex_vpc_subnet`.
 - `v6_cidr_blocks` is currently provider-computed and is returned through the `this` output.
+
+## Type Details
+
+### `dhcp_options`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `domain_name` | `string` | no | DHCP domain name. |
+| `domain_name_servers` | `list(string)` | no | DHCP DNS server IPs. |
+| `ntp_servers` | `list(string)` | no | DHCP NTP server IPs. |
+
+### `timeouts`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `create` | `string` | no | Timeout for create operations. |
+| `update` | `string` | no | Timeout for update operations. |
+| `delete` | `string` | no | Timeout for delete operations. |
