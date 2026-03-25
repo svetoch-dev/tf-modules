@@ -4,6 +4,7 @@ variable "project" {
     id        = string
     folder_id = string
     region    = string
+    zone      = string
   })
 }
 

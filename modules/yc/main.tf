@@ -10,12 +10,12 @@ module "network" {
   vpc = merge(
     each.value.vpc,
     {
-      project_id = module.enable_apis.project_id
+      folder_id = var.project.folder_id
     }
   )
   subnets        = each.value.subnets
   routers        = each.value.routers
-  ip_addresses   = each.value.ip_addresses
+  ip_addresses   = try(each.value.ip_addresses, {})
   nat_gws        = each.value.nat_gws
   firewall_rules = each.value.firewall_rules
 }
