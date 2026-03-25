@@ -1,27 +1,39 @@
+# v0.8.0
+
+[yc-v0.2.0](CHANGELOG_YC.md#yc-v020)
+[rod-v0.10.0](CHANGELOG_ROD.md#rod-v0100)
+
 # v0.7.2
 
 [gcp-v2.8.6](CHANGELOG_GCP.md#gcp-v286)
 
 # v0.7.1
+
 [rod-v0.9.1](CHANGELOG_ROD.md#rod-v091)
 
 # v0.7.0
+
 [rod-v0.9.0](CHANGELOG_ROD.md#rod-v090)
 
 # v0.6.0
+
 [rod-v0.8.0](CHANGELOG_ROD.md#rod-v080)
 
 # v0.5.0
+
 [rod-v0.7.0](CHANGELOG_ROD.md#rod-v070)
 [gcp-v2.8.5](CHANGELOG_ROD.md#gcp-v285)
 
 # v0.4.1
+
 [rod-v0.6.1](CHANGELOG_ROD.md#rod-v061)
 
 # v0.4.0
+
 [rod-v0.6.0](CHANGELOG_ROD.md#rod-v060)
 
 # v0.3.0
+
 [rod-v0.5.0](CHANGELOG_ROD.md#rod-v050)
 
 # v0.2.0

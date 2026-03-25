@@ -1,3 +1,15 @@
+# yc-v0.2.0
+
+Features:
+* `network`: new module
+* `network/ip_address`: new module for `yandex_vpc_address`. Supports all settable attributes + README
+* `network/security_group`: new module for `yandex_vpc_security_group`. Supports all settable attributes + README
+* `network/vpc`: new module for `yandex_vpc_network`. Supports all settable attributes + README
+* `network/gateway`: new module for `yandex_vpc_gateway`. Supports all settable attributes + README
+* `network/route_table`: new module for `yandex_vpc_route_table`. Supports all settable attributes + README
+* `network/subnet`: new module for `yandex_vpc_subnet`. Supports all settable attributes + README
+* `network/ip_address`: new module for `yandex_vpc_address`.Supports all settable attributes + README
+
 # yc-v0.1.0
 
 Features:
