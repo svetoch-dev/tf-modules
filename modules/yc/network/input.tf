@@ -28,6 +28,25 @@ variable "subnets" {
         zone          = string
         name          = optional(string)
         description   = optional(string, null)
+        labels        = optional(map(string), {})
+        dhcp_options = optional(
+          object(
+            {
+              domain_name         = optional(string)
+              domain_name_servers = optional(list(string))
+              ntp_servers         = optional(list(string))
+            }
+          )
+        )
+        timeouts = optional(
+          object(
+            {
+              create = optional(string)
+              update = optional(string)
+              delete = optional(string)
+            }
+          )
+        )
         static_routes = optional(
           list(
             object(

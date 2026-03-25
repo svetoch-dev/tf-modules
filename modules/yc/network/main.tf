@@ -22,7 +22,7 @@ module "vpc" {
   network_name = var.vpc.name
   description  = var.vpc.description
   labels       = var.vpc.labels
-  timeouts     = try(var.vpc.timeouts, null)
+  timeouts     = var.vpc.timeouts
 }
 
 module "nat_gws" {
@@ -32,7 +32,7 @@ module "nat_gws" {
   description = each.value.description
   folder_id   = module.vpc.this.folder_id
   labels      = each.value.labels
-  timeouts    = try(each.value.timeouts, null)
+  timeouts    = each.value.timeouts
 }
 
 module "route_tables" {
@@ -41,6 +41,7 @@ module "route_tables" {
   name       = try(each.value.name, each.key)
   folder_id  = module.vpc.this.folder_id
   network_id = module.vpc.this.id
+  labels     = each.value.labels
   static_routes = concat(
     each.value.static_routes,
     [
@@ -50,6 +51,7 @@ module "route_tables" {
       }
     ]
   )
+  timeouts = each.value.timeouts
 }
 
 module "subnets" {
@@ -57,11 +59,14 @@ module "subnets" {
   for_each       = var.subnets
   name           = try(each.value.name, each.key)
   description    = each.value.description
+  labels         = each.value.labels
   zone           = each.value.zone
   ip_cidr_ranges = [each.value.ip_cidr_range]
+  dhcp_options   = each.value.dhcp_options
   network_id     = module.vpc.this.id
   folder_id      = module.vpc.this.folder_id
   route_table_id = module.route_tables[each.key].this.id
+  timeouts       = each.value.timeouts
 }
 
 module "ip_addresses" {
@@ -74,7 +79,7 @@ module "ip_addresses" {
   deletion_protection   = each.value.deletion_protection
   dns_record            = each.value.dns_record
   external_ipv4_address = each.value.external_ipv4_address
-  timeouts              = try(each.value.timeouts, null)
+  timeouts              = each.value.timeouts
 }
 
 module "firewall_rules" {
