@@ -11,5 +11,23 @@ variable "network_name" {
 variable "description" {
   type        = string
   description = "An optional description of this resource."
-  default     = ""
+  default     = null
+}
+
+variable "labels" {
+  description = "A set of key/value label pairs assigned to the network."
+  type        = map(string)
+  default     = {}
+}
+
+variable "timeouts" {
+  description = "Custom timeouts for the VPC network resource."
+  type = object(
+    {
+      create = optional(string)
+      update = optional(string)
+      delete = optional(string)
+    }
+  )
+  default = null
 }

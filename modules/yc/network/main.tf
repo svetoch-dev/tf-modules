@@ -21,6 +21,8 @@ module "vpc" {
   folder_id    = var.vpc.folder_id
   network_name = var.vpc.name
   description  = var.vpc.description
+  labels       = var.vpc.labels
+  timeouts     = try(var.vpc.timeouts, null)
 }
 
 module "nat_gws" {

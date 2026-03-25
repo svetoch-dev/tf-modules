@@ -4,7 +4,17 @@ variable "vpc" {
     {
       name        = string
       folder_id   = string
-      description = optional(string, "")
+      description = optional(string, null)
+      labels      = optional(map(string), {})
+      timeouts = optional(
+        object(
+          {
+            create = optional(string)
+            update = optional(string)
+            delete = optional(string)
+          }
+        )
+      )
     }
   )
 }
