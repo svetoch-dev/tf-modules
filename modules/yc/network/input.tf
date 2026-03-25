@@ -49,7 +49,19 @@ variable "nat_gws" {
   type = map(
     object(
       {
-        name                               = optional(string)
+        name        = optional(string)
+        description = optional(string, null)
+        labels      = optional(map(string), {})
+        timeouts = optional(
+          object(
+            {
+              create = optional(string)
+              update = optional(string)
+              delete = optional(string)
+            }
+
+          )
+        )
         source_subnetwork_ip_ranges_to_nat = optional(string, "ALL_SUBNETWORKS_ALL_IP_RANGES")
         subnetworks                        = optional(list(string), [])
       }

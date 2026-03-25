@@ -26,10 +26,13 @@ module "vpc" {
 }
 
 module "nat_gws" {
-  source    = "./nat"
-  for_each  = var.nat_gws
-  name      = try(each.value.name, each.key)
-  folder_id = module.vpc.this.folder_id
+  source      = "./gateway"
+  for_each    = var.nat_gws
+  name        = try(each.value.name, each.key)
+  description = each.value.description
+  folder_id   = module.vpc.this.folder_id
+  labels      = each.value.labels
+  timeouts    = try(each.value.timeouts, null)
 }
 
 module "route_tables" {
