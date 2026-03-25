@@ -81,8 +81,8 @@ variable "nat_gws" {
 
           )
         )
-        source_subnetwork_ip_ranges_to_nat = optional(string, "ALL_SUBNETWORKS_ALL_IP_RANGES")
-        subnetworks                        = optional(list(string), [])
+        subnetwork_ip_ranges_to_nat = optional(string, "ALL_SUBNETWORKS")
+        subnetworks                 = optional(list(string), [])
       }
     )
   )

@@ -10,10 +10,61 @@ locals {
       {
         for nat_gw_name, nat_gw_obj in var.nat_gws :
         "gateway" => module.nat_gws[nat_gw_name].this.id
-        if nat_gw_obj.source_subnetwork_ip_ranges_to_nat == "ALL_SUBNETWORKS_ALL_IP_RANGES"
+        if nat_gw_obj.subnetwork_ip_ranges_to_nat == "ALL_SUBNETWORKS"
       }
     )
   }
+
+  firewall_rules_egress = {
+    for firewall_rule_name, firewall_rule_obj in var.firewall_rules :
+    tostring(firewall_rule_name) => {
+      name       = try(firewall_rule_obj.name, firewall_rule_name)
+      folder_id  = module.vpc.this.folder_id
+      network_id = module.vpc.this.id
+      egress = flatten(
+        [
+          for protocol, protocol_obj in firewall_rule_obj.allow :
+          [
+            for port in protocol_obj.ports :
+            {
+              protocol       = upper(protocol == "all" ? "ANY" : protocol)
+              v4_cidr_blocks = firewall_rule_obj.source_ranges
+              port           = port
+            }
+          ]
+        ]
+      )
+
+      ingress = []
+    }
+    if firewall_rule_obj.direction == "EGRESS"
+  }
+
+  firewall_rules_ingress = {
+    for firewall_rule_name, firewall_rule_obj in var.firewall_rules :
+    tostring(firewall_rule_name) => {
+      name       = try(firewall_rule_obj.name, firewall_rule_name)
+      folder_id  = module.vpc.this.folder_id
+      network_id = module.vpc.this.id
+      ingress = flatten(
+        [
+          for protocol, protocol_obj in firewall_rule_obj.allow :
+          [
+            for port in protocol_obj.ports :
+            {
+              protocol       = upper(protocol == "all" ? "ANY" : protocol)
+              v4_cidr_blocks = firewall_rule_obj.source_ranges
+              port           = port
+            }
+          ]
+        ]
+      )
+
+      egress = []
+    }
+    if firewall_rule_obj.direction == "INGRESS"
+  }
+
 }
 
 module "vpc" {
@@ -83,10 +134,11 @@ module "ip_addresses" {
 }
 
 module "firewall_rules" {
-  source     = "./firewall_rule"
-  for_each   = var.firewall_rules
-  name       = try(each.value.name, each.key)
-  folder_id  = module.vpc.this.folder_id
-  network_id = module.vpc.this.id
-  rule       = each.value
+  source     = "./security_group"
+  for_each   = merge(local.firewall_rules_egress, local.firewall_rules_ingress)
+  name       = each.value.name
+  folder_id  = each.value.folder_id
+  network_id = each.value.network_id
+  ingress    = each.value.ingress
+  egress     = each.value.egress
 }
