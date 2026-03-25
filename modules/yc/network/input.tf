@@ -14,9 +14,9 @@ variable "subnets" {
   type = map(
     object(
       {
-        name          = string
         ip_cidr_range = string
         zone          = string
+        name          = optional(string)
         description   = optional(string, null)
         static_routes = optional(
           list(
@@ -39,7 +39,7 @@ variable "nat_gws" {
   type = map(
     object(
       {
-        name                               = string
+        name                               = optional(string)
         source_subnetwork_ip_ranges_to_nat = optional(string, "ALL_SUBNETWORKS_ALL_IP_RANGES")
         subnetworks                        = optional(list(string), [])
       }
@@ -68,6 +68,7 @@ variable "firewall_rules" {
     object(
       {
         direction     = string
+        name          = optional(string)
         source_ranges = optional(list(string), [])
         description   = optional(string, null)
         allow = optional(

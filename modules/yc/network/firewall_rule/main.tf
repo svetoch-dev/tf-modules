@@ -20,7 +20,7 @@ resource "yandex_vpc_security_group" "this" {
   network_id  = var.network_id
 
   dynamic "ingress" {
-    for_each = upper(var.rule.direction) == "INGRESS" ? var.allow_entries : []
+    for_each = upper(var.rule.direction) == "INGRESS" ? local.allow_entries : []
 
     content {
       protocol       = ingress.value.protocol
@@ -30,7 +30,7 @@ resource "yandex_vpc_security_group" "this" {
   }
 
   dynamic "egress" {
-    for_each = upper(var.rule.direction) == "EGRESS" ? var.allow_entries : []
+    for_each = upper(var.rule.direction) == "EGRESS" ? local.allow_entries : []
 
     content {
       protocol       = ingress.value.protocol

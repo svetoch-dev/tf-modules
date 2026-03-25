@@ -1,4 +1,4 @@
-output "security_group" {
+output "this" {
   value       = yandex_vpc_security_group.this
   description = "The Yandex Cloud security group created for this firewall rule."
 }

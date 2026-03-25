@@ -24,9 +24,9 @@ variable "network_id" {
   type        = string
 }
 
-variable "ip_cidr_range" {
-  description = "Primary IPv4 CIDR block for the subnet."
-  type        = string
+variable "ip_cidr_ranges" {
+  description = "IPv4 CIDR blocks for the subnet."
+  type        = list(string)
 }
 
 variable "route_table_id" {
