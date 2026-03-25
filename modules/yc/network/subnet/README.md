@@ -48,7 +48,7 @@ module "subnet" {
 | `folder_id` | The folder where the subnet will be created. | `string` | n/a | yes |
 | `network_id` | The VPC network ID. | `string` | n/a | yes |
 | `ip_cidr_ranges` | IPv4 CIDR blocks for the subnet. | `list(string)` | n/a | yes |
-| `name` | Subnet name. | `string` | `null` | no |
+| `name` | Subnet name. | `string` | n/a | yes |
 | `description` | Subnet description. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the subnet. | `map(string)` | `{}` | no |
 | `zone` | Subnet zone. | `string` | `null` | no |

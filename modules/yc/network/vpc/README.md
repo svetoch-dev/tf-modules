@@ -37,7 +37,7 @@ module "vpc" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | `folder_id` | The ID of the folder where this VPC will be created. | `string` | n/a | yes |
-| `network_name` | The name of the network being created. | `string` | `null` | no |
+| `name` | The name of the network being created. | `string` | n/a | yes |
 | `description` | An optional description of this resource. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the network. | `map(string)` | `{}` | no |
 | `timeouts` | Custom timeouts for the VPC network resource. | <pre>object({<br>  create = optional(string)<br>  update = optional(string)<br>  delete = optional(string)<br>})</pre> | `null` | no |

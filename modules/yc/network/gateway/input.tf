@@ -1,7 +1,6 @@
 variable "name" {
   description = "NAT gateway name."
   type        = string
-  default     = null
 }
 
 variable "description" {

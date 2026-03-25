@@ -1,7 +1,6 @@
 variable "name" {
   description = "IP address name."
   type        = string
-  default     = null
 }
 
 variable "description" {

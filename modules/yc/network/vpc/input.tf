@@ -3,7 +3,7 @@ variable "folder_id" {
   type        = string
 }
 
-variable "network_name" {
+variable "name" {
   description = "The name of the network being created."
   type        = string
 }

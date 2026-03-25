@@ -53,7 +53,7 @@ module "security_group" {
 |------|-------------|------|---------|:--------:|
 | `folder_id` | The folder where the security group will be created. | `string` | n/a | yes |
 | `network_id` | The network where the security group will be created. | `string` | n/a | yes |
-| `name` | Security group name. | `string` | `null` | no |
+| `name` | Security group name. | `string` | n/a | yes |
 | `description` | Security group description. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the security group. | `map(string)` | `{}` | no |
 | `ingress` | Ingress rules for the security group. | <pre>list(object({<br>  description       = optional(string)<br>  from_port         = optional(number)<br>  labels            = optional(map(string))<br>  port              = optional(number)<br>  predefined_target = optional(string)<br>  protocol          = string<br>  security_group_id = optional(string)<br>  to_port           = optional(number)<br>  v4_cidr_blocks    = optional(list(string))<br>  v6_cidr_blocks    = optional(list(string))<br>}))</pre> | `[]` | no |

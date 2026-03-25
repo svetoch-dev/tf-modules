@@ -68,12 +68,12 @@ locals {
 }
 
 module "vpc" {
-  source       = "./vpc"
-  folder_id    = var.vpc.folder_id
-  network_name = var.vpc.name
-  description  = var.vpc.description
-  labels       = var.vpc.labels
-  timeouts     = var.vpc.timeouts
+  source      = "./vpc"
+  folder_id   = var.vpc.folder_id
+  name        = var.vpc.name
+  description = var.vpc.description
+  labels      = var.vpc.labels
+  timeouts    = var.vpc.timeouts
 }
 
 module "nat_gws" {

@@ -35,7 +35,7 @@ module "nat" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | `folder_id` | The folder where the NAT resources will be created. | `string` | n/a | yes |
-| `name` | NAT gateway name. | `string` | `null` | no |
+| `name` | NAT gateway name. | `string` | n/a | yes |
 | `description` | NAT gateway description. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the NAT gateway. | `map(string)` | `{}` | no |
 | `timeouts` | Custom timeouts for the NAT gateway resource. | <pre>object({<br>  create = optional(string)<br>  update = optional(string)<br>  delete = optional(string)<br>})</pre> | `null` | no |

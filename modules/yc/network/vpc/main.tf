@@ -1,5 +1,5 @@
 resource "yandex_vpc_network" "this" {
-  name        = var.network_name
+  name        = var.name
   description = var.description
   folder_id   = var.folder_id
   labels      = var.labels
