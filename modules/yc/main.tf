@@ -1,5 +1,21 @@
-#Will be deleted after the first module
-resource "yandex_iam_service_account" "dummy" {
-  name        = "dummy"
-  description = "dummy service account for testing purposes"
+
+module "network" {
+  for_each = {
+    for network_name, network_obj in var.networks :
+    network_name => network_obj
+    if network_obj != null
+  }
+  source = "./network"
+
+  vpc = merge(
+    each.value.vpc,
+    {
+      project_id = module.enable_apis.project_id
+    }
+  )
+  subnets        = each.value.subnets
+  routers        = each.value.routers
+  ip_addresses   = each.value.ip_addresses
+  nat_gws        = each.value.nat_gws
+  firewall_rules = each.value.firewall_rules
 }

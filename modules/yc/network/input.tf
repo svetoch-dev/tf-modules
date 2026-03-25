@@ -1,0 +1,87 @@
+variable "vpc" {
+  description = "VPC description."
+  type = object(
+    {
+      name        = string
+      folder_id   = string
+      description = optional(string, "")
+    }
+  )
+}
+
+variable "subnets" {
+  description = "Subnets that should be created."
+  type = map(
+    object(
+      {
+        name          = string
+        ip_cidr_range = string
+        zone          = string
+        description   = optional(string, null)
+        static_routes = optional(
+          list(
+            object(
+              {
+                destination_prefix = string
+                next_hop_address   = string
+              }
+            )
+          ),
+          []
+        )
+      }
+    )
+  )
+}
+
+variable "nat_gws" {
+  description = "Map of NAT gateways to create."
+  type = map(
+    object(
+      {
+        name                               = string
+        source_subnetwork_ip_ranges_to_nat = optional(string, "ALL_SUBNETWORKS_ALL_IP_RANGES")
+        subnetworks                        = optional(list(string), [])
+      }
+    )
+  )
+  default = {}
+}
+
+variable "ip_addresses" {
+  description = "List of public IP addresses to reserve."
+  type = map(
+    object(
+      {
+        name        = string
+        description = string
+        zone        = string
+      }
+    )
+  )
+  default = {}
+}
+
+variable "firewall_rules" {
+  description = "Firewall rules."
+  type = map(
+    object(
+      {
+        direction     = string
+        source_ranges = optional(list(string), [])
+        description   = optional(string, null)
+        allow = optional(
+          map(
+            object(
+              {
+                ports = optional(list(string), [])
+              }
+            )
+          ),
+          {}
+        )
+      }
+    )
+  )
+  default = {}
+}
