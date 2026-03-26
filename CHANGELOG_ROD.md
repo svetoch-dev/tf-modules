@@ -1,3 +1,8 @@
+# rod-v0.11.0
+
+Features:
+* `rod/cloud/yc` iam support 
+
 # rod-v0.10.0
 
 Features:
