@@ -1,0 +1,9 @@
+output "this" {
+  description = "Service account object"
+  value = merge(
+    yandex_iam_service_account.this,
+    {
+      key = var.generate_key ? yandex_iam_service_account_key.this[0].private_key : ""
+    }
+  )
+}

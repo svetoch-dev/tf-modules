@@ -14,4 +14,5 @@ module "yc" {
     region    = var.env.cloud.location.region
   }
   networks = local.yc_networks_merged
+  iam      = local.yc_iam_merged
 }
