@@ -94,7 +94,7 @@ locals {
     }
   }
 
-  gcp_gke_poc_clusters = {
+  gcp_k8s_clusters = {
     tostring(var.env.short_name) = {
       name                = var.env.short_name
       enabled             = var.env.kubernetes.enabled
