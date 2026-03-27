@@ -100,6 +100,20 @@ resource "google_container_cluster" "primary" {
     }
   }
 
+  binary_authorization {
+    evaluation_mode = lookup(var.features, "binary_authorization", "DISABLED")
+  }
+
+  cluster_autoscaling {
+    enabled = lookup(var.features, "cluster_autoscaling_enabled", false)
+  }
+
+  control_plane_endpoints_config {
+    ip_endpoints_config {
+      enabled = lookup(var.network, "enable_private_endpoint", false) ? false : true
+    }
+  }
+
   logging_config {
     enable_components = var.logging_enabled_components
   }
