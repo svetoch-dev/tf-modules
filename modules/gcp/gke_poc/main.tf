@@ -124,9 +124,7 @@ resource "google_container_cluster" "primary" {
       enabled = lookup(var.network, "enable_private_endpoint", false) ? false : true
     }
     dns_endpoint_config {
-      allow_external_traffic    = try(var.network.control_plane_endpoints_config.dns_endpoint_config.allow_external_traffic, false)
-      enable_k8s_tokens_via_dns = try(var.network.control_plane_endpoints_config.dns_endpoint_config.enable_k8s_tokens_via_dns, null)
-      enable_k8s_certs_via_dns  = try(var.network.control_plane_endpoints_config.dns_endpoint_config.enable_k8s_certs_via_dns, null)
+      allow_external_traffic = try(var.network.control_plane_endpoints_config.dns_endpoint_config.allow_external_traffic, false)
     }
   }
 
