@@ -1,5 +1,5 @@
 locals {
-  gcp_k8s_cluster_nodes = {
+  gcp_k8s_cluster_nodes_old = {
     tostring(var.env.short_name) = {
       main = {
         name               = "main"
@@ -103,7 +103,7 @@ locals {
       } : null,
     }
   }
-  gcp_k8s_clusters = {
+  gcp_k8s_clusters_old = {
     tostring(var.env.short_name) = {
       name                = var.env.short_name
       enabled             = var.env.kubernetes.enabled

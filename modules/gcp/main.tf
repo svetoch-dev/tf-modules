@@ -37,89 +37,89 @@ module "network" {
 }
 
 
+# module "gke" {
+#   source = "git::https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v36.3.0"
+#   for_each = {
+#     for cluster_name, cluster_obj in var.gke_clusters :
+#     cluster_name => cluster_obj
+#     if try(cluster_obj.enabled, true) == true && cluster_obj != null
+#   }
+#   project_id          = var.project.id
+#   deletion_protection = try(each.value.deletion_protection, true)
+#   release_channel     = try(each.value.release_channel, "STABLE")
+#   kubernetes_version  = try(each.value.kubernetes_version, "latest")
+#   name                = each.value.name
+#   regional            = each.value.regional
+#   region              = each.value.region
+#   zones = try(
+#     each.value.zones,
+#     data.google_compute_zones.available.names
+#   )
+#   network                         = each.value.network
+#   subnetwork                      = each.value.subnetwork
+#   ip_range_pods                   = each.value.ip_range_pods
+#   ip_range_services               = each.value.ip_range_services
+#   http_load_balancing             = each.value.http_load_balancing
+#   horizontal_pod_autoscaling      = each.value.horizontal_pod_autoscaling
+#   create_service_account          = each.value.create_service_account
+#   node_metadata                   = each.value.node_metadata
+#   enable_vertical_pod_autoscaling = each.value.enable_vertical_pod_autoscaling
+#   enable_shielded_nodes           = each.value.enable_shielded_nodes
+#   network_policy                  = each.value.network_policy
+#   network_policy_provider         = each.value.network_policy_provider
+#   gcs_fuse_csi_driver             = try(each.value.gcs_fuse_csi_driver, false)
+#   logging_enabled_components = try(
+#     each.value.logging_enabled_components,
+#     [
+#       "SYSTEM_COMPONENTS",
+#       "WORKLOADS"
+#     ]
+#   )
+
+#   identity_namespace = each.value.identity_namespace
+#   cluster_resource_labels = merge(
+#     each.value.cluster_resource_labels,
+#     {
+#       resource_type = "gke_cluster",
+#       cluster_name  = each.value.name,
+#     },
+#   )
+#   remove_default_node_pool     = each.value.remove_default_node_pool
+#   authenticator_security_group = each.value.authenticator_security_group
+
+#   master_authorized_networks         = each.value.master_authorized_networks
+#   master_global_access_enabled       = each.value.master_global_access_enabled
+#   resource_usage_export_dataset_id   = each.value.resource_usage_export_dataset_id
+#   enable_network_egress_export       = each.value.enable_network_egress_export
+#   enable_resource_consumption_export = each.value.enable_resource_consumption_export
+#   enable_private_nodes               = each.value.enable_private_nodes
+#   enable_private_endpoint            = each.value.enable_private_endpoint
+#   master_ipv4_cidr_block             = each.value.master_ipv4_cidr_block
+
+#   maintenance_start_time = each.value.maintenance_start_time
+#   maintenance_recurrence = each.value.maintenance_recurrence
+#   maintenance_end_time   = each.value.maintenance_end_time
+
+#   monitoring_enable_managed_prometheus = try(each.value.monitoring.managed_prometheus.enabled, false)
+#   monitoring_enabled_components        = try(each.value.monitoring.components, ["SYSTEM_COMPONENTS"])
+#   node_pools                           = each.value.node_pools
+#   node_pools_oauth_scopes              = each.value.node_pools_oauth_scopes
+#   node_pools_labels                    = each.value.node_pools_labels
+#   node_pools_metadata                  = each.value.node_pools_metadata
+#   node_pools_taints                    = each.value.node_pools_taints
+#   node_pools_tags                      = each.value.node_pools_tags
+
+#   depends_on = [
+#     module.enable_apis,
+#     module.network,
+#     module.iam,
+#   ]
+# }
+
 module "gke" {
-  source = "git::https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v36.3.0"
-  for_each = {
-    for cluster_name, cluster_obj in var.gke_clusters :
-    cluster_name => cluster_obj
-    if try(cluster_obj.enabled, true) == true && cluster_obj != null
-  }
-  project_id          = var.project.id
-  deletion_protection = try(each.value.deletion_protection, true)
-  release_channel     = try(each.value.release_channel, "STABLE")
-  kubernetes_version  = try(each.value.kubernetes_version, "latest")
-  name                = each.value.name
-  regional            = each.value.regional
-  region              = each.value.region
-  zones = try(
-    each.value.zones,
-    data.google_compute_zones.available.names
-  )
-  network                         = each.value.network
-  subnetwork                      = each.value.subnetwork
-  ip_range_pods                   = each.value.ip_range_pods
-  ip_range_services               = each.value.ip_range_services
-  http_load_balancing             = each.value.http_load_balancing
-  horizontal_pod_autoscaling      = each.value.horizontal_pod_autoscaling
-  create_service_account          = each.value.create_service_account
-  node_metadata                   = each.value.node_metadata
-  enable_vertical_pod_autoscaling = each.value.enable_vertical_pod_autoscaling
-  enable_shielded_nodes           = each.value.enable_shielded_nodes
-  network_policy                  = each.value.network_policy
-  network_policy_provider         = each.value.network_policy_provider
-  gcs_fuse_csi_driver             = try(each.value.gcs_fuse_csi_driver, false)
-  logging_enabled_components = try(
-    each.value.logging_enabled_components,
-    [
-      "SYSTEM_COMPONENTS",
-      "WORKLOADS"
-    ]
-  )
-
-  identity_namespace = each.value.identity_namespace
-  cluster_resource_labels = merge(
-    each.value.cluster_resource_labels,
-    {
-      resource_type = "gke_cluster",
-      cluster_name  = each.value.name,
-    },
-  )
-  remove_default_node_pool     = each.value.remove_default_node_pool
-  authenticator_security_group = each.value.authenticator_security_group
-
-  master_authorized_networks         = each.value.master_authorized_networks
-  master_global_access_enabled       = each.value.master_global_access_enabled
-  resource_usage_export_dataset_id   = each.value.resource_usage_export_dataset_id
-  enable_network_egress_export       = each.value.enable_network_egress_export
-  enable_resource_consumption_export = each.value.enable_resource_consumption_export
-  enable_private_nodes               = each.value.enable_private_nodes
-  enable_private_endpoint            = each.value.enable_private_endpoint
-  master_ipv4_cidr_block             = each.value.master_ipv4_cidr_block
-
-  maintenance_start_time = each.value.maintenance_start_time
-  maintenance_recurrence = each.value.maintenance_recurrence
-  maintenance_end_time   = each.value.maintenance_end_time
-
-  monitoring_enable_managed_prometheus = try(each.value.monitoring.managed_prometheus.enabled, false)
-  monitoring_enabled_components        = try(each.value.monitoring.components, ["SYSTEM_COMPONENTS"])
-  node_pools                           = each.value.node_pools
-  node_pools_oauth_scopes              = each.value.node_pools_oauth_scopes
-  node_pools_labels                    = each.value.node_pools_labels
-  node_pools_metadata                  = each.value.node_pools_metadata
-  node_pools_taints                    = each.value.node_pools_taints
-  node_pools_tags                      = each.value.node_pools_tags
-
-  depends_on = [
-    module.enable_apis,
-    module.network,
-    module.iam,
-  ]
-}
-
-module "gke_poc" {
   source = "./gke_poc"
   for_each = {
-    for cluster_name, cluster_obj in var.gke_poc_clusters :
+    for cluster_name, cluster_obj in var.gke_clusters :
     cluster_name => cluster_obj
     if try(cluster_obj.enabled, true) == true && cluster_obj != null
   }
