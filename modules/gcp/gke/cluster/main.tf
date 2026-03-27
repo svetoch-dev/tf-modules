@@ -70,7 +70,7 @@ resource "google_container_cluster" "cluster" {
   }
 
   dynamic "workload_identity_config" {
-    for_each = var.workload_identity_config != null && lookup(var.workload_identity_config, "workload_pool", null) != null ? [var.workload_identity_config] : []
+    for_each = var.workload_identity_config != null && try(var.workload_identity_config.workload_pool, null) != null ? [var.workload_identity_config] : []
     content {
       workload_pool = workload_identity_config.value.workload_pool
     }
@@ -78,47 +78,47 @@ resource "google_container_cluster" "cluster" {
 
   addons_config {
     http_load_balancing {
-      disabled = lookup(var.addons_config.http_load_balancing, "disabled", false)
+      disabled = try(var.addons_config.http_load_balancing.disabled, false)
     }
     horizontal_pod_autoscaling {
-      disabled = lookup(var.addons_config.horizontal_pod_autoscaling, "disabled", false)
+      disabled = try(var.addons_config.horizontal_pod_autoscaling.disabled, false)
     }
     network_policy_config {
-      disabled = lookup(var.addons_config.network_policy_config, "disabled", true)
+      disabled = try(var.addons_config.network_policy_config.disabled, true)
     }
     cloudrun_config {
-      disabled           = lookup(var.addons_config.cloudrun_config, "disabled", true)
-      load_balancer_type = lookup(var.addons_config.cloudrun_config, "load_balancer_type", null)
+      disabled           = try(var.addons_config.cloudrun_config.disabled, true)
+      load_balancer_type = try(var.addons_config.cloudrun_config.load_balancer_type, null)
     }
     dns_cache_config {
-      enabled = lookup(var.addons_config.dns_cache_config, "enabled", false)
+      enabled = try(var.addons_config.dns_cache_config.enabled, false)
     }
     gce_persistent_disk_csi_driver_config {
-      enabled = lookup(var.addons_config.gce_persistent_disk_csi_driver_config, "enabled", true)
+      enabled = try(var.addons_config.gce_persistent_disk_csi_driver_config.enabled, true)
     }
     gcp_filestore_csi_driver_config {
-      enabled = lookup(var.addons_config.gcp_filestore_csi_driver_config, "enabled", false)
+      enabled = try(var.addons_config.gcp_filestore_csi_driver_config.enabled, false)
     }
     gke_backup_agent_config {
-      enabled = lookup(var.addons_config.gke_backup_agent_config, "enabled", false)
+      enabled = try(var.addons_config.gke_backup_agent_config.enabled, false)
     }
     gcs_fuse_csi_driver_config {
-      enabled = lookup(var.addons_config.gcs_fuse_csi_driver_config, "enabled", false)
+      enabled = try(var.addons_config.gcs_fuse_csi_driver_config.enabled, false)
     }
   }
 
   logging_config {
-    enable_components = lookup(var.logging_config, "enable_components", ["SYSTEM_COMPONENTS", "WORKLOADS"])
+    enable_components = try(var.logging_config.enable_components, ["SYSTEM_COMPONENTS", "WORKLOADS"])
   }
 
   dynamic "monitoring_config" {
     for_each = var.monitoring_config != null && length(var.monitoring_config) > 0 ? [var.monitoring_config] : []
     content {
-      enable_components = lookup(monitoring_config.value, "enable_components", ["SYSTEM_COMPONENTS"])
+      enable_components = try(monitoring_config.value.enable_components, ["SYSTEM_COMPONENTS"])
       dynamic "managed_prometheus" {
         for_each = monitoring_config.value.managed_prometheus != null ? [monitoring_config.value.managed_prometheus] : []
         content {
-          enabled = lookup(managed_prometheus.value, "enabled", false)
+          enabled = try(managed_prometheus.value.enabled, false)
         }
       }
     }
