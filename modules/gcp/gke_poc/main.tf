@@ -3,7 +3,7 @@
  * Supports the nested abstraction structure from k8s_poc.tf
  */
 
-resource "google_container_cluster" "primary" {
+resource "google_container_cluster" "this" {
   name     = var.name
   location = var.regional ? var.region : (length(var.zones) > 0 ? var.zones[0] : null)
   project  = var.project_id
