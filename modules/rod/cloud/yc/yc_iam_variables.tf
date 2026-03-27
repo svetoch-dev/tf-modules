@@ -2,7 +2,7 @@ locals {
   users = {
     owners = [
       for user_name, user_obj in var.env.users :
-      "userAccount:${data.yandex_iam_user.users[user_name].id}"
+      "userAccountName:${user_obj.name}"
       if contains(user_obj.roles, "owner")
     ]
   }
@@ -58,12 +58,4 @@ data "yandex_iam_service_account" "sa_int" {
   }
   name      = each.key
   folder_id = var.int_env.cloud.folder_id
-}
-
-data "yandex_iam_user" "users" {
-  for_each = {
-    for user_name, user_obj in var.env.users :
-    user_name => user_obj.name
-  }
-  login = each.value
 }
