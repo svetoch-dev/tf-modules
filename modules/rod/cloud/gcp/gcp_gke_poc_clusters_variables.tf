@@ -170,10 +170,10 @@ locals {
           preemptible        = node_obj.preemptible
           spot               = node_obj.spot
           initial_node_count = node_obj.initial_node_count
-          oauth_scopes       = node_obj.oauth_scopes
-          labels             = node_obj.labels
-          taints             = node_obj.taints
-          tags               = node_obj.tags
+          oauth_scopes       = try(node_obj.oauth_scopes, [])
+          labels             = try(node_obj.labels, {})
+          taints             = try(node_obj.taints, [])
+          tags               = try(node_obj.tags, [])
         }
         if node_obj != null
       }
