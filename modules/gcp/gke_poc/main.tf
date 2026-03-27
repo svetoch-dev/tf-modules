@@ -73,6 +73,31 @@ resource "google_container_cluster" "primary" {
     gcs_fuse_csi_driver_config {
       enabled = lookup(var.features, "gcs_fuse_csi_driver", false)
     }
+    config_connector_config {
+      enabled = lookup(var.features, "config_connector", false)
+    }
+    dns_cache_config {
+      enabled = lookup(var.features, "dns_cache", false)
+    }
+    gce_persistent_disk_csi_driver_config {
+      enabled = lookup(var.features, "gce_persistent_disk_csi_driver", true)
+    }
+    gcp_filestore_csi_driver_config {
+      enabled = lookup(var.features, "gcp_filestore_csi_driver", false)
+    }
+    gke_backup_agent_config {
+      enabled = lookup(var.features, "gke_backup_agent", false)
+    }
+    network_policy_config {
+      disabled = !lookup(var.network, "network_policy", false)
+    }
+  }
+
+  dynamic "authenticator_groups_config" {
+    for_each = lookup(var.features, "authenticator_security_group", null) != null ? [1] : []
+    content {
+      security_group = var.features.authenticator_security_group
+    }
   }
 
   logging_config {
