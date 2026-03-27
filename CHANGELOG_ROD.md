@@ -1,3 +1,8 @@
+# rod-v0.10.0
+
+Features:
+* `rod/cloud/yc` network support
+
 # rod-v0.9.2
 
 [gcp-v2.8.6](CHANGELOG_GCP.md#gcp-v286)
@@ -10,11 +15,9 @@ Fixes:
 Features:
 * `rod/repos` module
 
-
 # rod-v0.8.0
 Features:
 * `rod/secrets` module
-
 
 # rod-v0.7.0
 Features:
