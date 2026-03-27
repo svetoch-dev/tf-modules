@@ -30,6 +30,9 @@ resource "google_container_cluster" "primary" {
   ip_allocation_policy {
     cluster_secondary_range_name  = var.network.ip_range_pods
     services_secondary_range_name = var.network.ip_range_services
+    pod_cidr_overprovision_config {
+      disabled = try(var.network.ip_allocation_policy.pod_cidr_overprovision_config.disabled, false)
+    }
   }
 
   dynamic "private_cluster_config" {
@@ -104,6 +107,14 @@ resource "google_container_cluster" "primary" {
     evaluation_mode = lookup(var.features, "binary_authorization", "DISABLED")
   }
 
+  default_snat_status {
+    disabled = lookup(var.features, "default_snat_status", false)
+  }
+
+  identity_service_config {
+    enabled = lookup(var.features, "identity_service_config", false)
+  }
+
   cluster_autoscaling {
     enabled = lookup(var.features, "cluster_autoscaling_enabled", false)
   }
@@ -111,6 +122,11 @@ resource "google_container_cluster" "primary" {
   control_plane_endpoints_config {
     ip_endpoints_config {
       enabled = lookup(var.network, "enable_private_endpoint", false) ? false : true
+    }
+    dns_endpoint_config {
+      allow_external_traffic    = try(var.network.control_plane_endpoints_config.dns_endpoint_config.allow_external_traffic, false)
+      enable_k8s_tokens_via_dns = try(var.network.control_plane_endpoints_config.dns_endpoint_config.enable_k8s_tokens_via_dns, null)
+      enable_k8s_certs_via_dns  = try(var.network.control_plane_endpoints_config.dns_endpoint_config.enable_k8s_certs_via_dns, null)
     }
   }
 
@@ -129,9 +145,20 @@ resource "google_container_cluster" "primary" {
     }
   }
 
+  master_auth {
+    client_certificate_config {
+      issue_client_certificate = try(var.security.master_auth.client_certificate_config.issue_client_certificate, false)
+    }
+  }
+
   network_policy {
     enabled  = lookup(var.network, "network_policy", false)
     provider = lookup(var.network, "network_policy_provider", "PROVIDER_UNSPECIFIED")
+  }
+
+  database_encryption {
+    state    = try(var.security.database_encryption.state, "DECRYPTED")
+    key_name = try(var.security.database_encryption.key_name, null)
   }
 }
 
