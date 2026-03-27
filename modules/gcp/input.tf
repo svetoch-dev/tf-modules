@@ -18,8 +18,8 @@ variable "activate_apis" {
   default     = []
 }
 
-variable "gke_clusters" {
-  description = "A list of gke clusters more info - https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/tree/master/modules/private-cluster"
+variable "gke" {
+  description = "GKE clusters and node pools configuration"
   type        = any
   default     = {}
 }
