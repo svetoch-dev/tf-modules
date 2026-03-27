@@ -26,7 +26,7 @@ variable "zones" {
   default     = []
 }
 
-variable "version" {
+variable "kubernetes_version" {
   description = "The Kubernetes version"
   type        = string
   default     = "latest"

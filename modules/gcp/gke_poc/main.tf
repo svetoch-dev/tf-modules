@@ -19,7 +19,7 @@ resource "google_container_cluster" "primary" {
   network    = var.network.network
   subnetwork = var.network.subnetwork
 
-  min_master_version = var.version
+  min_master_version = var.kubernetes_version
 
   deletion_protection = var.deletion_protection
 

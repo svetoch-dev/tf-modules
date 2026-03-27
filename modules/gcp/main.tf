@@ -125,7 +125,7 @@ module "gke" {
   }
   project_id          = var.project.id
   deletion_protection = try(each.value.deletion_protection, true)
-  version             = try(each.value.version, "latest")
+  kubernetes_version  = try(each.value.kubernetes_version, "latest")
   name                = each.value.name
   regional            = try(each.value.regional, true)
   region              = try(each.value.region, null)
