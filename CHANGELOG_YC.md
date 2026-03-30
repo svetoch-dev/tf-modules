@@ -1,3 +1,12 @@
+# yc-v0.3.0
+
+Features:
+* `iam`: new module
+* `iam/roles`: new module
+* `iam/service_accounts`: new module
+* `iam/members`: new module
+* `outputs`: added
+
 # yc-v0.2.0
 
 Features:

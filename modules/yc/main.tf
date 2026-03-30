@@ -1,3 +1,4 @@
+/* network */
 
 module "network" {
   for_each = {
@@ -17,4 +18,13 @@ module "network" {
   ip_addresses   = try(each.value.ip_addresses, {})
   nat_gws        = each.value.nat_gws
   firewall_rules = each.value.firewall_rules
+}
+
+/* IAM */
+
+module "iam" {
+  source           = "./iam"
+  service_accounts = var.iam.service_accounts
+  roles            = var.iam.roles
+  folder_id        = var.project.folder_id
 }
