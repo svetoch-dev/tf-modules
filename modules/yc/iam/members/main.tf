@@ -20,19 +20,23 @@ locals {
 }
 
 data "yandex_iam_service_account" "sa" {
-  for_each = {
-    for member in var.members :
-    trimprefix(member, "serviceAccountName:") => "stub"
-    if strcontains(member, "serviceAccountName:")
-  }
+  for_each = toset(
+    [
+      for member in var.members :
+      trimprefix(member, "serviceAccountName:")
+      if strcontains(member, "serviceAccountName:")
+    ]
+  )
   name = each.key
 }
 
 data "yandex_iam_user" "user" {
-  for_each = {
-    for member in var.members :
-    trimprefix(member, "userAccountName:") => "stub"
-    if strcontains(member, "userAccountName:")
-  }
+  for_each = toset(
+    [
+      for member in var.members :
+      trimprefix(member, "userAccountName:")
+      if strcontains(member, "userAccountName:")
+    ]
+  )
   login = each.key
 }

@@ -52,10 +52,13 @@ locals {
 }
 
 data "yandex_iam_service_account" "sa_int" {
-  for_each = {
-    "runner-app" = "stub",
-    "runner"     = "stub",
-  }
-  name      = each.key
+  for_each = toset(
+    [
+      "runner-app",
+      "runner"
+    ]
+  )
+
+  name      = each.value
   folder_id = var.int_env.cloud.folder_id
 }

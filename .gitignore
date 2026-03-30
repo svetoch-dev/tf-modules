@@ -18,7 +18,7 @@ terraform.tfplan
 .env
 
 ## Vim ##
-.*.swp
+.swp
 
 ## bazel ##
 bazel-*
