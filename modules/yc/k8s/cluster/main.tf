@@ -1,0 +1,157 @@
+locals {
+  iam_roles = flatten(
+    [
+      for iam_role, iam_role_obj in var.iam_roles :
+      [
+        for member in iam_role_obj.members :
+        {
+          role   = iam_role_obj.role
+          member = member
+        }
+      ]
+    ]
+  )
+}
+
+resource "yandex_kubernetes_cluster" "this" {
+  name                     = var.name
+  description              = var.description
+  folder_id                = var.folder_id
+  labels                   = var.labels
+  network_id               = var.network_id
+  service_account_id       = var.service_account_id
+  node_service_account_id  = var.node_service_account_id
+  release_channel          = var.release_channel
+  network_policy_provider  = var.network_policy_provider
+  cluster_ipv4_range       = var.pod_ipv4_range
+  cluster_ipv6_range       = var.pod_ipv6_range
+  service_ipv4_range       = var.service_ipv4_range
+  service_ipv6_range       = var.service_ipv6_range
+  node_ipv4_cidr_mask_size = var.node_ipv4_cidr_mask_size
+
+  master {
+    etcd_cluster_size  = var.master.etcd_cluster_size
+    public_ip          = var.master.public_ip
+    security_group_ids = var.master.security_group_ids
+    version            = var.master.version
+
+    dynamic "maintenance_policy" {
+      for_each = var.master.maintenance_policy == null ? [] : [var.master.maintenance_policy]
+
+      content {
+        auto_upgrade = maintenance_policy.value.auto_upgrade
+
+        dynamic "maintenance_window" {
+          for_each = maintenance_policy.value.maintenance_window
+
+          content {
+            day        = maintenance_window.value.day
+            duration   = maintenance_window.value.duration
+            start_time = maintenance_window.value.start_time
+          }
+        }
+      }
+    }
+
+    dynamic "master_location" {
+      for_each = var.master.master_location
+
+      content {
+        zone      = master_location.value.zone
+        subnet_id = master_location.value.subnet_id
+      }
+    }
+
+    dynamic "master_logging" {
+      for_each = var.master.master_logging == null ? [] : [var.master.master_logging]
+
+      content {
+        audit_enabled              = master_logging.value.audit_enabled
+        cluster_autoscaler_enabled = master_logging.value.cluster_autoscaler_enabled
+        enabled                    = master_logging.value.enabled
+        events_enabled             = master_logging.value.events_enabled
+        folder_id                  = master_logging.value.folder_id
+        kube_apiserver_enabled     = master_logging.value.kube_apiserver_enabled
+        log_group_id               = master_logging.value.log_group_id
+      }
+    }
+
+    dynamic "network_implementation" {
+      for_each = var.master.network_implementation == null ? [] : [var.master.network_implementation]
+
+      content {
+        dynamic "cilium" {
+          for_each = network_implementation.value.cilium == null ? [] : [network_implementation.value.cilium]
+
+          content {}
+        }
+      }
+    }
+
+    dynamic "regional" {
+      for_each = var.master.regional == null ? [] : [var.master.regional]
+
+      content {
+        region = regional.value.region
+
+        dynamic "location" {
+          for_each = regional.value.location
+
+          content {
+            zone      = location.value.zone
+            subnet_id = location.value.subnet_id
+          }
+        }
+      }
+    }
+
+    dynamic "scale_policy" {
+      for_each = var.master.scale_policy == null ? [] : [var.master.scale_policy]
+
+      content {
+        dynamic "auto_scale" {
+          for_each = scale_policy.value.auto_scale == null ? [] : [scale_policy.value.auto_scale]
+
+          content {
+            min_resource_preset_id = auto_scale.value.min_resource_preset_id
+          }
+        }
+      }
+    }
+
+    dynamic "zonal" {
+      for_each = var.master.zonal == null ? [] : [var.master.zonal]
+
+      content {
+        subnet_id = zonal.value.subnet_id
+        zone      = zonal.value.zone
+      }
+    }
+  }
+
+  dynamic "kms_provider" {
+    for_each = var.kms_provider == null ? [] : [var.kms_provider]
+
+    content {
+      key_id = kms_provider.value.key_id
+    }
+  }
+
+  dynamic "workload_identity_federation" {
+    for_each = var.workload_identity_federation == null ? [] : [var.workload_identity_federation]
+
+    content {
+      enabled = workload_identity_federation.value.enabled
+    }
+  }
+}
+
+resource "yandex_kubernetes_cluster_iam_member" "this" {
+  for_each = {
+    for iam_role in local.iam_roles :
+    "${iam_role.role}.${iam_role.member}" => iam_role
+  }
+  cluster_id = yandex_kubernetes_cluster.this.id
+  role       = iam_role.role
+  member     = iam_role.member
+}
