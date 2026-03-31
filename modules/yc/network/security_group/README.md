@@ -6,7 +6,7 @@ Creates a `yandex_vpc_security_group` resource.
 
 ```hcl
 module "security_group" {
-  source = "./modules/yc/network/security_group"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/yc/network/security_group?ref=master"
 
   folder_id  = "b1gxxxxxxxxxxxxxxx"
   network_id = "enpxxxxxxxxxxxxxxx"

@@ -6,7 +6,7 @@ Creates a `yandex_vpc_gateway` resource configured as a shared egress gateway.
 
 ```hcl
 module "nat" {
-  source = "./modules/yc/network/gateway"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/yc/network/gateway?ref=master"
 
   folder_id   = "b1gxxxxxxxxxxxxxxx"
   name        = "example-nat"

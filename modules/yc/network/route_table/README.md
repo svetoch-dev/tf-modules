@@ -6,7 +6,7 @@ Creates a `yandex_vpc_route_table` resource.
 
 ```hcl
 module "route_table" {
-  source = "./modules/yc/network/route_table"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/yc/network/route_table?ref=master"
 
   folder_id  = "b1gxxxxxxxxxxxxxxx"
   network_id = "enpxxxxxxxxxxxxxxx"

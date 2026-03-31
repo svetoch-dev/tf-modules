@@ -6,7 +6,7 @@ Creates a `yandex_vpc_address` resource.
 
 ```hcl
 module "ip_address" {
-  source = "./modules/yc/network/ip_address"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/yc/network/ip_address?ref=master"
 
   folder_id    = "b1gxxxxxxxxxxxxxxx"
   name         = "example-ip-address"

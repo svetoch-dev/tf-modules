@@ -6,7 +6,7 @@ Creates a `yandex_vpc_network` resource.
 
 ```hcl
 module "vpc" {
-  source = "./modules/yc/network/vpc"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/yc/network/vpc?ref=master"
 
   folder_id    = "b1gxxxxxxxxxxxxxxx"
   network_name = "example-network"

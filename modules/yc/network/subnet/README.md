@@ -6,7 +6,7 @@ Creates a `yandex_vpc_subnet` resource.
 
 ```hcl
 module "subnet" {
-  source = "./modules/yc/network/subnet"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/yc/network/subnet?ref=master"
 
   folder_id      = "b1gxxxxxxxxxxxxxxx"
   network_id     = "enpxxxxxxxxxxxxxxx"

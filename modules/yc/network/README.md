@@ -14,7 +14,7 @@ This composite module orchestrates:
 
 ```hcl
 module "network" {
-  source = "./modules/yc/network"
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/yc/network?ref=master"
 
   vpc = {
     name        = "example-network"
