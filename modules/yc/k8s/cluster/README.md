@@ -75,6 +75,7 @@ module "cluster" {
 | `pod_ipv6_range` | CIDR block for pod IPv6 addresses. | `string` | `null` | no |
 | `description` | The Kubernetes cluster description. | `string` | `null` | no |
 | `folder_id` | The folder where the Kubernetes cluster will be created. | `string` | `null` | no |
+| `iam_roles` | IAM roles to grant for the Kubernetes cluster. | `list(object)` | n/a | yes |
 | `kms_provider` | Cluster KMS provider configuration. | `object` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the cluster. | `map(string)` | `{}` | no |
 | `name` | The Kubernetes cluster name. | `string` | `null` | no |
@@ -192,6 +193,13 @@ This object is empty. Its presence enables Cilium.
 |-------|------|:--------:|-------------|
 | `subnet_id` | `string` | no | Subnet ID for the zonal master. |
 | `zone` | `string` | yes | Availability zone for the zonal master. |
+
+### `iam_roles[]`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `role` | `string` | yes | IAM role to grant. |
+| `members` | `list(string)` | yes | Members that should receive the role. |
 
 ### `kms_provider`
 
