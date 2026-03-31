@@ -13,6 +13,116 @@ variable "node_service_account_id" {
   type        = string
 }
 
+variable "name" {
+  description = "The Kubernetes cluster name."
+  type        = string
+  default     = null
+}
+
+variable "description" {
+  description = "The Kubernetes cluster description."
+  type        = string
+  default     = null
+}
+
+variable "folder_id" {
+  description = "The folder where the Kubernetes cluster will be created."
+  type        = string
+  default     = null
+}
+
+variable "labels" {
+  description = "A set of key/value label pairs assigned to the cluster."
+  type        = map(string)
+  default     = {}
+}
+
+variable "release_channel" {
+  description = "Cluster release channel."
+  type        = string
+  default     = null
+}
+
+variable "network_policy_provider" {
+  description = "Network policy provider for the cluster."
+  type        = string
+  default     = "CALICO"
+}
+
+variable "pod_ipv4_range" {
+  description = "CIDR block for pod IP addresses."
+  type        = string
+  default     = null
+}
+
+variable "pod_ipv6_range" {
+  description = "CIDR block for pod IPv6 addresses."
+  type        = string
+  default     = null
+}
+
+variable "service_ipv4_range" {
+  description = "CIDR block for service IP addresses."
+  type        = string
+  default     = null
+}
+
+variable "service_ipv6_range" {
+  description = "CIDR block for service IPv6 addresses."
+  type        = string
+  default     = null
+}
+
+variable "node_ipv4_cidr_mask_size" {
+  description = "Mask size assigned to each node for pod networking."
+  type        = number
+  default     = null
+}
+
+variable "kms_provider" {
+  description = "Cluster KMS provider configuration."
+  type = object(
+    {
+      key_id = string
+    }
+  )
+  default = null
+}
+
+variable "workload_identity_federation" {
+  description = "Workload Identity Federation configuration."
+  type = object(
+    {
+      enabled = bool
+    }
+  )
+  default = null
+}
+
+variable "admins" {
+  description = "List of service account IAM member strings. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:', 'userAccountName:' are also allowed. In this case module will look up the ids of users or service accounts using data sources"
+  type        = list(string)
+  default     = []
+}
+
+variable "viewers" {
+  description = "List of service account IAM member strings. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:', 'userAccountName:' are also allowed. In this case module will look up the ids of users or service accounts using data sources"
+  type        = list(string)
+  default     = []
+}
+
+variable "editors" {
+  description = "List of service account IAM member strings. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:', 'userAccountName:' are also allowed. In this case module will look up the ids of users or service accounts using data sources"
+  type        = list(string)
+  default     = []
+}
+
+variable "default_security_groups" {
+  description = "Enable default security groups"
+  type        = bool
+  default     = true
+}
+
 variable "master" {
   description = "Kubernetes master configuration."
   type = object(
@@ -120,110 +230,6 @@ variable "master" {
     ])) == 1
     error_message = "Exactly one of master.zonal, master.regional, or master.master_location must be set."
   }
-}
-
-variable "name" {
-  description = "The Kubernetes cluster name."
-  type        = string
-  default     = null
-}
-
-variable "description" {
-  description = "The Kubernetes cluster description."
-  type        = string
-  default     = null
-}
-
-variable "folder_id" {
-  description = "The folder where the Kubernetes cluster will be created."
-  type        = string
-  default     = null
-}
-
-variable "labels" {
-  description = "A set of key/value label pairs assigned to the cluster."
-  type        = map(string)
-  default     = {}
-}
-
-variable "release_channel" {
-  description = "Cluster release channel."
-  type        = string
-  default     = null
-}
-
-variable "network_policy_provider" {
-  description = "Network policy provider for the cluster."
-  type        = string
-  default     = "CALICO"
-}
-
-variable "pod_ipv4_range" {
-  description = "CIDR block for pod IP addresses."
-  type        = string
-  default     = null
-}
-
-variable "pod_ipv6_range" {
-  description = "CIDR block for pod IPv6 addresses."
-  type        = string
-  default     = null
-}
-
-variable "service_ipv4_range" {
-  description = "CIDR block for service IP addresses."
-  type        = string
-  default     = null
-}
-
-variable "service_ipv6_range" {
-  description = "CIDR block for service IPv6 addresses."
-  type        = string
-  default     = null
-}
-
-variable "node_ipv4_cidr_mask_size" {
-  description = "Mask size assigned to each node for pod networking."
-  type        = number
-  default     = null
-}
-
-variable "kms_provider" {
-  description = "Cluster KMS provider configuration."
-  type = object(
-    {
-      key_id = string
-    }
-  )
-  default = null
-}
-
-variable "workload_identity_federation" {
-  description = "Workload Identity Federation configuration."
-  type = object(
-    {
-      enabled = bool
-    }
-  )
-  default = null
-}
-
-variable "admins" {
-  description = "List of service account IAM member strings. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:', 'userAccountName:' are also allowed. In this case module will look up the ids of users or service accounts using data sources"
-  type        = list(string)
-  default     = []
-}
-
-variable "viewers" {
-  description = "List of service account IAM member strings. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:', 'userAccountName:' are also allowed. In this case module will look up the ids of users or service accounts using data sources"
-  type        = list(string)
-  default     = []
-}
-
-variable "editors" {
-  description = "List of service account IAM member strings. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:', 'userAccountName:' are also allowed. In this case module will look up the ids of users or service accounts using data sources"
-  type        = list(string)
-  default     = []
 }
 
 variable "node_groups" {

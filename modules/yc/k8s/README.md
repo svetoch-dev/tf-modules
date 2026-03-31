@@ -78,6 +78,7 @@ module "k8s" {
 | `node_service_account_id` | Service account used by worker nodes to access registries, logs, and metrics. | `string` | n/a | yes |
 | `master` | Kubernetes master configuration. | `object` | n/a | yes |
 | `admins` | IAM member strings that should get Kubernetes admin access. Supports standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and also `serviceAccountName:` / `userAccountName:` prefixes resolved by the module. | `list(string)` | `[]` | no |
+| `default_security_groups` | Enable creation or usage of the module's default security groups for the Kubernetes cluster. | `bool` | `true` | no |
 | `description` | The Kubernetes cluster description. | `string` | `null` | no |
 | `editors` | IAM member strings that should get Kubernetes editor access. Supports standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and also `serviceAccountName:` / `userAccountName:` prefixes resolved by the module. | `list(string)` | `[]` | no |
 | `folder_id` | The folder where the Kubernetes cluster will be created. | `string` | `null` | no |

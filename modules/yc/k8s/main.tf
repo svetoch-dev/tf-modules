@@ -1,3 +1,57 @@
+locals {
+  node_groups = {
+    for node_group_name, node_group_obj in var.node_groups :
+    node_group_name => {
+      name                   = node_group_obj.name
+      description            = node_group_obj.description
+      version                = node_group_obj.version
+      labels                 = node_group_obj.labels
+      node_labels            = node_group_obj.node_labels
+      node_taints            = node_group_obj.node_taints
+      allowed_unsafe_sysctls = node_group_obj.allowed_unsafe_sysctls
+      variables              = node_group_obj.variables
+      allocation_policy      = node_group_obj.allocation_policy
+      deploy_policy          = node_group_obj.deploy_policy
+      instance_template = {
+        labels                    = node_group_obj.instance_template.labels
+        metadata                  = node_group_obj.instance_template.metadata
+        name                      = node_group_obj.instance_template.name
+        nat                       = node_group_obj.instance_template.nat
+        network_acceleration_type = node_group_obj.instance_template.network_acceleration_type
+        platform_id               = node_group_obj.instance_template.platform_id
+        reserved_instance_pool_id = node_group_obj.instance_template.reserved_instance_pool_id
+        boot_disk                 = node_group_obj.instance_template.boot_disk
+        container_network         = node_group_obj.instance_template.container_network
+        container_runtime         = node_group_obj.instance_template.container_runtime
+        gpu_settings              = node_group_obj.instance_template.gpu_settings
+        network_interface = [
+          for interface in node_group_obj.instance_template.network_interface :
+          merge(
+            interface,
+            {
+              security_group_ids = concat(
+                interface.security_group_ids,
+                var.default_security_groups == false ? [] :
+                [
+                  module.node_groups.this.id,
+                  module.master_groups.this.id
+                ]
+              )
+            }
+          )
+
+        ]
+        placement_policy  = node_group_obj.instance_template.placement_policy
+        resources         = node_group_obj.instance_template.resources
+        scheduling_policy = node_group_obj.instance_template.scheduling_policy
+      }
+      maintenance_policy           = node_group_obj.maintenance_policy
+      scale_policy                 = node_group_obj.scale_policy
+      workload_identity_federation = node_group_obj.workload_identity_federation
+    }
+  }
+}
+
 module "cluster" {
   source = "./cluster"
 
@@ -68,4 +122,92 @@ module "viewer_members" {
 module "editor_members" {
   source  = "../iam/members"
   members = var.editors
+}
+
+module "master_sg" {
+  count      = var.default_security_groups ? 1 : 0
+  source     = "../network/security_group"
+  name       = "master-sg"
+  folder_id  = var.folder_id
+  network_id = var.network_id
+  ingress = [
+    {
+      protocol          = "ANY"
+      description       = "Rule allows availability checks from load balancer's address range. It is required for load balancer services."
+      predefined_target = "loadbalancer_healthchecks"
+      from_port         = 0
+      to_port           = 65535
+    },
+    {
+      protocol          = "ANY"
+      description       = "Allows any traffic from nodes"
+      security_group_id = module.node_sg.this.id
+      v4_cidr_blocks    = [var.pod_ipv4_range, var.service_ipv4_range]
+      from_port         = 0
+      to_port           = 65535
+    }
+  ]
+  egress = [
+    {
+      protocol       = "UDP"
+      description    = "Allows masters to connect to NTP servers for time synchronization"
+      v4_cidr_blocks = ["0.0.0.0/0"]
+      port           = 123
+    },
+    {
+      protocol          = "ANY"
+      description       = "Allows any traffic to nodes"
+      security_group_id = module.node_sg.this.id
+      v4_cidr_blocks    = [var.pod_ipv4_range, var.service_ipv4_range]
+      from_port         = 0
+      to_port           = 65535
+    }
+  ]
+}
+
+module "node_sg" {
+  count      = var.default_security_groups ? 1 : 0
+  source     = "../network/security_group"
+  name       = "node-sg"
+  folder_id  = var.folder_id
+  network_id = var.network_id
+  ingress = [
+    {
+      protocol       = "ANY"
+      description    = "Rule allows pod-pod and service-service communication"
+      v4_cidr_blocks = [var.pod_ipv4_range, var.service_ipv4_range]
+      from_port      = 0
+      to_port        = 65535
+    },
+    {
+      protocol          = "ANY"
+      description       = "Allows any traffic from nodes"
+      security_group_id = module.master_sg.this.id
+      from_port         = 0
+      to_port           = 65535
+    },
+    {
+      description    = "Rule allows incoming traffic from the Internet to the NodePort port range."
+      v4_cidr_blocks = ["0.0.0.0/0"]
+      protocol       = "TCP"
+      from_port      = 30000
+      to_port        = 32767
+    },
+    {
+      protocol          = "ANY"
+      description       = "Rule allows node-node communication inside a security group."
+      predefined_target = "self_security_group"
+      from_port         = 0
+      to_port           = 65535
+    }
+  ]
+  egress = [
+    {
+      protocol       = "ANY"
+      description    = "Rule allows all outgoing traffic."
+      v4_cidr_blocks = ["0.0.0.0/0"]
+      from_port      = 0
+      to_port        = 65535
+    },
+  ]
 }
