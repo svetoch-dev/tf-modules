@@ -11,7 +11,7 @@ module "node_group" {
   cluster_id  = "catxxxxxxxxxxxxxxx"
   name        = "example-node-group"
   description = "General workload nodes"
-  version     = "1.30"
+  k8s_version = "1.30"
 
   labels = {
     env = "dev"
@@ -109,7 +109,7 @@ module "node_group" {
 | `node_labels` | A set of key/value label pairs assigned to all nodes in the node group. | `map(string)` | `{}` | no |
 | `node_taints` | A list of Kubernetes taints applied to all nodes in the node group. | `list(string)` | `[]` | no |
 | `variables` | Variables for templating as key/value pairs. | `map(string)` | `{}` | no |
-| `version` | Kubernetes version for the node group. | `string` | `null` | no |
+| `k8s_version` | Kubernetes version for the node group. | `string` | `null` | no |
 | `workload_identity_federation` | Workload Identity Federation configuration. | `object` | `null` | no |
 
 ## Outputs

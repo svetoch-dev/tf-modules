@@ -33,7 +33,7 @@ resource "yandex_kubernetes_cluster" "this" {
     etcd_cluster_size  = var.master.etcd_cluster_size
     public_ip          = var.master.public_ip
     security_group_ids = var.master.security_group_ids
-    version            = var.master.version
+    version            = var.master.k8s_version
 
     dynamic "maintenance_policy" {
       for_each = var.master.maintenance_policy == null ? [] : [var.master.maintenance_policy]

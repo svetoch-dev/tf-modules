@@ -40,7 +40,7 @@ variable "labels" {
 variable "release_channel" {
   description = "Cluster release channel."
   type        = string
-  default     = null
+  default     = "REGULAR"
 }
 
 variable "network_policy_provider" {
@@ -129,8 +129,8 @@ variable "master" {
     {
       etcd_cluster_size  = optional(number)
       public_ip          = optional(bool)
-      security_group_ids = optional(set(string), [])
-      version            = optional(string)
+      security_group_ids = optional(list(string), [])
+      k8s_version        = optional(string)
       maintenance_policy = optional(
         object(
           {
@@ -239,7 +239,7 @@ variable "node_groups" {
       {
         name                   = optional(string)
         description            = optional(string)
-        version                = optional(string)
+        k8s_version            = optional(string)
         labels                 = optional(map(string), {})
         node_labels            = optional(map(string), {})
         node_taints            = optional(list(string), [])
@@ -311,7 +311,7 @@ variable "node_groups" {
                     ipv4               = optional(bool)
                     ipv6               = optional(bool)
                     nat                = optional(bool)
-                    security_group_ids = optional(set(string), [])
+                    security_group_ids = optional(list(string), [])
                     subnet_ids         = set(string)
                     ipv4_dns_records = optional(
                       list(

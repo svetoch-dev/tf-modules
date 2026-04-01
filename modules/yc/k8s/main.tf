@@ -4,7 +4,7 @@ locals {
     node_group_name => {
       name                   = node_group_obj.name
       description            = node_group_obj.description
-      version                = node_group_obj.version
+      k8s_version            = node_group_obj.k8s_version
       labels                 = node_group_obj.labels
       node_labels            = node_group_obj.node_labels
       node_taints            = node_group_obj.node_taints
@@ -33,8 +33,8 @@ locals {
                 interface.security_group_ids,
                 var.default_security_groups == false ? [] :
                 [
-                  module.node_groups.this.id,
-                  module.master_groups.this.id
+                  module.node_sg[0].this.id,
+                  module.master_node_sg[0].this.id
                 ]
               )
             }
@@ -49,20 +49,33 @@ locals {
       scale_policy                 = node_group_obj.scale_policy
       workload_identity_federation = node_group_obj.workload_identity_federation
     }
+    if node_group_obj != null
   }
 }
 
 module "cluster" {
   source = "./cluster"
 
-  name                         = var.name
-  description                  = var.description
-  folder_id                    = var.folder_id
-  labels                       = var.labels
-  network_id                   = var.network_id
-  service_account_id           = var.service_account_id
-  node_service_account_id      = var.node_service_account_id
-  master                       = var.master
+  name                    = var.name
+  description             = var.description
+  folder_id               = var.folder_id
+  labels                  = var.labels
+  network_id              = var.network_id
+  service_account_id      = var.service_account_id
+  node_service_account_id = var.node_service_account_id
+  master = merge(
+    var.master,
+    {
+      security_group_ids = concat(
+        var.master.security_group_ids,
+        var.default_security_groups == false ? [] :
+        [
+          module.master_sg[0].this.id,
+          module.master_node_sg[0].this.id
+        ]
+      )
+    }
+  )
   release_channel              = var.release_channel
   network_policy_provider      = var.network_policy_provider
   pod_ipv4_range               = var.pod_ipv4_range
@@ -90,12 +103,12 @@ module "cluster" {
 
 module "node_groups" {
   source   = "./node_group"
-  for_each = var.node_groups
+  for_each = local.node_groups
 
   cluster_id                   = module.cluster.this.id
   name                         = each.value.name
   description                  = each.value.description
-  version                      = each.value.version
+  k8s_version                  = each.value.k8s_version
   labels                       = each.value.labels
   node_labels                  = each.value.node_labels
   node_taints                  = each.value.node_taints
@@ -138,14 +151,6 @@ module "master_sg" {
       from_port         = 0
       to_port           = 65535
     },
-    {
-      protocol          = "ANY"
-      description       = "Allows any traffic from nodes"
-      security_group_id = module.node_sg.this.id
-      v4_cidr_blocks    = [var.pod_ipv4_range, var.service_ipv4_range]
-      from_port         = 0
-      to_port           = 65535
-    }
   ]
   egress = [
     {
@@ -154,13 +159,46 @@ module "master_sg" {
       v4_cidr_blocks = ["0.0.0.0/0"]
       port           = 123
     },
+  ]
+}
+
+module "master_node_sg" {
+  count      = var.default_security_groups ? 1 : 0
+  source     = "../network/security_group"
+  name       = "master-node-sg"
+  folder_id  = var.folder_id
+  network_id = var.network_id
+  ingress = [
     {
       protocol          = "ANY"
-      description       = "Allows any traffic to nodes"
-      security_group_id = module.node_sg.this.id
-      v4_cidr_blocks    = [var.pod_ipv4_range, var.service_ipv4_range]
+      description       = "Rule allows master-node and node-node communication inside a security group."
+      predefined_target = "self_security_group"
       from_port         = 0
       to_port           = 65535
+    },
+    {
+      protocol       = "ANY"
+      description    = "Rule allows pod-pod and service-service communication inside a security group."
+      v4_cidr_blocks = [var.pod_ipv4_range, var.service_ipv4_range]
+      from_port      = 0
+      to_port        = 65535
+    }
+  ]
+  egress = [
+    {
+      protocol          = "ANY"
+      description       = "Rule allows master-node and node-node communication inside a security group."
+      predefined_target = "self_security_group"
+      security_group_id = module.node_sg[0].this.id
+      from_port         = 0
+      to_port           = 65535
+    },
+    {
+      protocol       = "ANY"
+      description    = "Rule allows pod-pod and service-service communication inside a security group."
+      v4_cidr_blocks = [var.pod_ipv4_range, var.service_ipv4_range]
+      from_port      = 0
+      to_port        = 65535
     }
   ]
 }
@@ -173,33 +211,12 @@ module "node_sg" {
   network_id = var.network_id
   ingress = [
     {
-      protocol       = "ANY"
-      description    = "Rule allows pod-pod and service-service communication"
-      v4_cidr_blocks = [var.pod_ipv4_range, var.service_ipv4_range]
-      from_port      = 0
-      to_port        = 65535
-    },
-    {
-      protocol          = "ANY"
-      description       = "Allows any traffic from nodes"
-      security_group_id = module.master_sg.this.id
-      from_port         = 0
-      to_port           = 65535
-    },
-    {
       description    = "Rule allows incoming traffic from the Internet to the NodePort port range."
       v4_cidr_blocks = ["0.0.0.0/0"]
       protocol       = "TCP"
       from_port      = 30000
       to_port        = 32767
     },
-    {
-      protocol          = "ANY"
-      description       = "Rule allows node-node communication inside a security group."
-      predefined_target = "self_security_group"
-      from_port         = 0
-      to_port           = 65535
-    }
   ]
   egress = [
     {

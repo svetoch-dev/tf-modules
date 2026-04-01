@@ -21,7 +21,7 @@ module "cluster" {
   }
 
   master = {
-    version   = "1.30"
+    k8s_version = "1.30"
     public_ip = true
     zonal = {
       zone      = "ru-central1-a"
@@ -108,7 +108,7 @@ module "cluster" {
 | `etcd_cluster_size` | `number` | no | Number of etcd nodes for the master. |
 | `public_ip` | `bool` | no | Whether the master endpoint is publicly accessible. |
 | `security_group_ids` | `set(string)` | no | Security groups attached to the master. |
-| `version` | `string` | no | Kubernetes version for the master. |
+| `k8s_version` | `string` | no | Kubernetes version for the master. |
 | `maintenance_policy` | `object` | no | Master maintenance policy configuration. |
 | `master_location` | `list(object)` | no | Explicit master locations. |
 | `master_logging` | `object` | no | Master logging configuration. |

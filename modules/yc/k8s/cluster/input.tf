@@ -20,7 +20,7 @@ variable "master" {
       etcd_cluster_size  = optional(number)
       public_ip          = optional(bool)
       security_group_ids = optional(set(string), [])
-      version            = optional(string)
+      k8s_version        = optional(string)
       maintenance_policy = optional(
         object(
           {

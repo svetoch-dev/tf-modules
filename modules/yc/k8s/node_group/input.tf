@@ -15,7 +15,7 @@ variable "description" {
   default     = null
 }
 
-variable "version" {
+variable "k8s_version" {
   description = "Kubernetes version for the node group."
   type        = string
   default     = null

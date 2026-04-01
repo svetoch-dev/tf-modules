@@ -14,7 +14,7 @@ module "k8s" {
   node_service_account_id = "ajeyyyyyyyyyyyyyyy"
 
   master = {
-    version   = "1.30"
+    k8s_version = "1.30"
     public_ip = true
     zonal = {
       zone      = "ru-central1-a"
@@ -90,7 +90,7 @@ module "k8s" {
 | `node_ipv4_cidr_mask_size` | Mask size assigned to each node for pod networking. | `number` | `null` | no |
 | `pod_ipv4_range` | CIDR block for pod IP addresses. | `string` | `null` | no |
 | `pod_ipv6_range` | CIDR block for pod IPv6 addresses. | `string` | `null` | no |
-| `release_channel` | Cluster release channel. | `string` | `null` | no |
+| `release_channel` | Cluster release channel. | `string` | `REGULAR` | no |
 | `service_ipv4_range` | CIDR block for service IP addresses. | `string` | `null` | no |
 | `service_ipv6_range` | CIDR block for service IPv6 addresses. | `string` | `null` | no |
 | `viewers` | IAM member strings that should get Kubernetes viewer access. Supports standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and also `serviceAccountName:` / `userAccountName:` prefixes resolved by the module. | `list(string)` | `[]` | no |
@@ -111,7 +111,7 @@ module "k8s" {
 | `etcd_cluster_size` | `number` | no | Number of etcd nodes for the master. |
 | `public_ip` | `bool` | no | Whether the master endpoint is publicly accessible. |
 | `security_group_ids` | `set(string)` | no | Security groups attached to the master. |
-| `version` | `string` | no | Kubernetes version for the master. |
+| `k8s_version` | `string` | no | Kubernetes version for the master. |
 | `maintenance_policy` | `object` | no | Master maintenance policy configuration. |
 | `master_location` | `list(object)` | no | Explicit master locations. |
 | `master_logging` | `object` | no | Master logging configuration. |
@@ -215,7 +215,7 @@ This object is empty. Its presence enables Cilium.
 |-------|------|:--------:|-------------|
 | `name` | `string` | no | The node group name. |
 | `description` | `string` | no | The node group description. |
-| `version` | `string` | no | Kubernetes version for the node group. |
+| `k8s_version` | `string` | no | Kubernetes version for the node group. |
 | `labels` | `map(string)` | no | Labels assigned to the node group resource. |
 | `node_labels` | `map(string)` | no | Labels assigned to all nodes in the node group. |
 | `node_taints` | `list(string)` | no | Kubernetes taints applied to all nodes in the node group. |
