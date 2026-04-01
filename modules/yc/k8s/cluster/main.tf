@@ -76,17 +76,6 @@ resource "yandex_kubernetes_cluster" "this" {
       }
     }
 
-    dynamic "network_implementation" {
-      for_each = var.master.network_implementation == null ? [] : [var.master.network_implementation]
-
-      content {
-        dynamic "cilium" {
-          for_each = network_implementation.value.cilium == null ? [] : [network_implementation.value.cilium]
-
-          content {}
-        }
-      }
-    }
 
     dynamic "regional" {
       for_each = var.master.regional == null ? [] : [var.master.regional]
@@ -129,6 +118,17 @@ resource "yandex_kubernetes_cluster" "this" {
     }
   }
 
+  dynamic "network_implementation" {
+    for_each = var.master.network_implementation == null ? [] : [var.master.network_implementation]
+
+    content {
+      dynamic "cilium" {
+        for_each = network_implementation.value.cilium == null ? [] : [network_implementation.value.cilium]
+
+        content {}
+      }
+    }
+  }
   dynamic "kms_provider" {
     for_each = var.kms_provider == null ? [] : [var.kms_provider]
 
@@ -152,6 +152,6 @@ resource "yandex_kubernetes_cluster_iam_member" "this" {
     "${iam_role.role}.${iam_role.member}" => iam_role
   }
   cluster_id = yandex_kubernetes_cluster.this.id
-  role       = iam_role.role
-  member     = iam_role.member
+  role       = each.value.role
+  member     = each.value.member
 }
