@@ -153,5 +153,19 @@ resource "yandex_kubernetes_cluster_iam_member" "this" {
   }
   cluster_id = yandex_kubernetes_cluster.this.id
   role       = each.value.role
-  member     = each.value.member
+  member     = module.members[each.value.member].converted
+}
+
+
+module "members" {
+  source = "../../iam/member"
+  for_each = toset(
+    flatten(
+      [
+        for iam_role in var.iam_roles :
+        iam_role.members
+      ]
+    )
+  )
+  member = each.value
 }

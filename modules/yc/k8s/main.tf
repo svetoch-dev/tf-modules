@@ -88,15 +88,15 @@ module "cluster" {
   iam_roles = [
     {
       role    = "k8s.admin"
-      members = module.admin_members.converted
+      members = var.admins
     },
     {
       role    = "k8s.editor"
-      members = module.editor_members.converted
+      members = var.editors
     },
     {
       role    = "k8s.viewer"
-      members = module.viewer_members.converted
+      members = var.viewers
     },
   ]
 }
@@ -120,21 +120,6 @@ module "node_groups" {
   maintenance_policy           = each.value.maintenance_policy
   scale_policy                 = each.value.scale_policy
   workload_identity_federation = each.value.workload_identity_federation
-}
-
-module "admin_members" {
-  source  = "../iam/members"
-  members = var.admins
-}
-
-module "viewer_members" {
-  source  = "../iam/members"
-  members = var.viewers
-}
-
-module "editor_members" {
-  source  = "../iam/members"
-  members = var.editors
 }
 
 module "master_sg" {
