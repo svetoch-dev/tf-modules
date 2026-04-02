@@ -16,7 +16,7 @@ output "network" {
   )
 }
 
-output "k8s_clusters" {
+output "gke_clusters" {
   value = lookup(
     {
       gcp = module.gcp.gke
