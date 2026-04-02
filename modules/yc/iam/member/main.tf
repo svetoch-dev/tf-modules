@@ -12,10 +12,10 @@ locals {
 
 data "yandex_iam_service_account" "sa" {
   count = strcontains(var.member, "serviceAccountName:") ? 1 : 0
-  name  = var.member
+  name  = trimprefix(var.member, "serviceAccountName:")
 }
 
 data "yandex_iam_user" "user" {
   count = strcontains(var.member, "userAccountName:") ? 1 : 0
-  login = var.member
+  login = trimprefix(var.member, "userAccountName:")
 }
