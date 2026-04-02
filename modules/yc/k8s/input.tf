@@ -237,12 +237,23 @@ variable "node_groups" {
   type = map(
     object(
       {
-        name                   = optional(string)
-        description            = optional(string)
-        k8s_version            = optional(string)
-        labels                 = optional(map(string), {})
-        node_labels            = optional(map(string), {})
-        node_taints            = optional(list(string), [])
+        name        = optional(string)
+        description = optional(string)
+        k8s_version = optional(string)
+        labels      = optional(map(string), {})
+        node_labels = optional(map(string), {})
+        node_taints = optional(
+          list(
+            object(
+              {
+                key    = string
+                value  = optional(string)
+                effect = string
+              }
+            )
+          ),
+          []
+        )
         allowed_unsafe_sysctls = optional(list(string), [])
         variables              = optional(map(string), {})
         allocation_policy = object(
@@ -272,7 +283,7 @@ variable "node_groups" {
             name                      = optional(string)
             nat                       = optional(bool)
             network_acceleration_type = optional(string)
-            platform_id               = optional(string)
+            cpu_platform_id           = optional(string)
             reserved_instance_pool_id = optional(string)
             boot_disk = optional(
               object(

@@ -1,11 +1,16 @@
 resource "yandex_kubernetes_node_group" "this" {
-  cluster_id             = var.cluster_id
-  name                   = var.name
-  description            = var.description
-  version                = var.k8s_version
-  labels                 = var.labels
-  node_labels            = var.node_labels
-  node_taints            = var.node_taints
+  cluster_id  = var.cluster_id
+  name        = var.name
+  description = var.description
+  version     = var.k8s_version
+  labels      = var.labels
+  node_labels = var.node_labels
+  node_taints = [
+    for taint in var.node_taints :
+    taint.value == null ?
+    "${taint.key}=:${taint.effect}" :
+    "${taint.key}=${taint.value}:${taint.effect}"
+  ]
   allowed_unsafe_sysctls = var.allowed_unsafe_sysctls
   variables              = var.variables
 
@@ -35,7 +40,7 @@ resource "yandex_kubernetes_node_group" "this" {
     name                      = var.instance_template.name
     nat                       = var.instance_template.nat
     network_acceleration_type = var.instance_template.network_acceleration_type
-    platform_id               = var.instance_template.platform_id
+    platform_id               = var.instance_template.cpu_platform_id
     reserved_instance_pool_id = var.instance_template.reserved_instance_pool_id
 
     dynamic "boot_disk" {

@@ -35,8 +35,16 @@ variable "node_labels" {
 
 variable "node_taints" {
   description = "A list of Kubernetes taints applied to all nodes in the node group."
-  type        = list(string)
-  default     = []
+  type = list(
+    object(
+      {
+        key    = string
+        value  = optional(string)
+        effect = string
+      }
+    )
+  )
+  default = []
 }
 
 variable "allowed_unsafe_sysctls" {
@@ -87,7 +95,7 @@ variable "instance_template" {
       name                      = optional(string)
       nat                       = optional(bool)
       network_acceleration_type = optional(string)
-      platform_id               = optional(string)
+      cpu_platform_id           = optional(string)
       reserved_instance_pool_id = optional(string)
       boot_disk = optional(
         object(

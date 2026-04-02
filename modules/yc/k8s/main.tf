@@ -1,58 +1,3 @@
-locals {
-  node_groups = {
-    for node_group_name, node_group_obj in var.node_groups :
-    node_group_name => {
-      name                   = node_group_obj.name
-      description            = node_group_obj.description
-      k8s_version            = node_group_obj.k8s_version
-      labels                 = node_group_obj.labels
-      node_labels            = node_group_obj.node_labels
-      node_taints            = node_group_obj.node_taints
-      allowed_unsafe_sysctls = node_group_obj.allowed_unsafe_sysctls
-      variables              = node_group_obj.variables
-      allocation_policy      = node_group_obj.allocation_policy
-      deploy_policy          = node_group_obj.deploy_policy
-      instance_template = {
-        labels                    = node_group_obj.instance_template.labels
-        metadata                  = node_group_obj.instance_template.metadata
-        name                      = node_group_obj.instance_template.name
-        nat                       = node_group_obj.instance_template.nat
-        network_acceleration_type = node_group_obj.instance_template.network_acceleration_type
-        platform_id               = node_group_obj.instance_template.platform_id
-        reserved_instance_pool_id = node_group_obj.instance_template.reserved_instance_pool_id
-        boot_disk                 = node_group_obj.instance_template.boot_disk
-        container_network         = node_group_obj.instance_template.container_network
-        container_runtime         = node_group_obj.instance_template.container_runtime
-        gpu_settings              = node_group_obj.instance_template.gpu_settings
-        network_interface = [
-          for interface in node_group_obj.instance_template.network_interface :
-          merge(
-            interface,
-            {
-              security_group_ids = concat(
-                interface.security_group_ids,
-                var.default_security_groups == false ? [] :
-                [
-                  module.node_sg[0].this.id,
-                  module.master_node_sg[0].this.id
-                ]
-              )
-            }
-          )
-
-        ]
-        placement_policy  = node_group_obj.instance_template.placement_policy
-        resources         = node_group_obj.instance_template.resources
-        scheduling_policy = node_group_obj.instance_template.scheduling_policy
-      }
-      maintenance_policy           = node_group_obj.maintenance_policy
-      scale_policy                 = node_group_obj.scale_policy
-      workload_identity_federation = node_group_obj.workload_identity_federation
-    }
-    if node_group_obj != null
-  }
-}
-
 module "cluster" {
   source = "./cluster"
 
@@ -102,21 +47,57 @@ module "cluster" {
 }
 
 module "node_groups" {
-  source   = "./node_group"
-  for_each = local.node_groups
+  source = "./node_group"
+  for_each = {
+    for node_group_name, node_group_obj in var.node_groups :
+    node_group_name => node_group_obj
+    if node_group_obj != null
+  }
 
-  cluster_id                   = module.cluster.this.id
-  name                         = each.value.name
-  description                  = each.value.description
-  k8s_version                  = each.value.k8s_version
-  labels                       = each.value.labels
-  node_labels                  = each.value.node_labels
-  node_taints                  = each.value.node_taints
-  allowed_unsafe_sysctls       = each.value.allowed_unsafe_sysctls
-  variables                    = each.value.variables
-  allocation_policy            = each.value.allocation_policy
-  deploy_policy                = each.value.deploy_policy
-  instance_template            = each.value.instance_template
+  cluster_id             = module.cluster.this.id
+  name                   = each.value.name
+  description            = each.value.description
+  k8s_version            = each.value.k8s_version
+  labels                 = each.value.labels
+  node_labels            = each.value.node_labels
+  node_taints            = each.value.node_taints
+  allowed_unsafe_sysctls = each.value.allowed_unsafe_sysctls
+  variables              = each.value.variables
+  allocation_policy      = each.value.allocation_policy
+  deploy_policy          = each.value.deploy_policy
+  instance_template = {
+    labels                    = each.value.instance_template.labels
+    metadata                  = each.value.instance_template.metadata
+    name                      = each.value.instance_template.name
+    nat                       = each.value.instance_template.nat
+    network_acceleration_type = each.value.instance_template.network_acceleration_type
+    cpu_platform_id           = each.value.instance_template.cpu_platform_id
+    reserved_instance_pool_id = each.value.instance_template.reserved_instance_pool_id
+    boot_disk                 = each.value.instance_template.boot_disk
+    container_network         = each.value.instance_template.container_network
+    container_runtime         = each.value.instance_template.container_runtime
+    gpu_settings              = each.value.instance_template.gpu_settings
+    network_interface = [
+      for interface in each.value.instance_template.network_interface :
+      merge(
+        interface,
+        {
+          security_group_ids = concat(
+            interface.security_group_ids,
+            var.default_security_groups == false ? [] :
+            [
+              module.node_sg[0].this.id,
+              module.master_node_sg[0].this.id
+            ]
+          )
+        }
+      )
+
+    ]
+    placement_policy  = each.value.instance_template.placement_policy
+    resources         = each.value.instance_template.resources
+    scheduling_policy = each.value.instance_template.scheduling_policy
+  }
   maintenance_policy           = each.value.maintenance_policy
   scale_policy                 = each.value.scale_policy
   workload_identity_federation = each.value.workload_identity_federation

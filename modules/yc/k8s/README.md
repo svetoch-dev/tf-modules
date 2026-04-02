@@ -33,7 +33,7 @@ module "k8s" {
         ]
       }
       instance_template = {
-        platform_id = "standard-v2"
+        cpu_platform_id = "standard-v2"
         network_interface = [
           {
             nat        = true
@@ -218,7 +218,7 @@ This object is empty. Its presence enables Cilium.
 | `k8s_version` | `string` | no | Kubernetes version for the node group. |
 | `labels` | `map(string)` | no | Labels assigned to the node group resource. |
 | `node_labels` | `map(string)` | no | Labels assigned to all nodes in the node group. |
-| `node_taints` | `list(string)` | no | Kubernetes taints applied to all nodes in the node group. |
+| `node_taints` | `list(object)` | no | Kubernetes taints applied to all nodes in the node group. Each taint is converted to the provider string format `<key>=<value>:<effect>` or `<key>:<effect>` when `value` is omitted. |
 | `allowed_unsafe_sysctls` | `list(string)` | no | Allowed unsafe sysctl parameters for the node group. |
 | `variables` | `map(string)` | no | Variables for templating as key/value pairs. |
 | `allocation_policy` | `object` | yes | Subnets and zones used by node group compute instances. |
@@ -248,6 +248,14 @@ This object is empty. Its presence enables Cilium.
 | `max_expansion` | `number` | yes | Maximum temporary instances above target size during update. |
 | `max_unavailable` | `number` | yes | Maximum running instances that can be taken offline during update. |
 
+### `node_groups{}.node_taints[]`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `key` | `string` | yes | Taint key. |
+| `value` | `any` | no | Taint value. Converted to string before passing to the provider. |
+| `effect` | `string` | yes | Taint effect such as `NO_SCHEDULE`. |
+
 ### `node_groups{}.instance_template`
 
 | Field | Type | Required | Description |
@@ -257,7 +265,7 @@ This object is empty. Its presence enables Cilium.
 | `name` | `string` | no | Name template for compute instances. |
 | `nat` | `bool` | no | Enables NAT for compute instances. |
 | `network_acceleration_type` | `string` | no | Network acceleration type. |
-| `platform_id` | `string` | no | Hardware platform ID. |
+| `cpu_platform_id` | `string` | no | CPU platform ID. |
 | `reserved_instance_pool_id` | `string` | no | Reserved instance pool ID. |
 | `boot_disk` | `object` | no | Boot disk configuration. |
 | `container_network` | `object` | no | Container network configuration. |

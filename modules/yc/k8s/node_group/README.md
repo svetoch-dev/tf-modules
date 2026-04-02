@@ -21,7 +21,13 @@ module "node_group" {
     "node-role" = "general"
   }
 
-  node_taints             = []
+  node_taints = [
+    {
+      key    = "on-demand"
+      value  = true
+      effect = "NO_SCHEDULE"
+    }
+  ]
   allowed_unsafe_sysctls  = []
   variables               = {}
 
@@ -35,7 +41,7 @@ module "node_group" {
   }
 
   instance_template = {
-    platform_id = "standard-v2"
+    cpu_platform_id = "standard-v2"
     labels = {
       env = "dev"
     }
@@ -107,7 +113,7 @@ module "node_group" {
 | `maintenance_policy` | Maintenance policy for this Kubernetes node group. | `object` | `null` | no |
 | `name` | The node group name. | `string` | `null` | no |
 | `node_labels` | A set of key/value label pairs assigned to all nodes in the node group. | `map(string)` | `{}` | no |
-| `node_taints` | A list of Kubernetes taints applied to all nodes in the node group. | `list(string)` | `[]` | no |
+| `node_taints` | A list of Kubernetes taints applied to all nodes in the node group. Each taint is converted to the provider string format `<key>=<value>:<effect>` or `<key>:<effect>` when `value` is omitted. | `list(object)` | `[]` | no |
 | `variables` | Variables for templating as key/value pairs. | `map(string)` | `{}` | no |
 | `k8s_version` | Kubernetes version for the node group. | `string` | `null` | no |
 | `workload_identity_federation` | Workload Identity Federation configuration. | `object` | `null` | no |
@@ -146,6 +152,14 @@ module "node_group" {
 | `max_expansion` | `number` | yes | Maximum temporary instances above target size during update. |
 | `max_unavailable` | `number` | yes | Maximum running instances that can be taken offline during update. |
 
+### `node_taints[]`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `key` | `string` | yes | Taint key. |
+| `value` | `any` | no | Taint value. Converted to string before passing to the provider. |
+| `effect` | `string` | yes | Taint effect such as `NO_SCHEDULE`. |
+
 ### `instance_template`
 
 | Field | Type | Required | Description |
@@ -155,7 +169,7 @@ module "node_group" {
 | `name` | `string` | no | Name template for compute instances. |
 | `nat` | `bool` | no | Enables NAT for compute instances. |
 | `network_acceleration_type` | `string` | no | Network acceleration type. |
-| `platform_id` | `string` | no | Hardware platform ID. |
+| `cpu_platform_id` | `string` | no | CPU platform ID. |
 | `reserved_instance_pool_id` | `string` | no | Reserved instance pool ID. |
 | `boot_disk` | `object` | no | Boot disk configuration. |
 | `container_network` | `object` | no | Container network configuration. |

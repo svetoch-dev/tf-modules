@@ -62,6 +62,7 @@ module "k8s" {
   master                       = each.value.master
   node_groups                  = try(each.value.node_groups, {})
   depends_on = [
-    module.iam
+    module.iam,
+    module.network
   ]
 }
