@@ -65,39 +65,27 @@ module "node_groups" {
   variables              = each.value.variables
   allocation_policy      = each.value.allocation_policy
   deploy_policy          = each.value.deploy_policy
-  instance_template = {
-    labels                    = each.value.instance_template.labels
-    metadata                  = each.value.instance_template.metadata
-    name                      = each.value.instance_template.name
-    nat                       = each.value.instance_template.nat
-    network_acceleration_type = each.value.instance_template.network_acceleration_type
-    cpu_platform_id           = each.value.instance_template.cpu_platform_id
-    reserved_instance_pool_id = each.value.instance_template.reserved_instance_pool_id
-    boot_disk                 = each.value.instance_template.boot_disk
-    container_network         = each.value.instance_template.container_network
-    container_runtime         = each.value.instance_template.container_runtime
-    gpu_settings              = each.value.instance_template.gpu_settings
-    network_interface = [
-      for interface in each.value.instance_template.network_interface :
-      merge(
-        interface,
-        {
-          security_group_ids = concat(
-            interface.security_group_ids,
-            var.default_security_groups == false ? [] :
-            [
-              module.node_sg[0].this.id,
-              module.master_node_sg[0].this.id
-            ]
-          )
-        }
-      )
-
-    ]
-    placement_policy  = each.value.instance_template.placement_policy
-    resources         = each.value.instance_template.resources
-    scheduling_policy = each.value.instance_template.scheduling_policy
-  }
+  instance_template = merge(
+    each.value.instance_template,
+    {
+      network_interface = [
+        for interface in each.value.instance_template.network_interface :
+        merge(
+          interface,
+          {
+            security_group_ids = concat(
+              interface.security_group_ids,
+              var.default_security_groups == false ? [] :
+              [
+                module.node_sg[0].this.id,
+                module.master_node_sg[0].this.id
+              ]
+            )
+          }
+        )
+      ]
+    }
+  )
   maintenance_policy           = each.value.maintenance_policy
   scale_policy                 = each.value.scale_policy
   workload_identity_federation = each.value.workload_identity_federation

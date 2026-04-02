@@ -85,7 +85,10 @@ resource "yandex_kubernetes_node_group" "this" {
         ipv6               = network_interface.value.ipv6
         nat                = network_interface.value.nat
         security_group_ids = network_interface.value.security_group_ids
-        subnet_ids         = network_interface.value.subnet_ids
+        subnet_ids = network_interface.value.subnet_ids != [] ? network_interface.value.subnet_ids : [
+          for subnet_name in network_interface.value.subnet_names :
+          data.yandex_vpc_subnet.subnets[subnet_name].id
+        ]
 
         dynamic "ipv4_dns_records" {
           for_each = network_interface.value.ipv4_dns_records
@@ -185,4 +188,16 @@ resource "yandex_kubernetes_node_group" "this" {
       enabled = workload_identity_federation.value.enabled
     }
   }
+}
+
+data "yandex_vpc_subnet" "subnets" {
+  for_each = toset(
+    concat(
+      [
+        for interface in var.instance_template.network_interface :
+        interface.subnet_names
+      ]...
+    )
+  )
+  name = each.value
 }

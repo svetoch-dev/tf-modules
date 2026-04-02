@@ -323,7 +323,8 @@ variable "node_groups" {
                     ipv6               = optional(bool)
                     nat                = optional(bool)
                     security_group_ids = optional(list(string), [])
-                    subnet_ids         = set(string)
+                    subnet_ids         = optional(list(string), [])
+                    subnet_names       = optional(list(string), [])
                     ipv4_dns_records = optional(
                       list(
                         object(
