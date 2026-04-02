@@ -315,8 +315,6 @@ variable "control_plane_endpoints_config" {
   type = object({
     dns_endpoint_config = optional(object({
       allow_external_traffic    = optional(bool, false)
-      enable_k8s_tokens_via_dns = optional(bool)
-      enable_k8s_certs_via_dns  = optional(bool)
     }))
   })
   default = null

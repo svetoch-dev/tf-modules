@@ -267,8 +267,6 @@ resource "google_container_cluster" "cluster" {
         for_each = var.control_plane_endpoints_config.dns_endpoint_config != null ? [var.control_plane_endpoints_config.dns_endpoint_config] : []
         content {
           allow_external_traffic    = dns_endpoint_config.value.allow_external_traffic
-          enable_k8s_tokens_via_dns = dns_endpoint_config.value.enable_k8s_tokens_via_dns
-          enable_k8s_certs_via_dns  = dns_endpoint_config.value.enable_k8s_certs_via_dns
         }
       }
     }
