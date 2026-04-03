@@ -23,6 +23,7 @@ module "cluster" {
   )
   release_channel              = var.release_channel
   network_policy_provider      = var.network_policy_provider
+  network_implementation       = var.network_implementation
   pod_ipv4_range               = var.pod_ipv4_range
   pod_ipv6_range               = var.pod_ipv6_range
   service_ipv4_range           = var.service_ipv4_range

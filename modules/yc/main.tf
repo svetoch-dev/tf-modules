@@ -41,8 +41,8 @@ module "k8s" {
 
   name                         = try(each.value.name, each.key)
   network_id                   = each.value.network_id
-  service_account_id           = each.value.service_account_id
-  node_service_account_id      = each.value.node_service_account_id
+  service_account_id           = try(each.value.service_account_id, null)
+  node_service_account_id      = try(each.value.node_service_account_id, null)
   description                  = try(each.value.description, null)
   folder_id                    = try(each.value.folder_id, var.project.folder_id)
   labels                       = try(each.value.labels, {})
@@ -59,6 +59,7 @@ module "k8s" {
   viewers                      = try(each.value.viewers, [])
   editors                      = try(each.value.editors, [])
   default_security_groups      = try(each.value.default_security_groups, true)
+  network_implementation       = try(each.value.network_implementation, null)
   master                       = each.value.master
   node_groups                  = try(each.value.node_groups, {})
   depends_on = [

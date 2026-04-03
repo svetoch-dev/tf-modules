@@ -8,12 +8,11 @@ Creates a `yandex_kubernetes_cluster` resource.
 module "cluster" {
   source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/yc/k8s/cluster?ref=master"
 
-  name                    = "example-cluster"
-  description             = "General purpose cluster"
-  network_id              = "enpxxxxxxxxxxxxxxx"
-  service_account_id      = "ajexxxxxxxxxxxxxxx"
-  node_service_account_id = "ajeyyyyyyyyyyyyyyy"
-  release_channel         = "RAPID"
+  name             = "example-cluster"
+  description      = "General purpose cluster"
+  folder_id        = "b1gxxxxxxxxxxxxxxx"
+  network_id       = "enpxxxxxxxxxxxxxxx"
+  release_channel  = "RAPID"
   network_policy_provider = "CALICO"
 
   labels = {
@@ -22,7 +21,7 @@ module "cluster" {
 
   master = {
     k8s_version = "1.30"
-    public_ip = true
+    public_ip   = true
     zonal = {
       zone      = "ru-central1-a"
       subnet_id = "e9bxxxxxxxxxxxxxxx"
@@ -53,6 +52,21 @@ module "cluster" {
   workload_identity_federation = {
     enabled = true
   }
+
+  iam_roles = [
+    {
+      role = "k8s.admin"
+      members = [
+        "group:aje0xxxxxxxxxxxxxx",
+      ]
+    },
+    {
+      role = "k8s.viewer"
+      members = [
+        "serviceAccountName:ci-runner",
+      ]
+    }
+  ]
 }
 ```
 
@@ -68,9 +82,10 @@ module "cluster" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | `network_id` | The ID of the VPC network where the Kubernetes cluster will be created. | `string` | n/a | yes |
-| `service_account_id` | Service account used for provisioning Compute Cloud and VPC resources for the cluster. | `string` | n/a | yes |
-| `node_service_account_id` | Service account used by worker nodes to access registries, logs, and metrics. | `string` | n/a | yes |
+| `service_account_id` | Service account used for provisioning Compute Cloud and VPC resources for the cluster. If omitted, the module creates and uses a default service account. | `string` | `null` | no |
+| `node_service_account_id` | Service account used by worker nodes to access registries, logs, and metrics. If omitted, the module creates and uses a default service account. | `string` | `null` | no |
 | `master` | Kubernetes master configuration. | `object` | n/a | yes |
+| `network_implementation` | Cluster network implementation. | `object` | `null` | no |
 | `pod_ipv4_range` | CIDR block for pod IP addresses. | `string` | `null` | no |
 | `pod_ipv6_range` | CIDR block for pod IPv6 addresses. | `string` | `null` | no |
 | `description` | The Kubernetes cluster description. | `string` | `null` | no |
@@ -84,7 +99,7 @@ module "cluster" {
 | `release_channel` | Cluster release channel. | `string` | `null` | no |
 | `service_ipv4_range` | CIDR block for service IP addresses. | `string` | `null` | no |
 | `service_ipv6_range` | CIDR block for service IPv6 addresses. | `string` | `null` | no |
-| `workload_identity_federation` | Workload Identity Federation configuration. | `object` | `null` | no |
+| `workload_identity_federation` | Cluster Workload Identity Federation configuration. | `object` | `null` | no |
 
 ## Outputs
 
@@ -97,6 +112,7 @@ module "cluster" {
 - The module exposes all currently documented settable attributes of `yandex_kubernetes_cluster`.
 - Exactly one of `master.zonal`, `master.regional`, or `master.master_location` must be set.
 - Provider-computed attributes such as endpoints, CA certificate, health, status, log group ID, and version info are returned through the `this` output.
+- If `service_account_id` or `node_service_account_id` is not provided, the module creates default `k8s-master` and `k8s-nodes` service accounts and uses them for the cluster.
 - If IAM bindings for `service_account_id` or `node_service_account_id` are managed in the same configuration, add explicit `depends_on` on those IAM resources when using this module, matching the Yandex provider guidance.
 
 ## Type Details
@@ -107,12 +123,11 @@ module "cluster" {
 |-------|------|:--------:|-------------|
 | `etcd_cluster_size` | `number` | no | Number of etcd nodes for the master. |
 | `public_ip` | `bool` | no | Whether the master endpoint is publicly accessible. |
-| `security_group_ids` | `set(string)` | no | Security groups attached to the master. |
+| `security_group_ids` | `list(string)` | no | Security groups attached to the master. |
 | `k8s_version` | `string` | no | Kubernetes version for the master. |
 | `maintenance_policy` | `object` | no | Master maintenance policy configuration. |
 | `master_location` | `list(object)` | no | Explicit master locations. |
 | `master_logging` | `object` | no | Master logging configuration. |
-| `network_implementation` | `object` | no | Cluster network implementation. |
 | `regional` | `object` | no | Regional master placement. |
 | `scale_policy` | `object` | no | Master scaling policy. |
 | `zonal` | `object` | no | Zonal master placement. |
@@ -151,13 +166,13 @@ module "cluster" {
 | `kube_apiserver_enabled` | `bool` | no | Enables Kubernetes API server logs. |
 | `log_group_id` | `string` | no | Existing log group ID for master logs. |
 
-### `master.network_implementation`
+### `network_implementation`
 
 | Field | Type | Required | Description |
 |-------|------|:--------:|-------------|
 | `cilium` | `object` | no | Enables the Cilium network implementation. |
 
-### `master.network_implementation.cilium`
+### `network_implementation.cilium`
 
 This object is empty. Its presence enables Cilium.
 
@@ -199,7 +214,7 @@ This object is empty. Its presence enables Cilium.
 | Field | Type | Required | Description |
 |-------|------|:--------:|-------------|
 | `role` | `string` | yes | IAM role to grant. |
-| `members` | `list(string)` | yes | Members that should receive the role. |
+| `members` | `list(string)` | yes | Members that should receive the role. Standard Yandex Cloud IAM member formats are supported, along with `serviceAccountName:` and `userAccountName:` aliases resolved by the module. |
 
 ### `kms_provider`
 
@@ -211,4 +226,4 @@ This object is empty. Its presence enables Cilium.
 
 | Field | Type | Required | Description |
 |-------|------|:--------:|-------------|
-| `enabled` | `bool` | yes | Whether Workload Identity Federation is enabled. |
+| `enabled` | `bool` | yes | Whether Workload Identity Federation is enabled for the cluster. |

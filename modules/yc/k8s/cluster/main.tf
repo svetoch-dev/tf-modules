@@ -19,8 +19,8 @@ resource "yandex_kubernetes_cluster" "this" {
   folder_id                = var.folder_id
   labels                   = var.labels
   network_id               = var.network_id
-  service_account_id       = var.service_account_id
-  node_service_account_id  = var.node_service_account_id
+  service_account_id       = var.service_account_id == null ? module.master_sa.this.id : var.service_account_id
+  node_service_account_id  = var.node_service_account_id == null ? module.node_sa.this.id : var.node_service_account_id
   release_channel          = var.release_channel
   network_policy_provider  = var.network_policy_provider
   cluster_ipv4_range       = var.pod_ipv4_range
@@ -119,7 +119,7 @@ resource "yandex_kubernetes_cluster" "this" {
   }
 
   dynamic "network_implementation" {
-    for_each = var.master.network_implementation == null ? [] : [var.master.network_implementation]
+    for_each = var.network_implementation == null ? [] : [var.network_implementation]
 
     content {
       dynamic "cilium" {
@@ -168,4 +168,28 @@ module "members" {
     )
   )
   member = each.value
+}
+
+module "master_sa" {
+  source      = "../../iam/service_account"
+  folder_id   = var.folder_id
+  name        = "k8s-master"
+  description = "default service account for k8s master nodes"
+  roles = [
+    "k8s.clusters.agent",
+    "k8s.tunnelClusters.agent",
+    "vpc.publicAdmin",
+    "load-balancer.admin",
+    "logging.writer",
+  ]
+}
+
+module "node_sa" {
+  source      = "../../iam/service_account"
+  folder_id   = var.folder_id
+  name        = "k8s-nodes"
+  description = "default service account for k8s nodes"
+  roles = [
+    "container-registry.images.puller"
+  ]
 }

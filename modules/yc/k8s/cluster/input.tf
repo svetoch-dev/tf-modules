@@ -4,13 +4,15 @@ variable "network_id" {
 }
 
 variable "service_account_id" {
-  description = "Service account used for provisioning Compute Cloud and VPC resources for the cluster."
+  description = "Service account used for provisioning Compute Cloud and VPC resources for the cluster. If null, the module creates and uses a default service account."
   type        = string
+  default     = null
 }
 
 variable "node_service_account_id" {
-  description = "Service account used by worker nodes to access registries, logs, and metrics."
+  description = "Service account used by worker nodes to access registries, logs, and metrics. If null, the module creates and uses a default service account."
   type        = string
+  default     = null
 }
 
 variable "master" {
@@ -64,15 +66,6 @@ variable "master" {
           }
         )
       )
-      network_implementation = optional(
-        object(
-          {
-            cilium = optional(
-              object({})
-            )
-          }
-        )
-      )
       regional = optional(
         object(
           {
@@ -120,6 +113,18 @@ variable "master" {
     ])) == 1
     error_message = "Exactly one of master.zonal, master.regional, or master.master_location must be set."
   }
+}
+
+variable "network_implementation" {
+  description = "Cluster network implementation."
+  type = object(
+    {
+      cilium = optional(
+        object({})
+      )
+    }
+  )
+  default = null
 }
 
 variable "name" {
@@ -199,7 +204,7 @@ variable "kms_provider" {
 }
 
 variable "workload_identity_federation" {
-  description = "Workload Identity Federation configuration."
+  description = "Cluster Workload Identity Federation configuration."
   type = object(
     {
       enabled = bool
@@ -209,7 +214,7 @@ variable "workload_identity_federation" {
 }
 
 variable "iam_roles" {
-  description = "Iam roles for the kubernetes"
+  description = "IAM roles to grant on the Kubernetes cluster. Member values may use standard Yandex Cloud IAM member formats and the serviceAccountName:/userAccountName: aliases supported by the iam/member module."
   type = list(
     object(
       {

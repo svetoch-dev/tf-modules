@@ -8,14 +8,13 @@ Creates a Kubernetes cluster with zero or more node groups
 module "k8s" {
   source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/yc/k8s?ref=master"
 
-  name                    = "example-cluster"
-  network_id              = "enpxxxxxxxxxxxxxxx"
-  service_account_id      = "ajexxxxxxxxxxxxxxx"
-  node_service_account_id = "ajeyyyyyyyyyyyyyyy"
+  name       = "example-cluster"
+  folder_id  = "b1gxxxxxxxxxxxxxxx"
+  network_id = "enpxxxxxxxxxxxxxxx"
 
   master = {
     k8s_version = "1.30"
-    public_ip = true
+    public_ip   = true
     zonal = {
       zone      = "ru-central1-a"
       subnet_id = "e9bxxxxxxxxxxxxxxx"
@@ -74,8 +73,8 @@ module "k8s" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | `network_id` | The ID of the VPC network where the Kubernetes cluster will be created. | `string` | n/a | yes |
-| `service_account_id` | Service account used for provisioning Compute Cloud and VPC resources for the cluster. | `string` | n/a | yes |
-| `node_service_account_id` | Service account used by worker nodes to access registries, logs, and metrics. | `string` | n/a | yes |
+| `service_account_id` | Service account used for provisioning Compute Cloud and VPC resources for the cluster. If omitted, the cluster submodule creates and uses a default service account. | `string` | `null` | no |
+| `node_service_account_id` | Service account used by worker nodes to access registries, logs, and metrics. If omitted, the cluster submodule creates and uses a default service account. | `string` | `null` | no |
 | `master` | Kubernetes master configuration. | `object` | n/a | yes |
 | `admins` | IAM member strings that should get Kubernetes admin access. Supports standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and also `serviceAccountName:` / `userAccountName:` prefixes resolved by the module. | `list(string)` | `[]` | no |
 | `default_security_groups` | Enable creation or usage of the module's default security groups for the Kubernetes cluster. | `bool` | `true` | no |
@@ -85,6 +84,7 @@ module "k8s" {
 | `kms_provider` | Cluster KMS provider configuration. | `object` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the cluster. | `map(string)` | `{}` | no |
 | `name` | The Kubernetes cluster name. | `string` | `null` | no |
+| `network_implementation` | Cluster network implementation. | `object` | `null` | no |
 | `network_policy_provider` | Network policy provider for the cluster. | `string` | `"CALICO"` | no |
 | `node_groups` | Map of Kubernetes node groups to create in the cluster. | `map(object)` | `{}` | no |
 | `node_ipv4_cidr_mask_size` | Mask size assigned to each node for pod networking. | `number` | `null` | no |
@@ -94,7 +94,7 @@ module "k8s" {
 | `service_ipv4_range` | CIDR block for service IP addresses. | `string` | `null` | no |
 | `service_ipv6_range` | CIDR block for service IPv6 addresses. | `string` | `null` | no |
 | `viewers` | IAM member strings that should get Kubernetes viewer access. Supports standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and also `serviceAccountName:` / `userAccountName:` prefixes resolved by the module. | `list(string)` | `[]` | no |
-| `workload_identity_federation` | Workload Identity Federation configuration for the cluster. | `object` | `null` | no |
+| `workload_identity_federation` | Cluster Workload Identity Federation configuration. | `object` | `null` | no |
 
 ## Notes
 
@@ -102,6 +102,7 @@ module "k8s" {
 - Exactly one of `master.zonal`, `master.regional`, or `master.master_location` must be set.
 - Each node group must set exactly one of `scale_policy.auto_scale` or `scale_policy.fixed_scale`.
 - Each `node_groups[*].instance_template.network_interface` entry must set at least one of `subnet_ids` or `subnet_names`.
+- If `service_account_id` or `node_service_account_id` is not provided, the cluster submodule creates default `k8s-master` and `k8s-nodes` service accounts and uses them for the cluster.
 
 ## Type Details
 
@@ -111,12 +112,11 @@ module "k8s" {
 |-------|------|:--------:|-------------|
 | `etcd_cluster_size` | `number` | no | Number of etcd nodes for the master. |
 | `public_ip` | `bool` | no | Whether the master endpoint is publicly accessible. |
-| `security_group_ids` | `set(string)` | no | Security groups attached to the master. |
+| `security_group_ids` | `list(string)` | no | Security groups attached to the master. |
 | `k8s_version` | `string` | no | Kubernetes version for the master. |
 | `maintenance_policy` | `object` | no | Master maintenance policy configuration. |
 | `master_location` | `list(object)` | no | Explicit master locations. |
 | `master_logging` | `object` | no | Master logging configuration. |
-| `network_implementation` | `object` | no | Cluster network implementation. |
 | `regional` | `object` | no | Regional master placement. |
 | `scale_policy` | `object` | no | Master scaling policy. |
 | `zonal` | `object` | no | Zonal master placement. |
@@ -155,13 +155,13 @@ module "k8s" {
 | `kube_apiserver_enabled` | `bool` | no | Enables Kubernetes API server logs. |
 | `log_group_id` | `string` | no | Existing log group ID for master logs. |
 
-### `master.network_implementation`
+### `network_implementation`
 
 | Field | Type | Required | Description |
 |-------|------|:--------:|-------------|
 | `cilium` | `object` | no | Enables the Cilium network implementation. |
 
-### `master.network_implementation.cilium`
+### `network_implementation.cilium`
 
 This object is empty. Its presence enables Cilium.
 

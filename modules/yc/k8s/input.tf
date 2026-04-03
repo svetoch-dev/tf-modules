@@ -4,13 +4,15 @@ variable "network_id" {
 }
 
 variable "service_account_id" {
-  description = "Service account used for provisioning Compute Cloud and VPC resources for the cluster."
+  description = "Service account used for provisioning Compute Cloud and VPC resources for the cluster. If null, the cluster submodule creates and uses a default service account."
   type        = string
+  default     = null
 }
 
 variable "node_service_account_id" {
-  description = "Service account used by worker nodes to access registries, logs, and metrics."
+  description = "Service account used by worker nodes to access registries, logs, and metrics. If null, the cluster submodule creates and uses a default service account."
   type        = string
+  default     = null
 }
 
 variable "name" {
@@ -90,7 +92,7 @@ variable "kms_provider" {
 }
 
 variable "workload_identity_federation" {
-  description = "Workload Identity Federation configuration."
+  description = "Cluster Workload Identity Federation configuration."
   type = object(
     {
       enabled = bool
@@ -99,26 +101,38 @@ variable "workload_identity_federation" {
   default = null
 }
 
+variable "network_implementation" {
+  description = "Cluster network implementation."
+  type = object(
+    {
+      cilium = optional(
+        object({})
+      )
+    }
+  )
+  default = null
+}
+
 variable "admins" {
-  description = "List of service account IAM member strings. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:', 'userAccountName:' are also allowed. In this case module will look up the ids of users or service accounts using data sources"
+  description = "IAM member strings that should receive the k8s.admin role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:' and 'userAccountName:' are also allowed and are resolved by the module."
   type        = list(string)
   default     = []
 }
 
 variable "viewers" {
-  description = "List of service account IAM member strings. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:', 'userAccountName:' are also allowed. In this case module will look up the ids of users or service accounts using data sources"
+  description = "IAM member strings that should receive the k8s.viewer role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:' and 'userAccountName:' are also allowed and are resolved by the module."
   type        = list(string)
   default     = []
 }
 
 variable "editors" {
-  description = "List of service account IAM member strings. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:', 'userAccountName:' are also allowed. In this case module will look up the ids of users or service accounts using data sources"
+  description = "IAM member strings that should receive the k8s.editor role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:' and 'userAccountName:' are also allowed and are resolved by the module."
   type        = list(string)
   default     = []
 }
 
 variable "default_security_groups" {
-  description = "Enable default security groups"
+  description = "Enable creation and attachment of the module's default security groups for the Kubernetes cluster and node groups."
   type        = bool
   default     = true
 }
@@ -171,15 +185,6 @@ variable "master" {
             folder_id                  = optional(string)
             kube_apiserver_enabled     = optional(bool)
             log_group_id               = optional(string)
-          }
-        )
-      )
-      network_implementation = optional(
-        object(
-          {
-            cilium = optional(
-              object({})
-            )
           }
         )
       )
