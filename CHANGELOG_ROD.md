@@ -1,3 +1,8 @@
+# rod-v0.12.0
+
+Features:
+* `rod/cloud/yc` k8s support 
+
 # rod-v0.11.0
 
 Features:

@@ -1,3 +1,14 @@
+# yc-v0.4.0
+
+Braking changes:
+* `network/members -> network/member` instead of passing a list of members, refactor module to use single member logic and for_each in modules to convert member lists
+
+Features:
+* `k8s`: new module
+
+Enhancements:
+* update yandex cloud provider 0.189.0 -> 0.195.0
+
 # yc-v0.3.0
 
 Features:
