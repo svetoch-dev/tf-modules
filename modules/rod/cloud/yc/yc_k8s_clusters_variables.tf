@@ -8,6 +8,10 @@ locals {
         }
       ]
     }
+    deploy_policy = {
+      max_expansion   = 2
+      max_unavailable = 0
+    }
     maintenance_policy = {
       auto_upgrade = true
       auto_repair  = true
@@ -20,7 +24,7 @@ locals {
       ]
     }
     instance_template = {
-      cpu_platform_id = "amd-v1"
+      cpu_platform_id = "standard-v4a"
       network_interface = [
         {
           subnet_names = [
@@ -31,7 +35,7 @@ locals {
         }
       ]
       resources = {
-        core_fraction = 50
+        core_fraction = 100
         cores         = 4
         memory        = 16
       }
@@ -52,6 +56,9 @@ locals {
         max     = 10
         min     = 0
       }
+    }
+    workload_identity_federation = {
+      enabled = true
     }
   }
   yc_k8s_clusters = {
@@ -127,11 +134,6 @@ locals {
           {
             name = "runner"
             instance_template = {
-              resources = {
-                core_fraction = 100
-                cores         = 4
-                memory        = 16
-              }
               boot_disk = {
                 size = 120
                 type = "network-ssd"

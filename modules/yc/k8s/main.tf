@@ -102,6 +102,12 @@ module "master_sg" {
   network_id = var.network_id
   ingress = [
     {
+      protocol       = "TCP"
+      description    = "Rule that allows access to kubernetes api"
+      v4_cidr_blocks = ["0.0.0.0/0"]
+      port           = 443
+    },
+    {
       protocol          = "ANY"
       description       = "Rule allows availability checks from load balancer's address range. It is required for load balancer services."
       predefined_target = "loadbalancer_healthchecks"
