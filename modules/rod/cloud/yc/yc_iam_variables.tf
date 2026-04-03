@@ -44,7 +44,7 @@ locals {
       }
       runner = var.env.short_name == "int" ? {
         roles = [
-          "admins"
+          "admin"
         ]
         description = "service account for ci runners"
       } : null

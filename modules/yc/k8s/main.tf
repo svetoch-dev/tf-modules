@@ -144,7 +144,6 @@ module "master_node_sg" {
       protocol          = "ANY"
       description       = "Rule allows master-node and node-node communication inside a security group."
       predefined_target = "self_security_group"
-      security_group_id = module.node_sg[0].this.id
       from_port         = 0
       to_port           = 65535
     },

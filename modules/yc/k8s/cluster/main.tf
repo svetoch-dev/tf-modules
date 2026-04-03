@@ -19,8 +19,8 @@ resource "yandex_kubernetes_cluster" "this" {
   folder_id                = var.folder_id
   labels                   = var.labels
   network_id               = var.network_id
-  service_account_id       = var.service_account_id == null ? module.master_sa.this.id : var.service_account_id
-  node_service_account_id  = var.node_service_account_id == null ? module.node_sa.this.id : var.node_service_account_id
+  service_account_id       = var.service_account_id == null ? module.master_sa[0].this.id : var.service_account_id
+  node_service_account_id  = var.node_service_account_id == null ? module.node_sa[0].this.id : var.node_service_account_id
   release_channel          = var.release_channel
   network_policy_provider  = var.network_policy_provider
   cluster_ipv4_range       = var.pod_ipv4_range
@@ -172,6 +172,7 @@ module "members" {
 
 module "master_sa" {
   source      = "../../iam/service_account"
+  count       = var.service_account_id == null ? 1 : 0
   folder_id   = var.folder_id
   name        = "k8s-master"
   description = "default service account for k8s master nodes"
@@ -186,6 +187,7 @@ module "master_sa" {
 
 module "node_sa" {
   source      = "../../iam/service_account"
+  count       = var.node_service_account_id == null ? 1 : 0
   folder_id   = var.folder_id
   name        = "k8s-nodes"
   description = "default service account for k8s nodes"

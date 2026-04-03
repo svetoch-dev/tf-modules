@@ -82,7 +82,7 @@ locals {
           auto_upgrade = true
           maintenance_window = [
             {
-              day        = "7"
+              day        = "sunday"
               duration   = "3h"
               start_time = "13:00"
             }
