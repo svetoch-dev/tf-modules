@@ -1,13 +1,15 @@
 module "cluster" {
   source = "./cluster"
 
-  name                    = var.name
-  description             = var.description
-  folder_id               = var.folder_id
-  labels                  = var.labels
-  network_id              = var.network_id
-  service_account_id      = var.service_account_id
-  node_service_account_id = var.node_service_account_id
+  name                         = var.name
+  description                  = var.description
+  folder_id                    = var.folder_id
+  labels                       = var.labels
+  network_id                   = var.network_id
+  service_account_id           = var.service_account_id
+  node_service_account_id      = var.node_service_account_id
+  default_service_account      = var.default_service_account
+  default_node_service_account = var.default_node_service_account
   master = merge(
     var.master,
     {

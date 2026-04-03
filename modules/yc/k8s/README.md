@@ -11,6 +11,8 @@ module "k8s" {
   name       = "example-cluster"
   folder_id  = "b1gxxxxxxxxxxxxxxx"
   network_id = "enpxxxxxxxxxxxxxxx"
+  default_service_account      = true
+  default_node_service_account = true
 
   master = {
     k8s_version = "1.30"
@@ -73,8 +75,10 @@ module "k8s" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | `network_id` | The ID of the VPC network where the Kubernetes cluster will be created. | `string` | n/a | yes |
-| `service_account_id` | Service account used for provisioning Compute Cloud and VPC resources for the cluster. If omitted, the cluster submodule creates and uses a default service account. | `string` | `null` | no |
-| `node_service_account_id` | Service account used by worker nodes to access registries, logs, and metrics. If omitted, the cluster submodule creates and uses a default service account. | `string` | `null` | no |
+| `service_account_id` | Service account ID used for provisioning Compute Cloud and VPC resources for the cluster. Set this or enable `default_service_account`. | `string` | `null` | no |
+| `node_service_account_id` | Service account ID used by worker nodes to access registries, logs, and metrics. Set this or enable `default_node_service_account`. | `string` | `null` | no |
+| `default_service_account` | Whether to create and use the default service account for the Kubernetes control plane. | `bool` | `false` | no |
+| `default_node_service_account` | Whether to create and use the default service account for Kubernetes worker nodes. | `bool` | `false` | no |
 | `master` | Kubernetes master configuration. | `object` | n/a | yes |
 | `admins` | IAM member strings that should get Kubernetes admin access. Supports standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and also `serviceAccountName:` / `userAccountName:` prefixes resolved by the module. | `list(string)` | `[]` | no |
 | `default_security_groups` | Enable creation or usage of the module's default security groups for the Kubernetes cluster. | `bool` | `true` | no |
@@ -102,7 +106,9 @@ module "k8s" {
 - Exactly one of `master.zonal`, `master.regional`, or `master.master_location` must be set.
 - Each node group must set exactly one of `scale_policy.auto_scale` or `scale_policy.fixed_scale`.
 - Each `node_groups[*].instance_template.network_interface` entry must set at least one of `subnet_ids` or `subnet_names`.
-- If `service_account_id` or `node_service_account_id` is not provided, the cluster submodule creates default `k8s-master` and `k8s-nodes` service accounts and uses them for the cluster.
+- Set either `service_account_id` or `default_service_account = true`.
+- Set either `node_service_account_id` or `default_node_service_account = true`.
+- When enabled, the cluster submodule creates default `k8s-master` and `k8s-nodes` service accounts and uses them for the cluster.
 
 ## Type Details
 

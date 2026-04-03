@@ -12,6 +12,8 @@ module "cluster" {
   description      = "General purpose cluster"
   folder_id        = "b1gxxxxxxxxxxxxxxx"
   network_id       = "enpxxxxxxxxxxxxxxx"
+  default_service_account      = true
+  default_node_service_account = true
   release_channel  = "RAPID"
   network_policy_provider = "CALICO"
 
@@ -82,8 +84,10 @@ module "cluster" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | `network_id` | The ID of the VPC network where the Kubernetes cluster will be created. | `string` | n/a | yes |
-| `service_account_id` | Service account used for provisioning Compute Cloud and VPC resources for the cluster. If omitted, the module creates and uses a default service account. | `string` | `null` | no |
-| `node_service_account_id` | Service account used by worker nodes to access registries, logs, and metrics. If omitted, the module creates and uses a default service account. | `string` | `null` | no |
+| `service_account_id` | Service account ID used for provisioning Compute Cloud and VPC resources for the cluster. Set this or enable `default_service_account`. | `string` | `null` | no |
+| `node_service_account_id` | Service account ID used by worker nodes to access registries, logs, and metrics. Set this or enable `default_node_service_account`. | `string` | `null` | no |
+| `default_service_account` | Whether to create and use the default service account for the Kubernetes control plane. | `bool` | `false` | no |
+| `default_node_service_account` | Whether to create and use the default service account for Kubernetes worker nodes. | `bool` | `false` | no |
 | `master` | Kubernetes master configuration. | `object` | n/a | yes |
 | `network_implementation` | Cluster network implementation. | `object` | `null` | no |
 | `pod_ipv4_range` | CIDR block for pod IP addresses. | `string` | `null` | no |
@@ -112,7 +116,9 @@ module "cluster" {
 - The module exposes all currently documented settable attributes of `yandex_kubernetes_cluster`.
 - Exactly one of `master.zonal`, `master.regional`, or `master.master_location` must be set.
 - Provider-computed attributes such as endpoints, CA certificate, health, status, log group ID, and version info are returned through the `this` output.
-- If `service_account_id` or `node_service_account_id` is not provided, the module creates default `k8s-master` and `k8s-nodes` service accounts and uses them for the cluster.
+- Set either `service_account_id` or `default_service_account = true`.
+- Set either `node_service_account_id` or `default_node_service_account = true`.
+- When enabled, the module creates default `k8s-master` and `k8s-nodes` service accounts and uses them for the cluster.
 - If IAM bindings for `service_account_id` or `node_service_account_id` are managed in the same configuration, add explicit `depends_on` on those IAM resources when using this module, matching the Yandex provider guidance.
 
 ## Type Details

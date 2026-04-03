@@ -43,6 +43,8 @@ module "k8s" {
   network_id                   = each.value.network_id
   service_account_id           = try(each.value.service_account_id, null)
   node_service_account_id      = try(each.value.node_service_account_id, null)
+  default_service_account      = try(each.value.default_service_account, false)
+  default_node_service_account = try(each.value.default_node_service_account, false)
   description                  = try(each.value.description, null)
   folder_id                    = try(each.value.folder_id, var.project.folder_id)
   labels                       = try(each.value.labels, {})

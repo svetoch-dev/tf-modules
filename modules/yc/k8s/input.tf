@@ -4,15 +4,39 @@ variable "network_id" {
 }
 
 variable "service_account_id" {
-  description = "Service account used for provisioning Compute Cloud and VPC resources for the cluster. If null, the cluster submodule creates and uses a default service account."
+  description = "Service account ID used for provisioning Compute Cloud and VPC resources for the cluster. Set this or enable default_service_account."
   type        = string
   default     = null
 }
 
 variable "node_service_account_id" {
-  description = "Service account used by worker nodes to access registries, logs, and metrics. If null, the cluster submodule creates and uses a default service account."
+  description = "Service account ID used by worker nodes to access registries, logs, and metrics. Set this or enable default_node_service_account."
   type        = string
   default     = null
+}
+
+variable "default_service_account" {
+  description = "Whether to create and use the default service account for the Kubernetes control plane."
+  type        = bool
+  default     = false
+
+  validation {
+    condition     = var.service_account_id != null || var.default_service_account == true
+    error_message = "default_service_account must be true or var.service_account_id must be set"
+  }
+
+}
+
+variable "default_node_service_account" {
+  description = "Whether to create and use the default service account for Kubernetes worker nodes."
+  type        = bool
+  default     = false
+
+  validation {
+    condition     = var.node_service_account_id != null || var.default_node_service_account == true
+    error_message = "default_node_service_account must be true or var.node_service_account_id must be set"
+  }
+
 }
 
 variable "name" {
