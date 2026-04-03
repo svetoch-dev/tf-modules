@@ -117,7 +117,7 @@ locals {
               {
                 key    = "on-demand"
                 value  = true
-                effect = "NO_SCHEDULE"
+                effect = "NoSchedule"
               },
             ]
           }
@@ -151,7 +151,7 @@ locals {
               {
                 key    = "runner"
                 value  = true
-                effect = "NO_SCHEDULE"
+                effect = "NoSchedule"
               },
             ]
           }

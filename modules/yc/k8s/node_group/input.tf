@@ -200,7 +200,7 @@ variable "instance_template" {
       alltrue(
         [
           for network_interface in var.instance_template.network_interface :
-          network_interface.subnet_ids != [] || network_interface.subnet_names != []
+          length(network_interface.subnet_ids) > 0 || length(network_interface.subnet_names) > 0
         ]
       )
     )

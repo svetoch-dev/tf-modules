@@ -85,7 +85,7 @@ resource "yandex_kubernetes_node_group" "this" {
         ipv6               = network_interface.value.ipv6
         nat                = network_interface.value.nat
         security_group_ids = network_interface.value.security_group_ids
-        subnet_ids = network_interface.value.subnet_ids != [] ? network_interface.value.subnet_ids : [
+        subnet_ids = length(network_interface.value.subnet_ids) > 0 ? network_interface.value.subnet_ids : [
           for subnet_name in network_interface.value.subnet_names :
           data.yandex_vpc_subnet.subnets[subnet_name].id
         ]
