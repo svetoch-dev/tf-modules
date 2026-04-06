@@ -2,6 +2,7 @@
 
 Features:
 * `rod/cloud/yc` k8s support 
+* `rod/cloud/k8s` yc support 
 
 # rod-v0.11.0
 
