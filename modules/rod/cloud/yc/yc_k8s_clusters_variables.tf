@@ -1,13 +1,25 @@
 locals {
-  yc_k8s_nodes_common = {
-    allocation_policy = {
-      location = [
-        for subnet_name in var.env.kubernetes.node_locations :
-        {
-          zone = subnet_name
-        }
-      ]
-    }
+  yc_k8s_node_subnets = [
+    for subnet_name, subnet_obj in local.yc_networks_merged["main"].subnets :
+    merge(
+      subnet_obj,
+      lookup(subnet_obj, "name", null) == null ? {
+        name = subnet_name
+      } : {}
+    )
+    if strcontains(subnet_name, "node")
+  ]
+  yc_k8s_master_subnets = [
+    for subnet_name, subnet_obj in local.yc_networks_merged["main"].subnets :
+    merge(
+      subnet_obj,
+      lookup(subnet_obj, "name", null) == null ? {
+        name = subnet_name
+      } : {}
+    )
+    if strcontains(subnet_name, "master")
+  ]
+  yc_k8s_node_groups_common = {
     deploy_policy = {
       max_expansion   = 2
       max_unavailable = 0
@@ -25,15 +37,6 @@ locals {
     }
     instance_template = {
       cpu_platform_id = "standard-v4a"
-      network_interface = [
-        {
-          subnet_names = [
-            for subnet_name, subnet_obj in local.yc_networks_merged["main"].subnets :
-            subnet_name
-            if strcontains(subnet_name, "node")
-          ]
-        }
-      ]
       resources = {
         core_fraction = 100
         cores         = 4
@@ -61,6 +64,69 @@ locals {
       enabled = true
     }
   }
+  yc_k8s_node_groups = {
+    main = provider::deepmerge::mergo(
+      local.yc_k8s_node_groups_common,
+      {
+        name = "main"
+        node_labels = {
+          main = "true"
+        }
+        node_taints = [
+        ]
+      }
+    )
+    on-demand = provider::deepmerge::mergo(
+      local.yc_k8s_node_groups_common,
+      {
+        name = "on-demand"
+        instance_template = {
+          scheduling_policy = {
+            preemptible = false
+          }
+        }
+        node_labels = {
+          on-demand = "true"
+        }
+        node_taints = [
+          {
+            key    = "on-demand"
+            value  = true
+            effect = "NoSchedule"
+          },
+        ]
+      }
+    )
+    runner = provider::deepmerge::mergo(
+      local.yc_k8s_node_groups_common,
+      {
+        name = "runner"
+        instance_template = {
+          boot_disk = {
+            size = 120
+            type = "network-ssd"
+          }
+        }
+        scale_policy = {
+          auto_scale = {
+            initial = 0
+            max     = 20
+            min     = 0
+          }
+        }
+        node_labels = {
+          runner = "true"
+        }
+        node_taints = [
+          {
+            key    = "runner"
+            value  = true
+            effect = "NoSchedule"
+          },
+        ]
+      }
+    )
+  }
   yc_k8s_clusters = {
     tostring(var.env.short_name) = {
       name                    = var.env.short_name
@@ -78,12 +144,11 @@ locals {
       master = {
         public_ip = true
         master_location = [
-          for subnet_name, subnet_obj in local.yc_networks_merged["main"].subnets :
+          for subnet_obj in local.yc_k8s_master_subnets :
           {
             zone      = subnet_obj.zone
-            subnet_id = module.yc.subnets["main"][subnet_name].id
+            subnet_id = module.yc.subnets["main"][subnet_obj.name].id
           }
-          if strcontains(subnet_name, "master")
         ]
         maintenance_policy = {
           auto_upgrade = true
@@ -96,69 +161,81 @@ locals {
           ]
         }
       }
-      node_groups = {
-        main = provider::deepmerge::mergo(
-          local.yc_k8s_nodes_common,
-          {
-            name = "main"
-            node_labels = {
-              main = "true"
-            }
-            node_taints = [
-            ]
-          }
-        )
-        on-demand = provider::deepmerge::mergo(
-          local.yc_k8s_nodes_common,
-          {
-            name = "on-demand"
-            instance_template = {
-              scheduling_policy = {
-                preemptible = false
+      node_groups = merge(
+        {
+          for subnet_obj in local.yc_k8s_node_subnets :
+          "main-${subnet_obj.zone}" => provider::deepmerge::mergo(
+            local.yc_k8s_node_groups.main,
+            {
+              name = "main-${split("-", subnet_obj.zone)[2]}"
+              allocation_policy = {
+                location = [
+                  {
+                    zone = subnet_obj.zone
+                  }
+                ]
+              }
+              instance_template = {
+                network_interface = [
+                  {
+                    subnet_names = [
+                      subnet_obj.name
+                    ]
+                  }
+                ]
               }
             }
-            node_labels = {
-              on-demand = "true"
-            }
-            node_taints = [
-              {
-                key    = "on-demand"
-                value  = true
-                effect = "NoSchedule"
-              },
-            ]
-          }
-        )
-        runner = provider::deepmerge::mergo(
-          local.yc_k8s_nodes_common,
-          {
-            name = "runner"
-            instance_template = {
-              boot_disk = {
-                size = 120
-                type = "network-ssd"
+          )
+        },
+        {
+          for subnet_obj in local.yc_k8s_node_subnets :
+          "on-demand-${subnet_obj.zone}" => provider::deepmerge::mergo(
+            local.yc_k8s_node_groups.main,
+            {
+              name = "on-demand-${split("-", subnet_obj.zone)[2]}"
+              allocation_policy = {
+                location = [
+                  {
+                    zone = subnet_obj.zone
+                  }
+                ]
+              }
+              instance_template = {
+                network_interface = [
+                  {
+                    subnet_names = [
+                      subnet_obj.name
+                    ]
+                  }
+                ]
               }
             }
-            scale_policy = {
-              auto_scale = {
-                initial = 0
-                max     = 20
-                min     = 0
+          )
+        },
+        var.env.short_name == "int" ? {
+          "runner" = provider::deepmerge::mergo(
+            local.yc_k8s_node_groups.runner,
+            {
+              allocation_policy = {
+                location = [
+                  {
+                    zone = local.yc_k8s_node_subnets[0].zone
+                  }
+                ]
+              }
+              instance_template = {
+                network_interface = [
+                  {
+                    subnet_names = [
+                      local.yc_k8s_node_subnets[0].name
+                    ]
+                  }
+                ]
               }
             }
-            node_labels = {
-              runner = "true"
-            }
-            node_taints = [
-              {
-                key    = "runner"
-                value  = true
-                effect = "NoSchedule"
-              },
-            ]
-          }
-        )
-      }
+          )
+        } : {}
+      )
     }
   }
 }
