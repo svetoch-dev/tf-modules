@@ -20,7 +20,7 @@ output "k8s_clusters" {
       cluster_obj,
       {
         ca_certificate = base64encode(cluster_obj.master[0].cluster_ca_certificate)
-        endpoint       = cluster_obj.master[0].external_v4_endpoint
+        endpoint       = cluster_obj.master[0].external_v4_address
       }
     )
   }
