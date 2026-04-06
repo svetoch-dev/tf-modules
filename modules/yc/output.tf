@@ -23,3 +23,16 @@ output "iam" {
   value = module.iam
 }
 
+output "k8s_clusters" {
+  value = {
+    for k8s_name, k8s_obj in module.k8s :
+    k8s_name => k8s_obj.cluster
+  }
+}
+
+output "k8s_node_groups" {
+  value = {
+    for k8s_name, k8s_obj in module.k8s :
+    k8s_name => k8s_obj.node_groups
+  }
+}

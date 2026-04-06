@@ -70,7 +70,7 @@ module "network" {
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
-| yandex | 0.189.0 |
+| yandex | 0.195.0 |
 
 ## Inputs
 

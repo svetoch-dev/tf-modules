@@ -108,7 +108,7 @@ module "route_tables" {
 module "subnets" {
   source         = "./subnet"
   for_each       = var.subnets
-  name           = try(each.value.name, each.key)
+  name           = each.value.name == null ? each.key : each.value.name
   description    = each.value.description
   labels         = each.value.labels
   zone           = each.value.zone

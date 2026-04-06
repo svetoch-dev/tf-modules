@@ -27,3 +27,9 @@ variable "networks" {
   type        = any
   default     = {}
 }
+
+variable "k8s" {
+  description = "Kubernetes configuration for this project"
+  type        = any
+  default     = {}
+}
