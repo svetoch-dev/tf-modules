@@ -2,6 +2,7 @@ locals {
   rbac = lookup(
     {
       gcp = provider::deepmerge::mergo(local.rbac_main, local.rbac_gcp)
+      yc  = provider::deepmerge::mergo(local.rbac_main, local.rbac_yc)
     },
     var.env.cloud.name,
     null
