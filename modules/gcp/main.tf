@@ -52,23 +52,49 @@ module "gke" {
     if cluster_obj.enabled
   }
   
+  
+  # node_pools = merge([
+  #   for cluster_name, cluster_obj in var.gke : {
+  #     for pool_name, pool_obj in try(cluster_obj.node_pools, {}) :
+  #     "${cluster_name}/${pool_name}" => merge(pool_obj, {
+  #       name     = pool_name
+  #       cluster  = cluster_name
+  #       location = try(
+  #         pool_obj.location,
+  #         cluster_obj.cluster.location,
+  #         null
+  #       )
+  #     })
+  #   }
+  #   if cluster_obj != null && try(cluster_obj.cluster.enabled, true) == true
+  # ]...)
 
   node_pools = merge([
-    for cluster_name, cluster_obj in var.gke : {
-      for pool_name, pool_obj in try(cluster_obj.node_pools, {}) :
-      "${cluster_name}/${pool_name}" => merge(pool_obj, {
+  for cluster_name, cluster_obj in var.gke : {
+    for pool_name, pool_obj in try(cluster_obj.node_pools, {}) :
+    "${cluster_name}/${pool_name}" => merge(
+      pool_obj,
+      {
         name     = pool_name
         cluster  = cluster_name
-        location = try(
-          pool_obj.location,
-          cluster_obj.cluster.location,
+
+        # мультисеттинговый location
+        location = cluster_obj.regional
+          ? cluster_obj.region
+          : cluster_obj.zones[0]
+
+        # node_locations — тоже мультисеттинговый
+        node_locations = try(
+          pool_obj.node_locations,
+          cluster_obj.zones,
           null
         )
-      })
-    }
-    if cluster_obj != null && try(cluster_obj.cluster.enabled, true) == true
+      }
+    )
+  }
+  if cluster_obj != null && try(cluster_obj.enabled, true)
   ]...)
-
+  
   depends_on = [
     module.enable_apis,
     module.network,
