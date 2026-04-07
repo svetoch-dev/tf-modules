@@ -36,3 +36,17 @@ output "k8s_node_groups" {
     k8s_name => k8s_obj.node_groups
   }
 }
+
+output "s3_buckets" {
+  value = {
+    for s3_name, s3_obj in module.s3 :
+    s3_name => s3_obj.bucket
+  }
+}
+
+output "s3_objects" {
+  value = {
+    for s3_name, s3_obj in module.s3 :
+    s3_name => s3_obj.objects
+  }
+}

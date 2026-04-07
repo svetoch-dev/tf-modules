@@ -33,3 +33,9 @@ variable "k8s" {
   type        = any
   default     = {}
 }
+
+variable "s3" {
+  description = "S3 configuration for this project"
+  type        = any
+  default     = {}
+}

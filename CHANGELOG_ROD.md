@@ -1,3 +1,8 @@
+# rod-v0.13.0
+
+Features:
+* `rod/cloud/yc` s3 support 
+
 # rod-v0.12.0
 
 Features:
