@@ -76,93 +76,114 @@ locals {
       node_pools = {
         main = {
           name               = "main"
-          machine_type       = "t2d-standard-4"
           node_locations     = var.env.kubernetes.node_locations
-          min_count          = 0
-          max_count          = 10
-          local_ssd_count    = 0
-          disk_size_gb       = 45
-          disk_type          = "pd-ssd"
-          image_type         = "COS_CONTAINERD"
-          auto_repair        = true
-          auto_upgrade       = true
-          service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-          preemptible        = false
-          spot               = true
           initial_node_count = 0
-          oauth_scopes = [
-            "https://www.googleapis.com/auth/userinfo.email",
-            "https://www.googleapis.com/auth/cloud-platform"
-          ]
-          labels = {
-            main = "true"
+          node_config        = {
+            preemptible  = false
+            spot         = true
+            machine_type = "t2d-standard-4"
+            disk_type    = "pd-ssd"
+            disk_size_gb = 45
+            local_ssd_count = 0
+            image_type   = "COS_CONTAINERD"
+            labels = {
+              main = "true"
+            }
+            oauth_scopes = [
+              "https://www.googleapis.com/auth/userinfo.email",
+              "https://www.googleapis.com/auth/cloud-platform"
+            ]
+            service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
+            taint = []
+            tags   = []
           }
-          taints = []
-          tags   = []
+          management = {
+            auto_repair        = true
+            auto_upgrade       = true
+          }
+          autoscaling = {
+            min_node_count          = 0
+            max_node_count          = 10
+          }
         },
         on-demand = {
           name               = "on-demand"
-          machine_type       = "t2d-standard-4"
-          node_locations     = var.env.kubernetes.node_locations
-          min_count          = 0
-          max_count          = 10
-          local_ssd_count    = 0
-          disk_size_gb       = 45
-          disk_type          = "pd-ssd"
-          image_type         = "COS_CONTAINERD"
-          auto_repair        = true
-          auto_upgrade       = true
-          service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-          preemptible        = false
-          spot               = false
           initial_node_count = 0
-          oauth_scopes = [
-            "https://www.googleapis.com/auth/userinfo.email",
-            "https://www.googleapis.com/auth/cloud-platform"
-          ]
-          labels = {
-            on-demand = "true"
+          node_config = {
+            machine_type       = "t2d-standard-4"
+            node_locations     = var.env.kubernetes.node_locations
+            local_ssd_count    = 0
+            disk_size_gb       = 45
+            disk_type          = "pd-ssd"
+            image_type         = "COS_CONTAINERD"
+            service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
+            preemptible        = false
+            spot               = false
+            
+            oauth_scopes = [
+              "https://www.googleapis.com/auth/userinfo.email",
+              "https://www.googleapis.com/auth/cloud-platform"
+            ]
+            labels = {
+              on-demand = "true"
+            }
+            taints = [
+              {
+                key    = "on-demand"
+                value  = "true"
+                effect = "NO_SCHEDULE"
+              },
+            ]
+            tags = []
           }
-          taints = [
-            {
-              key    = "on-demand"
-              value  = "true"
-              effect = "NO_SCHEDULE"
-            },
-          ]
-          tags = []
+          management = {
+            auto_repair        = true
+            auto_upgrade       = true
+          }
+          autoscaling = {
+            min_node_count          = 0
+            max_node_count          = 10
+          }
         }
         runner = var.env.short_name == "int" ? {
           name               = "runner"
-          machine_type       = "t2d-standard-4"
-          node_locations     = var.env.kubernetes.node_locations
-          min_count          = 0
-          max_count          = 20
-          local_ssd_count    = 0
-          disk_size_gb       = 120
-          disk_type          = "pd-ssd"
-          image_type         = "COS_CONTAINERD"
-          auto_repair        = true
-          auto_upgrade       = true
-          service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-          preemptible        = false
-          spot               = true
           initial_node_count = 0
-          oauth_scopes = [
-            "https://www.googleapis.com/auth/userinfo.email",
-            "https://www.googleapis.com/auth/cloud-platform"
-          ]
-          labels = {
-            runner = "true"
+          node_locations     = var.env.kubernetes.node_locations
+          node_config        = {
+            machine_type       = "t2d-standard-4"
+            local_ssd_count    = 0
+            disk_size_gb       = 120
+            disk_type          = "pd-ssd"
+            image_type         = "COS_CONTAINERD"
+            service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
+            preemptible        = false
+            spot               = true
+            
+            oauth_scopes = [
+              "https://www.googleapis.com/auth/userinfo.email",
+              "https://www.googleapis.com/auth/cloud-platform"
+            ]
+            labels = {
+              runner = "true"
+            }
+            taints = [
+              {
+                key    = "runner"
+                value  = "true"
+                effect = "NO_SCHEDULE"
+              },
+            ]
+            tags = []
           }
-          taints = [
-            {
-              key    = "runner"
-              value  = "true"
-              effect = "NO_SCHEDULE"
-            },
-          ]
-          tags = []
+          management = {
+            auto_repair        = true
+            auto_upgrade       = true
+          }
+          autoscaling = {
+            min_node_count          = 0
+            max_node_count          = 20
+          }
+          
         } : null,
       }
     }
