@@ -4,9 +4,8 @@ locals {
       name                = var.env.short_name
       enabled             = var.env.kubernetes.enabled
       deletion_protection = var.env.kubernetes.deletion_protection
-      regional            = var.env.kubernetes.regional
-      region              = var.env.cloud.location.region
-      zones               = var.env.kubernetes.node_locations
+      location            = var.env.kubernetes.regional ? var.env.cloud.location.region : var.env.kubernetes.node_locations[0]
+      node_locations      = var.env.kubernetes.node_locations
 
       network = {
         network                 = module.gcp.vpcs["main"].network_name
