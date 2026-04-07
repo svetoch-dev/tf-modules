@@ -12,17 +12,19 @@ locals {
       subnetwork              = module.gcp.subnets["main"]["vms"].name
       ip_range_pods           = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
       ip_range_services       = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].range_name
-      network_policy          = true
-      network_policy_provider = "CALICO"
-      enable_private_nodes    = true
-      enable_private_endpoint = false
-      master_ipv4_cidr_block  = "172.16.0.0/28"
-      master_authorized_networks = [
-        {
+      network_policy          = {
+        enabled = true
+      }
+      private_cluster_config = {
+        master_ipv4_cidr_block  = "172.16.0.0/28"
+      }
+
+      master_authorized_networks_config = {
+        cidr_blocks = [{
           cidr_block   = "0.0.0.0/0"
           display_name = "Allow all"
-        }
-      ]
+        }]
+      }
 
       features = {
         http_load_balancing             = true
