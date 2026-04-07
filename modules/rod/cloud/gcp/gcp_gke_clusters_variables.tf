@@ -9,7 +9,7 @@ locals {
 
       
       network                 = module.gcp.vpcs["main"].network_self_link
-      subnetwork              = module.gcp.subnets["main"]["vms"].name
+      subnetwork              = module.gcp.subnets["main"]["vms"].self_link
       ip_range_pods           = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
       ip_range_services       = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].range_name
       network_policy          = {
