@@ -77,25 +77,20 @@ locals {
         main = {
           name               = "main"
           node_locations     = var.env.kubernetes.node_locations
-          initial_node_count = 0
           node_config        = {
-            preemptible  = false
-            spot         = true
-            machine_type = "t2d-standard-4"
-            disk_type    = "pd-ssd"
-            disk_size_gb = 45
-            local_ssd_count = 0
-            image_type   = "COS_CONTAINERD"
-            labels = {
-              main = "true"
-            }
+            machine_type       = "t2d-standard-4"
+            service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
             oauth_scopes = [
               "https://www.googleapis.com/auth/userinfo.email",
               "https://www.googleapis.com/auth/cloud-platform"
             ]
-            service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-            taint = []
-            tags   = []
+            disk_type    = "pd-ssd"
+            disk_size_gb = 45
+            image_type   = "COS_CONTAINERD"
+            labels = {
+              main = "true"
+            }
+            spot         = true
           }
           autoscaling = {
             min_node_count          = 0
@@ -104,33 +99,27 @@ locals {
         },
         on-demand = {
           name               = "on-demand"
-          initial_node_count = 0
+          node_locations     = var.env.kubernetes.node_locations
           node_config = {
             machine_type       = "t2d-standard-4"
-            node_locations     = var.env.kubernetes.node_locations
-            local_ssd_count    = 0
-            disk_size_gb       = 45
-            disk_type          = "pd-ssd"
-            image_type         = "COS_CONTAINERD"
             service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-            preemptible        = false
-            spot               = false
-            
             oauth_scopes = [
               "https://www.googleapis.com/auth/userinfo.email",
               "https://www.googleapis.com/auth/cloud-platform"
             ]
+            disk_size_gb       = 45
+            disk_type          = "pd-ssd"
+            image_type         = "COS_CONTAINERD"
             labels = {
               on-demand = "true"
             }
-            taints = [
+            taint = [
               {
                 key    = "on-demand"
                 value  = "true"
                 effect = "NO_SCHEDULE"
               },
             ]
-            tags = []
           }
           autoscaling = {
             min_node_count          = 0
@@ -139,33 +128,28 @@ locals {
         }
         runner = var.env.short_name == "int" ? {
           name               = "runner"
-          initial_node_count = 0
           node_locations     = var.env.kubernetes.node_locations
           node_config        = {
             machine_type       = "t2d-standard-4"
-            local_ssd_count    = 0
-            disk_size_gb       = 120
-            disk_type          = "pd-ssd"
-            image_type         = "COS_CONTAINERD"
             service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-            preemptible        = false
-            spot               = true
-            
             oauth_scopes = [
               "https://www.googleapis.com/auth/userinfo.email",
               "https://www.googleapis.com/auth/cloud-platform"
             ]
+            disk_size_gb       = 120
+            disk_type          = "pd-ssd"
+            image_type         = "COS_CONTAINERD"
+            spot               = true
             labels = {
               runner = "true"
             }
-            taints = [
+            taint = [
               {
                 key    = "runner"
                 value  = "true"
                 effect = "NO_SCHEDULE"
               },
             ]
-            tags = []
           }
           autoscaling = {
             min_node_count          = 0
