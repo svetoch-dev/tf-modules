@@ -73,15 +73,13 @@ module "gke" {
   for cluster_name, cluster_obj in var.gke : {
     for pool_name, pool_obj in try(cluster_obj.node_pools, {}) :
     "${cluster_name}/${pool_name}" => merge(
+      { name = pool_name },
       pool_obj,
       {
         name     = pool_name
         cluster  = cluster_name
 
-        # мультисеттинговый location
         location = cluster_obj.location
-
-        # node_locations — тоже мультисеттинговый
         node_locations = cluster_obj.node_locations
       }
     )
