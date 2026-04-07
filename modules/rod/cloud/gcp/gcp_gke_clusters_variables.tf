@@ -8,7 +8,7 @@ locals {
       node_locations      = var.env.kubernetes.node_locations
 
       
-      network                 = module.gcp.vpcs["main"].network_self_name
+      network                 = module.gcp.vpcs["main"].network_self_link
       subnetwork              = module.gcp.subnets["main"]["vms"].name
       ip_range_pods           = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
       ip_range_services       = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].range_name
