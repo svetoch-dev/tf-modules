@@ -76,9 +76,7 @@ module "gke" {
       { name = pool_name },
       pool_obj,
       {
-        name     = pool_name
         cluster  = cluster_name
-
         location = cluster_obj.location
         node_locations = cluster_obj.node_locations
       }
