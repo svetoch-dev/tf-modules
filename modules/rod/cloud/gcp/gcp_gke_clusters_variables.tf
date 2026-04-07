@@ -26,26 +26,40 @@ locals {
         }]
       }
 
-      features = {
-        http_load_balancing             = true
-        horizontal_pod_autoscaling      = true
-        enable_vertical_pod_autoscaling = true
-        enable_shielded_nodes           = false
-        gcs_fuse_csi_driver             = true
-        authenticator_security_group    = var.env.kubernetes.auth_group != "" ? var.env.kubernetes.auth_group : null
+      addons_config = {
+        http_load_balancing        = {
+          disabled = false
+          }
+        horizontal_pod_autoscaling = {
+          disabled = false
+          }
+        gcs_fuse_csi_driver        = {
+          enabled = true
+          }
+        }
+
+      authenticator_security_group = {
+        security_group = var.env.kubernetes.auth_group != "" ? var.env.kubernetes.auth_group : null
       }
+      
+      vertical_pod_autoscaling = {
+        enabled = true
+      }
+      enable_shielded_nodes = false
 
       security = {
         identity_namespace = "enabled"
         node_metadata      = "GKE_METADATA"
       }
 
-      logging_enabled_components = [
-        "SYSTEM_COMPONENTS",
-        "APISERVER",
-        "CONTROLLER_MANAGER",
-        "SCHEDULER",
-      ]
+      logging_config = {
+        enable_components = [
+          "SYSTEM_COMPONENTS",
+          "APISERVER",
+          "CONTROLLER_MANAGER",
+          "SCHEDULER",
+        ]
+      }
 
       maintenance_policy = {
         recurring_window = {
@@ -55,7 +69,7 @@ locals {
         }
       }
 
-      labels = {
+      resource_labels = {
         "env" = var.env.short_name
       }
 

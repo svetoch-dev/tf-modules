@@ -174,7 +174,7 @@ variable "maintenance_policy" {
   type = object({
     recurring_window = optional(object({
       start_time = string
-      end_line   = string
+      end_time   = string
       recurrence = string
     }))
     daily_maintenance_window = optional(object({
@@ -268,6 +268,11 @@ variable "cost_management_config" {
   default = null
 }
 
+variable "enable_shielded_nodes" {
+  description = "Enable Shielded Nodes features on all nodes in this cluster"
+  type = bool
+  default = true
+}
 variable "vertical_pod_autoscaling" {
   description = "Configuration for vertical pod autoscaling"
   type = object({
