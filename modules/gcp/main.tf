@@ -79,10 +79,10 @@ module "gke" {
         cluster  = cluster_name
 
         # мультисеттинговый location
-        location = var.env.kubernetes.regional ? var.env.cloud.location.region : var.env.kubernetes.node_locations[0]
+        location = cluster_obj.location
 
         # node_locations — тоже мультисеттинговый
-        node_locations = pool_name.node_locations ? pool_name.node_locations : var.env.kubernetes.node_locations
+        node_locations = cluster_obj.node_locations
       }
     )
   }
