@@ -29,7 +29,6 @@ module "k8s" {
         location = [
           {
             zone      = "ru-central1-a"
-            subnet_id = "e9bxxxxxxxxxxxxxxx"
           }
         ]
       }

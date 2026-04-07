@@ -1,7 +1,12 @@
+# yc-v0.5.0
+
+Features:
+* `s3`: new module
+
 # yc-v0.4.0
 
 Braking changes:
-* `network/members -> network/member` instead of passing a list of members, refactor module to use single member logic and for_each in modules to convert member lists
+* `iam/members -> iam/member` instead of passing a list of members, refactor module to use single member logic and for_each in modules to convert member lists
 
 Features:
 * `k8s`: new module

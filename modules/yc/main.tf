@@ -69,3 +69,42 @@ module "k8s" {
     module.network
   ]
 }
+
+/* S3 */
+
+module "s3" {
+  for_each = {
+    for s3_name, s3_obj in var.s3 :
+    s3_name => s3_obj
+    if s3_obj != null
+  }
+  source = "./s3"
+
+  access_key                           = try(each.value.access_key, null)
+  secret_key                           = try(each.value.secret_key, null)
+  name                                 = try(each.value.name, each.key)
+  name_prefix                          = try(each.value.name_prefix, null)
+  default_storage_class                = try(each.value.default_storage_class, "STANDARD")
+  disabled_statickey_auth              = try(each.value.disabled_statickey_auth, null)
+  folder_id                            = try(each.value.folder_id, var.project.folder_id)
+  force_destroy                        = try(each.value.force_destroy, false)
+  max_size                             = try(each.value.max_size, null)
+  policy                               = try(each.value.policy, null)
+  tags                                 = try(each.value.tags, null)
+  anonymous_access_flags               = try(each.value.anonymous_access_flags, null)
+  cors_rule                            = try(each.value.cors_rule, [])
+  https                                = try(each.value.https, null)
+  lifecycle_rules                      = try(each.value.lifecycle_rules, [])
+  logging                              = try(each.value.logging, null)
+  object_lock_configuration            = try(each.value.object_lock_configuration, null)
+  server_side_encryption_configuration = try(each.value.server_side_encryption_configuration, null)
+  versioning                           = try(each.value.versioning, false)
+  website                              = try(each.value.website, null)
+  admins                               = try(each.value.admins, [])
+  viewers                              = try(each.value.viewers, [])
+  editors                              = try(each.value.editors, [])
+  objects                              = try(each.value.objects, {})
+  depends_on = [
+    module.iam,
+  ]
+}
