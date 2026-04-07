@@ -49,7 +49,7 @@ module "node_pool" {
   project_id = var.project_id
   cluster    = each.value.cluster
   location   = each.value.location
-  name       = each.value.name
+  name       = try(each.value.name, "default")
 
   node_locations     = each.value.node_locations
   initial_node_count = each.value.initial_node_count
