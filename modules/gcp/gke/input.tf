@@ -52,13 +52,85 @@ variable "node_pools" {
     initial_node_count  = optional(number, 0)
     node_count          = optional(number)
     max_pods_per_node   = optional(number)
-    autoscaling         = optional(map(object), {})
-    management          = optional(map(object), { auto_repair = true, auto_upgrade = true })
-    node_config         = optional(map(object), {})
-    upgrade_settings    = optional(map(object), { max_surge = 1, max_unavailable = 0 })
-    placement_policy    = optional(string)
-    queued_provisioning = optional(map(object))
-    network_config      = optional(map(object))
+    autoscaling         = optional(object({
+      min_node_count       = optional(number)
+      max_node_count       = optional(number)
+      total_min_node_count = optional(number)
+      total_max_node_count = optional(number)
+      location_policy      = optional(string)
+    }), null)
+    management = optional(object({
+      auto_repair  = optional(bool, true)
+      auto_upgrade = optional(bool, true)
+    }), 
+    { 
+      auto_repair  = true, 
+      auto_upgrade = true 
+    })
+    node_config         = optional(object({
+      machine_type    = optional(string, "e2-medium")
+      service_account = optional(string, "default")
+      oauth_scopes    = optional(list(string), ["https://www.googleapis.com/auth/cloud-platform"])
+      disk_size_gb    = optional(number, 100)
+      disk_type       = optional(string, "pd-standard")
+      image_type      = optional(string, "COS_CONTAINERD")
+      labels          = optional(map(string), {})
+      metadata        = optional(map(string), {})
+      tags            = optional(list(string), [])
+      preemptible     = optional(bool, false)
+      spot            = optional(bool, false)
+      local_ssd_count = optional(number, 0)
+      taint = optional(list(object({
+        key    = string
+        value  = string
+        effect = string
+      })), [])
+      workload_metadata_config = optional(object({
+        mode = string
+      }))
+      shielded_instance_config = optional(object({
+        enable_secure_boot          = optional(bool, false)
+        enable_integrity_monitoring = optional(bool, true)
+      }))
+      kubelet_config = optional(object({
+        cpu_manager_policy   = optional(string)
+        cpu_cfs_quota        = optional(bool)
+        cpu_cfs_quota_period = optional(string)
+        pod_pids_limit       = optional(number)
+      }))
+      linux_node_config = optional(object({
+        sysctls     = optional(map(string))
+        cgroup_mode = optional(string)
+      }))
+      gvnic = optional(object({
+        enabled = bool
+      }))
+      reservation_affinity = optional(object({
+        consume_reservation_type = string
+        key                      = optional(string)
+        values                   = optional(list(string))
+      }))
+    }), {})
+    upgrade_settings  = optional(object({
+      max_surge       = number
+      max_unavailable = number
+      strategy        = optional(string)
+    }), {
+      max_surge = 1, 
+      max_unavailable = 0 
+    })
+    placement_policy  = optional(object({
+      type = string
+    }), null)
+    queued_provisioning = optional(object({
+      enabled = bool
+    }), null)
+    network_config      = optional(object({
+      create_pod_range     = optional(bool)
+      pod_range            = optional(string)
+      pod_ipv4_cidr_block  = optional(string)
+      enable_private_nodes = optional(bool)
+    }), null)
   }))
   default = {}
 }
