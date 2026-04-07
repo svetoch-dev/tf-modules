@@ -68,32 +68,20 @@ module "gke" {
   #   }
   #   if cluster_obj != null && try(cluster_obj.cluster.enabled, true) == true
   # ]...)
-
-  node_pools =[ for cluster_name, cluster_obj in var.gke : {
-      for pool_name, pool_obj in cluster_obj.node_pools : 
-      "${cluster_name}/${pool_name}" => merge(
-        pool_obj,
-        {
-          cluster  = cluster_name
-          location = cluster_obj.location
-          node_locations = cluster_obj.node_locations
-        })
-    }]
-  # node_pools = merge([
-  # for cluster_name, cluster_obj in var.gke : {
-  #   for pool_name, pool_obj in cluster_obj.node_pools :
-  #   "${cluster_name}/${pool_name}" => merge(
-  #     { name = pool_name },
-  #     pool_obj,
-  #     {
-  #       cluster  = cluster_name
-  #       location = cluster_obj.location
-  #       node_locations = cluster_obj.node_locations
-  #     }
-  #   )
-  # }
-  # if cluster_obj != null && try(cluster_obj.enabled, true)
-  # ]...)
+  node_pools = merge([
+  for cluster_name, cluster_obj in var.gke : {
+    for pool_name, pool_obj in cluster_obj.node_pools :
+    "${cluster_name}/${pool_name}" => merge(
+      pool_obj,
+      {
+        cluster  = cluster_name
+        location = cluster_obj.location
+        node_locations = cluster_obj.node_locations
+      }
+    )
+  }
+  if cluster_obj != null && try(cluster_obj.enabled, true)
+  ]...)
 
   depends_on = [
     module.enable_apis,
