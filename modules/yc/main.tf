@@ -35,7 +35,7 @@ module "k8s" {
   for_each = {
     for k8s_name, k8s_obj in var.k8s :
     k8s_name => k8s_obj
-    if k8s_obj != null
+    if k8s_obj != null && k8s_obj.enabled
   }
   source = "./k8s"
 

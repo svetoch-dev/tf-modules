@@ -130,6 +130,7 @@ locals {
   yc_k8s_clusters = {
     tostring(var.env.short_name) = {
       name                    = var.env.short_name
+      enabled                 = var.env.kubernetes.enabled
       network_id              = module.yc.vpcs["main"].id
       service_account_id      = module.yc.iam.service_accounts["k8s-master"].id
       node_service_account_id = module.yc.iam.service_accounts["k8s-nodes"].id

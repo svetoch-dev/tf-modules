@@ -3,6 +3,9 @@
 Features:
 * `s3`: new module
 
+Enhancements:
+* `k8s`: enabled logic
+
 # yc-v0.4.0
 
 Braking changes:
