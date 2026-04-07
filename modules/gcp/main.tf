@@ -41,10 +41,18 @@ module "gke" {
   source = "./gke"
 
   project_id = var.project.id
+  
   gke_clusters = {
-    for k, v in var.gke : k => v.cluster
-    if v != null && try(v.cluster.enabled, true) == true
+    for cluster_name, cluster_obj in var.gke :
+    cluster_name => {
+      for k, v in cluster_obj :
+      k => v
+      if k != "node_pools"
+    }
+    if cluster_obj.enabled
   }
+  
+
   node_pools = merge([
     for cluster_name, cluster_obj in var.gke : {
       for pool_name, pool_obj in try(cluster_obj.node_pools, {}) :
