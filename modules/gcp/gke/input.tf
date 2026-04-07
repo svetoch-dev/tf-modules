@@ -47,6 +47,7 @@ variable "node_pools" {
   type = map(object({
     cluster             = string
     location            = string
+    name                = string
     node_locations      = optional(list(string), [])
     initial_node_count  = optional(number, 0)
     node_count          = optional(number)
