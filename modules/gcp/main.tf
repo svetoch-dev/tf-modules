@@ -79,22 +79,16 @@ module "gke" {
         cluster  = cluster_name
 
         # мультисеттинговый location
-        location = cluster_obj.regional
-          ? cluster_obj.region
-          : cluster_obj.zones[0]
+        location = var.env.kubernetes.regional ? var.env.cloud.location.region : var.env.kubernetes.node_locations[0]
 
         # node_locations — тоже мультисеттинговый
-        node_locations = try(
-          pool_obj.node_locations,
-          cluster_obj.zones,
-          null
-        )
+        node_locations = pool_name.node_locations ? pool_name.node_locations : var.env.kubernetes.node_locations
       }
     )
   }
   if cluster_obj != null && try(cluster_obj.enabled, true)
   ]...)
-  
+
   depends_on = [
     module.enable_apis,
     module.network,
