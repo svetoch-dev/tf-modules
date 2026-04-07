@@ -147,10 +147,10 @@ variable "queued_provisioning" {
 variable "network_config" {
   description = "Configuration for node pool networking"
   type = object({
-    create_pod_range     = optional(bool)
+    create_pod_range     = optional(bool, false)
     pod_range            = optional(string)
     pod_ipv4_cidr_block  = optional(string)
-    enable_private_nodes = optional(bool)
+    enable_private_nodes = optional(bool, true)
   })
-  default = null
+  default = {}
 }

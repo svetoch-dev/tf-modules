@@ -61,6 +61,12 @@ variable "networking_mode" {
   default     = "VPC_NATIVE"
 }
 
+variable "remove_default_node_pool" {
+  description = "deletes the default node pool upon cluster creation"
+  type = bool
+  default = true
+}
+
 variable "ip_allocation_policy" {
   description = "Configuration of cluster IP allocation"
   type = object({
@@ -130,12 +136,15 @@ variable "addons_config" {
       disabled = optional(bool, false)
     }), {})
     network_policy_config = optional(object({
-      disabled = optional(bool, true)
+      disabled = optional(bool, false)
     }), {})
-    cloudrun_config = optional(object({
-      disabled           = optional(bool, true)
-      load_balancer_type = optional(string)
-    }), {})
+    # cloudrun_config = optional(object({
+    #   disabled           = optional(bool, true)
+    #   load_balancer_type = optional(string)
+    # }), {})
+    config_connector_config = optional(object({
+      enabled = optional(bool, false)
+    }))
     dns_cache_config = optional(object({
       enabled = optional(bool, false)
     }), {})
@@ -149,7 +158,7 @@ variable "addons_config" {
       enabled = optional(bool, false)
     }), {})
     gcs_fuse_csi_driver_config = optional(object({
-      enabled = optional(bool, false)
+      enabled = optional(bool, true)
     }), {})
   })
   default = {}
@@ -220,7 +229,7 @@ variable "binary_authorization" {
 variable "cluster_autoscaling" {
   description = "Configuration for cluster autoscaling"
   type = object({
-    enabled             = bool
+    enabled             = optional(bool, false)
     autoscaling_profile = optional(string)
     resource_limits = optional(list(object({
       resource_type = string
@@ -235,8 +244,10 @@ variable "cluster_autoscaling" {
         auto_upgrade = optional(bool)
       }))
     }))
+    auto_provisioning_locations = optional(list(string), [])
+    autoscaling_profile = optional(string, "BALANCED")
   })
-  default = null
+  default = {}
 }
 
 variable "master_auth" {
@@ -297,7 +308,9 @@ variable "default_snat_status" {
   type = object({
     disabled = bool
   })
-  default = null
+  default = {
+    disabled = false
+  }
 }
 
 variable "dns_config" {
@@ -332,6 +345,9 @@ variable "control_plane_endpoints_config" {
     dns_endpoint_config = optional(object({
       allow_external_traffic    = optional(bool, false)
     }))
+    ip_endpoints_config = optional(object({
+      enabled = optional(bool, true)
+    }))
   })
-  default = null
+  default = {}
 }
