@@ -115,6 +115,11 @@ variable "workload_identity_config" {
   default = {}
 }
 
+variable enable_autopilot {
+  description = "Enable Autopilot for this cluster"
+  type = optional(bool)
+  default = false
+}
 variable "addons_config" {
   description = "Configuration for GKE addons"
   type = object({
@@ -271,7 +276,13 @@ variable "cost_management_config" {
 variable "enable_shielded_nodes" {
   description = "Enable Shielded Nodes features on all nodes in this cluster"
   type = bool
-  default = true
+  default = false
+}
+
+variable "enable_tpu" {
+  description = "value"
+  type = optional(bool)
+  default = false
 }
 variable "vertical_pod_autoscaling" {
   description = "Configuration for vertical pod autoscaling"
