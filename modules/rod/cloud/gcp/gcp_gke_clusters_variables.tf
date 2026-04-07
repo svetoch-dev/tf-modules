@@ -47,7 +47,7 @@ locals {
         "SCHEDULER",
       ]
 
-      maintenance = {
+      maintenance_policy = {
         start_time = "2020-02-07T06:00:00Z"
         recurrence = "FREQ=WEEKLY;BYDAY=SA"
         end_time   = "2020-02-07T18:00:00Z"
