@@ -230,7 +230,7 @@ variable "cluster_autoscaling" {
   description = "Configuration for cluster autoscaling"
   type = object({
     enabled             = optional(bool, false)
-    autoscaling_profile = optional(string)
+    autoscaling_profile = optional(string, "BALANCED")
     resource_limits = optional(list(object({
       resource_type = string
       minimum       = optional(number)
@@ -245,7 +245,6 @@ variable "cluster_autoscaling" {
       }))
     }))
     auto_provisioning_locations = optional(list(string), [])
-    autoscaling_profile = optional(string, "BALANCED")
   })
   default = {}
 }
