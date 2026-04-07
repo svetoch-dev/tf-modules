@@ -117,7 +117,7 @@ variable "workload_identity_config" {
 
 variable enable_autopilot {
   description = "Enable Autopilot for this cluster"
-  type = optional(bool)
+  type = bool
   default = false
 }
 variable "addons_config" {
@@ -281,7 +281,7 @@ variable "enable_shielded_nodes" {
 
 variable "enable_tpu" {
   description = "value"
-  type = optional(bool)
+  type = bool
   default = false
 }
 variable "vertical_pod_autoscaling" {
