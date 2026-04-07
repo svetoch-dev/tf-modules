@@ -71,11 +71,10 @@ module "gke" {
   node_pools = merge([
   for cluster_name, cluster_obj in var.gke : {
     for pool_name, pool_obj in cluster_obj.node_pools :
-    "${cluster_name}/${pool_name}" => merge(pool_obj,
+    "${cluster_name}/${pool_name}" => merge(tomap(pool_obj),
       {
         location = cluster_obj.location
         cluster  = cluster_name
-        name     = pool_name
       }
     )
   }
