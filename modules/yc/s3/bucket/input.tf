@@ -275,4 +275,5 @@ variable "iam_roles" {
       }
     )
   )
+  default = []
 }
