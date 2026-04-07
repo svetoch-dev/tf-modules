@@ -86,7 +86,6 @@ variable "node_config" {
       value  = string
       effect = string
     })), [])
-    tags = optional(list(string), [])
     workload_metadata_config = optional(object({
       mode = string
     }))
