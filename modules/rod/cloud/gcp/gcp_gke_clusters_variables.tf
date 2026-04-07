@@ -97,10 +97,6 @@ locals {
             taint = []
             tags   = []
           }
-          management = {
-            auto_repair        = true
-            auto_upgrade       = true
-          }
           autoscaling = {
             min_node_count          = 0
             max_node_count          = 10
@@ -136,10 +132,6 @@ locals {
             ]
             tags = []
           }
-          management = {
-            auto_repair        = true
-            auto_upgrade       = true
-          }
           autoscaling = {
             min_node_count          = 0
             max_node_count          = 10
@@ -174,10 +166,6 @@ locals {
               },
             ]
             tags = []
-          }
-          management = {
-            auto_repair        = true
-            auto_upgrade       = true
           }
           autoscaling = {
             min_node_count          = 0
