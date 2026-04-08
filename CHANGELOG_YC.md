@@ -1,7 +1,7 @@
 # yc-v0.5.1
 
 Fixes:
-* `k8s` enabled logic for
+* `k8s` enabled logic
 
 # yc-v0.5.0
 
