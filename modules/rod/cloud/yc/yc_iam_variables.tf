@@ -58,7 +58,7 @@ locals {
         role = "admin"
         members = concat(
           local.users.owners,
-          var.env.short_name != "int" ? [
+          var.env.short_name != "int" && var.env.kubernetes.enabled ? [
             "serviceAccount:${data.yandex_iam_service_account.sa_int["runner"].id}",
           ] : []
         )
@@ -69,7 +69,7 @@ locals {
 
 data "yandex_iam_service_account" "sa_int" {
   for_each = toset(
-    var.env.short_name != "int" ? [
+    var.env.short_name != "int" && var.env.kubernetes.enabled ? [
       "runner-app",
       "runner"
     ] : []
