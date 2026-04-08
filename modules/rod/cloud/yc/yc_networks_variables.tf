@@ -2,24 +2,24 @@ locals {
   zone_suffixes = ["d", "b", "a", "e", "m"]
   #Split var.env.cloud.network.vm_cidr subnet into multiple
   #subnets based on number of var.env.kubernetes.node_locations
-  cidr_subnets = var.env.kubernetes.enabled ? lookup(
+  cidr_subnets = lookup(
     {
       "1" = [var.env.cloud.network.vm_cidr]
       "2" = cidrsubnets(var.env.cloud.network.vm_cidr, [1, 1, ]...)
       "3" = cidrsubnets(var.env.cloud.network.vm_cidr, [2, 2, 2]...)
       "4" = cidrsubnets(var.env.cloud.network.vm_cidr, [2, 2, 2, 2]...)
     },
-    tostring(length(var.env.kubernetes.node_locations)),
-    []
-  ) : []
+    tostring(length(var.env.kubernetes.node_locations))
+  )
+
 
   yc_networks = {
     main = {
       vpc = {
         name = "main"
       }
-      subnets = var.env.kubernetes.enabled ? merge(
-        var.env.kubernetes.regional ? {
+      subnets = merge(
+        var.env.kubernetes.regional == true ? {
           "master-${var.env.cloud.location.region}-d" = {
             ip_cidr_range = "172.16.0.0/28"
             zone          = "${var.env.cloud.location.region}-d"
@@ -50,7 +50,7 @@ locals {
             description   = "Subnet for k8s nodes in ${location}"
           }
         }
-      ) : {}
+      )
       nat_gws = {
         "nat-gw" = {
           name = "main"

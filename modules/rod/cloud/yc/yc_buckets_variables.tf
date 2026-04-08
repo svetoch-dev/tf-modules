@@ -1,5 +1,5 @@
 locals {
-  default_buckets = {
+  yc_buckets = {
     format("%s-loki-%s", var.company.name, var.env.short_name) = {
       #force_destroy should be oposite to deletion_protection
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
@@ -66,10 +66,5 @@ locals {
         }
       }]
     } : null
-  }
-  yc_buckets = {
-    for bucket_name, bucket_obj in local.default_buckets :
-    bucket_name => bucket_obj
-    if bucket_obj != null && var.env.kubernetes.enabled
   }
 }
