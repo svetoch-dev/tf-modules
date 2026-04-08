@@ -79,10 +79,10 @@ module "k8s" {
 | `default_service_account` | Whether to create and use the default service account for the Kubernetes control plane. | `bool` | `false` | no |
 | `default_node_service_account` | Whether to create and use the default service account for Kubernetes worker nodes. | `bool` | `false` | no |
 | `master` | Kubernetes master configuration. | `object` | n/a | yes |
-| `admins` | IAM member strings that should get Kubernetes admin access. Supports standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and also `serviceAccountName:` / `userAccountName:` prefixes resolved by the module. | `list(string)` | `[]` | no |
+| `admins` | IAM member strings that should get Kubernetes admin access. Must use standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and similar values accepted by the provider. | `list(string)` | `[]` | no |
 | `default_security_groups` | Enable creation or usage of the module's default security groups for the Kubernetes cluster. | `bool` | `true` | no |
 | `description` | The Kubernetes cluster description. | `string` | `null` | no |
-| `editors` | IAM member strings that should get Kubernetes editor access. Supports standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and also `serviceAccountName:` / `userAccountName:` prefixes resolved by the module. | `list(string)` | `[]` | no |
+| `editors` | IAM member strings that should get Kubernetes editor access. Must use standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and similar values accepted by the provider. | `list(string)` | `[]` | no |
 | `folder_id` | The folder where the Kubernetes cluster will be created. | `string` | `null` | no |
 | `kms_provider` | Cluster KMS provider configuration. | `object` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the cluster. | `map(string)` | `{}` | no |
@@ -96,7 +96,7 @@ module "k8s" {
 | `release_channel` | Cluster release channel. | `string` | `REGULAR` | no |
 | `service_ipv4_range` | CIDR block for service IP addresses. | `string` | `null` | no |
 | `service_ipv6_range` | CIDR block for service IPv6 addresses. | `string` | `null` | no |
-| `viewers` | IAM member strings that should get Kubernetes viewer access. Supports standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and also `serviceAccountName:` / `userAccountName:` prefixes resolved by the module. | `list(string)` | `[]` | no |
+| `viewers` | IAM member strings that should get Kubernetes viewer access. Must use standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and similar values accepted by the provider. | `list(string)` | `[]` | no |
 | `workload_identity_federation` | Cluster Workload Identity Federation configuration. | `object` | `null` | no |
 
 ## Notes

@@ -1,3 +1,74 @@
+locals {
+  #Yandex cloud provider needs subject (service accounts,users)
+  #ids for *_iam_member and *_iam_bindings resources. We cant
+  #get ids before we create service accounts so we introduce
+  #a new serviceAccountName:<sa_name> userAccountName:<user_email>
+  #strings when used we will get sa ids from module.iam and
+  #user ids from data sources
+  members = distinct(
+    concat(
+      flatten(
+        [
+          for role_name, role_obj in var.iam.roles :
+          role_obj.members
+        ]
+      ),
+      flatten(
+        [
+          for k8s_name, k8s_obj in var.k8s :
+          concat(
+            try(k8s_obj.viewers, []),
+            try(k8s_obj.admins, []),
+            try(k8s_obj.editors, []),
+          )
+        ]
+      ),
+      flatten(
+        [
+          for s3_name, s3_obj in var.s3 :
+          concat(
+            try(s3_obj.viewers, []),
+            try(s3_obj.admins, []),
+            try(s3_obj.editors, []),
+          )
+        ]
+      )
+    )
+  )
+
+  member_ids = merge(
+    {
+      for member in local.members :
+      tostring(member) => member
+      if strcontains(member, "serviceAccountName:") == false && strcontains(member, "userAccountName:") == false
+    },
+    {
+      for member in local.members :
+      tostring(member) => "serviceAccount:${module.iam.service_accounts[split(":", member)[1]].id}"
+      if strcontains(member, "serviceAccountName:")
+    },
+    {
+      for member in local.members :
+      tostring(member) => module.members[member].converted
+      if strcontains(member, "userAccountName:")
+    }
+  )
+
+}
+
+module "members" {
+  source = "./iam/member"
+  for_each = toset(
+    [
+      for member in local.members :
+      member
+      if strcontains(member, "userAccountName:")
+    ]
+  )
+  member = each.value
+}
+
+
 /* network */
 
 module "network" {
@@ -57,15 +128,23 @@ module "k8s" {
   node_ipv4_cidr_mask_size     = try(each.value.node_ipv4_cidr_mask_size, null)
   kms_provider                 = try(each.value.kms_provider, null)
   workload_identity_federation = try(each.value.workload_identity_federation, null)
-  admins                       = try(each.value.admins, [])
-  viewers                      = try(each.value.viewers, [])
-  editors                      = try(each.value.editors, [])
-  default_security_groups      = try(each.value.default_security_groups, true)
-  network_implementation       = try(each.value.network_implementation, null)
-  master                       = each.value.master
-  node_groups                  = try(each.value.node_groups, {})
+  admins = [
+    for member in try(each.value.admins, []) :
+    local.member_ids[member]
+  ]
+  viewers = [
+    for member in try(each.value.viewers, []) :
+    local.member_ids[member]
+  ]
+  editors = [
+    for member in try(each.value.editors, []) :
+    local.member_ids[member]
+  ]
+  default_security_groups = try(each.value.default_security_groups, true)
+  network_implementation  = try(each.value.network_implementation, null)
+  master                  = each.value.master
+  node_groups             = try(each.value.node_groups, {})
   depends_on = [
-    module.iam,
     module.network
   ]
 }
@@ -100,11 +179,17 @@ module "s3" {
   server_side_encryption_configuration = try(each.value.server_side_encryption_configuration, null)
   versioning                           = try(each.value.versioning, false)
   website                              = try(each.value.website, null)
-  admins                               = try(each.value.admins, [])
-  viewers                              = try(each.value.viewers, [])
-  editors                              = try(each.value.editors, [])
   objects                              = try(each.value.objects, {})
-  depends_on = [
-    module.iam,
+  admins = [
+    for member in try(each.value.admins, []) :
+    local.member_ids[member]
+  ]
+  viewers = [
+    for member in try(each.value.viewers, []) :
+    local.member_ids[member]
+  ]
+  editors = [
+    for member in try(each.value.editors, []) :
+    local.member_ids[member]
   ]
 }

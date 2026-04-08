@@ -197,19 +197,6 @@ resource "yandex_storage_bucket_iam_binding" "this" {
   role   = each.value.role
   members = [
     for member in each.value.members :
-    module.members[member].converted
+    member
   ]
-}
-
-module "members" {
-  source = "../../iam/member"
-  for_each = toset(
-    flatten(
-      [
-        for iam_role in var.iam_roles :
-        iam_role.members
-      ]
-    )
-  )
-  member = each.value
 }

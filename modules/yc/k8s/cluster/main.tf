@@ -1,18 +1,3 @@
-locals {
-  iam_roles = flatten(
-    [
-      for iam_role, iam_role_obj in var.iam_roles :
-      [
-        for member in iam_role_obj.members :
-        {
-          role   = iam_role_obj.role
-          member = member
-        }
-      ]
-    ]
-  )
-}
-
 resource "yandex_kubernetes_cluster" "this" {
   name                     = var.name
   description              = var.description
@@ -146,28 +131,15 @@ resource "yandex_kubernetes_cluster" "this" {
   }
 }
 
-resource "yandex_kubernetes_cluster_iam_member" "this" {
+resource "yandex_kubernetes_cluster_iam_binding" "this" {
   for_each = {
-    for iam_role in local.iam_roles :
-    "${iam_role.role}.${iam_role.member}" => iam_role
+    for iam_role in var.iam_roles :
+    "${iam_role.role}" => iam_role
+    if length(iam_role.members) != 0
   }
   cluster_id = yandex_kubernetes_cluster.this.id
   role       = each.value.role
-  member     = module.members[each.value.member].converted
-}
-
-
-module "members" {
-  source = "../../iam/member"
-  for_each = toset(
-    flatten(
-      [
-        for iam_role in var.iam_roles :
-        iam_role.members
-      ]
-    )
-  )
-  member = each.value
+  members    = each.value.members
 }
 
 module "master_sa" {

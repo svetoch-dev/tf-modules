@@ -138,19 +138,19 @@ variable "network_implementation" {
 }
 
 variable "admins" {
-  description = "IAM member strings that should receive the k8s.admin role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:' and 'userAccountName:' are also allowed and are resolved by the module."
+  description = "IAM member strings that should receive the k8s.admin role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc."
   type        = list(string)
   default     = []
 }
 
 variable "viewers" {
-  description = "IAM member strings that should receive the k8s.viewer role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:' and 'userAccountName:' are also allowed and are resolved by the module."
+  description = "IAM member strings that should receive the k8s.viewer role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc."
   type        = list(string)
   default     = []
 }
 
 variable "editors" {
-  description = "IAM member strings that should receive the k8s.editor role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:' and 'userAccountName:' are also allowed and are resolved by the module."
+  description = "IAM member strings that should receive the k8s.editor role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc."
   type        = list(string)
   default     = []
 }

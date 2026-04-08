@@ -1,3 +1,15 @@
+# yc-v0.6.0
+Braking changes
+* `k8s/cluster`:
+  * use `yandex_kubernetes_cluster_iam_binding` instead of `yandex_kubernetes_cluster_iam_member`
+  * disable `serviceAccountName` `userAccountName` lookup interface
+
+* `s3/bucket`:
+  * disable `serviceAccountName` `userAccountName` lookup interface
+
+Fixes:
+* move `serviceAccountName` `userAccountName` lookup interface in main module
+
 # yc-v0.5.1
 
 Fixes:
