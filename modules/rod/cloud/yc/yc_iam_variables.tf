@@ -7,7 +7,7 @@ locals {
     ]
   }
   yc_iam = {
-    service_accounts = {
+    service_accounts = var.env.kubernetes.enabled ? {
       k8s-master = {
         description = "default service account for k8s master nodes"
         roles = [
@@ -26,7 +26,7 @@ locals {
       }
       external-dns = {
         description = "k8s sigs external dns service account"
-      },
+      }
       thanos = {
         description = "service account for thanos"
       }
@@ -51,14 +51,14 @@ locals {
       runner-app = var.env.short_name == "int" ? {
         description = "service account for app ci runners"
       } : null
-    }
+    } : {}
 
     roles = {
       owners = {
         role = "admin"
         members = concat(
           local.users.owners,
-          var.env.short_name != "int" ? [
+          (var.env.short_name != "int" && var.env.kubernetes.enabled) ? [
             "serviceAccount:${data.yandex_iam_service_account.sa_int["runner"].id}",
           ] : []
         )
@@ -69,7 +69,7 @@ locals {
 
 data "yandex_iam_service_account" "sa_int" {
   for_each = toset(
-    var.env.short_name != "int" ? [
+    (var.env.short_name != "int" && var.env.kubernetes.enabled) ? [
       "runner-app",
       "runner"
     ] : []
