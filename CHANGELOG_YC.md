@@ -1,3 +1,8 @@
+# yc-v0.5.1
+
+Fixes:
+* `k8s` enabled logic for
+
 # yc-v0.5.0
 
 Features:
