@@ -127,7 +127,7 @@ locals {
       }
     )
   }
-  yc_k8s_clusters = {
+  yc_k8s_clusters = var.env.kubernetes.enabled ? {
     tostring(var.env.short_name) = {
       name                    = var.env.short_name
       enabled                 = var.env.kubernetes.enabled
@@ -238,5 +238,5 @@ locals {
         } : {}
       )
     }
-  }
+  } : {}
 }
