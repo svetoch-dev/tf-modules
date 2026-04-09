@@ -28,7 +28,24 @@ variable "gke_clusters" {
     network_policy                    = optional(any, {})
     database_encryption               = optional(any, { state = "DECRYPTED" })
     binary_authorization              = optional(any, {})
-    cluster_autoscaling               = optional(any)
+    cluster_autoscaling               = optional(object({
+      enabled = optional(bool, false)
+      autoscaling_profile = optional(string, "BALANCED")
+      resource_limits = optional(list(object({
+        resource_type = string
+        minimum       = optional(number)
+        maximum       = optional(number)
+      })), [])
+      auto_provisioning_defaults = optional(object({
+        service_account = optional(string)
+        oauth_scopes    = optional(list(string))
+        management = optional(object({
+          auto_repair  = optional(bool)
+          auto_upgrade = optional(bool)
+        }))
+      }))
+      auto_provisioning_locations = optional(list(string), [])
+    }), {})
     master_auth                       = optional(any, {})
     authenticator_groups_config       = optional(any)
     confidential_nodes                = optional(any)

@@ -16,11 +16,11 @@ resource "google_container_cluster" "cluster" {
 
   networking_mode = var.networking_mode
 
-  # We create a cluster with no node pool defined, but we want to only use
-  # separately managed node pools. So we create the smallest possible default
-  # node pool and immediately delete it.
-  remove_default_node_pool = true
-  initial_node_count       = 1
+  remove_default_node_pool = var.remove_default_node_pool
+  initial_node_count       = var.initial_node_count
+  enable_autopilot         = var.enable_autopilot
+  enable_shielded_nodes    = var.enable_shielded_nodes
+  enable_tpu               = var.enable_tpu
 
   dynamic "ip_allocation_policy" {
     for_each = var.ip_allocation_policy != null && length(var.ip_allocation_policy) > 0 ? [var.ip_allocation_policy] : []
@@ -86,9 +86,18 @@ resource "google_container_cluster" "cluster" {
     network_policy_config {
       disabled = try(var.addons_config.network_policy_config.disabled, true)
     }
-    cloudrun_config {
-      disabled           = try(var.addons_config.cloudrun_config.disabled, true)
-      load_balancer_type = try(var.addons_config.cloudrun_config.load_balancer_type, null)
+    dynamic "cloudrun_config" {
+      for_each = var.addons_config.cloudrun_config == null ? [] : [var.addons_config.cloudrun_config]
+      content {
+        disabled           = try(cloudrun_config.disabled, null)
+        load_balancer_type = try(cloudrun_config.load_balancer_type, null)
+      }
+    }
+    dynamic "config_connector_config" {
+      for_each = var.addons_config.config_connector_config == null ? [] : [var.addons_config.config_connector_config]
+      content {
+        enabled = try(config_connector_config.enabled, null)
+      }
     }
     dns_cache_config {
       enabled = try(var.addons_config.dns_cache_config.enabled, false)
