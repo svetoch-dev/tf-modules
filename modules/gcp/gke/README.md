@@ -103,7 +103,7 @@ module "gke" {
 | `cost_management_config` | `object` | no | Configuration for the Cost Management feature. |
 | `enable_shielded_nodes` | `bool` | no | Enable Shielded Nodes features on all nodes in this cluster. |
 | `enable_tpu` | `bool` | no | Whether to enable Cloud TPU resources in this cluster. |
-| `initial_node_count` | `number` | no | The number of nodes to create in this cluster's default node pool. |
+| `initial_node_count` | `number` | no | The number of nodes to create in this cluster's default node pool. In regional or multi-zonal clusters, this is the number of nodes per zone. Must be set if node_pool is not set. If you're using google_container_node_pool objects with no default node pool, you'll need to set this to a value of at least 1, alongside setting remove_default_node_pool to true.|
 | `enable_intranode_visibility` | `bool` | no | Whether Intra-node visibility is enabled for this cluster. |
 | `vertical_pod_autoscaling` | `object` | no | Vertical Pod Autoscaling automatically adjusts the resources of pods controlled by it. |
 | `default_snat_status` | `object` | no | Default SNAT status. |

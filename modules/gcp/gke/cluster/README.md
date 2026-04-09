@@ -72,7 +72,7 @@ module "cluster" {
 | `cost_management_config` | Configuration for cost management | `object` | `null` | no |
 | `enable_shielded_nodes` | Enable Shielded Nodes features on all nodes in this cluster | `bool` | `false` | no |
 | `enable_tpu` | value | `bool` | `false` | no |
-| `initial_node_count` | The number of nodes to create in this cluster's default node pool | `number` | `0` | no |
+| `initial_node_count` | The number of nodes to create in this cluster's default node pool. In regional or multi-zonal clusters, this is the number of nodes per zone. Must be set if node_pool is not set. If you're using google_container_node_pool objects with no default node pool, you'll need to set this to a value of at least 1, alongside setting remove_default_node_pool to true.| `number` | `0` | no |
 | `enable_intranode_visibility` | Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network | `bool` | `false` | no |
 | `vertical_pod_autoscaling` | Configuration for vertical pod autoscaling | `object` | `null` | no |
 | `default_snat_status` | Configuration for default SNAT status | `object` | `{}` | no |
