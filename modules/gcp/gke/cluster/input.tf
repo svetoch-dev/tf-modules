@@ -294,6 +294,19 @@ variable "enable_tpu" {
   type = bool
   default = false
 }
+
+variable "initial_node_count" {
+  description = "The number of nodes to create in this cluster's default node pool"
+  type = number
+  default = 0
+}
+
+variable "enable_intranode_visibility" {
+  description = "Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network"
+  type = bool
+  default = false
+}
+
 variable "vertical_pod_autoscaling" {
   description = "Configuration for vertical pod autoscaling"
   type = object({
