@@ -27,30 +27,12 @@ locals {
         }]
       }
 
-      addons_config = {
-        http_load_balancing = {
-          disabled = false
-        }
-        horizontal_pod_autoscaling = {
-          disabled = false
-        }
-        gcs_fuse_csi_driver = {
-          enabled = true
-        }
-      }
-
       authenticator_security_group = {
         security_group = var.env.kubernetes.auth_group != "" ? var.env.kubernetes.auth_group : null
       }
 
       vertical_pod_autoscaling = {
         enabled = true
-      }
-      enable_shielded_nodes = false
-
-      security = {
-        identity_namespace = "enabled"
-        node_metadata      = "GKE_METADATA"
       }
 
       logging_config = {
