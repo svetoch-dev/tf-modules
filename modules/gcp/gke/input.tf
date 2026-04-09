@@ -179,14 +179,13 @@ variable "gke_clusters" {
 variable "node_pools" {
   description = "A map of node pools to create"
   type = map(object({
-    cluster            = string
-    location           = string
-    name               = string
-    name_prefix        = optional(string, null)
-    node_locations     = optional(list(string), [])
-    initial_node_count = optional(number, 0)
-    node_count         = optional(number)
-    max_pods_per_node  = optional(number)
+    cluster           = string
+    location          = string
+    name              = string
+    name_prefix       = optional(string, null)
+    node_locations    = optional(list(string), [])
+    node_count        = optional(number)
+    max_pods_per_node = optional(number)
     autoscaling = optional(object({
       min_node_count       = optional(number, 0)
       max_node_count       = optional(number, 1)
