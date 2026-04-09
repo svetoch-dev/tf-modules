@@ -81,13 +81,7 @@ locals {
           node_config = {
             machine_type    = "t2d-standard-4"
             service_account = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-            oauth_scopes = [
-              "https://www.googleapis.com/auth/userinfo.email",
-              "https://www.googleapis.com/auth/cloud-platform"
-            ]
-            disk_type    = "pd-ssd"
-            disk_size_gb = 45
-            image_type   = "COS_CONTAINERD"
+            disk_size_gb    = 45
             labels = {
               main = "true"
             }
@@ -107,13 +101,7 @@ locals {
           node_config = {
             machine_type    = "t2d-standard-4"
             service_account = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-            oauth_scopes = [
-              "https://www.googleapis.com/auth/userinfo.email",
-              "https://www.googleapis.com/auth/cloud-platform"
-            ]
-            disk_size_gb = 45
-            disk_type    = "pd-ssd"
-            image_type   = "COS_CONTAINERD"
+            disk_size_gb    = 45
             labels = {
               on-demand = "true"
             }
@@ -140,14 +128,8 @@ locals {
           node_config = {
             machine_type    = "t2d-standard-4"
             service_account = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-            oauth_scopes = [
-              "https://www.googleapis.com/auth/userinfo.email",
-              "https://www.googleapis.com/auth/cloud-platform"
-            ]
-            disk_size_gb = 120
-            disk_type    = "pd-ssd"
-            image_type   = "COS_CONTAINERD"
-            spot         = true
+            disk_size_gb    = 120
+            spot            = true
             labels = {
               runner = "true"
             }

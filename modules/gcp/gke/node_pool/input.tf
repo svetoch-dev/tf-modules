@@ -77,11 +77,13 @@ variable "node_config" {
   type = object({
     machine_type    = optional(string, "e2-medium")
     service_account = optional(string, "default")
-    oauth_scopes    = optional(list(string), ["https://www.googleapis.com/auth/cloud-platform"])
-    disk_size_gb    = optional(number, 100)
-    disk_type       = optional(string, "pd-standard")
-    image_type      = optional(string, "COS_CONTAINERD")
-    labels          = optional(map(string), {})
+    oauth_scopes = optional(list(string), [
+      "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/cloud-platform"])
+    disk_size_gb = optional(number, 100)
+    disk_type    = optional(string, "pd-ssd")
+    image_type   = optional(string, "COS_CONTAINERD")
+    labels       = optional(map(string), {})
     metadata = optional(map(string), {
       "disable-legacy-endpoints" = "true"
     })
