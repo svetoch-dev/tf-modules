@@ -1,3 +1,8 @@
+# gcp-v3.0.0-alpha-1
+Feautures:
+* `gke` - use own module for gke 
+
+
 # gcp-v2.8.6
 
 Fixes:
