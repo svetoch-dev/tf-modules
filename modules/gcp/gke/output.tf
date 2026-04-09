@@ -4,13 +4,9 @@ output "clusters" {
 }
 
 output "node_pools" {
-  value = merge(
-    [
-      for cluster_name, cluster_obj in module.node_pool : {
-        for pool_name, pool_obj in cluster_obj.node_pools :
-        "${cluster_name}/${pool_name}" => pool_obj.this
-      }
-    ]
-  )
+  value = {
+    for node_pool_name, node_pool in module.node_pool :
+    node_pool_name => node_pool.this
+  }
   description = "The Kubernetes node pools resources."
 }
