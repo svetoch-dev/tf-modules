@@ -37,19 +37,19 @@ module "cluster" {
     #Yandex provider does not accept empty members lists
     length(var.admins) != 0 ? [
       {
-        role    = "storage.admin"
+        role    = "k8s.admin"
         members = var.admins
       },
     ] : [],
     length(var.editors) != 0 ? [
       {
-        role    = "storage.editor"
+        role    = "k8s.editor"
         members = var.editors
       },
     ] : [],
     length(var.viewers) != 0 ? [
       {
-        role    = "storage.viewer"
+        role    = "k8s.viewer"
         members = var.viewers
       },
     ] : []
