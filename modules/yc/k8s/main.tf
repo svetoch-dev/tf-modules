@@ -33,20 +33,26 @@ module "cluster" {
   node_ipv4_cidr_mask_size     = var.node_ipv4_cidr_mask_size
   kms_provider                 = var.kms_provider
   workload_identity_federation = var.workload_identity_federation
-  iam_roles = [
-    {
-      role    = "k8s.admin"
-      members = var.admins
-    },
-    {
-      role    = "k8s.editor"
-      members = var.editors
-    },
-    {
-      role    = "k8s.viewer"
-      members = var.viewers
-    },
-  ]
+  iam_roles = concat(
+    length(var.admins) != 0 ? [
+      {
+        role    = "storage.admin"
+        members = var.admins
+      },
+    ] : [],
+    length(var.editors) != 0 ? [
+      {
+        role    = "storage.editor"
+        members = var.editors
+      },
+    ] : [],
+    length(var.viewers) != 0 ? [
+      {
+        role    = "storage.viewer"
+        members = var.viewers
+      },
+    ] : []
+  )
 }
 
 module "node_groups" {

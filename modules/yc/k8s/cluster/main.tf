@@ -135,7 +135,6 @@ resource "yandex_kubernetes_cluster_iam_binding" "this" {
   for_each = {
     for iam_role in var.iam_roles :
     "${iam_role.role}" => iam_role
-    if length(iam_role.members) != 0
   }
   cluster_id = yandex_kubernetes_cluster.this.id
   role       = each.value.role

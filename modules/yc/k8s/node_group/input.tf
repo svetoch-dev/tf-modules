@@ -135,8 +135,7 @@ variable "instance_template" {
               ipv6               = optional(bool)
               nat                = optional(bool)
               security_group_ids = optional(list(string), [])
-              subnet_ids         = optional(list(string), [])
-              subnet_names       = optional(list(string), [])
+              subnet_ids         = list(string)
               ipv4_dns_records = optional(
                 list(
                   object(
@@ -194,18 +193,6 @@ variable "instance_template" {
       )
     }
   )
-
-  validation {
-    condition = (
-      alltrue(
-        [
-          for network_interface in var.instance_template.network_interface :
-          length(network_interface.subnet_ids) > 0 || length(network_interface.subnet_names) > 0
-        ]
-      )
-    )
-    error_message = "instance_template.network_interface.subnet_ids or instance_template.network_interface.subnet_names should be set"
-  }
 }
 
 variable "maintenance_policy" {

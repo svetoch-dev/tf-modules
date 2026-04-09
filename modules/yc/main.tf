@@ -9,17 +9,11 @@ locals {
     concat(
       flatten(
         [
-          for role_name, role_obj in var.iam.roles :
-          role_obj.members
-        ]
-      ),
-      flatten(
-        [
           for k8s_name, k8s_obj in var.k8s :
           concat(
-            try(k8s_obj.viewers, []),
-            try(k8s_obj.admins, []),
-            try(k8s_obj.editors, []),
+            lookup(k8s_obj, "viewer_names", []),
+            lookup(k8s_obj, "admin_names", []),
+            lookup(k8s_obj, "editor_names", []),
           )
         ]
       ),
@@ -27,33 +21,14 @@ locals {
         [
           for s3_name, s3_obj in var.s3 :
           concat(
-            try(s3_obj.viewers, []),
-            try(s3_obj.admins, []),
-            try(s3_obj.editors, []),
+            lookup(s3_obj, "viewer_names", []),
+            lookup(s3_obj, "admin_names", []),
+            lookup(s3_obj, "editor_names", []),
           )
         ]
       )
     )
   )
-
-  member_ids = merge(
-    {
-      for member in local.members :
-      tostring(member) => member
-      if strcontains(member, "serviceAccountName:") == false && strcontains(member, "userAccountName:") == false
-    },
-    {
-      for member in local.members :
-      tostring(member) => "serviceAccount:${module.iam.service_accounts[split(":", member)[1]].id}"
-      if strcontains(member, "serviceAccountName:")
-    },
-    {
-      for member in local.members :
-      tostring(member) => module.members[member].converted
-      if strcontains(member, "userAccountName:")
-    }
-  )
-
 }
 
 module "members" {
@@ -62,12 +37,10 @@ module "members" {
     [
       for member in local.members :
       member
-      if strcontains(member, "userAccountName:")
     ]
   )
   member = each.value
 }
-
 
 /* network */
 
@@ -128,24 +101,37 @@ module "k8s" {
   node_ipv4_cidr_mask_size     = try(each.value.node_ipv4_cidr_mask_size, null)
   kms_provider                 = try(each.value.kms_provider, null)
   workload_identity_federation = try(each.value.workload_identity_federation, null)
-  admins = [
-    for member in try(each.value.admins, []) :
-    local.member_ids[member]
-  ]
-  viewers = [
-    for member in try(each.value.viewers, []) :
-    local.member_ids[member]
-  ]
-  editors = [
-    for member in try(each.value.editors, []) :
-    local.member_ids[member]
-  ]
-  default_security_groups = try(each.value.default_security_groups, true)
-  network_implementation  = try(each.value.network_implementation, null)
-  master                  = each.value.master
-  node_groups             = try(each.value.node_groups, {})
+  default_security_groups      = try(each.value.default_security_groups, true)
+  network_implementation       = try(each.value.network_implementation, null)
+  admins = concat(
+    lookup(each.value, "admins", [])
+    ,
+    [
+      for member in lookup(each.value, "admin_names", []) :
+      module.members[member].converted
+    ]
+  )
+  viewers = concat(
+    lookup(each.value, "viewers", [])
+    ,
+    [
+      for member in lookup(each.value, "viewer_names", []) :
+      module.members[member].converted
+    ]
+  )
+  editors = concat(
+    lookup(each.value, "editors", [])
+    ,
+    [
+      for member in lookup(each.value, "editor_names", []) :
+      module.members[member].converted
+    ]
+  )
+  node_groups = lookup(each.value, "node_groups", {})
+  master      = each.value.master
   depends_on = [
-    module.network
+    module.network,
+    module.iam
   ]
 }
 
@@ -180,16 +166,31 @@ module "s3" {
   versioning                           = try(each.value.versioning, false)
   website                              = try(each.value.website, null)
   objects                              = try(each.value.objects, {})
-  admins = [
-    for member in try(each.value.admins, []) :
-    local.member_ids[member]
-  ]
-  viewers = [
-    for member in try(each.value.viewers, []) :
-    local.member_ids[member]
-  ]
-  editors = [
-    for member in try(each.value.editors, []) :
-    local.member_ids[member]
+  admins = concat(
+    lookup(each.value, "admins", [])
+    ,
+    [
+      for member in lookup(each.value, "admin_names", []) :
+      module.members[member].converted
+    ]
+  )
+  viewers = concat(
+    lookup(each.value, "viewers", [])
+    ,
+    [
+      for member in lookup(each.value, "viewer_names", []) :
+      module.members[member].converted
+    ]
+  )
+  editors = concat(
+    lookup(each.value, "editors", [])
+    ,
+    [
+      for member in lookup(each.value, "editor_names", []) :
+      module.members[member].converted
+    ]
+  )
+  depends_on = [
+    module.iam
   ]
 }

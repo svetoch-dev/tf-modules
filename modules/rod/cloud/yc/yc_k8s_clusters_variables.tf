@@ -5,7 +5,10 @@ locals {
       subnet_obj,
       lookup(subnet_obj, "name", null) == null ? {
         name = subnet_name
-      } : {}
+        id   = module.yc.subnets["main"][subnet_name].id
+        } : {
+        id = module.yc.subnets["main"][subnet_obj.name].id
+      }
     )
     if strcontains(subnet_name, "node")
   ]
@@ -15,7 +18,10 @@ locals {
       subnet_obj,
       lookup(subnet_obj, "name", null) == null ? {
         name = subnet_name
-      } : {}
+        id   = module.yc.subnets["main"][subnet_name].id
+        } : {
+        id = module.yc.subnets["main"][subnet_obj.name].id
+      }
     )
     if strcontains(subnet_name, "master")
   ]
@@ -140,7 +146,7 @@ locals {
         enabled = true
       }
       admins = [
-        "serviceAccountName:argocd"
+        "serviceAccount:${module.yc.iam.service_accounts["argocd"].id}"
       ]
       master = {
         public_ip = true
@@ -148,7 +154,7 @@ locals {
           for subnet_obj in local.yc_k8s_master_subnets :
           {
             zone      = subnet_obj.zone
-            subnet_id = module.yc.subnets["main"][subnet_obj.name].id
+            subnet_id = subnet_obj.id
           }
         ]
         maintenance_policy = {
@@ -179,8 +185,8 @@ locals {
               instance_template = {
                 network_interface = [
                   {
-                    subnet_names = [
-                      subnet_obj.name
+                    subnet_ids = [
+                      subnet_obj.id
                     ]
                   }
                 ]
@@ -204,8 +210,8 @@ locals {
               instance_template = {
                 network_interface = [
                   {
-                    subnet_names = [
-                      subnet_obj.name
+                    subnet_ids = [
+                      subnet_obj.id
                     ]
                   }
                 ]
@@ -227,8 +233,8 @@ locals {
               instance_template = {
                 network_interface = [
                   {
-                    subnet_names = [
-                      local.yc_k8s_node_subnets[0].name
+                    subnet_ids = [
+                      local.yc_k8s_node_subnets[0].id
                     ]
                   }
                 ]
