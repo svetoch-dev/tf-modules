@@ -5,7 +5,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        try(local.yc_iam_merged.service_accounts["grafana-loki"]) != null ? "serviceAccount:${module.yc.iam.service_accounts["grafana-loki"].id}" : ""
+        try("serviceAccount:${module.yc.iam.service_accounts["grafana-loki"].id}", "")
       ]
     }
     format("%s-thanos-%s", var.company.name, var.env.short_name) = {
@@ -13,7 +13,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        try(local.yc_iam_merged.service_accounts["thanos"]) != null ? "serviceAccount:${module.yc.iam.service_accounts["thanos"].id}" : ""
+        try("serviceAccount:${module.yc.iam.service_accounts["thanos"].id}", "")
       ]
     }
     format("%s-postgres-%s", var.company.name, var.env.short_name) = {
@@ -21,7 +21,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        try(local.yc_iam_merged.service_accounts["postgres"]) != null ? "serviceAccount:${module.yc.iam.service_accounts["postgres"].id}" : ""
+        try("serviceAccount:${module.yc.iam.service_accounts["postgres"].id}", "")
       ]
     }
     format("%s-postgres-backup-%s", var.company.name, var.env.short_name) = {
@@ -29,7 +29,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        try(local.yc_iam_merged.service_accounts["postgres"]) != null ? "serviceAccount:${module.yc.iam.service_accounts["postgres"].id}" : ""
+        try("serviceAccount:${module.yc.iam.service_accounts["postgres"].id}", "")
       ]
       lifecycle_rules = [{
         enabled = true
@@ -43,7 +43,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        try(local.yc_iam_merged.service_accounts["fluent"]) != null ? "serviceAccount:${module.yc.iam.service_accounts["fluent"].id}" : ""
+        try("serviceAccount:${module.yc.iam.service_accounts["fluent"].id}", "")
       ]
       lifecycle_rules = [{
         enabled = true
@@ -57,7 +57,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        try(local.yc_iam_merged.service_accounts["runner-app"]) != null ? "serviceAccount:${module.yc.iam.service_accounts["runner-app"].id}" : ""
+        try("serviceAccount:${module.yc.iam.service_accounts["runner-app"].id}", "")
       ]
       lifecycle_rules = [{
         enabled = true
