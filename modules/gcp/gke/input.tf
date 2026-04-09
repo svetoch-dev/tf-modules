@@ -55,7 +55,7 @@ variable "gke_clusters" {
       cloudrun_config = optional(object({
         disabled           = optional(bool)
         load_balancer_type = optional(string)
-      }), {})
+      }), null)
       config_connector_config = optional(object({
         enabled = optional(bool, false)
       }), {})

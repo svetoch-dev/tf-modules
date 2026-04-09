@@ -92,14 +92,14 @@ resource "google_container_cluster" "cluster" {
       disabled = try(var.addons_config.network_policy_config.disabled, true)
     }
     dynamic "cloudrun_config" {
-      for_each = var.addons_config.cloudrun_config == null ? [] : [var.addons_config.cloudrun_config]
+      for_each = var.addons_config.cloudrun_config != null ? [var.addons_config.cloudrun_config] : []
       content {
         disabled           = try(cloudrun_config.value.disabled, null)
         load_balancer_type = try(cloudrun_config.value.load_balancer_type, null)
       }
     }
     dynamic "config_connector_config" {
-      for_each = var.addons_config.config_connector_config == null ? [] : [var.addons_config.config_connector_config]
+      for_each = var.addons_config.config_connector_config != null ? [var.addons_config.config_connector_config] : []
       content {
         enabled = try(config_connector_config.value.enabled, false)
       }
