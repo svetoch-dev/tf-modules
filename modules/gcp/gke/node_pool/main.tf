@@ -1,15 +1,13 @@
 resource "google_container_node_pool" "node_pool" {
-  project  = var.project_id
-  cluster  = var.cluster
-  location = var.location
-  name     = var.name
-
-  node_locations = var.node_locations
-
+  project            = var.project_id
+  cluster            = var.cluster
+  location           = var.location
+  name               = var.name
+  name_prefix        = var.name_prefix
+  node_locations     = var.node_locations
   initial_node_count = var.initial_node_count
   node_count         = var.node_count
-
-  max_pods_per_node = var.max_pods_per_node
+  max_pods_per_node  = var.max_pods_per_node
 
   dynamic "autoscaling" {
     for_each = var.autoscaling != null ? [var.autoscaling] : []
@@ -28,18 +26,23 @@ resource "google_container_node_pool" "node_pool" {
   }
 
   node_config {
-    machine_type    = var.node_config.machine_type
-    service_account = var.node_config.service_account
-    oauth_scopes    = var.node_config.oauth_scopes
-    disk_size_gb    = var.node_config.disk_size_gb
-    disk_type       = var.node_config.disk_type
-    image_type      = var.node_config.image_type
-    labels          = var.node_config.labels
-    metadata        = var.node_config.metadata
-    tags            = var.node_config.tags
-    preemptible     = var.node_config.preemptible
-    spot            = var.node_config.spot
-    local_ssd_count = var.node_config.local_ssd_count
+    machine_type                = var.node_config.machine_type
+    service_account             = var.node_config.service_account
+    oauth_scopes                = var.node_config.oauth_scopes
+    disk_size_gb                = var.node_config.disk_size_gb
+    disk_type                   = var.node_config.disk_type
+    image_type                  = var.node_config.image_type
+    labels                      = var.node_config.labels
+    metadata                    = var.node_config.metadata
+    tags                        = var.node_config.tags
+    preemptible                 = var.node_config.preemptible
+    spot                        = var.node_config.spot
+    local_ssd_count             = var.node_config.local_ssd_count
+    enable_confidential_storage = var.node_config.enable_confidential_storage
+    flex_start                  = var.node_config.flex_start
+    logging_variant             = var.node_config.logging_variant
+    resource_manager_tags       = var.node_config.resource_manager_tags
+    storage_pools               = var.node_config.storage_pools
 
     dynamic "taint" {
       for_each = var.node_config.taint
@@ -68,10 +71,13 @@ resource "google_container_node_pool" "node_pool" {
     dynamic "kubelet_config" {
       for_each = var.node_config.kubelet_config != null ? [var.node_config.kubelet_config] : []
       content {
-        cpu_manager_policy   = kubelet_config.value.cpu_manager_policy
-        cpu_cfs_quota        = kubelet_config.value.cpu_cfs_quota
-        cpu_cfs_quota_period = kubelet_config.value.cpu_cfs_quota_period
-        pod_pids_limit       = kubelet_config.value.pod_pids_limit
+        allowed_unsafe_sysctls                 = kubelet_config.value.allowed_unsafe_sysctls
+        container_log_max_files                = kubelet_config.value.container_log_max_files
+        image_gc_high_threshold_percent        = kubelet_config.value.image_gc_high_threshold_percent
+        image_gc_low_threshold_percent         = kubelet_config.value.image_gc_low_threshold_percent
+        insecure_kubelet_readonly_port_enabled = kubelet_config.value.insecure_kubelet_readonly_port_enabled
+        cpu_cfs_quota                          = kubelet_config.value.cpu_cfs_quota
+        pod_pids_limit                         = kubelet_config.value.pod_pids_limit
       }
     }
 

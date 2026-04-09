@@ -75,6 +75,7 @@ variable "node_pools" {
     cluster             = string
     location            = string
     name                = string
+    name_prefix         = optional(string, null)
     node_locations      = optional(list(string), [])
     initial_node_count  = optional(number, 0)
     node_count          = optional(number)
@@ -118,13 +119,16 @@ variable "node_pools" {
       shielded_instance_config = optional(object({
         enable_secure_boot          = optional(bool, false)
         enable_integrity_monitoring = optional(bool, true)
-      }))
+      }), {})
       kubelet_config = optional(object({
-        cpu_manager_policy   = optional(string)
-        cpu_cfs_quota        = optional(bool)
-        cpu_cfs_quota_period = optional(string)
-        pod_pids_limit       = optional(number)
-      }))
+        allowed_unsafe_sysctls = optional(list(string), [])
+        container_log_max_files = optional(number, 0)
+        image_gc_high_threshold_percent = optional(number, 0)
+        image_gc_low_threshold_percent = optional(number, 0)
+        insecure_kubelet_readonly_port_enabled = optional(string, "FALSE")
+        cpu_cfs_quota        = optional(bool, false)
+        pod_pids_limit       = optional(number, 0)
+      }), {})
       linux_node_config = optional(object({
         sysctls     = optional(map(string))
         cgroup_mode = optional(string)
@@ -137,6 +141,11 @@ variable "node_pools" {
         key                      = optional(string)
         values                   = optional(list(string))
       }))
+      enable_confidential_storage = optional(bool, false)
+      flex_start                  = optional(bool, false)
+      logging_variant             = optional(string, "DEFAULT")
+      resource_manager_tags       = optional(map(string), {})
+      storage_pools               = optional(list(string), [])
     }), {})
     upgrade_settings  = optional(object({
       max_surge       = number
