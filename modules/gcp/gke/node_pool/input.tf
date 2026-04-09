@@ -20,8 +20,8 @@ variable "name" {
 
 variable "name_prefix" {
   description = "Creates a unique name for the node pool beginning with the specified prefix. Conflicts with name"
-  type = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "node_locations" {
@@ -82,7 +82,7 @@ variable "node_config" {
     disk_type       = optional(string, "pd-standard")
     image_type      = optional(string, "COS_CONTAINERD")
     labels          = optional(map(string), {})
-    metadata        = optional(map(string), {
+    metadata = optional(map(string), {
       "disable-legacy-endpoints" = "true"
     })
     tags            = optional(list(string), [])
@@ -102,13 +102,13 @@ variable "node_config" {
       enable_integrity_monitoring = optional(bool, true)
     }), {})
     kubelet_config = optional(object({
-      allowed_unsafe_sysctls = optional(list(string), [])
-      container_log_max_files = optional(number, 0)
-      image_gc_high_threshold_percent = optional(number, 0)
-      image_gc_low_threshold_percent = optional(number, 0)
+      allowed_unsafe_sysctls                 = optional(list(string), [])
+      container_log_max_files                = optional(number, 0)
+      image_gc_high_threshold_percent        = optional(number, 0)
+      image_gc_low_threshold_percent         = optional(number, 0)
       insecure_kubelet_readonly_port_enabled = optional(string, "FALSE")
-      cpu_cfs_quota        = optional(bool, false)
-      pod_pids_limit       = optional(number, 0)
+      cpu_cfs_quota                          = optional(bool, false)
+      pod_pids_limit                         = optional(number, 0)
     }), {})
     linux_node_config = optional(object({
       sysctls     = optional(map(string))
@@ -174,9 +174,9 @@ variable "network_config" {
 variable "timeouts" {
   description = "This resource provides the following Timeouts configuration options"
   type = object({
-    create  = optional(string, "45m")
-    delete  = optional(string, "45m")
-    update  = optional(string, "45m")
+    create = optional(string, "45m")
+    delete = optional(string, "45m")
+    update = optional(string, "45m")
   })
   default = {}
 }

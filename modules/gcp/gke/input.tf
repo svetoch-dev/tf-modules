@@ -6,23 +6,23 @@ variable "project_id" {
 variable "gke_clusters" {
   description = "A map of GKE clusters to create"
   type = map(object({
-    location                          = string
-    node_locations                    = optional(list(string), [])
-    network                           = optional(string)
-    subnetwork                        = optional(string)
-    min_master_version                = optional(string)
-    description                       = optional(string)
-    deletion_protection               = optional(bool, true)
-    resource_labels                   = optional(map(string), {})
-    networking_mode                   = optional(string, "VPC_NATIVE")
-    ip_allocation_policy              = optional(object({
+    location            = string
+    node_locations      = optional(list(string), [])
+    network             = optional(string)
+    subnetwork          = optional(string)
+    min_master_version  = optional(string)
+    description         = optional(string)
+    deletion_protection = optional(bool, true)
+    resource_labels     = optional(map(string), {})
+    networking_mode     = optional(string, "VPC_NATIVE")
+    ip_allocation_policy = optional(object({
       cluster_secondary_range_name  = optional(string)
       services_secondary_range_name = optional(string)
       cluster_ipv4_cidr_block       = optional(string)
       services_ipv4_cidr_block      = optional(string)
       stack_type                    = optional(string)
     }), {})
-    private_cluster_config            = optional(object({
+    private_cluster_config = optional(object({
       enable_private_nodes    = optional(bool, true)
       enable_private_endpoint = optional(bool, false)
       master_ipv4_cidr_block  = optional(string)
@@ -36,13 +36,13 @@ variable "gke_clusters" {
         display_name = optional(string)
       })), [])
     }), {})
-    release_channel                   = optional(object({
+    release_channel = optional(object({
       channel = optional(string, "STABLE")
     }), {})
-    workload_identity_config          = optional(object({
+    workload_identity_config = optional(object({
       workload_pool = optional(string)
     }), {})
-    addons_config                     = optional(object({
+    addons_config = optional(object({
       http_load_balancing = optional(object({
         disabled = optional(bool, false)
       }), {})
@@ -79,12 +79,12 @@ variable "gke_clusters" {
       enable_components = optional(list(string), ["SYSTEM_COMPONENTS", "WORKLOADS"])
     }), {})
     monitoring_config = optional(object({
-      enable_components  = optional(list(string), ["SYSTEM_COMPONENTS"])
+      enable_components = optional(list(string), ["SYSTEM_COMPONENTS"])
       managed_prometheus = optional(object({
         enabled = optional(bool, false)
       }), {})
     }), {})
-    maintenance_policy                = optional(object({
+    maintenance_policy = optional(object({
       recurring_window = optional(object({
         start_time = string
         end_time   = string
@@ -99,14 +99,14 @@ variable "gke_clusters" {
       provider = optional(string, "CALICO")
     }), {})
     database_encryption = optional(object({
-      state    = optional(string, "DECRYPTED") 
+      state    = optional(string, "DECRYPTED")
       key_name = optional(string)
     }), {})
     binary_authorization = optional(object({
       evaluation_mode = optional(string, "DISABLED")
     }), {})
-    cluster_autoscaling               = optional(object({
-      enabled = optional(bool, false)
+    cluster_autoscaling = optional(object({
+      enabled             = optional(bool, false)
       autoscaling_profile = optional(string, "BALANCED")
       resource_limits = optional(list(object({
         resource_type = string
@@ -123,54 +123,54 @@ variable "gke_clusters" {
       }))
       auto_provisioning_locations = optional(list(string), [])
     }), {})
-    master_auth                       = optional(object({
+    master_auth = optional(object({
       client_certificate_config = optional(object({
         issue_client_certificate = optional(bool, false)
       }), {})
     }), {})
-    authenticator_groups_config       = optional(object({
+    authenticator_groups_config = optional(object({
       security_group = string
     }))
-    confidential_nodes                = optional(object({
+    confidential_nodes = optional(object({
       enabled = bool
     }))
-    cost_management_config            = optional(object({
+    cost_management_config = optional(object({
       enabled = bool
     }))
-    enable_shielded_nodes             = optional(bool, false)
-    enable_tpu                        = optional(bool, false)
-    initial_node_count                = optional(number, 0)
-    enable_intranode_visibility       = optional(bool, false)
-    vertical_pod_autoscaling          = optional(object({
+    enable_shielded_nodes       = optional(bool, false)
+    enable_tpu                  = optional(bool, false)
+    initial_node_count          = optional(number, 0)
+    enable_intranode_visibility = optional(bool, false)
+    vertical_pod_autoscaling = optional(object({
       enabled = bool
     }))
-    default_snat_status               = optional(object({
+    default_snat_status = optional(object({
       disabled = optional(bool, false)
     }), {})
-    dns_config                        = optional(object({
+    dns_config = optional(object({
       cluster_dns        = optional(string)
       cluster_dns_scope  = optional(string)
       cluster_dns_domain = optional(string)
     }))
-    gateway_api_config                = optional(object({
+    gateway_api_config = optional(object({
       channel = string
     }))
-    identity_service_config           = optional(object({
+    identity_service_config = optional(object({
       enabled = bool
     }))
-    control_plane_endpoints_config    = optional(object({
+    control_plane_endpoints_config = optional(object({
       dns_endpoint_config = optional(object({
-        allow_external_traffic    = optional(bool, false)
+        allow_external_traffic = optional(bool, false)
       }))
       ip_endpoints_config = optional(object({
         enabled = optional(bool, true)
       }))
     }))
-    timeouts                          = optional(object({
-      create  = optional(string, "45m")
-      delete  = optional(string, "45m")
-      update  = optional(string, "45m")
-      read    = optional(string)
+    timeouts = optional(object({
+      create = optional(string, "45m")
+      delete = optional(string, "45m")
+      update = optional(string, "45m")
+      read   = optional(string)
     }), {})
   }))
   default = {}
@@ -179,15 +179,15 @@ variable "gke_clusters" {
 variable "node_pools" {
   description = "A map of node pools to create"
   type = map(object({
-    cluster             = string
-    location            = string
-    name                = string
-    name_prefix         = optional(string, null)
-    node_locations      = optional(list(string), [])
-    initial_node_count  = optional(number, 0)
-    node_count          = optional(number)
-    max_pods_per_node   = optional(number)
-    autoscaling         = optional(object({
+    cluster            = string
+    location           = string
+    name               = string
+    name_prefix        = optional(string, null)
+    node_locations     = optional(list(string), [])
+    initial_node_count = optional(number, 0)
+    node_count         = optional(number)
+    max_pods_per_node  = optional(number)
+    autoscaling = optional(object({
       min_node_count       = optional(number, 0)
       max_node_count       = optional(number, 1)
       total_min_node_count = optional(number, 0)
@@ -198,12 +198,12 @@ variable "node_pools" {
       auto_repair  = optional(bool, true)
       auto_upgrade = optional(bool, true)
     }), {})
-    timeouts  = optional(object({
-      create  = optional(string, "45m")
-      delete  = optional(string, "45m")
-      update  = optional(string, "45m")
+    timeouts = optional(object({
+      create = optional(string, "45m")
+      delete = optional(string, "45m")
+      update = optional(string, "45m")
     }), {})
-    node_config         = optional(object({
+    node_config = optional(object({
       machine_type    = optional(string, "e2-medium")
       service_account = optional(string, "default")
       oauth_scopes    = optional(list(string), ["https://www.googleapis.com/auth/cloud-platform"])
@@ -211,7 +211,7 @@ variable "node_pools" {
       disk_type       = optional(string, "pd-standard")
       image_type      = optional(string, "COS_CONTAINERD")
       labels          = optional(map(string), {})
-      metadata        = optional(map(string), {
+      metadata = optional(map(string), {
         "disable-legacy-endpoints" = "true"
       })
       tags            = optional(list(string), [])
@@ -231,13 +231,13 @@ variable "node_pools" {
         enable_integrity_monitoring = optional(bool, true)
       }), {})
       kubelet_config = optional(object({
-        allowed_unsafe_sysctls = optional(list(string), [])
-        container_log_max_files = optional(number, 0)
-        image_gc_high_threshold_percent = optional(number, 0)
-        image_gc_low_threshold_percent = optional(number, 0)
+        allowed_unsafe_sysctls                 = optional(list(string), [])
+        container_log_max_files                = optional(number, 0)
+        image_gc_high_threshold_percent        = optional(number, 0)
+        image_gc_low_threshold_percent         = optional(number, 0)
         insecure_kubelet_readonly_port_enabled = optional(string, "FALSE")
-        cpu_cfs_quota        = optional(bool, false)
-        pod_pids_limit       = optional(number, 0)
+        cpu_cfs_quota                          = optional(bool, false)
+        pod_pids_limit                         = optional(number, 0)
       }), {})
       linux_node_config = optional(object({
         sysctls     = optional(map(string))
@@ -257,21 +257,21 @@ variable "node_pools" {
       resource_manager_tags       = optional(map(string), {})
       storage_pools               = optional(list(string), [])
     }), {})
-    upgrade_settings  = optional(object({
+    upgrade_settings = optional(object({
       max_surge       = number
       max_unavailable = number
       strategy        = optional(string)
-    }), {
-      max_surge = 1, 
-      max_unavailable = 0 
+      }), {
+      max_surge       = 1,
+      max_unavailable = 0
     })
-    placement_policy  = optional(object({
+    placement_policy = optional(object({
       type = string
     }), null)
     queued_provisioning = optional(object({
       enabled = bool
     }), null)
-    network_config      = optional(object({
+    network_config = optional(object({
       create_pod_range     = optional(bool, false)
       pod_range            = optional(string)
       pod_ipv4_cidr_block  = optional(string)

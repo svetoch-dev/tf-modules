@@ -41,7 +41,7 @@ module "gke" {
   source = "./gke"
 
   project_id = var.project.id
-  
+
   gke_clusters = {
     for cluster_name, cluster_obj in var.gke :
     cluster_name => {
@@ -51,35 +51,19 @@ module "gke" {
     }
     if cluster_obj.enabled
   }
-  
-  
-  # node_pools = merge([
-  #   for cluster_name, cluster_obj in var.gke : {
-  #     for pool_name, pool_obj in try(cluster_obj.node_pools, {}) :
-  #     "${cluster_name}/${pool_name}" => merge(pool_obj, {
-  #       name     = pool_name
-  #       cluster  = cluster_name
-  #       location = try(
-  #         pool_obj.location,
-  #         cluster_obj.cluster.location,
-  #         null
-  #       )
-  #     })
-  #   }
-  #   if cluster_obj != null && try(cluster_obj.cluster.enabled, true) == true
-  # ]...)
+
   node_pools = merge([
-  for cluster_name, cluster_obj in var.gke : {
-    for pool_name, pool_obj in cluster_obj.node_pools :
-    "${cluster_name}/${pool_name}" => merge(
-      {
-        location = cluster_obj.location
-        cluster  = cluster_name
-      },
-      pool_obj
-    )
-  }
-  if cluster_obj != null && try(cluster_obj.enabled, true)
+    for cluster_name, cluster_obj in var.gke : {
+      for pool_name, pool_obj in cluster_obj.node_pools :
+      "${cluster_name}/${pool_name}" => merge(
+        {
+          location = cluster_obj.location
+          cluster  = cluster_name
+        },
+        pool_obj
+      )
+    }
+    if cluster_obj != null && try(cluster_obj.enabled, true)
   ]...)
 
   depends_on = [

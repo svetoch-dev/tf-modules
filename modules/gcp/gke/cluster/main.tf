@@ -12,7 +12,7 @@ resource "google_container_cluster" "cluster" {
   description        = var.description
 
   deletion_protection = var.deletion_protection
-  resource_labels     = merge(
+  resource_labels = merge(
     {
       cluster_name  = var.name
       resource_type = "gke_cluster"
@@ -280,7 +280,7 @@ resource "google_container_cluster" "cluster" {
       dynamic "dns_endpoint_config" {
         for_each = var.control_plane_endpoints_config.dns_endpoint_config != null ? [var.control_plane_endpoints_config.dns_endpoint_config] : []
         content {
-          allow_external_traffic    = dns_endpoint_config.value.allow_external_traffic
+          allow_external_traffic = dns_endpoint_config.value.allow_external_traffic
         }
       }
     }

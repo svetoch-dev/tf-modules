@@ -6,18 +6,18 @@ locals {
       deletion_protection = var.env.kubernetes.deletion_protection
       location            = var.env.kubernetes.regional ? var.env.cloud.location.region : var.env.kubernetes.node_locations[0]
       node_locations      = var.env.kubernetes.node_locations
-      
-      network                 = module.gcp.vpcs["main"].network_id
-      subnetwork              = module.gcp.subnets["main"]["vms"].id
-      ip_allocation_policy    = {
-        cluster_secondary_range_name = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
+
+      network    = module.gcp.vpcs["main"].network_id
+      subnetwork = module.gcp.subnets["main"]["vms"].id
+      ip_allocation_policy = {
+        cluster_secondary_range_name  = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
         services_secondary_range_name = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].range_name
       }
-      network_policy          = {
+      network_policy = {
         enabled = true
       }
       private_cluster_config = {
-        master_ipv4_cidr_block  = "172.16.0.0/28"
+        master_ipv4_cidr_block = "172.16.0.0/28"
       }
 
       master_authorized_networks_config = {
@@ -28,21 +28,21 @@ locals {
       }
 
       addons_config = {
-        http_load_balancing        = {
+        http_load_balancing = {
           disabled = false
-          }
+        }
         horizontal_pod_autoscaling = {
           disabled = false
-          }
-        gcs_fuse_csi_driver        = {
-          enabled = true
-          }
         }
+        gcs_fuse_csi_driver = {
+          enabled = true
+        }
+      }
 
       authenticator_security_group = {
         security_group = var.env.kubernetes.auth_group != "" ? var.env.kubernetes.auth_group : null
       }
-      
+
       vertical_pod_autoscaling = {
         enabled = true
       }
@@ -71,16 +71,16 @@ locals {
       }
 
       resource_labels = {
-        "env"          = var.env.short_name
+        "env" = var.env.short_name
       }
 
       node_pools = {
         main = {
-          name               = "main"
-          node_locations     = var.env.kubernetes.node_locations
-          node_config        = {
-            machine_type       = "t2d-standard-4"
-            service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
+          name           = "main"
+          node_locations = var.env.kubernetes.node_locations
+          node_config = {
+            machine_type    = "t2d-standard-4"
+            service_account = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
             oauth_scopes = [
               "https://www.googleapis.com/auth/userinfo.email",
               "https://www.googleapis.com/auth/cloud-platform"
@@ -91,7 +91,7 @@ locals {
             labels = {
               main = "true"
             }
-            spot         = true
+            spot = true
           }
           autoscaling = {
             min_node_count = 0
@@ -102,18 +102,18 @@ locals {
           }
         },
         on-demand = {
-          name               = "on-demand"
-          node_locations     = var.env.kubernetes.node_locations
+          name           = "on-demand"
+          node_locations = var.env.kubernetes.node_locations
           node_config = {
-            machine_type       = "t2d-standard-4"
-            service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
+            machine_type    = "t2d-standard-4"
+            service_account = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
             oauth_scopes = [
               "https://www.googleapis.com/auth/userinfo.email",
               "https://www.googleapis.com/auth/cloud-platform"
             ]
-            disk_size_gb       = 45
-            disk_type          = "pd-ssd"
-            image_type         = "COS_CONTAINERD"
+            disk_size_gb = 45
+            disk_type    = "pd-ssd"
+            image_type   = "COS_CONTAINERD"
             labels = {
               on-demand = "true"
             }
@@ -135,19 +135,19 @@ locals {
           }
         }
         runner = var.env.short_name == "int" ? {
-          name               = "runner"
-          node_locations     = var.env.kubernetes.node_locations
-          node_config        = {
-            machine_type       = "t2d-standard-4"
-            service_account    = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
+          name           = "runner"
+          node_locations = var.env.kubernetes.node_locations
+          node_config = {
+            machine_type    = "t2d-standard-4"
+            service_account = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
             oauth_scopes = [
               "https://www.googleapis.com/auth/userinfo.email",
               "https://www.googleapis.com/auth/cloud-platform"
             ]
-            disk_size_gb       = 120
-            disk_type          = "pd-ssd"
-            image_type         = "COS_CONTAINERD"
-            spot               = true
+            disk_size_gb = 120
+            disk_type    = "pd-ssd"
+            image_type   = "COS_CONTAINERD"
+            spot         = true
             labels = {
               runner = "true"
             }
@@ -160,8 +160,8 @@ locals {
             ]
           }
           autoscaling = {
-            min_node_count  = 0
-            max_node_count  = 20
+            min_node_count = 0
+            max_node_count = 20
           }
           network_config = {
             pod_range = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name

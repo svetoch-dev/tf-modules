@@ -63,8 +63,8 @@ variable "networking_mode" {
 
 variable "remove_default_node_pool" {
   description = "deletes the default node pool upon cluster creation"
-  type = bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 variable "ip_allocation_policy" {
@@ -168,7 +168,7 @@ variable "logging_config" {
 variable "monitoring_config" {
   description = "Configuration for cluster monitoring"
   type = object({
-    enable_components  = optional(list(string), ["SYSTEM_COMPONENTS"])
+    enable_components = optional(list(string), ["SYSTEM_COMPONENTS"])
     managed_prometheus = optional(object({
       enabled = optional(bool, false)
     }), {})
@@ -203,7 +203,7 @@ variable "network_policy" {
 variable "database_encryption" {
   description = "Configuration for database encryption"
   type = object({
-    state    = optional(string, "DECRYPTED") 
+    state    = optional(string, "DECRYPTED")
     key_name = optional(string)
   })
   default = {}
@@ -276,26 +276,26 @@ variable "cost_management_config" {
 
 variable "enable_shielded_nodes" {
   description = "Enable Shielded Nodes features on all nodes in this cluster"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "enable_tpu" {
   description = "value"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "initial_node_count" {
   description = "The number of nodes to create in this cluster's default node pool"
-  type = number
-  default = 0
+  type        = number
+  default     = 0
 }
 
 variable "enable_intranode_visibility" {
   description = "Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "vertical_pod_autoscaling" {
@@ -344,7 +344,7 @@ variable "control_plane_endpoints_config" {
   description = "Configuration for control plane endpoints"
   type = object({
     dns_endpoint_config = optional(object({
-      allow_external_traffic    = optional(bool, false)
+      allow_external_traffic = optional(bool, false)
     }))
     ip_endpoints_config = optional(object({
       enabled = optional(bool, true)
@@ -356,10 +356,10 @@ variable "control_plane_endpoints_config" {
 variable "timeouts" {
   description = "This resource provides the following Timeouts configuration options"
   type = object({
-    create  = optional(string, "45m")
+    create = optional(string, "45m")
     delete = optional(string, "45m")
-    update  = optional(string, "45m")
-    read    = optional(string)
+    update = optional(string, "45m")
+    read   = optional(string)
   })
   default = {}
 }
