@@ -22,6 +22,7 @@ module "bucket" {
   versioning                           = var.versioning
   website                              = var.website
   iam_roles = concat(
+    #Yandex provider does not accept empty members lists
     length(var.admins) != 0 ? [
       {
         role    = "storage.admin"

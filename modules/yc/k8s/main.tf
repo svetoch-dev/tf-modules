@@ -34,6 +34,7 @@ module "cluster" {
   kms_provider                 = var.kms_provider
   workload_identity_federation = var.workload_identity_federation
   iam_roles = concat(
+    #Yandex provider does not accept empty members lists
     length(var.admins) != 0 ? [
       {
         role    = "storage.admin"

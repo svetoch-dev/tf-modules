@@ -4,7 +4,8 @@ locals {
   #get ids before we create service accounts so we introduce
   #a new serviceAccountName:<sa_name> userAccountName:<user_email>
   #strings when used we will get sa ids from module.iam and
-  #user ids from data sources
+  #user ids from data sources. More info
+  #https://github.com/svetoch-dev/tf-modules/pull/77
   members = distinct(
     concat(
       flatten(
