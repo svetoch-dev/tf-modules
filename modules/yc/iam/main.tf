@@ -9,10 +9,6 @@ module "roles" {
   folder_id = var.folder_id
   role      = each.value.role
   members   = each.value.members
-
-  depends_on = [
-    module.service_accounts
-  ]
 }
 
 module "service_accounts" {
