@@ -35,7 +35,7 @@ variable "gke_clusters" {
     cost_management_config            = optional(any)
     enable_shielded_nodes             = optional(bool, false)
     enable_tpu                        = optional(bool, false)
-    initial_node_count                = optional(bool, false)
+    initial_node_count                = optional(number, 0)
     enable_intranode_visibility       = optional(bool, false)
     vertical_pod_autoscaling          = optional(any)
     default_snat_status               = optional(any)

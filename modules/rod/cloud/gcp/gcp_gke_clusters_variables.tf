@@ -6,11 +6,15 @@ locals {
       deletion_protection = var.env.kubernetes.deletion_protection
       location            = var.env.kubernetes.regional ? var.env.cloud.location.region : var.env.kubernetes.node_locations[0]
       node_locations      = var.env.kubernetes.node_locations
-      #"projects/${var.env.cloud.id}/regions/${var.env.cloud.region}/subnetworks/${module.gcp.subnets["main"]["vms"]}"
+      
       network                 = module.gcp.vpcs["main"].network_id
       subnetwork              = module.gcp.subnets["main"]["vms"].id
-      ip_range_pods           = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
-      ip_range_services       = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].range_name
+      ip_allocation_policy    = {
+        cluster_ipv4_cidr_block = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].cidr_block
+        cluster_secondary_range_name = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
+        services_ipv4_cidr_block = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].cidr_block
+        services_secondary_range_name = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].range_name
+      }
       network_policy          = {
         enabled = true
       }

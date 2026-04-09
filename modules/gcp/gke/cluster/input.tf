@@ -138,13 +138,13 @@ variable "addons_config" {
     network_policy_config = optional(object({
       disabled = optional(bool, false)
     }), {})
-    # cloudrun_config = optional(object({
-    #   disabled           = optional(bool, true)
-    #   load_balancer_type = optional(string)
-    # }), {})
+    cloudrun_config = optional(object({
+      disabled           = optional(bool, true)
+      load_balancer_type = optional(string)
+    }), null)
     config_connector_config = optional(object({
       enabled = optional(bool, false)
-    }))
+    }), {})
     dns_cache_config = optional(object({
       enabled = optional(bool, false)
     }), {})
