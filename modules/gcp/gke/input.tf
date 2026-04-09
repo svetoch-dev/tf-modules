@@ -206,9 +206,9 @@ variable "node_pools" {
     node_config = optional(object({
       machine_type    = optional(string, "e2-medium")
       service_account = optional(string, "default")
-      oauth_scopes = optional(list(string), [[
+      oauth_scopes = optional(list(string), [
         "https://www.googleapis.com/auth/userinfo.email",
-      "https://www.googleapis.com/auth/cloud-platform"]])
+      "https://www.googleapis.com/auth/cloud-platform"])
       disk_size_gb = optional(number, 100)
       disk_type    = optional(string, "pd-standard")
       image_type   = optional(string, "COS_CONTAINERD")
