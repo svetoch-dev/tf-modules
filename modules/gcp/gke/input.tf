@@ -210,7 +210,7 @@ variable "node_pools" {
         "https://www.googleapis.com/auth/userinfo.email",
       "https://www.googleapis.com/auth/cloud-platform"])
       disk_size_gb = optional(number, 100)
-      disk_type    = optional(string, "pd-standard")
+      disk_type    = optional(string, "pd-ssd")
       image_type   = optional(string, "COS_CONTAINERD")
       labels       = optional(map(string), {})
       metadata = optional(map(string), {
