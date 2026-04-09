@@ -45,11 +45,6 @@ module "gke" {
   gke_clusters = {
     for cluster_name, cluster_obj in var.gke :
     cluster_name => cluster_obj
-    # cluster_name => {
-    #   for k, v in cluster_obj :
-    #   k => v
-    #   if k != "node_pools"
-    # }
     if cluster_obj.enabled
   }
 
