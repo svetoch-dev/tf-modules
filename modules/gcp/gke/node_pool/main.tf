@@ -146,10 +146,4 @@ resource "google_container_node_pool" "node_pool" {
       update = try(timeouts.value.update)
     }
   }
-
-  # lifecycle {
-  #   ignore_changes = [
-  #     initial_node_count,
-  #   ]
-  # }
 }
