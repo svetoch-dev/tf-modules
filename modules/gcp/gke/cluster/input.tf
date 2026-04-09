@@ -363,7 +363,7 @@ variable "timeouts" {
   description = "This resource provides the following Timeouts configuration options"
   type = object({
     create  = optional(string, "45m")
-    deletes = optional(string, "45m")
+    delete = optional(string, "45m")
     update  = optional(string, "45m")
     read    = optional(string)
   })

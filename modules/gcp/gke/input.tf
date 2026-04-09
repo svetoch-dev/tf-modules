@@ -61,7 +61,7 @@ variable "gke_clusters" {
     control_plane_endpoints_config    = optional(any)
     timeouts                          = optional(object({
       create  = optional(string, "45m")
-      deletes = optional(string, "45m")
+      delete = optional(string, "45m")
       update  = optional(string, "45m")
       read    = optional(string)
     }), {})
