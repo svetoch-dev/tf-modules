@@ -1,13 +1,12 @@
 resource "google_container_node_pool" "node_pool" {
-  project            = var.project_id
-  cluster            = var.cluster
-  location           = var.location
-  name               = var.name
-  name_prefix        = var.name_prefix
-  node_locations     = var.node_locations
-  initial_node_count = var.initial_node_count
-  node_count         = var.node_count
-  max_pods_per_node  = var.max_pods_per_node
+  project           = var.project_id
+  cluster           = var.cluster
+  location          = var.location
+  name              = var.name
+  name_prefix       = var.name_prefix
+  node_locations    = var.node_locations
+  node_count        = var.node_count
+  max_pods_per_node = var.max_pods_per_node
 
   dynamic "autoscaling" {
     for_each = var.autoscaling != null ? [var.autoscaling] : []

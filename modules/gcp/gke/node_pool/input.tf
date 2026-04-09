@@ -30,12 +30,6 @@ variable "node_locations" {
   default     = []
 }
 
-variable "initial_node_count" {
-  description = "Initial number of nodes in the node pool"
-  type        = number
-  default     = 0
-}
-
 variable "node_count" {
   description = "Number of nodes per zone"
   type        = number

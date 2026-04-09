@@ -156,7 +156,6 @@ module "gke" {
 | `name` | `string` | yes | The name of the node pool. |
 | `name_prefix` | `string` | no | Creates a unique name for the node pool beginning with the specified prefix. |
 | `node_locations` | `list(string)` | no | The list of zones in which the node pool's nodes should be located. |
-| `initial_node_count` | `number` | no | The initial number of nodes for the pool. |
 | `node_count` | `number` | no | The number of nodes per instance group. |
 | `max_pods_per_node` | `number` | no | The maximum number of pods per node in this node pool. |
 | `autoscaling` | `object` | no | Configuration required by cluster autoscaler to adjust the size of the node pool to the current cluster usage. |

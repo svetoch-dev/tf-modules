@@ -56,10 +56,9 @@ module "node_pool" {
   name        = each.value.name
   name_prefix = each.value.name_prefix
 
-  node_locations     = each.value.node_locations
-  initial_node_count = each.value.initial_node_count
-  node_count         = each.value.node_count
-  max_pods_per_node  = each.value.max_pods_per_node
+  node_locations    = each.value.node_locations
+  node_count        = each.value.node_count
+  max_pods_per_node = each.value.max_pods_per_node
 
   autoscaling = each.value.autoscaling
   management  = each.value.management

@@ -48,7 +48,6 @@ module "node_pool" {
 | `name` | The name of the node pool | `string` | n/a | yes |
 | `name_prefix` | Creates a unique name for the node pool beginning with the specified prefix. Conflicts with name | `string` | `null` | no |
 | `node_locations` | The list of zones in which the cluster's nodes are located | `list(string)` | `[]` | no |
-| `initial_node_count` | Initial number of nodes in the node pool | `number` | `0` | no |
 | `node_count` | Number of nodes per zone | `number` | `null` | no |
 | `max_pods_per_node` | The maximum number of pods per node in this node pool | `number` | `null` | no |
 | `autoscaling` | Configuration for node pool autoscaling | `object` | `{}` | no |
