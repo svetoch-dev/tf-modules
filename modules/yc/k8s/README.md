@@ -104,7 +104,7 @@ module "k8s" {
 - This module composes the `cluster` and `node_group` submodules and forwards the cluster ID automatically to each node group.
 - Exactly one of `master.zonal`, `master.regional`, or `master.master_location` must be set.
 - Each node group must set exactly one of `scale_policy.auto_scale` or `scale_policy.fixed_scale`.
-- Each `node_groups[*].instance_template.network_interface` entry must set at least one of `subnet_ids` or `subnet_names`.
+- Each `node_groups[*].instance_template.network_interface` entry must set `subnet_ids`.
 - Set either `service_account_id` or `default_service_account = true`.
 - Set either `node_service_account_id` or `default_node_service_account = true`.
 - When enabled, the cluster submodule creates default `k8s-master` and `k8s-nodes` service accounts and uses them for the cluster.
@@ -316,8 +316,7 @@ This object is empty. Its presence enables Cilium.
 | `ipv6` | `bool` | no | Allocate an IPv6 address. |
 | `nat` | `bool` | no | Allocate a public NAT address. |
 | `security_group_ids` | `list(string)` | no | Security groups for the interface. |
-| `subnet_ids` | `list(string)` | no | Subnet IDs for the interface. Set this or `subnet_names`. |
-| `subnet_names` | `list(string)` | no | Subnet names to resolve through Yandex Cloud data sources. Set this or `subnet_ids`. |
+| `subnet_ids` | `list(string)` | yes | Subnet IDs for the interface. |
 | `ipv4_dns_records` | `list(object)` | no | IPv4 DNS records to create. |
 | `ipv6_dns_records` | `list(object)` | no | IPv6 DNS records to create. |
 

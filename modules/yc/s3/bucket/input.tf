@@ -271,7 +271,7 @@ variable "iam_roles" {
     object(
       {
         role    = string
-        members = optional(list(string))
+        members = list(string)
       }
     )
   )

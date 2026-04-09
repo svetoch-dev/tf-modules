@@ -77,7 +77,7 @@ module "bucket" {
 | `server_side_encryption_configuration` | Server-side encryption configuration for the bucket. | `object` | `null` | no |
 | `versioning` | While set to true, versioning is fully enabled for this bucket. | `bool` | `false` | no |
 | `website` | Static website hosting configuration. | `object` | `null` | no |
-| `iam_roles` | IAM role bindings for the bucket. | `list(object)` | n/a | yes |
+| `iam_roles` | IAM role bindings for the bucket. | `list(object)` | `[]` | no |
 
 ## Outputs
 

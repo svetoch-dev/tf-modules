@@ -94,7 +94,7 @@ module "cluster" {
 | `pod_ipv6_range` | CIDR block for pod IPv6 addresses. | `string` | `null` | no |
 | `description` | The Kubernetes cluster description. | `string` | `null` | no |
 | `folder_id` | The folder where the Kubernetes cluster will be created. | `string` | `null` | no |
-| `iam_roles` | IAM roles to grant for the Kubernetes cluster. Members must use standard Yandex Cloud IAM member formats accepted by the provider. | `list(object)` | n/a | yes |
+| `iam_roles` | IAM roles to grant for the Kubernetes cluster. Members must use standard Yandex Cloud IAM member formats accepted by the provider. | `list(object)` | `[]` | no |
 | `kms_provider` | Cluster KMS provider configuration. | `object` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the cluster. | `map(string)` | `{}` | no |
 | `name` | The Kubernetes cluster name. | `string` | `null` | no |
