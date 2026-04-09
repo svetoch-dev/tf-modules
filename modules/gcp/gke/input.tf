@@ -103,7 +103,9 @@ variable "node_pools" {
       disk_type       = optional(string, "pd-standard")
       image_type      = optional(string, "COS_CONTAINERD")
       labels          = optional(map(string), {})
-      metadata        = optional(map(string), {})
+      metadata        = optional(map(string), {
+        "disable-legacy-endpoints" = "true"
+      })
       tags            = optional(list(string), [])
       preemptible     = optional(bool, false)
       spot            = optional(bool, false)
@@ -114,8 +116,8 @@ variable "node_pools" {
         effect = string
       })), [])
       workload_metadata_config = optional(object({
-        mode = string
-      }))
+        mode = optional(string, "GKE_METADATA")
+      }), {})
       shielded_instance_config = optional(object({
         enable_secure_boot          = optional(bool, false)
         enable_integrity_monitoring = optional(bool, true)
@@ -146,6 +148,9 @@ variable "node_pools" {
       logging_variant             = optional(string, "DEFAULT")
       resource_manager_tags       = optional(map(string), {})
       storage_pools               = optional(list(string), [])
+      windows_node_config         = optional(object({
+        osversion = optional(string, null)
+      }), {})
     }), {})
     upgrade_settings  = optional(object({
       max_surge       = number
@@ -166,6 +171,12 @@ variable "node_pools" {
       pod_range            = optional(string)
       pod_ipv4_cidr_block  = optional(string)
       enable_private_nodes = optional(bool, true)
+    }), {})
+    timeouts = optional(object({
+      create  = optional(string, "45m")
+      delete  = optional(string, "45m")
+      update  = optional(string, "45m")
+      read    = optional(string)
     }), {})
   }))
   default = {}

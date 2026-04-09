@@ -69,6 +69,7 @@ module "node_pool" {
   placement_policy    = each.value.placement_policy
   queued_provisioning = each.value.queued_provisioning
   network_config      = each.value.network_config
+  timeouts            = each.value.timeouts
 
   depends_on = [
     module.cluster

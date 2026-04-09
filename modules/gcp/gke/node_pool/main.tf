@@ -104,6 +104,13 @@ resource "google_container_node_pool" "node_pool" {
         values                   = reservation_affinity.value.values
       }
     }
+
+    dynamic "windows_node_config" {
+      for_each = var.node_config.windows_node_config != null ? [var.node_config.windows_node_config] : []
+      content {
+        osversion = windows_node_config.value.osversion
+      }
+    }
   }
 
   dynamic "upgrade_settings" {
@@ -136,6 +143,16 @@ resource "google_container_node_pool" "node_pool" {
       pod_range            = network_config.value.pod_range
       pod_ipv4_cidr_block  = network_config.value.pod_ipv4_cidr_block
       enable_private_nodes = network_config.value.enable_private_nodes
+    }
+  }
+
+  dynamic "timeouts" {
+    for_each = var.timeouts != null ? [var.timeouts] : []
+    content {
+      create = try(timeouts.value.create)
+      delete = try(timeouts.value.delete)
+      update = try(timeouts.value.update)
+      read   = try(timeouts.value.read)
     }
   }
 

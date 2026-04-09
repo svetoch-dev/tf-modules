@@ -95,8 +95,8 @@ variable "node_config" {
       effect = string
     })), [])
     workload_metadata_config = optional(object({
-      mode = string
-    }))
+      mode = optional(string, "GKE_METADATA")
+    }), {})
     shielded_instance_config = optional(object({
       enable_secure_boot          = optional(bool, false)
       enable_integrity_monitoring = optional(bool, true)
@@ -168,6 +168,17 @@ variable "network_config" {
     pod_range            = optional(string)
     pod_ipv4_cidr_block  = optional(string)
     enable_private_nodes = optional(bool, true)
+  })
+  default = {}
+}
+
+variable "timeouts" {
+  description = "This resource provides the following Timeouts configuration options"
+  type = object({
+    create  = optional(string, "45m")
+    delete  = optional(string, "45m")
+    update  = optional(string, "45m")
+    read    = optional(string)
   })
   default = {}
 }
