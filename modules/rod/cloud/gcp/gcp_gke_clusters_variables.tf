@@ -7,8 +7,8 @@ locals {
       location            = var.env.kubernetes.regional ? var.env.cloud.location.region : var.env.kubernetes.node_locations[0]
       node_locations      = var.env.kubernetes.node_locations
 
-      network                 = "projects/${var.env.id}/global/networks/${module.gcp.vpcs["main"]}"
-      subnetwork              = "projects/${var.env.id}/regions/${var.env.region}/subnetworks/${module.gcp.subnets["main"]["vms"]}"
+      network                 = "projects/${var.env.cloud.id}/global/networks/${module.gcp.vpcs["main"]}"
+      subnetwork              = "projects/${var.env.cloud.id}/regions/${var.env.cloud.region}/subnetworks/${module.gcp.subnets["main"]["vms"]}"
       ip_range_pods           = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
       ip_range_services       = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].range_name
       network_policy          = {
