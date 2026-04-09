@@ -20,7 +20,7 @@ variable "gke_clusters" {
     master_authorized_networks_config = optional(any, {})
     release_channel                   = optional(any, { channel = "STABLE" })
     workload_identity_config          = optional(any, {})
-    enable_autopilot                  = optional(bool, false)
+    enable_autopilot                  = optional(bool, null)
     addons_config                     = optional(any, {})
     logging_config                    = optional(any, {})
     monitoring_config                 = optional(any, {})
