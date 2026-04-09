@@ -90,11 +90,12 @@ variable "node_pools" {
     management = optional(object({
       auto_repair  = optional(bool, true)
       auto_upgrade = optional(bool, true)
-    }), 
-    { 
-      auto_repair  = true, 
-      auto_upgrade = true 
-    })
+    }), {})
+    timeouts  = optional(object({
+      create  = optional(string, "45m")
+      delete  = optional(string, "45m")
+      update  = optional(string, "45m")
+    }), {})
     node_config         = optional(object({
       machine_type    = optional(string, "e2-medium")
       service_account = optional(string, "default")
@@ -171,12 +172,6 @@ variable "node_pools" {
       pod_range            = optional(string)
       pod_ipv4_cidr_block  = optional(string)
       enable_private_nodes = optional(bool, true)
-    }), {})
-    timeouts = optional(object({
-      create  = optional(string, "45m")
-      delete  = optional(string, "45m")
-      update  = optional(string, "45m")
-      read    = optional(string)
     }), {})
   }))
   default = {}

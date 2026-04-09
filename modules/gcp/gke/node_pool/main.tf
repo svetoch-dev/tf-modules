@@ -152,7 +152,6 @@ resource "google_container_node_pool" "node_pool" {
       create = try(timeouts.value.create)
       delete = try(timeouts.value.delete)
       update = try(timeouts.value.update)
-      read   = try(timeouts.value.read)
     }
   }
 

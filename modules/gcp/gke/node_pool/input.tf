@@ -127,6 +127,9 @@ variable "node_config" {
     logging_variant             = optional(string, "DEFAULT")
     resource_manager_tags       = optional(map(string), {})
     storage_pools               = optional(list(string), [])
+    windows_node_config         = optional(object({
+      osversion = optional(string)
+    }), {})
 
   })
   default = {}
@@ -178,7 +181,6 @@ variable "timeouts" {
     create  = optional(string, "45m")
     delete  = optional(string, "45m")
     update  = optional(string, "45m")
-    read    = optional(string)
   })
   default = {}
 }
