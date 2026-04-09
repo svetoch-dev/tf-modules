@@ -84,7 +84,7 @@ variable "node_pools" {
       max_node_count       = optional(number, 1)
       total_min_node_count = optional(number, 0)
       total_max_node_count = optional(number, 0)
-      location_policy      = optional(string, ANY)
+      location_policy      = optional(string, "ANY")
     }), {})
     management = optional(object({
       auto_repair  = optional(bool, true)
