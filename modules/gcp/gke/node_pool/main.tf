@@ -1,4 +1,4 @@
-resource "google_container_node_pool" "node_pool" {
+resource "google_container_node_pool" "this" {
   project           = var.project_id
   cluster           = var.cluster
   location          = var.location
