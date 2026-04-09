@@ -97,6 +97,9 @@ locals {
             min_node_count          = 0
             max_node_count          = 10
           }
+          network_config = {
+            pod_range = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
+          }
         },
         on-demand = {
           name               = "on-demand"
@@ -114,7 +117,7 @@ locals {
             labels = {
               on-demand = "true"
             }
-            taint = [
+            effective_taints = [
               {
                 key    = "on-demand"
                 value  = "true"
@@ -125,6 +128,9 @@ locals {
           autoscaling = {
             min_node_count          = 0
             max_node_count          = 10
+          }
+          network_config = {
+            pod_range = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
           }
         }
         runner = var.env.short_name == "int" ? {
@@ -144,7 +150,7 @@ locals {
             labels = {
               runner = "true"
             }
-            taint = [
+            effective_taints = [
               {
                 key    = "runner"
                 value  = "true"
@@ -156,7 +162,9 @@ locals {
             min_node_count          = 0
             max_node_count          = 20
           }
-          
+          network_config = {
+            pod_range = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
+          }
         } : null,
       }
     }

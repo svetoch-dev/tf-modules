@@ -80,12 +80,12 @@ variable "node_pools" {
     node_count          = optional(number)
     max_pods_per_node   = optional(number)
     autoscaling         = optional(object({
-      min_node_count       = optional(number)
-      max_node_count       = optional(number)
-      total_min_node_count = optional(number)
-      total_max_node_count = optional(number)
-      location_policy      = optional(string)
-    }), null)
+      min_node_count       = optional(number, 0)
+      max_node_count       = optional(number, 1)
+      total_min_node_count = optional(number, 0)
+      total_max_node_count = optional(number, 0)
+      location_policy      = optional(string, ANY)
+    }), {})
     management = optional(object({
       auto_repair  = optional(bool, true)
       auto_upgrade = optional(bool, true)
@@ -107,7 +107,7 @@ variable "node_pools" {
       preemptible     = optional(bool, false)
       spot            = optional(bool, false)
       local_ssd_count = optional(number, 0)
-      taint = optional(list(object({
+      effective_taints = optional(list(object({
         key    = string
         value  = string
         effect = string
@@ -153,11 +153,11 @@ variable "node_pools" {
       enabled = bool
     }), null)
     network_config      = optional(object({
-      create_pod_range     = optional(bool)
+      create_pod_range     = optional(bool, false)
       pod_range            = optional(string)
       pod_ipv4_cidr_block  = optional(string)
-      enable_private_nodes = optional(bool)
-    }), null)
+      enable_private_nodes = optional(bool, true)
+    }), {})
   }))
   default = {}
 }

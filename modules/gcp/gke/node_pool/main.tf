@@ -41,12 +41,12 @@ resource "google_container_node_pool" "node_pool" {
     spot            = var.node_config.spot
     local_ssd_count = var.node_config.local_ssd_count
 
-    dynamic "taint" {
-      for_each = var.node_config.taint
+    dynamic "effective_taints" {
+      for_each = var.node_config.effective_taints
       content {
-        key    = taint.value.key
-        value  = taint.value.value
-        effect = taint.value.effect
+        key    = effective_taints.value.key
+        value  = effective_taints.value.value
+        effect = effective_taints.value.effect
       }
     }
 

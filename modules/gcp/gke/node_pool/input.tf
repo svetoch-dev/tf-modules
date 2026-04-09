@@ -45,13 +45,13 @@ variable "max_pods_per_node" {
 variable "autoscaling" {
   description = "Configuration for node pool autoscaling"
   type = object({
-    min_node_count       = optional(number)
-    max_node_count       = optional(number)
-    total_min_node_count = optional(number)
-    total_max_node_count = optional(number)
-    location_policy      = optional(string)
+    min_node_count       = optional(number, 0)
+    max_node_count       = optional(number, 1)
+    total_min_node_count = optional(number, 0)
+    total_max_node_count = optional(number, 0)
+    location_policy      = optional(string, "ANY")
   })
-  default = null
+  default = {}
 }
 
 variable "management" {
@@ -81,7 +81,7 @@ variable "node_config" {
     preemptible     = optional(bool, false)
     spot            = optional(bool, false)
     local_ssd_count = optional(number, 0)
-    taint = optional(list(object({
+    effective_taints = optional(list(object({
       key    = string
       value  = string
       effect = string
