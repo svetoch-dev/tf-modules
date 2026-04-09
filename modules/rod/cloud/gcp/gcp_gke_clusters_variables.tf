@@ -71,7 +71,7 @@ locals {
       }
 
       resource_labels = {
-        "env" = var.env.short_name
+        "env"          = var.env.short_name
       }
 
       node_pools = {

@@ -12,7 +12,13 @@ resource "google_container_cluster" "cluster" {
   description        = var.description
 
   deletion_protection = var.deletion_protection
-  resource_labels     = var.resource_labels
+  resource_labels     = merge(
+    {
+      cluster_name  = var.name
+      resource_type = "gke_cluster"
+    },
+    var.resource_labels
+  )
 
   networking_mode = var.networking_mode
 
