@@ -15,18 +15,96 @@ variable "gke_clusters" {
     deletion_protection               = optional(bool, true)
     resource_labels                   = optional(map(string), {})
     networking_mode                   = optional(string, "VPC_NATIVE")
-    ip_allocation_policy              = optional(any, {})
-    private_cluster_config            = optional(any, {})
-    master_authorized_networks_config = optional(any, {})
-    release_channel                   = optional(any, { channel = "STABLE" })
-    workload_identity_config          = optional(any, {})
-    addons_config                     = optional(any, {})
-    logging_config                    = optional(any, {})
-    monitoring_config                 = optional(any, {})
-    maintenance_policy                = optional(any, {})
-    network_policy                    = optional(any, {})
-    database_encryption               = optional(any, { state = "DECRYPTED" })
-    binary_authorization              = optional(any, {})
+    ip_allocation_policy              = optional(object({
+      cluster_secondary_range_name  = optional(string)
+      services_secondary_range_name = optional(string)
+      cluster_ipv4_cidr_block       = optional(string)
+      services_ipv4_cidr_block      = optional(string)
+      stack_type                    = optional(string)
+    }), {})
+    private_cluster_config            = optional(object({
+      enable_private_nodes    = optional(bool, true)
+      enable_private_endpoint = optional(bool, false)
+      master_ipv4_cidr_block  = optional(string)
+      master_global_access_config = optional(object({
+        enabled = optional(bool, false)
+      }), {})
+    }), {})
+    master_authorized_networks_config = optional(object({
+      cidr_blocks = optional(list(object({
+        cidr_block   = string
+        display_name = optional(string)
+      })), [])
+    }), {})
+    release_channel                   = optional(object({
+      channel = optional(string, "STABLE")
+    }), {})
+    workload_identity_config          = optional(type = object({
+      workload_pool = optional(string)
+    }), {})
+    addons_config                     = optional(object({
+      http_load_balancing = optional(object({
+        disabled = optional(bool, false)
+      }), {})
+      horizontal_pod_autoscaling = optional(object({
+        disabled = optional(bool, false)
+      }), {})
+      network_policy_config = optional(object({
+        disabled = optional(bool, false)
+      }), {})
+      cloudrun_config = optional(object({
+        disabled           = optional(bool)
+        load_balancer_type = optional(string)
+      }), {})
+      config_connector_config = optional(object({
+        enabled = optional(bool, false)
+      }), {})
+      dns_cache_config = optional(object({
+        enabled = optional(bool, false)
+      }), {})
+      gce_persistent_disk_csi_driver_config = optional(object({
+        enabled = optional(bool, true)
+      }), {})
+      gcp_filestore_csi_driver_config = optional(object({
+        enabled = optional(bool, false)
+      }), {})
+      gke_backup_agent_config = optional(object({
+        enabled = optional(bool, false)
+      }), {})
+      gcs_fuse_csi_driver_config = optional(object({
+        enabled = optional(bool, true)
+      }), {})
+    }), {})
+    logging_config = optional(object({
+      enable_components = optional(list(string), ["SYSTEM_COMPONENTS", "WORKLOADS"])
+    }), {})
+    monitoring_config = optional(object({
+      enable_components  = optional(list(string), ["SYSTEM_COMPONENTS"])
+      managed_prometheus = optional(object({
+        enabled = optional(bool, false)
+      }), {})
+    }), {})
+    maintenance_policy                = optional(object({
+      recurring_window = optional(object({
+        start_time = string
+        end_time   = string
+        recurrence = string
+      }))
+      daily_maintenance_window = optional(object({
+        start_time = string
+      }))
+    }), {})
+    network_policy = optional(object({
+      enabled  = optional(bool, false)
+      provider = optional(string, "CALICO")
+    }), {})
+    database_encryption = optional(object({
+      state    = optional(string, "DECRYPTED") 
+      key_name = optional(string)
+    }), {})
+    binary_authorization = optional(object({
+      evaluation_mode = optional(string, "DISABLED")
+    }), {})
     cluster_autoscaling               = optional(object({
       enabled = optional(bool, false)
       autoscaling_profile = optional(string, "BALANCED")
@@ -45,23 +123,52 @@ variable "gke_clusters" {
       }))
       auto_provisioning_locations = optional(list(string), [])
     }), {})
-    master_auth                       = optional(any, {})
-    authenticator_groups_config       = optional(any)
-    confidential_nodes                = optional(any)
-    cost_management_config            = optional(any)
+    master_auth                       = optional(object({
+      client_certificate_config = optional(object({
+        issue_client_certificate = optional(bool, false)
+      }), {})
+    }), {})
+    authenticator_groups_config       = optional(object({
+      security_group = string
+    }))
+    confidential_nodes                = optional(object({
+      enabled = bool
+    }))
+    cost_management_config            = optional(object({
+      enabled = bool
+    }))
     enable_shielded_nodes             = optional(bool, false)
     enable_tpu                        = optional(bool, false)
     initial_node_count                = optional(number, 0)
     enable_intranode_visibility       = optional(bool, false)
-    vertical_pod_autoscaling          = optional(any)
-    default_snat_status               = optional(any)
-    dns_config                        = optional(any)
-    gateway_api_config                = optional(any)
-    identity_service_config           = optional(any)
-    control_plane_endpoints_config    = optional(any)
+    vertical_pod_autoscaling          = optional(object({
+      enabled = bool
+    }))
+    default_snat_status               = optional(object({
+      disabled = optional(bool, false)
+    }), {})
+    dns_config                        = optional(object({
+      cluster_dns        = optional(string)
+      cluster_dns_scope  = optional(string)
+      cluster_dns_domain = optional(string)
+    }))
+    gateway_api_config                = optional(object({
+      channel = string
+    }))
+    identity_service_config           = optional(object({
+      enabled = bool
+    }))
+    control_plane_endpoints_config    = optional(object({
+      dns_endpoint_config = optional(object({
+        allow_external_traffic    = optional(bool, false)
+      }))
+      ip_endpoints_config = optional(object({
+        enabled = optional(bool, true)
+      }))
+    }))
     timeouts                          = optional(object({
       create  = optional(string, "45m")
-      delete = optional(string, "45m")
+      delete  = optional(string, "45m")
       update  = optional(string, "45m")
       read    = optional(string)
     }), {})

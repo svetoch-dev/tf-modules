@@ -54,7 +54,7 @@ module "node_pool" {
   cluster             = each.value.cluster
   location            = each.value.location
   name                = each.value.name
-  name_prefix         = try(each.value.name_prefix)
+  name_prefix         = each.value.name_prefix
 
   node_locations      = each.value.node_locations
   initial_node_count  = each.value.initial_node_count

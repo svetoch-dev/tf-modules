@@ -106,11 +106,9 @@ variable "master_authorized_networks_config" {
 variable "release_channel" {
   description = "Configuration for release channels"
   type = object({
-    channel = string
+    channel = optional(string, "STABLE")
   })
-  default = {
-    channel = "STABLE"
-  }
+  default = {}
 }
 
 variable "workload_identity_config" {
@@ -134,9 +132,9 @@ variable "addons_config" {
       disabled = optional(bool, false)
     }), {})
     cloudrun_config = optional(object({
-      disabled           = optional(bool, true)
+      disabled           = optional(bool)
       load_balancer_type = optional(string)
-    }), null)
+    }), {})
     config_connector_config = optional(object({
       enabled = optional(bool, false)
     }), {})
@@ -170,7 +168,7 @@ variable "logging_config" {
 variable "monitoring_config" {
   description = "Configuration for cluster monitoring"
   type = object({
-    enable_components = optional(list(string), ["SYSTEM_COMPONENTS"])
+    enable_components  = optional(list(string), ["SYSTEM_COMPONENTS"])
     managed_prometheus = optional(object({
       enabled = optional(bool, false)
     }), {})
@@ -205,12 +203,10 @@ variable "network_policy" {
 variable "database_encryption" {
   description = "Configuration for database encryption"
   type = object({
-    state    = string
+    state    = optional(string, "DECRYPTED") 
     key_name = optional(string)
   })
-  default = {
-    state = "DECRYPTED"
-  }
+  default = {}
 }
 
 variable "binary_authorization" {
@@ -248,8 +244,8 @@ variable "master_auth" {
   description = "Configuration for master authentication"
   type = object({
     client_certificate_config = optional(object({
-      issue_client_certificate = bool
-    }), { issue_client_certificate = false })
+      issue_client_certificate = optional(bool, false)
+    }), {})
   })
   default = {}
 }
@@ -313,11 +309,9 @@ variable "vertical_pod_autoscaling" {
 variable "default_snat_status" {
   description = "Configuration for default SNAT status"
   type = object({
-    disabled = bool
+    disabled = optional(bool, false)
   })
-  default = {
-    disabled = false
-  }
+  default = {}
 }
 
 variable "dns_config" {
