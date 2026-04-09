@@ -126,6 +126,7 @@ variable enable_autopilot {
   type = bool
   default = false
 }
+
 variable "addons_config" {
   description = "Configuration for GKE addons"
   type = object({

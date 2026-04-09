@@ -18,7 +18,7 @@ resource "google_container_cluster" "cluster" {
 
   remove_default_node_pool = var.remove_default_node_pool
   initial_node_count       = var.initial_node_count
-  enable_autopilot         = var.enable_autopilot
+  # enable_autopilot         = (var.enable_autopilot)
   enable_shielded_nodes    = var.enable_shielded_nodes
   enable_tpu               = var.enable_tpu
 
@@ -96,7 +96,7 @@ resource "google_container_cluster" "cluster" {
     dynamic "config_connector_config" {
       for_each = var.addons_config.config_connector_config == null ? [] : [var.addons_config.config_connector_config]
       content {
-        enabled = try(config_connector_config.enabled, null)
+        enabled = try(config_connector_config.enabled, false)
       }
     }
     dns_cache_config {
