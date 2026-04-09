@@ -149,9 +149,6 @@ variable "node_pools" {
       logging_variant             = optional(string, "DEFAULT")
       resource_manager_tags       = optional(map(string), {})
       storage_pools               = optional(list(string), [])
-      windows_node_config         = optional(object({
-        osversion = optional(string, null)
-      }), {})
     }), {})
     upgrade_settings  = optional(object({
       max_surge       = number

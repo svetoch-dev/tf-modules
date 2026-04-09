@@ -104,13 +104,6 @@ resource "google_container_node_pool" "node_pool" {
         values                   = reservation_affinity.value.values
       }
     }
-
-    dynamic "windows_node_config" {
-      for_each = var.node_config.windows_node_config != null ? [var.node_config.windows_node_config] : []
-      content {
-        osversion = windows_node_config.value.osversion
-      }
-    }
   }
 
   dynamic "upgrade_settings" {
