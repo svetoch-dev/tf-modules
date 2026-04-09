@@ -39,7 +39,7 @@ variable "gke_clusters" {
     release_channel                   = optional(object({
       channel = optional(string, "STABLE")
     }), {})
-    workload_identity_config          = optional(type = object({
+    workload_identity_config          = optional(object({
       workload_pool = optional(string)
     }), {})
     addons_config                     = optional(object({
