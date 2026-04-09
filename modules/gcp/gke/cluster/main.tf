@@ -88,14 +88,14 @@ resource "google_container_cluster" "cluster" {
     dynamic "cloudrun_config" {
       for_each = var.addons_config.cloudrun_config == null ? [] : [var.addons_config.cloudrun_config]
       content {
-        disabled           = try(cloudrun_config.disabled, null)
-        load_balancer_type = try(cloudrun_config.load_balancer_type, null)
+        disabled           = try(cloudrun_config.value.disabled, null)
+        load_balancer_type = try(cloudrun_config.value.load_balancer_type, null)
       }
     }
     dynamic "config_connector_config" {
       for_each = var.addons_config.config_connector_config == null ? [] : [var.addons_config.config_connector_config]
       content {
-        enabled = try(config_connector_config.enabled, false)
+        enabled = try(config_connector_config.value.enabled, false)
       }
     }
     dns_cache_config {
@@ -283,10 +283,10 @@ resource "google_container_cluster" "cluster" {
   dynamic "timeouts" {
     for_each = var.timeouts != null ? [var.timeouts] : []
     content {
-      create = try(timeouts.create)
-      delete = try(timeouts.delete)
-      update = try(timeouts.update)
-      read   = try(timeouts.read)
+      create = try(timeouts.value.create)
+      delete = try(timeouts.value.delete)
+      update = try(timeouts.value.update)
+      read   = try(timeouts.value.read)
     }
   }
 }
