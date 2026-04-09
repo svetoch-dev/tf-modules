@@ -94,8 +94,8 @@ locals {
             spot         = true
           }
           autoscaling = {
-            min_node_count          = 0
-            max_node_count          = 10
+            min_node_count = 0
+            max_node_count = 10
           }
           network_config = {
             pod_range = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
@@ -126,8 +126,9 @@ locals {
             ]
           }
           autoscaling = {
-            min_node_count          = 0
-            max_node_count          = 10
+            min_node_count  = 0
+            max_node_count  = 10
+            location_policy = "BALANCED"
           }
           network_config = {
             pod_range = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
@@ -159,8 +160,8 @@ locals {
             ]
           }
           autoscaling = {
-            min_node_count          = 0
-            max_node_count          = 20
+            min_node_count  = 0
+            max_node_count  = 20
           }
           network_config = {
             pod_range = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
