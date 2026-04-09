@@ -21,7 +21,6 @@ module "cluster" {
   master_authorized_networks_config = each.value.master_authorized_networks_config
   release_channel                   = each.value.release_channel
   workload_identity_config          = each.value.workload_identity_config
-  enable_autopilot                  = each.value.enable_autopilot
   addons_config                     = each.value.addons_config
   logging_config                    = each.value.logging_config
   monitoring_config                 = each.value.monitoring_config
@@ -43,6 +42,7 @@ module "cluster" {
   gateway_api_config                = each.value.gateway_api_config
   identity_service_config           = each.value.identity_service_config
   control_plane_endpoints_config    = each.value.control_plane_endpoints_config
+  timeouts                          = each.value.timeouts
 }
 
 module "node_pool" {

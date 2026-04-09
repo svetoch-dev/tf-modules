@@ -18,7 +18,6 @@ resource "google_container_cluster" "cluster" {
 
   remove_default_node_pool = var.remove_default_node_pool
   initial_node_count       = var.initial_node_count
-  # enable_autopilot         = (var.enable_autopilot)
   enable_shielded_nodes    = var.enable_shielded_nodes
   enable_tpu               = var.enable_tpu
 
@@ -278,6 +277,16 @@ resource "google_container_cluster" "cluster" {
           allow_external_traffic    = dns_endpoint_config.value.allow_external_traffic
         }
       }
+    }
+  }
+
+  dynamic "timeouts" {
+    for_each = var.timeouts != null ? [var.timeouts] : []
+    content {
+      create = try(timeouts.create)
+      delete = try(timeouts.delete)
+      update = try(timeouts.update)
+      read   = try(timeouts.read)
     }
   }
 }

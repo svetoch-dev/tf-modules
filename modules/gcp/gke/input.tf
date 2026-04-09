@@ -20,7 +20,6 @@ variable "gke_clusters" {
     master_authorized_networks_config = optional(any, {})
     release_channel                   = optional(any, { channel = "STABLE" })
     workload_identity_config          = optional(any, {})
-    enable_autopilot                  = optional(bool, false)
     addons_config                     = optional(any, {})
     logging_config                    = optional(any, {})
     monitoring_config                 = optional(any, {})
@@ -60,6 +59,12 @@ variable "gke_clusters" {
     gateway_api_config                = optional(any)
     identity_service_config           = optional(any)
     control_plane_endpoints_config    = optional(any)
+    timeouts                          = optional(object({
+      create  = optional(string, "45m")
+      deletes = optional(string, "45m")
+      update  = optional(string, "45m")
+      read    = optional(string)
+    }), {})
   }))
   default = {}
 }

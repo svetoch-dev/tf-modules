@@ -121,12 +121,6 @@ variable "workload_identity_config" {
   default = {}
 }
 
-variable enable_autopilot {
-  description = "Enable Autopilot for this cluster"
-  type = bool
-  default = false
-}
-
 variable "addons_config" {
   description = "Configuration for GKE addons"
   type = object({
@@ -361,6 +355,17 @@ variable "control_plane_endpoints_config" {
     ip_endpoints_config = optional(object({
       enabled = optional(bool, true)
     }))
+  })
+  default = {}
+}
+
+variable "timeouts" {
+  description = "This resource provides the following Timeouts configuration options"
+  type = object({
+    create  = optional(string, "45m")
+    deletes = optional(string, "45m")
+    update  = optional(string, "45m")
+    read    = optional(string)
   })
   default = {}
 }
