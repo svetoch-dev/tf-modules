@@ -117,7 +117,7 @@ locals {
             labels = {
               on-demand = "true"
             }
-            effective_taints = [
+            taint = [
               {
                 key    = "on-demand"
                 value  = "true"
@@ -150,7 +150,7 @@ locals {
             labels = {
               runner = "true"
             }
-            effective_taints = [
+            taint = [
               {
                 key    = "runner"
                 value  = "true"

@@ -81,7 +81,7 @@ variable "node_config" {
     preemptible     = optional(bool, false)
     spot            = optional(bool, false)
     local_ssd_count = optional(number, 0)
-    effective_taints = optional(list(object({
+    taint = optional(list(object({
       key    = string
       value  = string
       effect = string
