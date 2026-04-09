@@ -10,9 +10,9 @@ locals {
       network                 = module.gcp.vpcs["main"].network_id
       subnetwork              = module.gcp.subnets["main"]["vms"].id
       ip_allocation_policy    = {
-        cluster_ipv4_cidr_block = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].cidr_block
+        cluster_ipv4_cidr_block = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].ip_cidr_range
         cluster_secondary_range_name = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
-        services_ipv4_cidr_block = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].cidr_block
+        services_ipv4_cidr_block = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].ip_cidr_range
         services_secondary_range_name = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].range_name
       }
       network_policy          = {
