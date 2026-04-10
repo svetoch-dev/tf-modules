@@ -58,10 +58,9 @@ locals {
         role = "admin"
         members = concat(
           local.users.owners,
-          var.env.short_name != "int" ? try([
+          var.env.short_name != "int" ? [
             "serviceAccount:${data.yandex_iam_service_account.sa_int["runner"].id}"
-            ], []
-          ) : []
+          ] : []
         )
       }
     }
