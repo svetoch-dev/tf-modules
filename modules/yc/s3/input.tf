@@ -79,19 +79,19 @@ variable "anonymous_access_flags" {
 
 
 variable "admins" {
-  description = "IAM member strings that should receive the storage.admin role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:' and 'userAccountName:' are also allowed and are resolved by the module."
+  description = "IAM member strings that should receive the storage.admin role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc."
   type        = list(string)
   default     = []
 }
 
 variable "viewers" {
-  description = "IAM member strings that should receive the storage.viewer role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:' and 'userAccountName:' are also allowed and are resolved by the module."
+  description = "IAM member strings that should receive the storage.viewer role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc."
   type        = list(string)
   default     = []
 }
 
 variable "editors" {
-  description = "IAM member strings that should receive the storage.editor role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:' and 'userAccountName:' are also allowed and are resolved by the module."
+  description = "IAM member strings that should receive the storage.editor role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc."
   type        = list(string)
   default     = []
 }

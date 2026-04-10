@@ -1,7 +1,25 @@
+# yc-v0.6.0
+Braking changes
+* `k8s/cluster`:
+  * use `yandex_kubernetes_cluster_iam_binding` instead of `yandex_kubernetes_cluster_iam_member`
+  * disable `serviceAccountName` `userAccountName` lookup interface
+
+* `k8s/node`:
+  * `instance_template.network_interface[].subnet_names` argument and logic behind it is removed
+* `s3/bucket`:
+  * disable `serviceAccountName` `userAccountName` lookup interface
+
+Fixes:
+* move `serviceAccountName` `userAccountName` lookup interface in main module
+
+Features:
+* `main` `var.k8s{}` and `var.s3{}` can now set `{admin,editor,viewer}_names` vars where userAccountName, serviceAccountName can be used
+
 # yc-v0.5.1
 
 Fixes:
 * `k8s` enabled logic
+
 
 # yc-v0.5.0
 

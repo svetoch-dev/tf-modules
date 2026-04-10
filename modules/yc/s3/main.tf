@@ -21,20 +21,27 @@ module "bucket" {
   server_side_encryption_configuration = var.server_side_encryption_configuration
   versioning                           = var.versioning
   website                              = var.website
-  iam_roles = [
-    {
-      role    = "storage.admin"
-      members = var.admins
-    },
-    {
-      role    = "storage.editor"
-      members = var.editors
-    },
-    {
-      role    = "storage.viewer"
-      members = var.viewers
-    },
-  ]
+  iam_roles = concat(
+    #Yandex provider does not accept empty members lists
+    length(var.admins) != 0 ? [
+      {
+        role    = "storage.admin"
+        members = var.admins
+      },
+    ] : [],
+    length(var.editors) != 0 ? [
+      {
+        role    = "storage.editor"
+        members = var.editors
+      },
+    ] : [],
+    length(var.viewers) != 0 ? [
+      {
+        role    = "storage.viewer"
+        members = var.viewers
+      },
+    ] : []
+  )
 }
 
 module "objects" {

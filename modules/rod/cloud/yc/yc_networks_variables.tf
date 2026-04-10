@@ -49,7 +49,7 @@ locals {
             zone          = location
             description   = "Subnet for k8s nodes in ${location}"
           }
-        }
+        },
       )
       nat_gws = {
         "nat-gw" = {

@@ -138,19 +138,19 @@ variable "network_implementation" {
 }
 
 variable "admins" {
-  description = "IAM member strings that should receive the k8s.admin role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:' and 'userAccountName:' are also allowed and are resolved by the module."
+  description = "IAM member strings that should receive the k8s.admin role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc."
   type        = list(string)
   default     = []
 }
 
 variable "viewers" {
-  description = "IAM member strings that should receive the k8s.viewer role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:' and 'userAccountName:' are also allowed and are resolved by the module."
+  description = "IAM member strings that should receive the k8s.viewer role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc."
   type        = list(string)
   default     = []
 }
 
 variable "editors" {
-  description = "IAM member strings that should receive the k8s.editor role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc. Special prefixes 'serviceAccountName:' and 'userAccountName:' are also allowed and are resolved by the module."
+  description = "IAM member strings that should receive the k8s.editor role. Must use Yandex Cloud IAM member format such as 'serviceAccount:<id>', 'userAccount:<login>', 'group:<id>' etc."
   type        = list(string)
   default     = []
 }
@@ -352,8 +352,7 @@ variable "node_groups" {
                     ipv6               = optional(bool)
                     nat                = optional(bool)
                     security_group_ids = optional(list(string), [])
-                    subnet_ids         = optional(list(string), [])
-                    subnet_names       = optional(list(string), [])
+                    subnet_ids         = list(string)
                     ipv4_dns_records = optional(
                       list(
                         object(

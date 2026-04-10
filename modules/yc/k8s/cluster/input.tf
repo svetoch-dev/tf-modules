@@ -238,7 +238,7 @@ variable "workload_identity_federation" {
 }
 
 variable "iam_roles" {
-  description = "IAM roles to grant on the Kubernetes cluster. Member values may use standard Yandex Cloud IAM member formats and the serviceAccountName:/userAccountName: aliases supported by the iam/member module."
+  description = "IAM roles to grant on the Kubernetes cluster. Member values may use standard Yandex Cloud IAM member formats"
   type = list(
     object(
       {

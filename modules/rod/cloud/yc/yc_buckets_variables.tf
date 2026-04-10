@@ -5,7 +5,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        "serviceAccountName:grafana-loki"
+        "serviceAccount:${module.yc.iam.service_accounts["grafana-loki"].id}"
       ]
     }
     format("%s-thanos-%s", var.company.name, var.env.short_name) = {
@@ -13,7 +13,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        "serviceAccountName:thanos"
+        "serviceAccount:${module.yc.iam.service_accounts["thanos"].id}"
       ]
     }
     format("%s-postgres-%s", var.company.name, var.env.short_name) = {
@@ -21,7 +21,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        "serviceAccountName:postgres"
+        "serviceAccount:${module.yc.iam.service_accounts["postgres"].id}"
       ]
     }
     format("%s-postgres-backup-%s", var.company.name, var.env.short_name) = {
@@ -29,7 +29,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        "serviceAccountName:postgres"
+        "serviceAccount:${module.yc.iam.service_accounts["postgres"].id}"
       ]
       lifecycle_rules = [{
         enabled = true
@@ -43,7 +43,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        "serviceAccountName:fluent"
+        "serviceAccount:${module.yc.iam.service_accounts["fluent"].id}"
       ]
       lifecycle_rules = [{
         enabled = true
@@ -57,7 +57,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        "serviceAccountName:runner-app"
+        "serviceAccount:${module.yc.iam.service_accounts["runner-app"].id}"
       ]
       lifecycle_rules = [{
         enabled = true

@@ -1,3 +1,6 @@
+# v0.12.0
+[yc-v0.6.0](CHANGELOG_YC.md#yc-v060)
+
 # v0.11.1
 
 [yc-v0.5.1](CHANGELOG_YC.md#yc-v051)

@@ -191,25 +191,8 @@ resource "yandex_storage_bucket_iam_binding" "this" {
   for_each = {
     for iam_role_obj in var.iam_roles :
     iam_role_obj.role => iam_role_obj
-    if length(iam_role_obj.members) != 0
   }
-  bucket = yandex_storage_bucket.this.bucket
-  role   = each.value.role
-  members = [
-    for member in each.value.members :
-    module.members[member].converted
-  ]
-}
-
-module "members" {
-  source = "../../iam/member"
-  for_each = toset(
-    flatten(
-      [
-        for iam_role in var.iam_roles :
-        iam_role.members
-      ]
-    )
-  )
-  member = each.value
+  bucket  = yandex_storage_bucket.this.bucket
+  role    = each.value.role
+  members = each.value.members
 }

@@ -77,7 +77,7 @@ module "bucket" {
 | `server_side_encryption_configuration` | Server-side encryption configuration for the bucket. | `object` | `null` | no |
 | `versioning` | While set to true, versioning is fully enabled for this bucket. | `bool` | `false` | no |
 | `website` | Static website hosting configuration. | `object` | `null` | no |
-| `iam_roles` | IAM role bindings for the bucket. | `list(object)` | n/a | yes |
+| `iam_roles` | IAM role bindings for the bucket. | `list(object)` | `[]` | no |
 
 ## Outputs
 
@@ -89,7 +89,7 @@ module "bucket" {
 
 - `policy` is managed through a separate `yandex_storage_bucket_policy` resource.
 - `grant` is managed through a separate `yandex_storage_bucket_grant` resource.
-- `iam_roles` are converted into `yandex_storage_bucket_iam_binding` resources, and member strings are normalized through the `modules/yc/iam/member` helper module.
+- `iam_roles` are converted into `yandex_storage_bucket_iam_binding` resources and are applied with the member strings provided to the module.
 - `versioning` is exposed as a simple boolean and is rendered as a `versioning` block internally.
 
 ## Type Details
@@ -257,4 +257,4 @@ module "bucket" {
 | Field | Type | Required | Description |
 |-------|------|:--------:|-------------|
 | `role` | `string` | yes | Bucket IAM role to assign. |
-| `members` | `list(string)` | yes | Members that should receive the role. |
+| `members` | `list(string)` | yes | Members that should receive the role. Must use standard Yandex Cloud IAM member formats accepted by the provider. |

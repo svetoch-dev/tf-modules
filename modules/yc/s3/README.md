@@ -66,9 +66,9 @@ module "s3" {
 | `policy` | Bucket policy JSON document. | `string` | `null` | no |
 | `tags` | Tags assigned to the bucket. | `map(string)` | `null` | no |
 | `anonymous_access_flags` | Anonymous access flags for the bucket. | `object` | `null` | no |
-| `admins` | IAM member strings that should receive the `storage.admin` role. | `list(string)` | `[]` | no |
-| `viewers` | IAM member strings that should receive the `storage.viewer` role. | `list(string)` | `[]` | no |
-| `editors` | IAM member strings that should receive the `storage.editor` role. | `list(string)` | `[]` | no |
+| `admins` | IAM member strings that should receive the `storage.admin` role. Must use standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and similar values accepted by the provider. | `list(string)` | `[]` | no |
+| `viewers` | IAM member strings that should receive the `storage.viewer` role. Must use standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and similar values accepted by the provider. | `list(string)` | `[]` | no |
+| `editors` | IAM member strings that should receive the `storage.editor` role. Must use standard Yandex Cloud IAM member formats such as `serviceAccount:<id>`, `userAccount:<login>`, `group:<id>`, and similar values accepted by the provider. | `list(string)` | `[]` | no |
 | `cors_rule` | Cross-origin resource sharing rules. | `list(object)` | `[]` | no |
 | `https` | HTTPS certificate configuration for the bucket. | `object` | `null` | no |
 | `lifecycle_rules` | Lifecycle management rules for bucket objects. | `list(object)` | `[]` | no |
