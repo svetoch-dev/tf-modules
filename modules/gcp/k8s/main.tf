@@ -1,7 +1,7 @@
 module "cluster" {
   source = "./cluster"
 
-  for_each = var.gke_clusters
+  for_each = var.k8s_clusters
 
   project_id         = var.project_id
   name               = each.key

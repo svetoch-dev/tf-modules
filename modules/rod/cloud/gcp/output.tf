@@ -16,10 +16,10 @@ output "network" {
   )
 }
 
-output "gke_clusters" {
+output "k8s_clusters" {
   value = lookup(
     {
-      gcp = module.gcp.gke
+      gcp = module.gcp.k8s
     },
     var.env.cloud.name,
     null

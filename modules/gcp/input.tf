@@ -18,7 +18,7 @@ variable "activate_apis" {
   default     = []
 }
 
-variable "gke" {
+variable "k8s" {
   description = "GKE clusters and node pools configuration"
   type        = any
   default     = {}

@@ -37,20 +37,20 @@ module "network" {
 }
 
 
-module "gke" {
-  source = "./gke"
+module "k8s" {
+  source = "./k8s"
 
   project_id = var.project.id
 
-  gke_clusters = {
-    for cluster_name, cluster_obj in var.gke :
+  k8s_clusters = {
+    for cluster_name, cluster_obj in var.k8s :
     cluster_name => cluster_obj
     if cluster_obj.enabled
   }
 
   node_pools = merge(
     [
-      for cluster_name, cluster_obj in var.gke : {
+      for cluster_name, cluster_obj in var.k8s : {
         for pool_name, pool_obj in cluster_obj.node_pools :
         "${cluster_name}/${pool_name}" => merge(
           {
