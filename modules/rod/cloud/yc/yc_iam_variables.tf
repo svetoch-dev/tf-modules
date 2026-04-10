@@ -59,7 +59,7 @@ locals {
         members = concat(
           local.users.owners,
           var.env.short_name != "int" ? [
-            "serviceAccount:${data.yandex_iam_service_account.sa_int["runner"].id}",
+            "serviceAccount:${data.yandex_iam_service_account.sa_int["runner"].id}"
           ] : []
         )
       }
