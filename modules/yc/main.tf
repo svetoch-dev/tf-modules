@@ -106,35 +106,29 @@ module "k8s" {
   workload_identity_federation = try(each.value.workload_identity_federation, null)
   default_security_groups      = try(each.value.default_security_groups, true)
   network_implementation       = try(each.value.network_implementation, null)
-  admins = compact(
-    concat(
-      lookup(each.value, "admins", [])
-      ,
-      [
-        for member in lookup(each.value, "admin_names", []) :
-        module.members[member].converted
-      ]
-    )
+  admins = concat(
+    lookup(each.value, "admins", [])
+    ,
+    [
+      for member in lookup(each.value, "admin_names", []) :
+      module.members[member].converted
+    ]
   )
-  viewers = compact(
-    concat(
-      lookup(each.value, "viewers", [])
-      ,
-      [
-        for member in lookup(each.value, "viewer_names", []) :
-        module.members[member].converted
-      ]
-    )
+  viewers = concat(
+    lookup(each.value, "viewers", [])
+    ,
+    [
+      for member in lookup(each.value, "viewer_names", []) :
+      module.members[member].converted
+    ]
   )
-  editors = compact(
-    concat(
-      lookup(each.value, "editors", [])
-      ,
-      [
-        for member in lookup(each.value, "editor_names", []) :
-        module.members[member].converted
-      ]
-    )
+  editors = concat(
+    lookup(each.value, "editors", [])
+    ,
+    [
+      for member in lookup(each.value, "editor_names", []) :
+      module.members[member].converted
+    ]
   )
   node_groups = lookup(each.value, "node_groups", {})
   master      = each.value.master
@@ -175,35 +169,29 @@ module "s3" {
   versioning                           = try(each.value.versioning, false)
   website                              = try(each.value.website, null)
   objects                              = try(each.value.objects, {})
-  admins = compact(
-    concat(
-      lookup(each.value, "admins", [])
-      ,
-      [
-        for member in lookup(each.value, "admin_names", []) :
-        module.members[member].converted
-      ]
-    )
+  admins = concat(
+    lookup(each.value, "admins", [])
+    ,
+    [
+      for member in lookup(each.value, "admin_names", []) :
+      module.members[member].converted
+    ]
   )
-  viewers = compact(
-    concat(
-      lookup(each.value, "viewers", [])
-      ,
-      [
-        for member in lookup(each.value, "viewer_names", []) :
-        module.members[member].converted
-      ]
-    )
+  viewers = concat(
+    lookup(each.value, "viewers", [])
+    ,
+    [
+      for member in lookup(each.value, "viewer_names", []) :
+      module.members[member].converted
+    ]
   )
-  editors = compact(
-    concat(
-      lookup(each.value, "editors", [])
-      ,
-      [
-        for member in lookup(each.value, "editor_names", []) :
-        module.members[member].converted
-      ]
-    )
+  editors = concat(
+    lookup(each.value, "editors", [])
+    ,
+    [
+      for member in lookup(each.value, "editor_names", []) :
+      module.members[member].converted
+    ]
   )
 
   depends_on = [

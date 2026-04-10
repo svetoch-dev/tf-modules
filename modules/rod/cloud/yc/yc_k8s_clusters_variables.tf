@@ -146,7 +146,7 @@ locals {
         enabled = true
       }
       admins = [
-        try("serviceAccount:${module.yc.iam.service_accounts["argocd"].id}", "")
+        "serviceAccount:${module.yc.iam.service_accounts["argocd"].id}"
       ]
       master = {
         public_ip = true
