@@ -70,7 +70,7 @@ locals {
 
 data "yandex_iam_service_account" "sa_int" {
   for_each = toset(
-    var.env.short_name != "int" && var.env.kubernetes.enabled ? [
+    var.env.short_name != "int" ? [
       "runner-app",
       "runner"
     ] : []
