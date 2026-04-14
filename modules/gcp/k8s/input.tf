@@ -423,117 +423,98 @@ variable "node_pools" {
           ),
           {}
         )
-        timeouts = optional(
-          object(
-            {
-              create = optional(string, "45m")
-              delete = optional(string, "45m")
-              update = optional(string, "45m")
-            }
-          ),
-          {}
-        )
-        node_config = optional(
-          object(
-            {
-              machine_type    = optional(string, "e2-medium")
-              service_account = optional(string, "default")
-              oauth_scopes = optional(
-                list(string),
-                [
-                  "https://www.googleapis.com/auth/userinfo.email",
-                  "https://www.googleapis.com/auth/cloud-platform"
-                ]
-              )
-              disk_size_gb = optional(number, 100)
-              disk_type    = optional(string, "pd-ssd")
-              image_type   = optional(string, "COS_CONTAINERD")
-              labels       = optional(map(string), {})
-              metadata = optional(
-                map(string),
+        node_config = object(
+          {
+            machine_type    = optional(string, "e2-medium")
+            service_account = string
+            oauth_scopes = optional(
+              list(string),
+              [
+                "https://www.googleapis.com/auth/userinfo.email",
+                "https://www.googleapis.com/auth/cloud-platform"
+              ]
+            )
+            disk_size_gb = optional(number, 50)
+            disk_type    = optional(string, "pd-ssd")
+            image_type   = optional(string, "COS_CONTAINERD")
+            labels       = optional(map(string), {})
+            metadata = optional(
+              map(string),
+              {
+                "disable-legacy-endpoints" = "true"
+              }
+            )
+            tags            = optional(list(string), [])
+            preemptible     = optional(bool, false)
+            spot            = optional(bool, false)
+            local_ssd_count = optional(number, 0)
+            taint = optional(
+              list(
+                object(
+                  {
+                    key    = string
+                    value  = string
+                    effect = string
+                  }
+                )
+              ),
+              []
+            )
+            workload_metadata_config = optional(
+              object(
                 {
-                  "disable-legacy-endpoints" = "true"
+                  mode = optional(string, "GKE_METADATA")
+                }
+              ),
+              {}
+            )
+            shielded_instance_config = optional(
+              object(
+                {
+                  enable_secure_boot          = optional(bool, false)
+                  enable_integrity_monitoring = optional(bool, true)
+                }
+              ),
+              {}
+            )
+            kubelet_config = optional(
+              object(
+                {
+                  allowed_unsafe_sysctls                 = optional(list(string), [])
+                  container_log_max_files                = optional(number, 0)
+                  image_gc_high_threshold_percent        = optional(number, 0)
+                  image_gc_low_threshold_percent         = optional(number, 0)
+                  insecure_kubelet_readonly_port_enabled = optional(string, "FALSE")
+                  cpu_cfs_quota                          = optional(bool, false)
+                  pod_pids_limit                         = optional(number, 0)
+                }
+              ),
+              {}
+            )
+            linux_node_config = optional(
+              object(
+                {
+                  sysctls     = optional(map(string))
+                  cgroup_mode = optional(string)
                 }
               )
-              tags            = optional(list(string), [])
-              preemptible     = optional(bool, false)
-              spot            = optional(bool, false)
-              local_ssd_count = optional(number, 0)
-              taint = optional(
-                list(
-                  object(
-                    {
-                      key    = string
-                      value  = string
-                      effect = string
-                    }
-                  )
-                ),
-                []
+            )
+            gvnic_enabled = optional(bool)
+            reservation_affinity = optional(
+              object(
+                {
+                  consume_reservation_type = string
+                  key                      = optional(string)
+                  values                   = optional(list(string))
+                }
               )
-              workload_metadata_config = optional(
-                object(
-                  {
-                    mode = optional(string, "GKE_METADATA")
-                  }
-                ),
-                {}
-              )
-              shielded_instance_config = optional(
-                object(
-                  {
-                    enable_secure_boot          = optional(bool, false)
-                    enable_integrity_monitoring = optional(bool, true)
-                  }
-                ),
-                {}
-              )
-              kubelet_config = optional(
-                object(
-                  {
-                    allowed_unsafe_sysctls                 = optional(list(string), [])
-                    container_log_max_files                = optional(number, 0)
-                    image_gc_high_threshold_percent        = optional(number, 0)
-                    image_gc_low_threshold_percent         = optional(number, 0)
-                    insecure_kubelet_readonly_port_enabled = optional(string, "FALSE")
-                    cpu_cfs_quota                          = optional(bool, false)
-                    pod_pids_limit                         = optional(number, 0)
-                  }
-                ),
-                {}
-              )
-              linux_node_config = optional(
-                object(
-                  {
-                    sysctls     = optional(map(string))
-                    cgroup_mode = optional(string)
-                  }
-                )
-              )
-              gvnic = optional(
-                object(
-                  {
-                    enabled = bool
-                  }
-                )
-              )
-              reservation_affinity = optional(
-                object(
-                  {
-                    consume_reservation_type = string
-                    key                      = optional(string)
-                    values                   = optional(list(string))
-                  }
-                )
-              )
-              enable_confidential_storage = optional(bool, false)
-              flex_start                  = optional(bool, false)
-              logging_variant             = optional(string, "DEFAULT")
-              resource_manager_tags       = optional(map(string), {})
-              storage_pools               = optional(list(string), [])
-            }
-          ),
-          {}
+            )
+            enable_confidential_storage = optional(bool, false)
+            flex_start                  = optional(bool, false)
+            logging_variant             = optional(string, "DEFAULT")
+            resource_manager_tags       = optional(map(string), {})
+            storage_pools               = optional(list(string), [])
+          }
         )
         upgrade_settings = optional(
           object(
@@ -544,26 +525,11 @@ variable "node_pools" {
             }
           ),
           {
-            max_surge       = 1,
+            max_surge       = 2,
             max_unavailable = 0
           }
         )
-        placement_policy = optional(
-          object(
-            {
-              type = string
-            }
-          ),
-          null
-        )
-        queued_provisioning = optional(
-          object(
-            {
-              enabled = bool
-            }
-          ),
-          null
-        )
+        queued_provisioning_enabled = optional(bool)
         network_config = optional(
           object(
             {
@@ -575,8 +541,17 @@ variable "node_pools" {
           ),
           {}
         )
+        timeouts = optional(
+          object(
+            {
+              create = optional(string, "45m")
+              delete = optional(string, "45m")
+              update = optional(string, "45m")
+            }
+          ),
+          {}
+        )
       }
     )
   )
-  default = {}
 }

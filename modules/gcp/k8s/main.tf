@@ -44,8 +44,11 @@ module "cluster" {
 module "node_pool" {
   source = "./node_pool"
 
-  for_each = var.node_pools
-
+  for_each = {
+    for node_pool_name, node_pool_obj in var.node_pools :
+    "${var.name}/${node_pool_name}" => node_pool_obj
+    if node_pool_obj != null
+  }
   project_id  = var.project_id
   cluster     = var.name
   location    = each.value.location

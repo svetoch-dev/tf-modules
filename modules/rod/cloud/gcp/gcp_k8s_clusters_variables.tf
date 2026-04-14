@@ -13,9 +13,7 @@ locals {
         cluster_secondary_range_name  = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
         services_secondary_range_name = module.gcp.subnets["main"]["vms"].secondary_ip_range[1].range_name
       }
-      network_policy = {
-        enabled = true
-      }
+
       private_cluster_config = {
         master_ipv4_cidr_block = "172.16.0.0/28"
       }
@@ -27,22 +25,14 @@ locals {
         }]
       }
 
-      authenticator_security_group = {
-        security_group = var.env.kubernetes.auth_group != "" ? var.env.kubernetes.auth_group : null
-      }
+      authenticator_groups_config_security_group = var.env.kubernetes.auth_group != "" ? var.env.kubernetes.auth_group : null
 
-      vertical_pod_autoscaling = {
-        enabled = true
-      }
-
-      logging_config = {
-        enable_components = [
-          "SYSTEM_COMPONENTS",
-          "APISERVER",
-          "CONTROLLER_MANAGER",
-          "SCHEDULER",
-        ]
-      }
+      logging_config_enable_components = [
+        "SYSTEM_COMPONENTS",
+        "APISERVER",
+        "CONTROLLER_MANAGER",
+        "SCHEDULER",
+      ]
 
       maintenance_policy = {
         recurring_window = {
