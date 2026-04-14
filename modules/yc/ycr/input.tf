@@ -15,11 +15,3 @@ variable "pushers" {
   type    = list(string)
   default = []
 }
-
-variable "registry" {
-  type = object(
-    {
-      create = optional(bool, true)
-    }
-  )
-}

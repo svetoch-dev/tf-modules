@@ -206,7 +206,6 @@ module "ycrs" {
   for_each  = var.ycrs
   folder_id = var.project.folder_id
   name      = each.key
-  registry  = try(each.value.registry, {})
   pullers   = try(each.value.pullers, [])
   pushers   = try(each.value.pushers, [])
 }
