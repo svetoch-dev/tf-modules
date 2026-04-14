@@ -12,6 +12,7 @@ module "cluster" {
   deletion_protection                        = var.deletion_protection
   resource_labels                            = var.resource_labels
   networking_mode                            = var.networking_mode
+  remove_default_node_pool                   = var.remove_default_node_pool
   ip_allocation_policy                       = var.ip_allocation_policy
   private_cluster_config                     = var.private_cluster_config
   master_authorized_networks_config          = var.master_authorized_networks_config
@@ -42,32 +43,28 @@ module "cluster" {
 }
 
 module "node_pool" {
-  source = "./node_pool"
-
   for_each = {
     for node_pool_name, node_pool_obj in var.node_pools :
     "${var.name}/${node_pool_name}" => node_pool_obj
     if node_pool_obj != null
   }
-  project_id  = var.project_id
-  cluster     = var.name
-  location    = each.value.location
-  name        = each.value.name
-  name_prefix = each.value.name_prefix
+  source = "./node_pool"
 
-  node_locations    = each.value.node_locations
-  node_count        = each.value.node_count
-  max_pods_per_node = each.value.max_pods_per_node
-
-  autoscaling = each.value.autoscaling
-  management  = each.value.management
-  node_config = each.value.node_config
-
+  project_id                  = var.project_id
+  cluster                     = var.name
+  location                    = var.location
+  name                        = each.value.name
+  name_prefix                 = each.value.name_prefix
+  node_locations              = each.value.node_locations
+  node_count                  = each.value.node_count
+  max_pods_per_node           = each.value.max_pods_per_node
+  autoscaling                 = each.value.autoscaling
+  management                  = each.value.management
+  node_config                 = each.value.node_config
   upgrade_settings            = each.value.upgrade_settings
   queued_provisioning_enabled = each.value.queued_provisioning_enabled
   network_config              = each.value.network_config
   timeouts                    = var.timeouts
-
   depends_on = [
     module.cluster
   ]
