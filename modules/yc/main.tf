@@ -198,3 +198,14 @@ module "s3" {
     module.iam
   ]
 }
+
+/* ycr */
+
+module "ycrs" {
+  source    = "./ycr"
+  for_each  = var.ycrs
+  folder_id = var.project.folder_id
+  registry  = each.value.registry
+  pullers   = try(each.value.pullers, [])
+  pushers   = try(each.value.pushers, [])
+}
