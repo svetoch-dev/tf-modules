@@ -8,48 +8,89 @@ locals {
   }
   yc_iam = {
     service_accounts = {
-      k8s-master = {
-        description = "default service account for k8s master nodes"
-        roles = [
-          "k8s.clusters.agent",
-          "k8s.tunnelClusters.agent",
-          "vpc.publicAdmin",
-          "load-balancer.admin",
-          "logging.writer",
-        ]
-      }
-      k8s-nodes = {
-        description = "default service account for k8s nodes"
-        roles = [
-          "container-registry.images.puller"
-        ]
-      }
       external-dns = {
         description = "k8s sigs external dns service account"
+        federated_credentials = var.env.initial_start == true ? {} : {
+          main = {
+            federation_id       = module.yc.k8s_clusters[var.env.short_name].federation.id
+            external_subject_id = "system:serviceaccount:external-dns:external-dns"
+          }
+        }
       },
       thanos = {
         description = "service account for thanos"
+        federated_credentials = var.env.initial_start == true ? {} : {
+          main = {
+            federation_id       = module.yc.k8s_clusters[var.env.short_name].federation.id
+            external_subject_id = "system:serviceaccount:prometheus:thanos"
+          }
+        }
       }
       postgres = {
         description = "service account for postgres-operator to store wal-e archiving"
+        federated_credentials = var.env.initial_start == true ? {} : merge(
+          {
+            main = {
+              federation_id       = module.yc.k8s_clusters[var.env.short_name].federation.id
+              external_subject_id = "system:serviceaccount:postgres:postgres"
+            }
+          },
+          {
+            for app_name, app_obj in var.env.apps :
+            tostring(app_name) => {
+              federation_id       = module.yc.k8s_clusters[var.env.short_name].federation.id
+              external_subject_id = "system:serviceaccount:${app_obj.name}:postgres"
+            }
+          }
+        )
       }
       argocd = var.env.short_name == "int" ? {
         description = "argocd service account"
+        federated_credentials = var.env.initial_start == true ? {} : {
+          main = {
+            federation_id       = module.yc.k8s_clusters[var.env.short_name].federation.id
+            external_subject_id = "system:serviceaccount:argocd:argocd"
+          }
+        }
       } : null
       grafana-loki = {
         description = "service account for loki"
+        federated_credentials = var.env.initial_start == true ? {} : {
+          main = {
+            federation_id       = module.yc.k8s_clusters[var.env.short_name].federation.id
+            external_subject_id = "system:serviceaccount:loki:grafana-loki"
+          }
+        }
       }
       fluent = {
         description = "service account for fluent"
+        federated_credentials = var.env.initial_start == true ? {} : {
+          main = {
+            federation_id       = module.yc.k8s_clusters[var.env.short_name].federation.id
+            external_subject_id = "system:serviceaccount:fluent:fluent"
+          }
+        }
       }
       runner = var.env.short_name == "int" ? {
         roles = [
           "admin"
         ]
         description = "service account for ci runners"
+        federated_credentials = var.env.initial_start == true ? {} : {
+          main = {
+            federation_id       = module.yc.k8s_clusters[var.env.short_name].federation.id
+            external_subject_id = "system:serviceaccount:${var.ci.type}-runner:runner"
+          }
+        }
       } : null
       runner-app = var.env.short_name == "int" ? {
         description = "service account for app ci runners"
+        federated_credentials = var.env.initial_start == true ? {} : {
+          main = {
+            federation_id       = module.yc.k8s_clusters[var.env.short_name].federation.id
+            external_subject_id = "system:serviceaccount:${var.ci.type}-runner-app:runner-app"
+          }
+        }
       } : null
     }
 

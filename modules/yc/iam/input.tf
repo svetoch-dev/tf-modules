@@ -11,6 +11,41 @@ variable "service_accounts" {
           {}
         )
         generate_key = optional(bool, false)
+        federated_credentials = optional(
+          map(
+            object(
+              {
+                federation_id       = string
+                external_subject_id = string
+              }
+            )
+          )
+        )
+      }
+    )
+  )
+  default = {}
+}
+
+variable "oidc_federations" {
+  type = map(
+    object(
+      {
+        issuer      = string
+        jwks_url    = string
+        audiences   = list(string)
+        description = optional(string)
+        disabled    = optional(bool, false)
+        labels      = optional(map(string), {})
+        timeouts = optional(
+          object(
+            {
+              create = optional(string)
+              update = optional(string)
+              delete = optional(string)
+            }
+          )
+        )
       }
     )
   )

@@ -135,18 +135,23 @@ locals {
   }
   yc_k8s_clusters = var.env.kubernetes.enabled ? {
     tostring(var.env.short_name) = {
-      name                    = var.env.short_name
-      enabled                 = var.env.kubernetes.enabled
-      network_id              = module.yc.vpcs["main"].id
-      service_account_id      = module.yc.iam.service_accounts["k8s-master"].id
-      node_service_account_id = module.yc.iam.service_accounts["k8s-nodes"].id
-      pod_ipv4_range          = var.env.cloud.network.k8s_pod_cidr
-      service_ipv4_range      = var.env.cloud.network.k8s_service_cidr
+      name                         = var.env.short_name
+      enabled                      = var.env.kubernetes.enabled
+      network_id                   = module.yc.vpcs["main"].id
+      default_service_account      = true
+      default_node_service_account = true
+      pod_ipv4_range               = var.env.cloud.network.k8s_pod_cidr
+      service_ipv4_range           = var.env.cloud.network.k8s_service_cidr
+      #Use rapid to create DaemonSet controller on nodes 
+      #for automatic exchange of Kubernetes service account 
+      #tokens for an IAM token
+      #https://yandex.cloud/en/docs/managed-kubernetes/tutorials/wlif-managed-k8s-integration#prepare-cluster
+      release_channel = "RAPID"
       workload_identity_federation = {
         enabled = true
       }
-      admins = [
-        "serviceAccount:${module.yc.iam.service_accounts["argocd"].id}"
+      admin_names = var.env.initial_start ? [] : [
+        "serviceAccountName:argocd"
       ]
       master = {
         public_ip = true

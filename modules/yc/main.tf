@@ -6,39 +6,50 @@ locals {
   #strings when used we will get sa ids from module.iam and
   #user ids from data sources. More info
   #https://github.com/svetoch-dev/tf-modules/pull/77
-  members = distinct(
-    concat(
-      flatten(
-        [
-          for k8s_name, k8s_obj in var.k8s :
-          concat(
-            lookup(k8s_obj, "viewer_names", []),
-            lookup(k8s_obj, "admin_names", []),
-            lookup(k8s_obj, "editor_names", []),
-          )
-          if k8s_obj != null
-        ]
-      ),
-      flatten(
-        [
-          for s3_name, s3_obj in var.s3 :
-          concat(
-            lookup(s3_obj, "viewer_names", []),
-            lookup(s3_obj, "admin_names", []),
-            lookup(s3_obj, "editor_names", []),
-          )
-          if s3_obj != null
-        ]
-      )
+  members_k8s = distinct(
+    flatten(
+      [
+        for k8s_name, k8s_obj in var.k8s :
+        concat(
+          lookup(k8s_obj, "viewer_names", []),
+          lookup(k8s_obj, "admin_names", []),
+          lookup(k8s_obj, "editor_names", []),
+        )
+        if k8s_obj != null
+      ]
+    ),
+  )
+  members_s3 = distinct(
+    flatten(
+      [
+        for s3_name, s3_obj in var.s3 :
+        concat(
+          lookup(s3_obj, "viewer_names", []),
+          lookup(s3_obj, "admin_names", []),
+          lookup(s3_obj, "editor_names", []),
+        )
+        if s3_obj != null
+      ]
     )
   )
 }
 
-module "members" {
+module "members_k8s" {
   source = "./iam/member"
   for_each = toset(
     [
-      for member in local.members :
+      for member in local.members_k8s :
+      member
+    ]
+  )
+  member = each.value
+}
+
+module "members_s3" {
+  source = "./iam/member"
+  for_each = toset(
+    [
+      for member in local.members_s3 :
       member
     ]
   )
@@ -111,7 +122,7 @@ module "k8s" {
     ,
     [
       for member in lookup(each.value, "admin_names", []) :
-      module.members[member].converted
+      module.members_k8s[member].converted
     ]
   )
   viewers = concat(
@@ -119,7 +130,7 @@ module "k8s" {
     ,
     [
       for member in lookup(each.value, "viewer_names", []) :
-      module.members[member].converted
+      module.members_k8s[member].converted
     ]
   )
   editors = concat(
@@ -127,14 +138,13 @@ module "k8s" {
     ,
     [
       for member in lookup(each.value, "editor_names", []) :
-      module.members[member].converted
+      module.members_k8s[member].converted
     ]
   )
   node_groups = lookup(each.value, "node_groups", {})
   master      = each.value.master
   depends_on = [
     module.network,
-    module.iam
   ]
 }
 
@@ -174,7 +184,7 @@ module "s3" {
     ,
     [
       for member in lookup(each.value, "admin_names", []) :
-      module.members[member].converted
+      module.members_s3[member].converted
     ]
   )
   viewers = concat(
@@ -182,7 +192,7 @@ module "s3" {
     ,
     [
       for member in lookup(each.value, "viewer_names", []) :
-      module.members[member].converted
+      module.members_s3[member].converted
     ]
   )
   editors = concat(
@@ -190,7 +200,7 @@ module "s3" {
     ,
     [
       for member in lookup(each.value, "editor_names", []) :
-      module.members[member].converted
+      module.members_s3[member].converted
     ]
   )
 

@@ -166,3 +166,13 @@ module "node_sa" {
     "container-registry.images.puller"
   ]
 }
+
+module "federation" {
+  count     = var.workload_identity_federation != null ? 1 : 0
+  source    = "../../iam/oidc_federation"
+  name      = "${var.name}-oidc-federation"
+  folder_id = var.folder_id
+  issuer    = yandex_kubernetes_cluster.this.workload_identity_federation[0].issuer
+  audiences = [yandex_kubernetes_cluster.this.workload_identity_federation[0].issuer]
+  jwks_url  = yandex_kubernetes_cluster.this.workload_identity_federation[0].jwks_uri
+}

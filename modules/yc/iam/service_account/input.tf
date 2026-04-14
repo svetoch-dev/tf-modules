@@ -32,3 +32,16 @@ variable "generate_key" {
   type        = bool
   default     = false
 }
+
+variable "federated_credentials" {
+  description = "Federated credentials to create for this service account"
+  type = map(
+    object(
+      {
+        federation_id       = string
+        external_subject_id = string
+      }
+    )
+  )
+  default = {}
+}
