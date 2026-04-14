@@ -23,7 +23,7 @@ module "gcp" {
   gcs           = local.gcp_buckets_merged
   dns_zones     = local.gcp_dns_zones_merged
   iam           = local.gcp_iam_merged
-  gke           = local.gcp_k8s_clusters_merged
+  k8s           = local.gcp_k8s_clusters_merged
   logging       = local.gcp_logging_merged
   networks      = local.gcp_networks_merged
   gars          = local.gcp_registries_merged

@@ -78,7 +78,6 @@ variable "ip_allocation_policy" {
       stack_type                    = optional(string)
     }
   )
-  default = {}
 }
 
 variable "private_cluster_config" {
@@ -123,105 +122,34 @@ variable "master_authorized_networks_config" {
 
 variable "release_channel" {
   description = "Configuration for release channels"
-  type = object(
-    {
-      channel = optional(string, "STABLE")
-    }
-  )
-  default = {}
+  type        = string
+  default     = "STABLE"
 }
 
-variable "workload_identity_config" {
+variable "workload_identity_config_pool" {
   description = "Configuration for workload identity"
-  type = object(
-    {
-      workload_pool = optional(string)
-    }
-  )
-  default = {}
+  type        = string
+  default     = null
 }
 
 variable "addons_config" {
   description = "Configuration for GKE addons"
   type = object(
     {
-      http_load_balancing = optional(
-        object(
-          {
-            disabled = optional(bool, false)
-          }
-        ),
-        {}
-      )
-      horizontal_pod_autoscaling = optional(
-        object(
-          {
-            disabled = optional(bool, false)
-          }
-        ),
-        {}
-      )
-      network_policy_config = optional(
-        object(
-          {
-            disabled = optional(bool, false)
-          }
-        ),
-        {}
-      )
+      http_load_balancing_enabled                   = optional(bool, true)
+      horizontal_pod_autoscaling_enabled            = optional(bool, true)
+      network_policy_config_enabled                 = optional(bool, true)
+      config_connector_config_enabled               = optional(bool, false)
+      dns_cache_config_enabled                      = optional(bool, false)
+      gce_persistent_disk_csi_driver_config_enabled = optional(bool, false)
+      gcp_filestore_csi_driver_config_enabled       = optional(bool, false)
+      gke_backup_agent_config_enabled               = optional(bool, false)
+      gcs_fuse_csi_driver_config_enabled            = optional(bool, false)
       cloudrun_config = optional(
         object(
           {
-            disabled           = optional(bool)
+            enabled            = optional(bool, false)
             load_balancer_type = optional(string)
-          }
-        ),
-        null
-      )
-      config_connector_config = optional(
-        object(
-          {
-            enabled = optional(bool, false)
-          }
-        ),
-        {}
-      )
-      dns_cache_config = optional(
-        object(
-          {
-            enabled = optional(bool, false)
-          }
-        ),
-        {}
-      )
-      gce_persistent_disk_csi_driver_config = optional(
-        object(
-          {
-            enabled = optional(bool, true)
-          }
-        ),
-        {}
-      )
-      gcp_filestore_csi_driver_config = optional(
-        object(
-          {
-            enabled = optional(bool, false)
-          }
-        ),
-        {}
-      )
-      gke_backup_agent_config = optional(
-        object(
-          {
-            enabled = optional(bool, false)
-          }
-        ),
-        {}
-      )
-      gcs_fuse_csi_driver_config = optional(
-        object(
-          {
-            enabled = optional(bool, true)
           }
         ),
         {}

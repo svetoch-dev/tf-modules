@@ -70,54 +70,48 @@ resource "google_container_cluster" "this" {
   dynamic "release_channel" {
     for_each = var.release_channel != null ? [var.release_channel] : []
     content {
-      channel = release_channel.value.channel
+      channel = release_channel.value
     }
   }
 
   dynamic "workload_identity_config" {
-    for_each = var.workload_identity_config != null && try(var.workload_identity_config.workload_pool, null) != null ? [var.workload_identity_config] : []
+    for_each = var.workload_identity_config_pool != null ? [var.workload_identity_config_pool] : ["${var.project_id}.svc.id.goog"]
     content {
-      workload_pool = workload_identity_config.value.workload_pool
+      workload_pool = workload_identity_config_pool.value
     }
   }
 
   addons_config {
     http_load_balancing {
-      disabled = try(var.addons_config.http_load_balancing.disabled, false)
+      disabled = !try(var.addons_config.http_load_balancing_enabled, true)
     }
     horizontal_pod_autoscaling {
-      disabled = try(var.addons_config.horizontal_pod_autoscaling.disabled, false)
+      disabled = !try(var.addons_config.horizontal_pod_autoscaling_enabled, true)
     }
     network_policy_config {
-      disabled = try(var.addons_config.network_policy_config.disabled, true)
+      disabled = !try(var.addons_config.network_policy_config_enabled, false)
     }
-    dynamic "cloudrun_config" {
-      for_each = var.addons_config.cloudrun_config != null ? [var.addons_config.cloudrun_config] : []
-      content {
-        disabled           = try(cloudrun_config.value.disabled, null)
-        load_balancer_type = try(cloudrun_config.value.load_balancer_type, null)
-      }
-    }
-    dynamic "config_connector_config" {
-      for_each = var.addons_config.config_connector_config != null ? [var.addons_config.config_connector_config] : []
-      content {
-        enabled = try(config_connector_config.value.enabled, false)
-      }
+    config_connector_config {
+      enabled = try(var.addons_config.config_connector_config_enabled, false)
     }
     dns_cache_config {
-      enabled = try(var.addons_config.dns_cache_config.enabled, false)
+      enabled = try(var.addons_config.dns_cache_config_enabled, false)
     }
     gce_persistent_disk_csi_driver_config {
-      enabled = try(var.addons_config.gce_persistent_disk_csi_driver_config.enabled, true)
+      enabled = try(var.addons_config.gce_persistent_disk_csi_driver_config_enabled, false)
     }
     gcp_filestore_csi_driver_config {
-      enabled = try(var.addons_config.gcp_filestore_csi_driver_config.enabled, false)
+      enabled = try(var.addons_config.gcp_filestore_csi_driver_config_enabled, false)
     }
     gke_backup_agent_config {
-      enabled = try(var.addons_config.gke_backup_agent_config.enabled, false)
+      enabled = try(var.addons_config.gke_backup_agent_config_enabled, false)
     }
     gcs_fuse_csi_driver_config {
-      enabled = try(var.addons_config.gcs_fuse_csi_driver_config.enabled, false)
+      enabled = try(var.addons_config.gcs_fuse_csi_driver_config_enabled, false)
+    }
+    cloudrun_config {
+      disabled           = !try(cloudrun_config.enabled, false)
+      load_balancer_type = try(cloudrun_config.load_balancer_type, null)
     }
   }
 
