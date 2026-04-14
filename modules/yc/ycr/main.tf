@@ -1,6 +1,6 @@
 resource "yandex_container_registry" "registry" {
   count     = var.registry.create ? 1 : 0
-  name      = var.registry.name
+  name      = var.name
   folder_id = var.folder_id
 }
 
