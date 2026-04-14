@@ -75,7 +75,7 @@ resource "google_container_cluster" "this" {
   }
 
   workload_identity_config {
-    workload_pool = try(workload_identity_config_pool, "${var.project_id}.svc.id.goog")
+    workload_pool = try(var.workload_identity_config_pool, "${var.project_id}.svc.id.goog")
   }
 
   addons_config {
