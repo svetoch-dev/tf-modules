@@ -110,13 +110,13 @@ resource "google_container_cluster" "this" {
       enabled = try(var.addons_config.gcs_fuse_csi_driver_config_enabled, false)
     }
     cloudrun_config {
-      disabled           = !try(cloudrun_config.enabled, false)
-      load_balancer_type = try(cloudrun_config.load_balancer_type, null)
+      disabled           = !try(var.cloudrun_config.enabled, false)
+      load_balancer_type = try(var.cloudrun_config.load_balancer_type, null)
     }
   }
 
   dynamic "logging_config" {
-    for_each = var.var.logging_config_enable_components != null ? [var.logging_config_enable_components] : []
+    for_each = var.logging_config_enable_components != null ? [var.logging_config_enable_components] : []
     content {
       enable_components = var.logging_config_enable_components.value
     }
@@ -170,7 +170,7 @@ resource "google_container_cluster" "this" {
   }
 
   binary_authorization {
-    evaluation_mode = try(binary_authorization_evaluation_mode, "DISABLED")
+    evaluation_mode = try(var.binary_authorization_evaluation_mode, "DISABLED")
   }
 
   dynamic "cluster_autoscaling" {
@@ -233,7 +233,7 @@ resource "google_container_cluster" "this" {
   }
 
   vertical_pod_autoscaling {
-    enabled = try(vertical_pod_autoscaling_enabled, true)
+    enabled = try(var.vertical_pod_autoscaling_enabled, true)
   }
 
   dynamic "default_snat_status" {
@@ -260,7 +260,7 @@ resource "google_container_cluster" "this" {
   }
 
   identity_service_config {
-    enabled = try(identity_service_config_enabled, "false")
+    enabled = try(var.identity_service_config_enabled, "false")
   }
 
   dynamic "control_plane_endpoints_config" {
