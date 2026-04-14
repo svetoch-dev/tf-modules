@@ -91,7 +91,7 @@ resource "google_container_node_pool" "this" {
     dynamic "gvnic" {
       for_each = var.node_config.gvnic_enabled != null ? [var.node_config.gvnic_enabled] : []
       content {
-        enabled = gvnic_enabled.value
+        enabled = gvnic.value
       }
     }
 
@@ -117,7 +117,7 @@ resource "google_container_node_pool" "this" {
   dynamic "queued_provisioning" {
     for_each = var.queued_provisioning_enabled != null ? [var.queued_provisioning_enabled] : []
     content {
-      enabled = queued_provisioning_enabled.value
+      enabled = queued_provisionin.value
     }
   }
 

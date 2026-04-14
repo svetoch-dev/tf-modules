@@ -48,7 +48,7 @@ resource "google_container_cluster" "this" {
       dynamic "master_global_access_config" {
         for_each = private_cluster_config.value.master_global_access_config_enabled != null ? [private_cluster_config.value.master_global_access_config_enabled] : []
         content {
-          enabled = master_global_access_config_enabled.value
+          enabled = master_global_access_config.value
         }
       }
     }
@@ -74,11 +74,8 @@ resource "google_container_cluster" "this" {
     }
   }
 
-  dynamic "workload_identity_config" {
-    for_each = var.workload_identity_config_pool != null ? [var.workload_identity_config_pool] : ["${var.project_id}.svc.id.goog"]
-    content {
-      workload_pool = workload_identity_config_pool.value
-    }
+  workload_identity_config {
+    workload_pool = try(workload_identity_config_pool, "${var.project_id}.svc.id.goog")
   }
 
   addons_config {
@@ -118,7 +115,7 @@ resource "google_container_cluster" "this" {
   dynamic "logging_config" {
     for_each = var.logging_config_enable_components != null ? [var.logging_config_enable_components] : []
     content {
-      enable_components = var.logging_config_enable_components.value
+      enable_components = var.logging_config.value
     }
 
   }
@@ -214,7 +211,7 @@ resource "google_container_cluster" "this" {
   dynamic "authenticator_groups_config" {
     for_each = var.authenticator_groups_config_security_group != null ? [var.authenticator_groups_config_security_group] : []
     content {
-      security_group = authenticator_groups_config_security_group.value
+      security_group = authenticator_groups_config.value
     }
   }
 
@@ -228,7 +225,7 @@ resource "google_container_cluster" "this" {
   dynamic "cost_management_config" {
     for_each = var.cost_management_config_enabled != null ? [var.cost_management_config_enabled] : []
     content {
-      enabled = cost_management_config_enabled.value
+      enabled = cost_management_config.value
     }
   }
 
@@ -252,7 +249,7 @@ resource "google_container_cluster" "this" {
   dynamic "gateway_api_config" {
     for_each = var.gateway_api_config_channel != null ? [var.gateway_api_config_channel] : []
     content {
-      channel = gateway_api_config_channel.value
+      channel = gateway_api_config.value
     }
   }
 
