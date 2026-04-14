@@ -25,6 +25,15 @@ locals {
         }]
       }
 
+      addons_config = {
+        gce_persistent_disk_csi_driver_config_enabled = true
+        gcs_fuse_csi_driver_config_enabled            = true
+      }
+
+      network_policy = {
+        enabled = true
+      }
+
       authenticator_groups_config_security_group = var.env.kubernetes.auth_group != "" ? var.env.kubernetes.auth_group : null
 
       logging_config_enable_components = [
