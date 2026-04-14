@@ -236,11 +236,8 @@ resource "google_container_cluster" "this" {
     enabled = try(var.vertical_pod_autoscaling_enabled, true)
   }
 
-  dynamic "default_snat_status" {
-    for_each = var.default_snat_status_enabled != null ? [var.default_snat_status_enabled] : []
-    content {
-      disabled = !default_snat_status_enabled.value
-    }
+  default_snat_status {
+    disabled = !try(var.default_snat_status_enabled, true)
   }
 
   dynamic "dns_config" {
