@@ -6,11 +6,13 @@ variable "project_id" {
 variable "name" {
   description = "The name of the cluster"
   type        = string
+  default     = "default"
 }
 
 variable "location" {
   description = "The location (region or zone) for the cluster"
   type        = string
+  default     = "default"
 }
 
 variable "node_locations" {
