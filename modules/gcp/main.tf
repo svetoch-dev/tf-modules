@@ -61,7 +61,7 @@ module "k8s" {
   private_cluster_config                     = try(each.value.private_cluster_config, {})
   master_authorized_networks_config          = try(each.value.master_authorized_networks_config, {})
   release_channel                            = try(each.value.release_channel, "STABLE")
-  workload_identity_config_pool              = try(each.value.workload_identity_config_pool, null)
+  workload_identity_config_pool              = try(each.value.workload_identity_config_pool, "${var.project.id}.svc.id.goog")
   addons_config                              = try(each.value.addons_config, {})
   logging_config_enable_components           = try(each.value.logging_config_enable_components, ["SYSTEM_COMPONENTS", "WORKLOADS"])
   monitoring_config                          = try(each.value.monitoring_config, {})

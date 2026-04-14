@@ -6,13 +6,11 @@ variable "project_id" {
 variable "name" {
   description = "The name of the cluster"
   type        = string
-  default     = "default"
 }
 
 variable "location" {
   description = "The location (region or zone) for the cluster"
   type        = string
-  default     = "default"
 }
 
 variable "node_locations" {
@@ -399,7 +397,7 @@ variable "node_pools" {
       {
         cluster           = optional(string)
         location          = optional(string)
-        name              = string
+        name              = optional(string)
         name_prefix       = optional(string, null)
         node_locations    = optional(list(string), [])
         node_count        = optional(number)
@@ -428,7 +426,7 @@ variable "node_pools" {
         node_config = object(
           {
             machine_type    = optional(string, "e2-medium")
-            service_account = string
+            service_account = optional(string)
             oauth_scopes = optional(
               list(string),
               [
