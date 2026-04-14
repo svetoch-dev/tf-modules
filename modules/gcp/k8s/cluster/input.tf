@@ -84,17 +84,10 @@ variable "private_cluster_config" {
   description = "Configuration for private clusters"
   type = object(
     {
-      enable_private_nodes    = optional(bool, true)
-      enable_private_endpoint = optional(bool, false)
-      master_ipv4_cidr_block  = optional(string)
-      master_global_access_config = optional(
-        object(
-          {
-            enabled = optional(bool, false)
-          }
-        ),
-        {}
-      )
+      enable_private_nodes                = optional(bool, true)
+      enable_private_endpoint             = optional(bool, false)
+      master_ipv4_cidr_block              = optional(string)
+      master_global_access_config_enabled = optional(bool)
     }
   )
   default = {}
@@ -234,14 +227,10 @@ variable "database_encryption" {
   default = {}
 }
 
-variable "binary_authorization" {
+variable "binary_authorization_evaluation_mode" {
   description = "Configuration for binary authorization"
-  type = object(
-    {
-      evaluation_mode = optional(string, "DISABLED")
-    }
-  )
-  default = {}
+  type        = string
+  default     = "DISABLED"
 }
 
 variable "cluster_autoscaling" {
@@ -284,31 +273,16 @@ variable "cluster_autoscaling" {
   default = {}
 }
 
-variable "master_auth" {
+variable "master_auth_issue_client_certificate" {
   description = "Configuration for master authentication"
-  type = object(
-    {
-      client_certificate_config = optional(
-        object(
-          {
-            issue_client_certificate = optional(bool, false)
-          }
-        ),
-        {}
-      )
-    }
-  )
-  default = {}
+  type        = bool
+  default     = false
 }
 
-variable "authenticator_groups_config" {
+variable "authenticator_groups_config_security_group" {
   description = "Configuration for RBAC group-based authentication"
-  type = object(
-    {
-      security_group = string
-    }
-  )
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "confidential_nodes" {
@@ -321,14 +295,10 @@ variable "confidential_nodes" {
   default = null
 }
 
-variable "cost_management_config" {
+variable "cost_management_config_enabled" {
   description = "Configuration for cost management"
-  type = object(
-    {
-      enabled = bool
-    }
-  )
-  default = null
+  type        = bool
+  default     = null
 }
 
 variable "enable_shielded_nodes" {
@@ -361,14 +331,10 @@ variable "vertical_pod_autoscaling_enabled" {
   default     = true
 }
 
-variable "default_snat_status" {
+variable "default_snat_status_enabled" {
   description = "Configuration for default SNAT status"
-  type = object(
-    {
-      disabled = optional(bool, false)
-    }
-  )
-  default = {}
+  type        = bool
+  default     = true
 }
 
 variable "dns_config" {
@@ -383,24 +349,16 @@ variable "dns_config" {
   default = null
 }
 
-variable "gateway_api_config" {
+variable "gateway_api_config_channel" {
   description = "Configuration for gateway API"
-  type = object(
-    {
-      channel = string
-    }
-  )
-  default = null
+  type        = string
+  default     = null
 }
 
-variable "identity_service_config" {
+variable "identity_service_config_enabled" {
   description = "Configuration for identity service"
-  type = object(
-    {
-      enabled = bool
-    }
-  )
-  default = null
+  type        = bool
+  default     = false
 }
 
 variable "control_plane_endpoints_config" {
@@ -414,13 +372,7 @@ variable "control_plane_endpoints_config" {
           }
         )
       )
-      ip_endpoints_config = optional(
-        object(
-          {
-            enabled = optional(bool, true)
-          }
-        )
-      )
+      ip_endpoints_config_enabled = optional(bool, true)
     }
   )
   default = {}

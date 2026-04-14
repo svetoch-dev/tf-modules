@@ -1,21 +1,19 @@
 module "cluster" {
   source = "./cluster"
 
-  for_each = var.k8s_clusters
+  for_each = var.k8s_cluster
 
-  project_id         = var.project_id
-  name               = each.key
-  location           = each.value.location
-  node_locations     = each.value.node_locations
-  network            = each.value.network
-  subnetwork         = each.value.subnetwork
-  min_master_version = each.value.min_master_version
-  description        = each.value.description
-
-  deletion_protection = each.value.deletion_protection
-  resource_labels     = each.value.resource_labels
-  networking_mode     = each.value.networking_mode
-
+  project_id                        = var.project_id
+  name                              = each.key
+  location                          = each.value.location
+  node_locations                    = each.value.node_locations
+  network                           = each.value.network
+  subnetwork                        = each.value.subnetwork
+  min_master_version                = each.value.min_master_version
+  description                       = each.value.description
+  deletion_protection               = each.value.deletion_protection
+  resource_labels                   = each.value.resource_labels
+  networking_mode                   = each.value.networking_mode
   ip_allocation_policy              = each.value.ip_allocation_policy
   private_cluster_config            = each.value.private_cluster_config
   master_authorized_networks_config = each.value.master_authorized_networks_config
@@ -48,7 +46,7 @@ module "cluster" {
 module "node_pool" {
   source = "./node_pool"
 
-  for_each = var.node_pools
+  for_each = var.cluster.node_pools
 
   project_id  = var.project_id
   cluster     = each.value.cluster

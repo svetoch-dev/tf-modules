@@ -46,9 +46,9 @@ resource "google_container_cluster" "this" {
       master_ipv4_cidr_block  = private_cluster_config.value.master_ipv4_cidr_block
 
       dynamic "master_global_access_config" {
-        for_each = private_cluster_config.value.master_global_access_config != null && length(private_cluster_config.value.master_global_access_config) > 0 ? [private_cluster_config.value.master_global_access_config] : []
+        for_each = private_cluster_config.value.master_global_access_config_enabled != null ? [private_cluster_config.value.master_global_access_config_enabled] : []
         content {
-          enabled = master_global_access_config.value.enabled
+          enabled = master_global_access_config_enabled.value
         }
       }
     }
@@ -126,11 +126,11 @@ resource "google_container_cluster" "this" {
   dynamic "monitoring_config" {
     for_each = var.monitoring_config != null && length(var.monitoring_config) > 0 ? [var.monitoring_config] : []
     content {
-      enable_components = try(monitoring_config.value.enable_components, ["SYSTEM_COMPONENTS"])
+      enable_components = monitoring_config.value.enable_components
       dynamic "managed_prometheus" {
         for_each = monitoring_config.value.managed_prometheus != null ? [monitoring_config.value.managed_prometheus] : []
         content {
-          enabled = try(managed_prometheus.value.enabled, false)
+          enabled = managed_prometheus.value.enabled
         }
       }
     }
@@ -169,11 +169,8 @@ resource "google_container_cluster" "this" {
     key_name = var.database_encryption.key_name
   }
 
-  dynamic "binary_authorization" {
-    for_each = var.binary_authorization != null && length(var.binary_authorization) > 0 ? [var.binary_authorization] : []
-    content {
-      evaluation_mode = binary_authorization.value.evaluation_mode
-    }
+  binary_authorization {
+    evaluation_mode = try(binary_authorization_evaluation_mode, "DISABLED")
   }
 
   dynamic "cluster_autoscaling" {
@@ -210,14 +207,14 @@ resource "google_container_cluster" "this" {
 
   master_auth {
     client_certificate_config {
-      issue_client_certificate = var.master_auth.client_certificate_config.issue_client_certificate
+      issue_client_certificate = try(var.master_auth_issue_client_certificate, false)
     }
   }
 
   dynamic "authenticator_groups_config" {
-    for_each = var.authenticator_groups_config != null ? [var.authenticator_groups_config] : []
+    for_each = var.authenticator_groups_config_security_group != null ? [var.authenticator_groups_config_security_group] : []
     content {
-      security_group = authenticator_groups_config.value.security_group
+      security_group = authenticator_groups_config_security_group.value
     }
   }
 
@@ -229,9 +226,9 @@ resource "google_container_cluster" "this" {
   }
 
   dynamic "cost_management_config" {
-    for_each = var.cost_management_config != null ? [var.cost_management_config] : []
+    for_each = var.cost_management_config_enabled != null ? [var.cost_management_config_enabled] : []
     content {
-      enabled = cost_management_config.value.enabled
+      enabled = cost_management_config_enabled.value
     }
   }
 
@@ -240,9 +237,9 @@ resource "google_container_cluster" "this" {
   }
 
   dynamic "default_snat_status" {
-    for_each = var.default_snat_status != null ? [var.default_snat_status] : []
+    for_each = var.default_snat_status_enabled != null ? [var.default_snat_status_enabled] : []
     content {
-      disabled = default_snat_status.value.disabled
+      disabled = !default_snat_status_enabled.value
     }
   }
 
@@ -256,17 +253,14 @@ resource "google_container_cluster" "this" {
   }
 
   dynamic "gateway_api_config" {
-    for_each = var.gateway_api_config != null ? [var.gateway_api_config] : []
+    for_each = var.gateway_api_config_channel != null ? [var.gateway_api_config_channel] : []
     content {
-      channel = gateway_api_config.value.channel
+      channel = gateway_api_config_channel.value
     }
   }
 
-  dynamic "identity_service_config" {
-    for_each = var.identity_service_config != null ? [var.identity_service_config] : []
-    content {
-      enabled = identity_service_config.value.enabled
-    }
+  identity_service_config {
+    enabled = try(identity_service_config_enabled, "false")
   }
 
   dynamic "control_plane_endpoints_config" {
@@ -277,6 +271,9 @@ resource "google_container_cluster" "this" {
         content {
           allow_external_traffic = dns_endpoint_config.value.allow_external_traffic
         }
+      }
+      ip_endpoints_config {
+        enabled = try(control_plane_endpoints_config.value.ip_endpoints_config_enabled, true)
       }
     }
   }

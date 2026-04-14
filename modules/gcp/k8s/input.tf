@@ -3,7 +3,7 @@ variable "project_id" {
   type        = string
 }
 
-variable "k8s_clusters" {
+variable "k8s_cluster" {
   description = "A map of GKE clusters to create"
   type = map(
     object(
