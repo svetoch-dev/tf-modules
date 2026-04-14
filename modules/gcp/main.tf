@@ -40,29 +40,50 @@ module "network" {
 module "k8s" {
   source = "./k8s"
 
-  project_id = var.project.id
-
-  k8s_clusters = {
-    for cluster_name, cluster_obj in var.k8s :
-    cluster_name => cluster_obj
-    if cluster_obj.enabled
+  for_each = {
+    for k8s_name, k8s_obj in var.k8s :
+    k8s_name => k8s_obj
+    if k8s_obj != null
   }
-
-  node_pools = merge(
-    [
-      for cluster_name, cluster_obj in var.k8s : {
-        for pool_name, pool_obj in cluster_obj.node_pools :
-        "${cluster_name}/${pool_name}" => merge(
-          {
-            location = cluster_obj.location
-            cluster  = cluster_name
-          },
-          pool_obj
-        )
-      }
-      if cluster_obj != null && try(cluster_obj.enabled, true)
-    ]
-  ...)
+  project_id                                 = var.project.id
+  name                                       = each.value.name
+  location                                   = each.value.location
+  node_locations                             = each.value.node_locations
+  network                                    = each.value.network
+  subnetwork                                 = each.value.subnetwork
+  min_master_version                         = each.value.min_master_version
+  description                                = each.value.description
+  deletion_protection                        = each.value.deletion_protection
+  resource_labels                            = each.value.resource_labels
+  networking_mode                            = each.value.networking_mode
+  ip_allocation_policy                       = each.value.ip_allocation_policy
+  private_cluster_config                     = each.value.private_cluster_config
+  master_authorized_networks_config          = each.value.master_authorized_networks_config
+  release_channel                            = each.value.release_channel
+  workload_identity_config_pool              = each.value.workload_identity_config_pool
+  addons_config                              = each.value.addons_config
+  logging_config_enable_components           = each.value.logging_config_enable_components
+  monitoring_config                          = each.value.monitoring_config
+  maintenance_policy                         = each.value.maintenance_policy
+  network_policy                             = each.value.network_policy
+  database_encryption                        = each.value.database_encryption
+  binary_authorization_evaluation_mode       = each.value.binary_authorization_evaluation_mode
+  cluster_autoscaling                        = each.value.cluster_autoscaling
+  master_auth_issue_client_certificate       = each.value.master_auth_issue_client_certificate
+  authenticator_groups_config_security_group = each.value.authenticator_groups_config_security_group
+  confidential_nodes                         = each.value.confidential_nodes
+  cost_management_config_enabled             = each.value.cost_management_config_enabled
+  enable_shielded_nodes                      = each.value.enable_shielded_nodes
+  enable_tpu                                 = each.value.enable_tpu
+  initial_node_count                         = each.value.initial_node_count
+  vertical_pod_autoscaling_enabled           = each.value.vertical_pod_autoscaling_enabled
+  default_snat_status_enabled                = each.value.default_snat_status_enabled
+  dns_config                                 = each.value.dns_config
+  gateway_api_config_channel                 = each.value.gateway_api_config_channel
+  identity_service_config_enabled            = each.value.identity_service_config_enabled
+  control_plane_endpoints_config             = each.value.control_plane_endpoints_config
+  timeouts                                   = each.value.timeouts
+  node_pools                                 = each.value.node_pools
 
   depends_on = [
     module.enable_apis,

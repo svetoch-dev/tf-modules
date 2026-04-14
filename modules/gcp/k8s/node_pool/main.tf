@@ -88,10 +88,10 @@ resource "google_container_node_pool" "this" {
       }
     }
 
-    dynamic "gvnic" {
-      for_each = var.node_config.gvnic != null ? [var.node_config.gvnic] : []
+    dynamic "gvnic_enabled" {
+      for_each = var.node_config.gvnic_enabled != null ? [var.node_config.gvnic_enabled] : []
       content {
-        enabled = gvnic.value.enabled
+        enabled = gvnic_enabled.value
       }
     }
 
@@ -114,17 +114,10 @@ resource "google_container_node_pool" "this" {
     }
   }
 
-  dynamic "placement_policy" {
-    for_each = var.placement_policy != null ? [var.placement_policy] : []
-    content {
-      type = placement_policy.value.type
-    }
-  }
-
   dynamic "queued_provisioning" {
-    for_each = var.queued_provisioning != null ? [var.queued_provisioning] : []
+    for_each = var.queued_provisioning_enabled != null ? [var.queued_provisioning_enabled] : []
     content {
-      enabled = queued_provisioning.value.enabled
+      enabled = queued_provisioning_enabled.value
     }
   }
 

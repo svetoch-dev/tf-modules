@@ -1,8 +1,5 @@
-output "clusters" {
-  value = {
-    for cluster_name, cluster in module.cluster :
-    cluster_name => cluster.this
-  }
+output "cluster" {
+  value       = module.cluster.this
   description = "The Kubernetes cluster resource."
 }
 

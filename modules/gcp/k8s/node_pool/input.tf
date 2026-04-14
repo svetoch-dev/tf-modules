@@ -72,7 +72,7 @@ variable "node_config" {
   type = object(
     {
       machine_type    = optional(string, "e2-medium")
-      service_account = optional(string, "default")
+      service_account = string
       oauth_scopes = optional(
         list(string),
         [
@@ -80,7 +80,7 @@ variable "node_config" {
           "https://www.googleapis.com/auth/cloud-platform"
         ]
       )
-      disk_size_gb = optional(number, 100)
+      disk_size_gb = optional(number, 50)
       disk_type    = optional(string, "pd-ssd")
       image_type   = optional(string, "COS_CONTAINERD")
       labels       = optional(map(string), {})
@@ -145,13 +145,7 @@ variable "node_config" {
           }
         )
       )
-      gvnic = optional(
-        object(
-          {
-            enabled = bool
-          }
-        )
-      )
+      gvnic_enabled = optional(bool)
       reservation_affinity = optional(
         object(
           {
@@ -168,7 +162,6 @@ variable "node_config" {
       storage_pools               = optional(list(string), [])
     }
   )
-  default = {}
 }
 
 variable "upgrade_settings" {
@@ -181,29 +174,15 @@ variable "upgrade_settings" {
     }
   )
   default = {
-    max_surge       = 1
+    max_surge       = 2
     max_unavailable = 0
   }
 }
 
-variable "placement_policy" {
-  description = "Configuration for node placement policy"
-  type = object(
-    {
-      type = string
-    }
-  )
-  default = null
-}
-
-variable "queued_provisioning" {
+variable "queued_provisioning_enabled" {
   description = "Configuration for queued provisioning"
-  type = object(
-    {
-      enabled = bool
-    }
-  )
-  default = null
+  type        = bool
+  default     = null
 }
 
 variable "network_config" {

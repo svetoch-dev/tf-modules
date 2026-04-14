@@ -385,7 +385,6 @@ variable "timeouts" {
       create = optional(string, "45m")
       delete = optional(string, "45m")
       update = optional(string, "45m")
-      read   = optional(string)
     }
   )
   default = {}
