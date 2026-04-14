@@ -231,11 +231,8 @@ resource "google_container_cluster" "this" {
     }
   }
 
-  dynamic "vertical_pod_autoscaling" {
-    for_each = var.vertical_pod_autoscaling != null ? [var.vertical_pod_autoscaling] : []
-    content {
-      enabled = vertical_pod_autoscaling.value.enabled
-    }
+  vertical_pod_autoscaling {
+    enabled = try(vertical_pod_autoscaling_enabled, true)
   }
 
   dynamic "default_snat_status" {

@@ -365,14 +365,10 @@ variable "enable_intranode_visibility" {
   default     = false
 }
 
-variable "vertical_pod_autoscaling" {
+variable "vertical_pod_autoscaling_enabled" {
   description = "Configuration for vertical pod autoscaling"
-  type = object(
-    {
-      enabled = bool
-    }
-  )
-  default = null
+  type        = bool
+  default     = true
 }
 
 variable "default_snat_status" {
