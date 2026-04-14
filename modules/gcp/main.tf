@@ -52,7 +52,7 @@ module "k8s" {
   network                                    = try(each.value.network, null)
   subnetwork                                 = try(each.value.subnetwork, null)
   min_master_version                         = try(each.value.min_master_version, null)
-  description                                = try(ach.value.description, null)
+  description                                = try(each.value.description, null)
   deletion_protection                        = try(each.value.deletion_protection, true)
   resource_labels                            = try(each.value.resource_labels, {})
   networking_mode                            = try(each.value.networking_mode, "VPC_NATIVE")
