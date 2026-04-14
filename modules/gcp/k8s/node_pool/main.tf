@@ -88,7 +88,7 @@ resource "google_container_node_pool" "this" {
       }
     }
 
-    dynamic "gvnic_enabled" {
+    dynamic "gvnic" {
       for_each = var.node_config.gvnic_enabled != null ? [var.node_config.gvnic_enabled] : []
       content {
         enabled = gvnic_enabled.value
