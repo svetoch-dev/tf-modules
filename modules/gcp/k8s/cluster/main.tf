@@ -110,8 +110,8 @@ resource "google_container_cluster" "this" {
       enabled = try(var.addons_config.gcs_fuse_csi_driver_config_enabled, false)
     }
     cloudrun_config {
-      disabled           = !try(var.cloudrun_config.enabled, false)
-      load_balancer_type = try(var.cloudrun_config.load_balancer_type, null)
+      disabled           = !try(var.addons_config.cloudrun_config.enabled, false)
+      load_balancer_type = try(var.addons_config.cloudrun_config.load_balancer_type, null)
     }
   }
 
