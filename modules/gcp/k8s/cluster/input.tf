@@ -159,20 +159,10 @@ variable "addons_config" {
   default = {}
 }
 
-variable "logging_config" {
+variable "logging_config_enable_components" {
   description = "Configuration for cluster logging"
-  type = object(
-    {
-      enable_components = optional(
-        list(string),
-        [
-          "SYSTEM_COMPONENTS",
-          "WORKLOADS"
-        ]
-      )
-    }
-  )
-  default = {}
+  type        = list(string)
+  default     = ["SYSTEM_COMPONENTS", "WORKLOADS"]
 }
 
 variable "monitoring_config" {

@@ -20,7 +20,7 @@ module "cluster" {
   private_cluster_config            = each.value.private_cluster_config
   master_authorized_networks_config = each.value.master_authorized_networks_config
   release_channel                   = each.value.release_channel
-  workload_identity_config          = each.value.workload_identity_config
+  workload_identity_config_pool     = each.value.workload_identity_config_pool
   addons_config                     = each.value.addons_config
   logging_config                    = each.value.logging_config
   monitoring_config                 = each.value.monitoring_config
@@ -36,7 +36,7 @@ module "cluster" {
   enable_shielded_nodes             = each.value.enable_shielded_nodes
   enable_tpu                        = each.value.enable_tpu
   initial_node_count                = each.value.initial_node_count
-  vertical_pod_autoscaling          = each.value.vertical_pod_autoscaling
+  vertical_pod_autoscaling_enabled  = each.value.vertical_pod_autoscaling_enabled
   default_snat_status               = each.value.default_snat_status
   dns_config                        = each.value.dns_config
   gateway_api_config                = each.value.gateway_api_config

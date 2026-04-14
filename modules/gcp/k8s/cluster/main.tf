@@ -115,8 +115,12 @@ resource "google_container_cluster" "this" {
     }
   }
 
-  logging_config {
-    enable_components = try(var.logging_config.enable_components, ["SYSTEM_COMPONENTS", "WORKLOADS"])
+  dynamic "logging_config" {
+    for_each = var.var.logging_config_enable_components != null ? [var.logging_config_enable_components] : []
+    content {
+      enable_components = var.logging_config_enable_components.value
+    }
+
   }
 
   dynamic "monitoring_config" {
