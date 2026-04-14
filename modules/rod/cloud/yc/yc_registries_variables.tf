@@ -7,7 +7,6 @@ locals {
       writers = var.env.short_name != "int" ? [
         "serviceAccount:${module.yc.iam.service_accounts["runner-app"].id}"
       ] : []
-      description = "container images"
     }
   }
 }
