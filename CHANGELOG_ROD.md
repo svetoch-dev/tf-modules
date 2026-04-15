@@ -1,3 +1,20 @@
+# rod-v0.14.0
+
+Braking Changes:
+* `cloud/yc`
+  * create k8s yandex service accounts inside k8s module
+
+
+Fixes:
+* `cloud/yc`
+  * service accounts add env short name prefix
+  * change the release_channel to RAPID
+
+Features:
+* `cloud/yc`
+  * add federated credentials to service accounts
+
+
 # rod-v0.13.1
 
 [yc-v0.5.1](CHANGELOG_YC.md#yc-v051)
