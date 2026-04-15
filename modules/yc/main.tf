@@ -206,6 +206,7 @@ module "ycrs" {
   for_each       = var.ycrs
   folder_id      = var.project.folder_id
   name           = each.key
+  timeouts       = try(each.value.timeouts, null)
   readers        = try(each.value.readers, [])
   writers        = try(each.value.writers, [])
   ip_permissions = try(each.value.ip_permissions, null)
