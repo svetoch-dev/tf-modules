@@ -151,7 +151,7 @@ locals {
         enabled = true
       }
       admin_names = var.env.initial_start ? [] : [
-        "serviceAccountName:argocd"
+        "serviceAccountName:argocd-${var.env.short_name}"
       ]
       master = {
         public_ip = true

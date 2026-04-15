@@ -5,7 +5,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        "serviceAccount:${module.yc.iam.service_accounts["grafana-loki"].id}"
+        "serviceAccount:${module.yc.iam.service_accounts["grafana-loki-${var.env.short_name}"].id}"
       ]
     }
     format("%s-thanos-%s", var.company.name, var.env.short_name) = {
@@ -13,7 +13,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        "serviceAccount:${module.yc.iam.service_accounts["thanos"].id}"
+        "serviceAccount:${module.yc.iam.service_accounts["thanos-${var.env.short_name}"].id}"
       ]
     }
     format("%s-postgres-%s", var.company.name, var.env.short_name) = {
@@ -21,7 +21,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        "serviceAccount:${module.yc.iam.service_accounts["postgres"].id}"
+        "serviceAccount:${module.yc.iam.service_accounts["postgres-${var.env.short_name}"].id}"
       ]
     }
     format("%s-postgres-backup-%s", var.company.name, var.env.short_name) = {
@@ -29,7 +29,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        "serviceAccount:${module.yc.iam.service_accounts["postgres"].id}"
+        "serviceAccount:${module.yc.iam.service_accounts["postgres-${var.env.short_name}"].id}"
       ]
       lifecycle_rules = [{
         enabled = true
@@ -43,7 +43,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        "serviceAccount:${module.yc.iam.service_accounts["fluent"].id}"
+        "serviceAccount:${module.yc.iam.service_accounts["fluent-${var.env.short_name}"].id}"
       ]
       lifecycle_rules = [{
         enabled = true
@@ -57,7 +57,7 @@ locals {
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
       admins = [
-        "serviceAccount:${module.yc.iam.service_accounts["runner-app"].id}"
+        "serviceAccount:${module.yc.iam.service_accounts["runner-app-${var.env.short_name}"].id}"
       ]
       lifecycle_rules = [{
         enabled = true

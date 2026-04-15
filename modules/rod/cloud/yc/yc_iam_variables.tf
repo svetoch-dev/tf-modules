@@ -8,8 +8,11 @@ locals {
   }
   yc_iam = {
     service_accounts = {
-      external-dns = {
+      "external-dns-${var.env.short_name}" = {
         description = "k8s sigs external dns service account"
+        roles = [
+          "dns.admin"
+        ]
         federated_credentials = var.env.initial_start == true ? {} : {
           main = {
             federation_id       = module.yc.k8s_clusters[var.env.short_name].federation.id
@@ -17,7 +20,7 @@ locals {
           }
         }
       },
-      thanos = {
+      "thanos-${var.env.short_name}" = {
         description = "service account for thanos"
         federated_credentials = var.env.initial_start == true ? {} : {
           main = {
@@ -26,7 +29,7 @@ locals {
           }
         }
       }
-      postgres = {
+      "postgres-${var.env.short_name}" = {
         description = "service account for postgres-operator to store wal-e archiving"
         federated_credentials = var.env.initial_start == true ? {} : merge(
           {
@@ -44,7 +47,7 @@ locals {
           }
         )
       }
-      argocd = var.env.short_name == "int" ? {
+      "argocd-${var.env.short_name}" = var.env.short_name == "int" ? {
         description = "argocd service account"
         federated_credentials = var.env.initial_start == true ? {} : {
           main = {
@@ -53,7 +56,7 @@ locals {
           }
         }
       } : null
-      grafana-loki = {
+      "grafana-loki-${var.env.short_name}" = {
         description = "service account for loki"
         federated_credentials = var.env.initial_start == true ? {} : {
           main = {
@@ -62,7 +65,7 @@ locals {
           }
         }
       }
-      fluent = {
+      "fluent-${var.env.short_name}" = {
         description = "service account for fluent"
         federated_credentials = var.env.initial_start == true ? {} : {
           main = {
@@ -71,7 +74,7 @@ locals {
           }
         }
       }
-      runner = var.env.short_name == "int" ? {
+      "runner-${var.env.short_name}" = var.env.short_name == "int" ? {
         roles = [
           "admin"
         ]
@@ -83,7 +86,7 @@ locals {
           }
         }
       } : null
-      runner-app = var.env.short_name == "int" ? {
+      "runner-app-${var.env.short_name}" = var.env.short_name == "int" ? {
         description = "service account for app ci runners"
         federated_credentials = var.env.initial_start == true ? {} : {
           main = {
