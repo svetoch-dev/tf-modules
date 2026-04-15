@@ -7,13 +7,13 @@ variable "name" {
   type        = string
 }
 
-variable "pullers" {
+variable "readers" {
   description = "An array of identities that will be granted the privilege in the role pullers"
   type        = list(string)
   default     = []
 }
 
-variable "pushers" {
+variable "writers" {
   description = "An array of identities that will be granted the privilege in the role pushers"
   type        = list(string)
   default     = []
@@ -23,9 +23,22 @@ variable "ip_permissions" {
   description = "List of configured CIDRs, from which pull/push is allowed"
   type = object(
     {
-      push = optional(list(string), [])
-      pull = optional(list(string), [])
+      write = optional(list(string), [])
+      read  = optional(list(string), [])
     }
   )
   default = null
+}
+
+variable "repositories" {
+  description = "Map of repositories inside registry"
+  type = map(
+    object(
+      {
+        writers = optional(list(string), [])
+        readers = optional(list(string), [])
+      }
+    )
+  )
+  default = {}
 }
