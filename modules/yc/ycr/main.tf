@@ -16,3 +16,10 @@ resource "yandex_container_registry_iam_binding" "pushers" {
   role        = "container-registry.images.pusher"
   members     = var.pushers
 }
+
+resource "yandex_container_registry_ip_permission" "allow" {
+  count       = var.ip_permissions != null && (length(var.ip_permissions.push) > 0 || length(var.ip_permissions.pull) > 0) ? 1 : 0
+  registry_id = yandex_container_registry.registry.id
+  push        = var.ip_permissions.push
+  pull        = var.ip_permissions.pull
+}

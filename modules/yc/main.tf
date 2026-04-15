@@ -202,10 +202,11 @@ module "s3" {
 /* ycr */
 
 module "ycrs" {
-  source    = "./ycr"
-  for_each  = var.ycrs
-  folder_id = var.project.folder_id
-  name      = each.key
-  pullers   = try(each.value.pullers, [])
-  pushers   = try(each.value.pushers, [])
+  source         = "./ycr"
+  for_each       = var.ycrs
+  folder_id      = var.project.folder_id
+  name           = each.key
+  pullers        = try(each.value.pullers, [])
+  pushers        = try(each.value.pushers, [])
+  ip_permissions = try(each.value.ip_permissions, null)
 }
