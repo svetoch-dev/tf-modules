@@ -7,6 +7,19 @@ variable "name" {
   type        = string
 }
 
+variable "timeouts" {
+  description = "Custom timeouts for the yandex_container_registry resource"
+  type = object(
+    {
+      create = optional(string)
+      update = optional(string)
+      delete = optional(string)
+      read   = optional(string)
+    }
+  )
+  default = null
+}
+
 variable "readers" {
   description = "An array of identities that will be granted the privilege in the role pullers"
   type        = list(string)
@@ -23,8 +36,9 @@ variable "ip_permissions" {
   description = "List of configured CIDRs, from which pull/push is allowed"
   type = object(
     {
-      write = optional(list(string), [])
-      read  = optional(list(string), [])
+      write            = optional(list(string), [])
+      read             = optional(list(string), [])
+      default_timeouts = optional(string)
     }
   )
   default = null
@@ -37,6 +51,17 @@ variable "repositories" {
       {
         writers = optional(list(string), [])
         readers = optional(list(string), [])
+        timeouts = optional(
+          object(
+            {
+              create = optional(string)
+              update = optional(string)
+              delete = optional(string)
+              read   = optional(string)
+            }
+          ),
+          null
+        )
         lifecycle_policy = optional(object(
           {
             name             = optional(string)

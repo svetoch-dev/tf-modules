@@ -1,6 +1,17 @@
 resource "yandex_container_registry" "this" {
   name      = var.name
   folder_id = var.folder_id
+
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : [var.timeouts]
+
+    content {
+      create = timeouts.value.create
+      update = timeouts.value.update
+      delete = timeouts.value.delete
+      read   = timeouts.value.read
+    }
+  }
 }
 
 resource "yandex_container_registry_iam_binding" "pullers" {
@@ -22,11 +33,29 @@ resource "yandex_container_registry_ip_permission" "allow" {
   registry_id = yandex_container_registry.this.id
   push        = var.ip_permissions.write
   pull        = var.ip_permissions.read
+
+  dynamic "timeouts" {
+    for_each = var.ip_permissions.default_timeouts != null ? [var.ip_permissions.default_timeouts] : []
+    content {
+      default = timeouts.value
+    }
+  }
 }
 
 resource "yandex_container_repository" "this" {
   for_each = var.repositories
   name     = "${yandex_container_registry.this.id}/${each.key}"
+
+  dynamic "timeouts" {
+    for_each = each.value.timeouts == null ? [] : [each.value.timeouts]
+
+    content {
+      create = timeouts.value.create
+      update = timeouts.value.update
+      delete = timeouts.value.delete
+      read   = timeouts.value.read
+    }
+  }
 }
 
 resource "yandex_container_repository_iam_binding" "pullers" {
