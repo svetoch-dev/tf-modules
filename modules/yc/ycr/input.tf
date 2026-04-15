@@ -37,6 +37,25 @@ variable "repositories" {
       {
         writers = optional(list(string), [])
         readers = optional(list(string), [])
+        lifecycle_policy = optional(object(
+          {
+            name             = optional(string)
+            status           = optional(string, "active")
+            description      = optional(string)
+            default_timeouts = optional(string)
+            rule = optional(object(
+              {
+                expire_period = optional(string)
+                retained_top  = optional(number)
+                description   = optional(string)
+                tag_regexp    = optional(string)
+                untagged      = optional(bool)
+              }
+              ),
+            null)
+          }
+          ),
+        null)
       }
     )
   )

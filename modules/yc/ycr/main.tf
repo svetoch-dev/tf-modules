@@ -48,3 +48,32 @@ resource "yandex_container_repository_iam_binding" "pushers" {
   role          = "container-registry.images.pusher"
   members       = each.value.writers
 }
+
+resource "yandex_container_repository_lifecycle_policy" "this" {
+  for_each = {
+    for name, obj in var.repositories : name => obj
+    if obj.lifecycle_policy != null
+  }
+  name          = each.value.lifecycle_policy.name != null ? each.value.lifecycle_policy.name : "${each.key}-policy"
+  status        = each.value.lifecycle_policy.status
+  repository_id = yandex_container_repository.this[each.key].id
+  description   = each.value.lifecycle_policy.description
+
+  dynamic "rule" {
+    for_each = each.value.lifecycle_policy.rule != null ? [each.value.lifecycle_policy.rule] : []
+    content {
+      description   = rule.value.description != null ? rule.value.description : "${each.key} lifecycle policy rule"
+      expire_period = rule.value.expire_period
+      retained_top  = rule.value.retained_top
+      tag_regexp    = rule.value.tag_regexp
+      untagged      = rule.value.untagged
+    }
+  }
+
+  dynamic "timeouts" {
+    for_each = each.value.lifecycle_policy.default_timeouts != null ? [each.value.lifecycle_policy.default_timeouts] : []
+    content {
+      default = timeouts.value
+    }
+  }
+}
