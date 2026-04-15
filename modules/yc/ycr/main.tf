@@ -1,6 +1,7 @@
 resource "yandex_container_registry" "this" {
   name      = var.name
   folder_id = var.folder_id
+  labels    = var.labels
 
   dynamic "timeouts" {
     for_each = var.timeouts == null ? [] : [var.timeouts]

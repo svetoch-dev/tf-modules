@@ -7,6 +7,12 @@ variable "name" {
   type        = string
 }
 
+variable "labels" {
+  description = "A set of key/value label pairs which assigned to resource"
+  type        = map(string)
+  default     = {}
+}
+
 variable "timeouts" {
   description = "Custom timeouts for the yandex_container_registry resource"
   type = object(
