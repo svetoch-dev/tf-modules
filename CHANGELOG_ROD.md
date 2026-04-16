@@ -1,3 +1,8 @@
+# rod-v0.15.0
+
+Features:
+* `cloud/yc` create default `container` registry
+
 # rod-v0.14.0
 
 Braking Changes:
