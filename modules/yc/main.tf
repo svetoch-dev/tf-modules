@@ -202,8 +202,13 @@ module "s3" {
 /* ycr */
 
 module "ycrs" {
-  source         = "./ycr"
-  for_each       = var.ycrs
+  source = "./ycr"
+  for_each = {
+    for ycr_name, ycr_obj in var.ycrs :
+    ycr_name => ycr_obj
+    if ycr_obj != null
+  }
+
   folder_id      = var.project.folder_id
   name           = try(each.value.name, each.key)
   labels         = try(each.value.labels, {})

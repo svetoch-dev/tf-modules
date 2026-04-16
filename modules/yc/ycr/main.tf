@@ -44,8 +44,12 @@ resource "yandex_container_registry_ip_permission" "allow" {
 }
 
 resource "yandex_container_repository" "this" {
-  for_each = var.repositories
-  name     = each.value.name == null ? "${yandex_container_registry.this.id}/${each.key}" : "${yandex_container_registry.this.id}/${each.value.name}"
+  for_each = {
+    for name, obj in var.repositories : name => obj
+    if obj != null
+  }
+
+  name = each.value.name == null ? "${yandex_container_registry.this.id}/${each.key}" : "${yandex_container_registry.this.id}/${each.value.name}"
 
   dynamic "timeouts" {
     for_each = each.value.timeouts == null ? [] : [each.value.timeouts]
@@ -62,7 +66,7 @@ resource "yandex_container_repository" "this" {
 resource "yandex_container_repository_iam_binding" "pullers" {
   for_each = {
     for name, obj in var.repositories : name => obj
-    if length(obj.readers) > 0
+    if obj != null && length(obj.readers) > 0
   }
   repository_id = yandex_container_repository.this[each.key].id
   role          = "container-registry.images.puller"
@@ -72,7 +76,7 @@ resource "yandex_container_repository_iam_binding" "pullers" {
 resource "yandex_container_repository_iam_binding" "pushers" {
   for_each = {
     for name, obj in var.repositories : name => obj
-    if length(obj.writers) > 0
+    if obj != null && length(obj.writers) > 0
   }
   repository_id = yandex_container_repository.this[each.key].id
   role          = "container-registry.images.pusher"
@@ -82,7 +86,7 @@ resource "yandex_container_repository_iam_binding" "pushers" {
 resource "yandex_container_repository_lifecycle_policy" "this" {
   for_each = {
     for name, obj in var.repositories : name => obj
-    if obj.lifecycle_policy != null
+    if obj != null && obj.lifecycle_policy != null
   }
   name          = each.value.lifecycle_policy.name != null ? each.value.lifecycle_policy.name : "${each.key}-policy"
   status        = each.value.lifecycle_policy.status
