@@ -86,7 +86,7 @@ module "k8s" {
 | `folder_id` | The folder where the Kubernetes cluster will be created. | `string` | `null` | no |
 | `kms_provider` | Cluster KMS provider configuration. | `object` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the cluster. | `map(string)` | `{}` | no |
-| `name` | The Kubernetes cluster name. | `string` | `null` | no |
+| `name` | The Kubernetes cluster name. | `string` | n/a | yes |
 | `network_implementation` | Cluster network implementation. | `object` | `null` | no |
 | `network_policy_provider` | Network policy provider for the cluster. | `string` | `"CALICO"` | no |
 | `node_groups` | Map of Kubernetes node groups to create in the cluster. | `map(object)` | `{}` | no |
