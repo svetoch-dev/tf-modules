@@ -8,7 +8,8 @@ locals {
   }
   yc_iam = {
     service_accounts = {
-      "external-dns-${var.env.short_name}" = {
+      external-dns = {
+        name        = "external-dns-${var.env.short_name}"
         description = "k8s sigs external dns service account"
         roles = [
           "dns.admin"
@@ -20,7 +21,8 @@ locals {
           }
         }
       },
-      "thanos-${var.env.short_name}" = {
+      thanos = {
+        name        = "thanos-${var.env.short_name}"
         description = "service account for thanos"
         federated_credentials = var.env.initial_start == true ? {} : {
           main = {
@@ -29,7 +31,8 @@ locals {
           }
         }
       }
-      "postgres-${var.env.short_name}" = {
+      postgres = {
+        name        = "postgres-${var.env.short_name}"
         description = "service account for postgres-operator to store wal-e archiving"
         federated_credentials = var.env.initial_start == true ? {} : merge(
           {
@@ -47,7 +50,8 @@ locals {
           }
         )
       }
-      "argocd-${var.env.short_name}" = var.env.short_name == "int" ? {
+      argocd = var.env.short_name == "int" ? {
+        name        = "argocd-${var.env.short_name}"
         description = "argocd service account"
         federated_credentials = var.env.initial_start == true ? {} : {
           main = {
@@ -56,7 +60,8 @@ locals {
           }
         }
       } : null
-      "grafana-loki-${var.env.short_name}" = {
+      grafana-loki = {
+        name        = "grafana-loki-${var.env.short_name}"
         description = "service account for loki"
         federated_credentials = var.env.initial_start == true ? {} : {
           main = {
@@ -65,7 +70,8 @@ locals {
           }
         }
       }
-      "fluent-${var.env.short_name}" = {
+      fluent = {
+        name        = "fluent-${var.env.short_name}"
         description = "service account for fluent"
         federated_credentials = var.env.initial_start == true ? {} : {
           main = {
@@ -74,7 +80,8 @@ locals {
           }
         }
       }
-      "runner-${var.env.short_name}" = var.env.short_name == "int" ? {
+      runner = var.env.short_name == "int" ? {
+        name = "runner-${var.env.short_name}"
         roles = [
           "admin"
         ]
@@ -86,7 +93,8 @@ locals {
           }
         }
       } : null
-      "runner-app-${var.env.short_name}" = var.env.short_name == "int" ? {
+      runner-app = var.env.short_name == "int" ? {
+        name        = "runner-app-${var.env.short_name}"
         description = "service account for app ci runners"
         federated_credentials = var.env.initial_start == true ? {} : {
           main = {
@@ -112,12 +120,10 @@ locals {
 }
 
 data "yandex_iam_service_account" "sa_int" {
-  for_each = toset(
-    var.env.short_name != "int" ? [
-      "runner-app",
-      "runner"
-    ] : []
-  )
+  for_each = var.env.short_name != "int" ? {
+    "runner-app" = "runner-app-${var.int_env.short_name}"
+    "runner"     = "runner-${var.int_env.short_name}"
+  } : {}
 
   name      = each.value
   folder_id = var.int_env.cloud.folder_id

@@ -3,6 +3,7 @@ variable "service_accounts" {
     object(
       {
         description = string
+        name        = optional(string)
         roles       = optional(list(string), [])
         sa_iam_bindings = optional(
           map(

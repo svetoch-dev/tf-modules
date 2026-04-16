@@ -39,7 +39,7 @@ module "service_accounts" {
   }
 
   folder_id             = var.folder_id
-  name                  = each.key
+  name                  = each.value.name == null ? each.key : each.value.name
   description           = each.value.description
   roles                 = each.value.roles
   sa_iam_bindings       = each.value.sa_iam_bindings
