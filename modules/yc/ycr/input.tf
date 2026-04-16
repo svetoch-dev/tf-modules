@@ -3,7 +3,7 @@ variable "folder_id" {
 }
 
 variable "name" {
-  description = "Name of registry"
+  description = "Name of registry. At least 3 characters"
   type        = string
 }
 
