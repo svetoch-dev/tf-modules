@@ -21,6 +21,14 @@ resource "yandex_iam_service_account_key" "this" {
   service_account_id = yandex_iam_service_account.this.id
 }
 
+resource "yandex_iam_workload_identity_federated_credential" "this" {
+  for_each = var.federated_credentials
+
+  service_account_id  = yandex_iam_service_account.this.id
+  federation_id       = each.value.federation_id
+  external_subject_id = each.value.external_subject_id
+}
+
 resource "yandex_resourcemanager_folder_iam_member" "roles" {
   for_each  = toset(var.roles)
   folder_id = var.folder_id

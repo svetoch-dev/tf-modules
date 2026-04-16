@@ -1,3 +1,19 @@
+# yc-v0.7.0
+Braking changes:
+* `main` separate `./iam/member` modules for k8s and s3 members
+
+Features:
+* `iam`
+  * `service_account` extend module with federated credentials support 
+  * `oidc_federation` new module and input variable that create yandex_iam_workload_identity_oidc_federation
+* `k8s` 
+  * create oidc federation if workload_identity is enabled
+
+Enhancements:
+  * `k8s` add name perfix to k8s default sa
+  * `iam` service_accounts use name attr for setting name if its set
+
+
 # yc-v0.6.0
 Braking changes
 * `k8s/cluster`:

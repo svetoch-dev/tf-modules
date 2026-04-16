@@ -145,8 +145,8 @@ module "master_sa" {
   source      = "../../iam/service_account"
   count       = var.default_service_account == true ? 1 : 0
   folder_id   = var.folder_id
-  name        = "k8s-master"
-  description = "default service account for k8s master nodes"
+  name        = "${var.name}-k8s-master"
+  description = "default service account for k8s master nodes of ${var.name} cluster"
   roles = [
     "k8s.clusters.agent",
     "k8s.tunnelClusters.agent",
@@ -160,9 +160,19 @@ module "node_sa" {
   source      = "../../iam/service_account"
   count       = var.default_node_service_account == true ? 1 : 0
   folder_id   = var.folder_id
-  name        = "k8s-nodes"
-  description = "default service account for k8s nodes"
+  name        = "${var.name}-k8s-nodes"
+  description = "default service account for nodes of ${var.name} cluster"
   roles = [
     "container-registry.images.puller"
   ]
+}
+
+module "federation" {
+  count     = var.workload_identity_federation != null ? 1 : 0
+  source    = "../../iam/oidc_federation"
+  name      = "${var.name}-oidc-federation"
+  folder_id = var.folder_id
+  issuer    = yandex_kubernetes_cluster.this.workload_identity_federation[0].issuer
+  audiences = [yandex_kubernetes_cluster.this.workload_identity_federation[0].issuer]
+  jwks_url  = yandex_kubernetes_cluster.this.workload_identity_federation[0].jwks_uri
 }

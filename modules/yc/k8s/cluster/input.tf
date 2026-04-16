@@ -154,7 +154,6 @@ variable "network_implementation" {
 variable "name" {
   description = "The Kubernetes cluster name."
   type        = string
-  default     = null
 }
 
 variable "description" {
