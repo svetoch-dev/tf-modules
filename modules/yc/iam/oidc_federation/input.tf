@@ -46,6 +46,7 @@ variable "timeouts" {
   description = "Custom timeouts for the OIDC federation resource."
   type = object(
     {
+      read   = optional(string)
       create = optional(string)
       update = optional(string)
       delete = optional(string)
