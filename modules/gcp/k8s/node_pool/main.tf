@@ -44,7 +44,7 @@ resource "google_container_node_pool" "this" {
     storage_pools               = var.node_config.storage_pools
 
     dynamic "taint" {
-      for_each = var.node_config.taint
+      for_each = var.node_config.taint != null ? [var.node_config.taint] : []
       content {
         key    = taint.value.key
         value  = taint.value.value
