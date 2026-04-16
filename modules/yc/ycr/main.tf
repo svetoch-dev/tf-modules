@@ -45,7 +45,7 @@ resource "yandex_container_registry_ip_permission" "allow" {
 
 resource "yandex_container_repository" "this" {
   for_each = var.repositories
-  name     = "${yandex_container_registry.this.id}/${each.key}"
+  name     = each.value.name == null ? "${yandex_container_registry.this.id}/${each.key}" : "${yandex_container_registry.this.id}/${each.value.name}"
 
   dynamic "timeouts" {
     for_each = each.value.timeouts == null ? [] : [each.value.timeouts]
