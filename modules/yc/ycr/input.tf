@@ -55,7 +55,6 @@ variable "repositories" {
   type = map(
     object(
       {
-        name = optional(string)
         name    = optional(string)
         writers = optional(list(string), [])
         readers = optional(list(string), [])
