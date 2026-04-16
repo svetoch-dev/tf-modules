@@ -145,8 +145,8 @@ module "master_sa" {
   source      = "../../iam/service_account"
   count       = var.default_service_account == true ? 1 : 0
   folder_id   = var.folder_id
-  name        = "k8s-master"
-  description = "default service account for k8s master nodes"
+  name        = "${var.name}-k8s-master"
+  description = "default service account for k8s master nodes of ${var.name} cluster"
   roles = [
     "k8s.clusters.agent",
     "k8s.tunnelClusters.agent",
@@ -160,8 +160,8 @@ module "node_sa" {
   source      = "../../iam/service_account"
   count       = var.default_node_service_account == true ? 1 : 0
   folder_id   = var.folder_id
-  name        = "k8s-nodes"
-  description = "default service account for k8s nodes"
+  name        = "${var.name}-k8s-nodes"
+  description = "default service account for nodes of ${var.name} cluster"
   roles = [
     "container-registry.images.puller"
   ]
