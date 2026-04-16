@@ -91,5 +91,5 @@ variable "repositories" {
       }
     )
   )
-  default = {}
+  default = null
 }
