@@ -1,16 +1,12 @@
 resource "google_container_cluster" "this" {
-  project  = var.project_id
-  name     = var.name
-  location = var.location
-
-  node_locations = var.node_locations
-
-  network    = var.network
-  subnetwork = var.subnetwork
-
-  min_master_version = var.min_master_version
-  description        = var.description
-
+  project             = var.project_id
+  name                = var.name
+  location            = var.location
+  node_locations      = var.node_locations
+  network             = var.network
+  subnetwork          = var.subnetwork
+  min_master_version  = var.min_master_version
+  description         = var.description
   deletion_protection = var.deletion_protection
   resource_labels = merge(
     {
