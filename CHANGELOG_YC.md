@@ -1,3 +1,8 @@
+# yc-v0.8.0
+
+Features:
+* `ycr`: new module
+
 # yc-v0.7.0
 Braking changes:
 * `main` separate `./iam/member` modules for k8s and s3 members

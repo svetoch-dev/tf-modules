@@ -208,3 +208,23 @@ module "s3" {
     module.iam
   ]
 }
+
+/* ycr */
+
+module "ycrs" {
+  source = "./ycr"
+  for_each = {
+    for ycr_name, ycr_obj in var.ycrs :
+    ycr_name => ycr_obj
+    if ycr_obj != null
+  }
+
+  folder_id      = var.project.folder_id
+  name           = try(each.value.name, each.key)
+  labels         = try(each.value.labels, {})
+  timeouts       = try(each.value.timeouts, null)
+  readers        = try(each.value.readers, [])
+  writers        = try(each.value.writers, [])
+  ip_permissions = try(each.value.ip_permissions, null)
+  repositories   = try(each.value.repositories, {})
+}
