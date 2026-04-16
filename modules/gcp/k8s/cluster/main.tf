@@ -64,7 +64,7 @@ resource "google_container_cluster" "this" {
   }
 
   release_channel {
-    channel = var.release_channel
+    channel = try(var.release_channel, "STABLE")
   }
 
   workload_identity_config {
