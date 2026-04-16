@@ -52,7 +52,7 @@ variable "deletion_protection" {
 variable "resource_labels" {
   description = "The GCE resource labels (a map of key/value pairs) to be applied to the cluster"
   type        = map(string)
-  default     = {}
+  default     = null
 }
 
 variable "networking_mode" {
@@ -110,7 +110,7 @@ variable "master_authorized_networks_config" {
       )
     }
   )
-  default = {}
+  default = null
 }
 
 variable "release_channel" {
@@ -202,7 +202,7 @@ variable "maintenance_policy" {
       )
     }
   )
-  default = {}
+  default = null
 }
 
 variable "network_policy" {
@@ -213,7 +213,7 @@ variable "network_policy" {
       provider = optional(string, "CALICO")
     }
   )
-  default = {}
+  default = null
 }
 
 variable "database_encryption" {
@@ -270,7 +270,7 @@ variable "cluster_autoscaling" {
       auto_provisioning_locations = optional(list(string), [])
     }
   )
-  default = {}
+  default = null
 }
 
 variable "master_auth_issue_client_certificate" {
@@ -455,7 +455,7 @@ variable "node_pools" {
                   }
                 )
               ),
-              []
+              null
             )
             workload_metadata_config = optional(
               object(
@@ -488,23 +488,6 @@ variable "node_pools" {
               ),
               {}
             )
-            # linux_node_config = optional(
-            #   object(
-            #     {
-            #       sysctls     = optional(map(string))
-            #       cgroup_mode = optional(string)
-            #     }
-            #   )
-            # )
-            # reservation_affinity = optional(
-            #   object(
-            #     {
-            #       consume_reservation_type = string
-            #       key                      = optional(string)
-            #       values                   = optional(list(string))
-            #     }
-            #   )
-            # )
             enable_confidential_storage = optional(bool, false)
             flex_start                  = optional(bool, false)
             logging_variant             = optional(string, "DEFAULT")
@@ -515,15 +498,12 @@ variable "node_pools" {
         upgrade_settings = optional(
           object(
             {
-              max_surge       = number
-              max_unavailable = number
+              max_surge       = optional(number, 2)
+              max_unavailable = optional(number, 0)
               strategy        = optional(string)
             }
           ),
-          {
-            max_surge       = 2,
-            max_unavailable = 0
-          }
+          {}
         )
         queued_provisioning_enabled = optional(bool)
         network_config = optional(

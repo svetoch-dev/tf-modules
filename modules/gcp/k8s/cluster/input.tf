@@ -52,7 +52,7 @@ variable "deletion_protection" {
 variable "resource_labels" {
   description = "The GCE resource labels (a map of key/value pairs) to be applied to the cluster"
   type        = map(string)
-  default     = {}
+  default     = null
 }
 
 variable "networking_mode" {
@@ -110,7 +110,7 @@ variable "master_authorized_networks_config" {
       )
     }
   )
-  default = {}
+  default = null
 }
 
 variable "release_channel" {
@@ -202,7 +202,7 @@ variable "maintenance_policy" {
       )
     }
   )
-  default = {}
+  default = null
 }
 
 variable "network_policy" {
@@ -213,7 +213,7 @@ variable "network_policy" {
       provider = optional(string, "CALICO")
     }
   )
-  default = {}
+  default = null
 }
 
 variable "database_encryption" {
@@ -270,7 +270,7 @@ variable "cluster_autoscaling" {
       auto_provisioning_locations = optional(list(string), [])
     }
   )
-  default = {}
+  default = null
 }
 
 variable "master_auth_issue_client_certificate" {

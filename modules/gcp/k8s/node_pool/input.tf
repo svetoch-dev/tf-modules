@@ -104,7 +104,7 @@ variable "node_config" {
             }
           )
         ),
-        []
+        null
       )
       workload_metadata_config = optional(
         object(
@@ -137,23 +137,6 @@ variable "node_config" {
         ),
         {}
       )
-      # linux_node_config = optional(
-      #   object(
-      #     {
-      #       sysctls     = optional(map(string))
-      #       cgroup_mode = optional(string)
-      #     }
-      #   )
-      # )
-      # reservation_affinity = optional(
-      #   object(
-      #     {
-      #       consume_reservation_type = string
-      #       key                      = optional(string)
-      #       values                   = optional(list(string))
-      #     }
-      #   )
-      # )
       enable_confidential_storage = optional(bool, false)
       flex_start                  = optional(bool, false)
       logging_variant             = optional(string, "DEFAULT")
@@ -167,15 +150,12 @@ variable "upgrade_settings" {
   description = "Configuration for node pool upgrade settings"
   type = object(
     {
-      max_surge       = number
-      max_unavailable = number
+      max_surge       = optional(number, 2)
+      max_unavailable = optional(number, 0)
       strategy        = optional(string)
     }
   )
-  default = {
-    max_surge       = 2
-    max_unavailable = 0
-  }
+  default = {}
 }
 
 variable "queued_provisioning_enabled" {
