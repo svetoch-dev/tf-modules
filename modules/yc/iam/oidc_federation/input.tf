@@ -27,7 +27,7 @@ variable "audiences" {
 variable "description" {
   description = "An optional description of this federation."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "disabled" {
