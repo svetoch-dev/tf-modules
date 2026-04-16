@@ -137,24 +137,23 @@ variable "node_config" {
         ),
         {}
       )
-      linux_node_config = optional(
-        object(
-          {
-            sysctls     = optional(map(string))
-            cgroup_mode = optional(string)
-          }
-        )
-      )
-      # gvnic_enabled = optional(bool)
-      reservation_affinity = optional(
-        object(
-          {
-            consume_reservation_type = string
-            key                      = optional(string)
-            values                   = optional(list(string))
-          }
-        )
-      )
+      # linux_node_config = optional(
+      #   object(
+      #     {
+      #       sysctls     = optional(map(string))
+      #       cgroup_mode = optional(string)
+      #     }
+      #   )
+      # )
+      # reservation_affinity = optional(
+      #   object(
+      #     {
+      #       consume_reservation_type = string
+      #       key                      = optional(string)
+      #       values                   = optional(list(string))
+      #     }
+      #   )
+      # )
       enable_confidential_storage = optional(bool, false)
       flex_start                  = optional(bool, false)
       logging_variant             = optional(string, "DEFAULT")

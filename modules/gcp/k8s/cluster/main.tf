@@ -63,11 +63,8 @@ resource "google_container_cluster" "this" {
     }
   }
 
-  dynamic "release_channel" {
-    for_each = var.release_channel != null ? [var.release_channel] : []
-    content {
-      channel = release_channel.value
-    }
+  release_channel {
+    channel = var.release_channel
   }
 
   workload_identity_config {
@@ -102,14 +99,17 @@ resource "google_container_cluster" "this" {
     gcs_fuse_csi_driver_config {
       enabled = try(var.addons_config.gcs_fuse_csi_driver_config_enabled, false)
     }
-    cloudrun_config {
-      disabled           = !try(var.addons_config.cloudrun_config.enabled, false)
-      load_balancer_type = try(var.addons_config.cloudrun_config.load_balancer_type, null)
+    dynamic "cloudrun_config" {
+      for_each = var.addons_config.cloudrun_config != null ? [var.addons_config.cloudrun_config] : []
+      content {
+        disabled           = !cloudrun_config.value.enabled
+        load_balancer_type = cloudrun_config.value.load_balancer_type
+      }
     }
   }
 
   logging_config {
-    enable_components = try(var.logging_config_enable_components, ["SYSTEM_COMPONENTS", "WORKLOADS"])
+    enable_components = try(var.logging_config_enable_components, [])
   }
 
   dynamic "monitoring_config" {
@@ -146,7 +146,7 @@ resource "google_container_cluster" "this" {
   }
 
   dynamic "network_policy" {
-    for_each = var.network_policy != null && length(var.network_policy) > 0 ? [var.network_policy] : []
+    for_each = var.network_policy != null ? [var.network_policy] : []
     content {
       enabled  = network_policy.value.enabled
       provider = network_policy.value.provider
@@ -154,7 +154,7 @@ resource "google_container_cluster" "this" {
   }
 
   database_encryption {
-    state    = var.database_encryption.state
+    state    = try(var.database_encryption.state, "DECRYPTED")
     key_name = var.database_encryption.key_name
   }
 
@@ -222,7 +222,7 @@ resource "google_container_cluster" "this" {
   }
 
   vertical_pod_autoscaling {
-    enabled = try(var.vertical_pod_autoscaling_enabled, true)
+    enabled = var.vertical_pod_autoscaling_enabled
   }
 
   default_snat_status {

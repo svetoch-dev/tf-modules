@@ -145,7 +145,7 @@ variable "addons_config" {
             load_balancer_type = optional(string)
           }
         ),
-        {}
+        null
       )
     }
   )

@@ -145,7 +145,7 @@ variable "addons_config" {
             load_balancer_type = optional(string)
           }
         ),
-        {}
+        null
       )
     }
   )
@@ -395,11 +395,8 @@ variable "node_pools" {
   type = map(
     object(
       {
-        cluster           = optional(string)
-        location          = optional(string)
         name              = optional(string)
         name_prefix       = optional(string, null)
-        node_locations    = optional(list(string), [])
         node_count        = optional(number)
         max_pods_per_node = optional(number)
         autoscaling = optional(
@@ -491,24 +488,23 @@ variable "node_pools" {
               ),
               {}
             )
-            linux_node_config = optional(
-              object(
-                {
-                  sysctls     = optional(map(string))
-                  cgroup_mode = optional(string)
-                }
-              )
-            )
-            # gvnic_enabled = optional(bool)
-            reservation_affinity = optional(
-              object(
-                {
-                  consume_reservation_type = string
-                  key                      = optional(string)
-                  values                   = optional(list(string))
-                }
-              )
-            )
+            # linux_node_config = optional(
+            #   object(
+            #     {
+            #       sysctls     = optional(map(string))
+            #       cgroup_mode = optional(string)
+            #     }
+            #   )
+            # )
+            # reservation_affinity = optional(
+            #   object(
+            #     {
+            #       consume_reservation_type = string
+            #       key                      = optional(string)
+            #       values                   = optional(list(string))
+            #     }
+            #   )
+            # )
             enable_confidential_storage = optional(bool, false)
             flex_start                  = optional(bool, false)
             logging_variant             = optional(string, "DEFAULT")
@@ -537,16 +533,6 @@ variable "node_pools" {
               pod_range            = optional(string)
               pod_ipv4_cidr_block  = optional(string)
               enable_private_nodes = optional(bool, true)
-            }
-          ),
-          {}
-        )
-        timeouts = optional(
-          object(
-            {
-              create = optional(string, "45m")
-              delete = optional(string, "45m")
-              update = optional(string, "45m")
             }
           ),
           {}

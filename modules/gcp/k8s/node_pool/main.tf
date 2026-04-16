@@ -80,29 +80,22 @@ resource "google_container_node_pool" "this" {
       }
     }
 
-    dynamic "linux_node_config" {
-      for_each = var.node_config.linux_node_config != null ? [var.node_config.linux_node_config] : []
-      content {
-        sysctls     = linux_node_config.value.sysctls
-        cgroup_mode = linux_node_config.value.cgroup_mode
-      }
-    }
-
-    # dynamic "gvnic" {
-    #   for_each = var.node_config.gvnic_enabled != null ? [var.node_config.gvnic_enabled] : []
+    # dynamic "linux_node_config" {
+    #   for_each = var.node_config.linux_node_config != null ? [var.node_config.linux_node_config] : []
     #   content {
-    #     enabled = gvnic.value
+    #     sysctls     = linux_node_config.value.sysctls
+    #     cgroup_mode = linux_node_config.value.cgroup_mode
     #   }
     # }
 
-    dynamic "reservation_affinity" {
-      for_each = var.node_config.reservation_affinity != null ? [var.node_config.reservation_affinity] : []
-      content {
-        consume_reservation_type = reservation_affinity.value.consume_reservation_type
-        key                      = reservation_affinity.value.key
-        values                   = reservation_affinity.value.values
-      }
-    }
+    # dynamic "reservation_affinity" {
+    #   for_each = var.node_config.reservation_affinity != null ? [var.node_config.reservation_affinity] : []
+    #   content {
+    #     consume_reservation_type = reservation_affinity.value.consume_reservation_type
+    #     key                      = reservation_affinity.value.key
+    #     values                   = reservation_affinity.value.values
+    #   }
+    # }
   }
 
   dynamic "upgrade_settings" {
