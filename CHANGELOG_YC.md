@@ -6,7 +6,9 @@ Features:
 * `iam`
   * `service_account` extend module with federated credentials support 
   * `oidc_federation` new module and input variable that create yandex_iam_workload_identity_oidc_federation
-* `k8s` create oidc federation if workload_identity is enabled
+* `k8s` 
+  * create oidc federation if workload_identity is enabled
+  * add name perfix to k8s default sa
 
 # yc-v0.6.0
 Braking changes
