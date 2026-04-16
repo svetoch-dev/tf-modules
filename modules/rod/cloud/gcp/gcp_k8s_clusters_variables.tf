@@ -34,7 +34,6 @@ locals {
         enabled = true
       }
 
-
       authenticator_groups_config_security_group = var.env.kubernetes.auth_group != "" ? var.env.kubernetes.auth_group : null
 
       logging_config_enable_components = [
@@ -58,8 +57,7 @@ locals {
 
       node_pools = {
         main = {
-          name           = "main"
-          node_locations = var.env.kubernetes.node_locations
+          name = "main"
           node_config = {
             machine_type    = "t2d-standard-4"
             service_account = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
@@ -78,8 +76,7 @@ locals {
           }
         },
         on-demand = {
-          name           = "on-demand"
-          node_locations = var.env.kubernetes.node_locations
+          name = "on-demand"
           node_config = {
             machine_type    = "t2d-standard-4"
             service_account = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
@@ -105,8 +102,7 @@ locals {
           }
         }
         runner = var.env.short_name == "int" ? {
-          name           = "runner"
-          node_locations = var.env.kubernetes.node_locations
+          name = "runner"
           node_config = {
             machine_type    = "t2d-standard-4"
             service_account = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
