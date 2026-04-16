@@ -88,12 +88,12 @@ resource "google_container_node_pool" "this" {
       }
     }
 
-    dynamic "gvnic" {
-      for_each = var.node_config.gvnic_enabled != null ? [var.node_config.gvnic_enabled] : []
-      content {
-        enabled = gvnic.value
-      }
-    }
+    # dynamic "gvnic" {
+    #   for_each = var.node_config.gvnic_enabled != null ? [var.node_config.gvnic_enabled] : []
+    #   content {
+    #     enabled = gvnic.value
+    #   }
+    # }
 
     dynamic "reservation_affinity" {
       for_each = var.node_config.reservation_affinity != null ? [var.node_config.reservation_affinity] : []

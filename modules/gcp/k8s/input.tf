@@ -499,7 +499,7 @@ variable "node_pools" {
                 }
               )
             )
-            gvnic_enabled = optional(bool)
+            # gvnic_enabled = optional(bool)
             reservation_affinity = optional(
               object(
                 {

@@ -34,6 +34,7 @@ locals {
         enabled = true
       }
 
+
       authenticator_groups_config_security_group = var.env.kubernetes.auth_group != "" ? var.env.kubernetes.auth_group : null
 
       logging_config_enable_components = [
