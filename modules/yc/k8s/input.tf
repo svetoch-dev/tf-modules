@@ -42,7 +42,6 @@ variable "default_node_service_account" {
 variable "name" {
   description = "The Kubernetes cluster name."
   type        = string
-  default     = null
 }
 
 variable "description" {

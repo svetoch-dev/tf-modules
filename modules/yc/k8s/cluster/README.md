@@ -97,7 +97,7 @@ module "cluster" {
 | `iam_roles` | IAM roles to grant for the Kubernetes cluster. Members must use standard Yandex Cloud IAM member formats accepted by the provider. | `list(object)` | `[]` | no |
 | `kms_provider` | Cluster KMS provider configuration. | `object` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the cluster. | `map(string)` | `{}` | no |
-| `name` | The Kubernetes cluster name. | `string` | `null` | no |
+| `name` | The Kubernetes cluster name. | `string` | n/a | yes |
 | `network_policy_provider` | Network policy provider for the cluster. | `string` | `"CALICO"` | no |
 | `node_ipv4_cidr_mask_size` | Mask size assigned to each node for pod networking. | `number` | `null` | no |
 | `release_channel` | Cluster release channel. | `string` | `null` | no |

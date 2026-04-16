@@ -20,7 +20,8 @@ variable "service_accounts" {
                 external_subject_id = string
               }
             )
-          )
+          ),
+          {}
         )
       }
     )

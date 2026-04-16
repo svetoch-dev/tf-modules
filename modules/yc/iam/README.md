@@ -121,7 +121,7 @@ Map key: service account name.
 | `roles` | `list(string)` | no | Folder-level IAM roles to grant to the created service account. Default is `[]`. |
 | `sa_iam_bindings` | `map(list(string))` | no | IAM bindings applied to the created service account resource, keyed by role. Default is `{}`. |
 | `generate_key` | `bool` | no | Whether to create a `yandex_iam_service_account_key` for the service account. Default is `false`. |
-| `federated_credentials` | `map(object({ federation_id = string, external_subject_id = string }))` | no | Federated credentials to create for the service account, keyed by an arbitrary local name. When omitted, no federated credentials are created. |
+| `federated_credentials` | `map(object)` | no | Federated credentials to create for the service account, keyed by an arbitrary local name. When omitted, no federated credentials are created. |
 
 ### `service_accounts[*].federated_credentials`
 
