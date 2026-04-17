@@ -1,3 +1,6 @@
+# rod-v0.16.0
+* `cloud/gcp/gcp_k8s_clusters_variables.tf` use own GKE module [gcp-v3.0.0-alpha-1](CHANGELOG_GCP.md#gcp-v3.0.0-alpha-1)
+
 # rod-v0.15.0
 
 Features:

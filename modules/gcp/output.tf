@@ -19,8 +19,8 @@ output "subnets" {
   }
 }
 
-output "gke" {
-  value = module.gke
+output "k8s" {
+  value = module.k8s
 }
 
 output "nats" {
