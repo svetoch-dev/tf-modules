@@ -40,6 +40,12 @@ variable "s3" {
   default     = {}
 }
 
+variable "dns" {
+  description = "DNS configuration for this project"
+  type        = any
+  default     = {}
+}
+
 variable "ycrs" {
   description = "A list of yc registries to create in this project"
   type        = any

@@ -111,20 +111,10 @@ locals {
         members = concat(
           local.users.owners,
           var.env.short_name != "int" ? [
-            "serviceAccount:${data.yandex_iam_service_account.sa_int["runner"].id}"
+            "serviceAccountName:${var.int_env.cloud.folder_id}:runner-${var.int_env.short_name}"
           ] : []
         )
       }
     }
   }
-}
-
-data "yandex_iam_service_account" "sa_int" {
-  for_each = var.env.short_name != "int" ? {
-    "runner-app" = "runner-app-${var.int_env.short_name}"
-    "runner"     = "runner-${var.int_env.short_name}"
-  } : {}
-
-  name      = each.value
-  folder_id = var.int_env.cloud.folder_id
 }
