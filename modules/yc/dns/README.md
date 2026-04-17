@@ -29,9 +29,10 @@ module "dns" {
 
   records = [
     {
-      name = "api.example.internal."
-      type = "A"
-      ttl  = 300
+      name        = "api.example.internal."
+      type        = "A"
+      description = "Internal API endpoint"
+      ttl         = 300
       data = [
         "10.0.0.10",
         "10.0.0.11",
@@ -102,7 +103,8 @@ module "dns" {
 |-------|------|:--------:|-------------|
 | `name` | `string` | yes | Record set name. |
 | `type` | `string` | yes | DNS record type. |
-| `ttl` | `number` | yes | TTL for the record set, in seconds. |
+| `description` | `string` | no | DNS record set description. |
+| `ttl` | `number` | no | TTL for the record set, in seconds. Defaults to `300`. |
 | `data` | `list(string)` | yes | List of record values for the record set. |
 | `timeouts` | `object` | no | Custom timeouts for the record set resource. |
 

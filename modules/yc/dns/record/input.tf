@@ -13,6 +13,12 @@ variable "type" {
   type        = string
 }
 
+variable "description" {
+  description = "DNS record set description."
+  type        = string
+  default     = ""
+}
+
 variable "ttl" {
   description = "TTL for the record set, in seconds."
   type        = number

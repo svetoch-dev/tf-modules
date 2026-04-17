@@ -78,10 +78,11 @@ variable "records" {
   type = list(
     object(
       {
-        name = string
-        type = string
-        ttl  = optional(number, 300)
-        data = list(string)
+        name        = string
+        type        = string
+        description = optional(string, "")
+        ttl         = optional(number, 300)
+        data        = list(string)
         timeouts = optional(
           object(
             {

@@ -40,10 +40,11 @@ module "records" {
     record_obj.name => record_obj
   }
 
-  zone_id  = module.zone.this.id
-  name     = each.value.name
-  type     = each.value.type
-  ttl      = each.value.ttl
-  data     = each.value.data
-  timeouts = try(each.value.timeouts, null)
+  zone_id     = module.zone.this.id
+  name        = each.value.name
+  type        = each.value.type
+  description = each.value.description
+  ttl         = each.value.ttl
+  data        = each.value.data
+  timeouts    = each.value.timeouts
 }
