@@ -16,7 +16,7 @@ variable "zone" {
 variable "description" {
   description = "DNS zone description."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "labels" {

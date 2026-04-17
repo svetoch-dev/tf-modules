@@ -269,7 +269,7 @@ module "dns" {
   folder_id           = try(each.value.folder_id, var.project.folder_id)
   name                = try(each.value.name, each.key)
   zone                = each.value.zone
-  description         = try(each.value.description, "")
+  description         = try(each.value.description, null)
   labels              = try(each.value.labels, {})
   public              = try(each.value.public, true)
   private_networks    = try(each.value.private_networks, [])

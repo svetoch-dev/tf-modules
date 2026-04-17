@@ -2,7 +2,7 @@ resource "yandex_dns_zone" "this" {
   folder_id           = var.folder_id
   name                = var.name
   zone                = var.zone
-  description         = var.description
+  description         = var.description != null ? var.description : "${var.public == true ? "public" : "private"} DNS zone ${var.zone}"
   labels              = var.labels
   public              = var.public
   private_networks    = var.private_networks
