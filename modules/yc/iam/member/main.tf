@@ -1,4 +1,6 @@
 locals {
+  member_data = split(":", var.member)
+
   member = lookup(
     {
       "serviceAccountName" = length(data.yandex_iam_service_account.sa[*]) > 0 ? "serviceAccount:${data.yandex_iam_service_account.sa[0].id}" : ""
@@ -7,8 +9,6 @@ locals {
     local.member_data[0],
     var.member
   )
-
-  member_data = split(":", var.member)
 }
 
 
