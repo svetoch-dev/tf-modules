@@ -54,7 +54,7 @@ module "k8s" {
   min_master_version                         = try(each.value.min_master_version, null)
   description                                = try(each.value.description, null)
   deletion_protection                        = try(each.value.deletion_protection, true)
-  resource_labels                            = try(each.value.resource_labels, null)
+  resource_labels                            = try(each.value.resource_labels, {})
   networking_mode                            = try(each.value.networking_mode, "VPC_NATIVE")
   remove_default_node_pool                   = try(each.value.remove_default_node_pool, true)
   ip_allocation_policy                       = each.value.ip_allocation_policy

@@ -52,7 +52,7 @@ variable "deletion_protection" {
 variable "resource_labels" {
   description = "The GCE resource labels (a map of key/value pairs) to be applied to the cluster"
   type        = map(string)
-  default     = null
+  default     = {}
 }
 
 variable "networking_mode" {

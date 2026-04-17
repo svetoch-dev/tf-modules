@@ -121,7 +121,7 @@ module "gke" {
 | `min_master_version` | The minimum version of the master | `string` | `null` | no | "1.27.3-gke.100" |
 | `description` | Description of the cluster | `string` | `null` | no | "Production GKE cluster" |
 | `deletion_protection` | Whether or not to allow Terraform to destroy the cluster. | `bool` | `true` | no | true |
-| `resource_labels` | The GCE resource labels (a map of key/value pairs) to be applied to the cluster | `map(string)` | `null` | no | {"env": "prod"} |
+| `resource_labels` | The GCE resource labels (a map of key/value pairs) to be applied to the cluster | `map(string)` | `{}` | no | {"env": "prod"} |
 | `networking_mode` | Determines whether alias IP or routes will be used for pod IPs in the cluster. Accepted values: `VPC_NATIVE` or `ROUTES`. | `string` | `"VPC_NATIVE"` | no | "VPC_NATIVE" |
 | `remove_default_node_pool` | deletes the default node pool upon cluster creation | `bool` | `true` | no | true |
 | `ip_allocation_policy` | Configuration of cluster IP allocation. `cluster_secondary_range_name` conflicts with `cluster_ipv4_cidr_block`, and `services_secondary_range_name` conflicts with `services_ipv4_cidr_block`. You must provide either a range name (for existing secondary ranges) OR a CIDR block (for GKE to create them). | `object` | n/a | yes | { cluster_secondary_range_name = "pods" } |

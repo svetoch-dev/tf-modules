@@ -34,7 +34,7 @@ module "cluster" {
 | `min_master_version` | The minimum version of the master | `string` | `null` | no | "1.27.3-gke.100" |
 | `description` | Description of the cluster | `string` | `null` | no | "Production GKE cluster" |
 | `deletion_protection` | Whether or not to allow Terraform to destroy the cluster | `bool` | `true` | no | true |
-| `resource_labels` | GCE resource labels to be applied to the cluster | `map(string)` | `null` | no | {"env": "prod"} |
+| `resource_labels` | GCE resource labels to be applied to the cluster | `map(string)` | `{}` | no | {"env": "prod"} |
 | `networking_mode` | Determines whether alias IP or routes will be used | `string` | `"VPC_NATIVE"` | no | "VPC_NATIVE" |
 | `remove_default_node_pool` | Deletes the default node pool upon cluster creation | `bool` | `true` | no | true |
 | `ip_allocation_policy` | Configuration of cluster IP allocation | `object` | n/a | yes | { cluster_secondary_range_name = "pods" } |
