@@ -117,25 +117,25 @@ module "gke" {
 | `location` | The location (region or zone) for the cluster | `string` | n/a | yes | "us-central1" |
 | `node_locations` | The list of zones in which the cluster's nodes are located | `list(string)` | `[]` | no | ["us-central1-a"] |
 | `network` | The name or self_link of the Google Compute Engine network to which the cluster is connected | `string` | `null` | no | "default" |
-| `subnetwork` | The name or self_link of the Google Compute Engine subnetwork to which the cluster is connected | `string` | `null` | no | "default" |
+| `subnetwork` | The name or self_link of the Google Compute Engine subnetwork to which the cluster is connected | `string` | `null` | no | "projects/my-project/regions/us-central1/subnetworks/default" |
 | `min_master_version` | The minimum version of the master | `string` | `null` | no | "1.27.3-gke.100" |
 | `description` | Description of the cluster | `string` | `null` | no | "Production GKE cluster" |
 | `deletion_protection` | Whether or not to allow Terraform to destroy the cluster. | `bool` | `true` | no | true |
 | `resource_labels` | The GCE resource labels (a map of key/value pairs) to be applied to the cluster | `map(string)` | `null` | no | {"env": "prod"} |
-| `networking_mode` | Determines whether alias IP or routes will be used for pod IPs in the cluster | `string` | `"VPC_NATIVE"` | no | "VPC_NATIVE" |
+| `networking_mode` | Determines whether alias IP or routes will be used for pod IPs in the cluster. Accepted values: `VPC_NATIVE` or `ROUTES`. | `string` | `"VPC_NATIVE"` | no | "VPC_NATIVE" |
 | `remove_default_node_pool` | deletes the default node pool upon cluster creation | `bool` | `true` | no | true |
-| `ip_allocation_policy` | Configuration of cluster IP allocation | `object` | n/a | yes | { cluster_secondary_range_name = "pods" } |
+| `ip_allocation_policy` | Configuration of cluster IP allocation. `cluster_secondary_range_name` conflicts with `cluster_ipv4_cidr_block`, and `services_secondary_range_name` conflicts with `services_ipv4_cidr_block`. You must provide either a range name (for existing secondary ranges) OR a CIDR block (for GKE to create them). | `object` | n/a | yes | { cluster_secondary_range_name = "pods" } |
 | `private_cluster_config` | Configuration for private clusters | `object` | `{}` | no | { enable_private_nodes = true } |
 | `master_authorized_networks_config` | Configuration for master authorized networks | `object` | `null` | no | { cidr_blocks = [{ cidr_block = "0.0.0.0/0" }] } |
-| `release_channel` | Configuration for release channels | `string` | `"STABLE"` | no | "REGULAR" |
+| `release_channel` | Configuration for release channels. Accepted values: `UNSPECIFIED`, `RAPID`, `REGULAR`, `STABLE`. | `string` | `"STABLE"` | no | "STABLE" |
 | `workload_identity_config_pool` | Configuration for workload identity | `string` | `null` | no | "my-project-id.svc.id.goog" |
 | `addons_config` | Configuration for GKE addons | `object` | `{}` | no | { http_load_balancing_enabled = true } |
 | `logging_config_enable_components` | Configuration for cluster logging | `list(string)` | `["SYSTEM_COMPONENTS", "WORKLOADS"]` | no | ["SYSTEM_COMPONENTS"] |
 | `monitoring_config` | Configuration for cluster monitoring | `object` | `{}` | no | { enable_components = ["SYSTEM_COMPONENTS"] } |
-| `maintenance_policy` | Configuration for maintenance policy | `object` | `null` | no | { recurring_window = { start_time = "2023-01-01T00:00:00Z" } } |
+| `maintenance_policy` | Configuration for maintenance policy (Optional) | `object` | `null` | no | {} |
 | `network_policy` | Configuration for network policy | `object` | `null` | no | { enabled = true } |
 | `database_encryption` | Configuration for database encryption | `object` | `{}` | no | { state = "ENCRYPTED" } |
-| `binary_authorization_evaluation_mode` | Configuration for binary authorization | `string` | `"DISABLED"` | no | "PROJECT_SINGLETON_POLICY_ENFORCE" |
+| `binary_authorization_evaluation_mode` | Configuration for binary authorization. Accepted values: `DISABLED`, `PROJECT_SINGLETON_POLICY_ENFORCE`. | `string` | `"DISABLED"` | no | "PROJECT_SINGLETON_POLICY_ENFORCE" |
 | `cluster_autoscaling` | Configuration for cluster autoscaling | `object` | `null` | no | { enabled = true } |
 | `master_auth_issue_client_certificate` | Configuration for master authentication | `bool` | `false` | no | false |
 | `authenticator_groups_config_security_group` | Configuration for RBAC group-based authentication | `string` | `null` | no | "gke-security-groups@domain.com" |
@@ -173,11 +173,11 @@ module "gke" {
 
 | Field | Type | Required | Description | Example |
 |-------|------|:--------:|-------------|---------|
-| `cluster_secondary_range_name` | `string` | no | The name of the existing secondary range in the cluster's subnetwork to use for pod IP addresses. | "pods" |
-| `services_secondary_range_name` | `string` | no | The name of the existing secondary range in the cluster's subnetwork to use for service ClusterIPs. | "services" |
-| `cluster_ipv4_cidr_block` | `string` | no | The IP address range for the cluster pod IPs. | "10.0.0.0/14" |
-| `services_ipv4_cidr_block` | `string` | no | The IP address range of the services IPs in this cluster. | "10.4.0.0/19" |
-| `stack_type` | `string` | no | The IP Stack type of the cluster. Choose between `IPV4` and `IPV4_IPV6`. | "IPV4" |
+| `cluster_secondary_range_name` | `string` | no | The name of the existing secondary range in the cluster's subnetwork to use for pod IP addresses. Conflicts with `cluster_ipv4_cidr_block`. | "pods" |
+| `services_secondary_range_name` | `string` | no | The name of the existing secondary range in the cluster's subnetwork to use for service ClusterIPs. Conflicts with `services_ipv4_cidr_block`. | "services" |
+| `cluster_ipv4_cidr_block` | `string` | no | The IP address range for the cluster pod IPs. Conflicts with `cluster_secondary_range_name`. | "10.0.0.0/14" |
+| `services_ipv4_cidr_block` | `string` | no | The IP address range of the services IPs in this cluster. Conflicts with `services_secondary_range_name`. | "10.4.0.0/19" |
+| `stack_type` | `string` | no | The IP Stack type of the cluster. Accepted values: `IPV4`, `IPV4_IPV6`. | "IPV4" |
 
 ### `private_cluster_config`
 
@@ -240,16 +240,16 @@ module "gke" {
 
 | Field | Type | Required | Description | Example |
 |-------|------|:--------:|-------------|---------|
-| `recurring_window` | `object` | no | Time window specified for recurring maintenance operations. | { start_time = "2023-01-01T00:00:00Z" } |
+| `recurring_window` | `object` | no | Time window specified for recurring maintenance operations. | { <br>start_time = "2023-01-01T00:00:00Z", <br>recurrence = "FREQ=WEEKLY;BYDAY=SA", <br>end_time = "2020-02-07T18:00:00Z" <br>} |
 | `daily_maintenance_window` | `object` | no | Time window specified for daily maintenance operations. | { start_time = "00:00" } |
 
 ### `maintenance_policy.recurring_window`
 
 | Field | Type | Required | Description | Example |
 |-------|------|:--------:|-------------|---------|
-| `start_time` | `string` | yes | Time window specified for recurring maintenance operations in RFC3339 format. | "2023-01-01T00:00:00Z" |
-| `end_time` | `string` | yes | Time window specified for recurring maintenance operations in RFC3339 format. | "2023-01-01T04:00:00Z" |
-| `recurrence` | `string` | yes | An RFC5545 RRULE, specifying how this window recurs. | "FREQ=WEEKLY;BYDAY=SA,SU" |
+| `start_time` | `string` | yes | Required if a recurring window is defined. Time window specified for recurring maintenance operations in RFC3339 format. | "2023-01-01T00:00:00Z" |
+| `end_time` | `string` | yes | Required if a recurring window is defined. Time window specified for recurring maintenance operations in RFC3339 format. | "2023-01-01T04:00:00Z" |
+| `recurrence` | `string` | yes | Required if a recurring window is defined. An RFC5545 RRULE, specifying how this window recurs. | "FREQ=WEEKLY;BYDAY=SA,SU" |
 
 ### `maintenance_policy.daily_maintenance_window`
 
@@ -362,7 +362,7 @@ module "gke" {
 | `max_node_count` | `number` | no | Maximum number of nodes per zone. | 1 |
 | `total_min_node_count` | `number` | no | Total minimum number of nodes in the NodePool. | 1 |
 | `total_max_node_count` | `number` | no | Total maximum number of nodes in the NodePool. | 1 |
-| `location_policy` | `string` | no | Location policy used when scaling up a nodepool. | "example" |
+| `location_policy` | `string` | no | Location policy used when scaling up a nodepool. Accepted values: `BALANCED`, `ANY`. | "BALANCED" |
 
 ### `node_pools{}.management`
 
@@ -379,8 +379,8 @@ module "gke" {
 | `service_account` | `string` | no | The Google Cloud Platform Service Account to be used by the node VMs. | "k8s-nodes@my-project.iam.gserviceaccount.com" |
 | `oauth_scopes` | `list(string)` | no | The set of Google API scopes to be made available on all of the node VMs. | ["https://www.googleapis.com/auth/cloud-platform"] |
 | `disk_size_gb` | `number` | no | Size of the disk attached to each node. | 50 |
-| `disk_type` | `string` | no | Type of the disk attached to each node. | "pd-ssd" |
-| `image_type` | `string` | no | The image type to use for this node. | "COS_CONTAINERD" |
+| `disk_type` | `string` | no | Type of the disk attached to each node. Accepted values: `pd-standard`, `pd-ssd`, `pd-balanced`, `pd-extreme`. | "pd-ssd" |
+| `image_type` | `string` | no | The image type to use for this node. Accepted values: `COS_CONTAINERD`, `UBUNTU_CONTAINERD`, `COS`, `UBUNTU`, `WINDOWS_LTSC_CONTAINERD`, `WINDOWS_SAC_CONTAINERD`. | "COS_CONTAINERD" |
 | `labels` | `map(string)` | no | The map of Kubernetes labels (key/value pairs) to be applied to each node. | {"env": "prod"} |
 | `metadata` | `map(string)` | no | The metadata key/value pairs assigned to instances in the cluster. | {"disable-legacy-endpoints": "true"} |
 | `tags` | `list(string)` | no | The list of instance tags applied to all nodes. | ["gke-node"] |

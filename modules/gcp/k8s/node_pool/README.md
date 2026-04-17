@@ -79,8 +79,8 @@ module "node_pool" {
 | `service_account` | `string` | yes | The Google Cloud Platform Service Account to be used by the node VMs. | "k8s-nodes@my-project.iam.gserviceaccount.com" |
 | `oauth_scopes` | `list(string)` | no | The set of Google API scopes to be made available on all of the node VMs. | ["https://www.googleapis.com/auth/cloud-platform"] |
 | `disk_size_gb` | `number` | no | Size of the disk attached to each node. | 50 |
-| `disk_type` | `string` | no | Type of the disk attached to each node. | "pd-ssd" |
-| `image_type` | `string` | no | The image type to use for this node. | "COS_CONTAINERD" |
+| `disk_type` | `string` | no | Type of the disk attached to each node. Accepted values: `pd-standard`, `pd-ssd`, `pd-balanced`, `pd-extreme`. | "pd-ssd" |
+| `image_type` | `string` | no | The image type to use for this node. Accepted values: `COS_CONTAINERD`, `UBUNTU_CONTAINERD`, `COS`, `UBUNTU`, `WINDOWS_LTSC_CONTAINERD`, `WINDOWS_SAC_CONTAINERD`. | "COS_CONTAINERD" |
 | `labels` | `map(string)` | no | The map of Kubernetes labels (key/value pairs) to be applied to each node. | {"env": "prod"} |
 | `metadata` | `map(string)` | no | The metadata key/value pairs assigned to instances in the cluster. | {"disable-legacy-endpoints": "true"} |
 | `tags` | `list(string)` | no | The list of instance tags applied to all nodes. | ["gke-node"] |

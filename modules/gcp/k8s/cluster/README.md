@@ -45,7 +45,7 @@ module "cluster" {
 | `addons_config` | Configuration for GKE addons | `object` | `{}` | no | { http_load_balancing_enabled = true } |
 | `logging_config_enable_components` | Configuration for cluster logging components | `list(string)` | `["SYSTEM_COMPONENTS", "WORKLOADS"]` | no | ["SYSTEM_COMPONENTS"] |
 | `monitoring_config` | Configuration for cluster monitoring | `object` | `{}` | no | { enable_components = ["SYSTEM_COMPONENTS"] } |
-| `maintenance_policy` | Configuration for maintenance policy | `object` | `null` | no | { recurring_window = { start_time = "2023-01-01T00:00:00Z" } } |
+| `maintenance_policy` | Configuration for maintenance policy | `object` | `null` | no | {} |
 | `network_policy` | Configuration for network policy | `object` | `null` | no | { enabled = true } |
 | `database_encryption` | Configuration for database encryption | `object` | `{}` | no | { state = "ENCRYPTED" } |
 | `binary_authorization_evaluation_mode` | Configuration for binary authorization | `string` | `"DISABLED"` | no | "PROJECT_SINGLETON_POLICY_ENFORCE" |
@@ -139,16 +139,16 @@ module "cluster" {
 
 | Field | Type | Required | Description | Example |
 |-------|------|:--------:|-------------|---------|
-| `recurring_window` | `object` | no | Time window specified for recurring maintenance operations. | { start_time = "2023-01-01T00:00:00Z" } |
+| `recurring_window` | `object` | no | Time window specified for recurring maintenance operations. | { <br>start_time = "2023-01-01T00:00:00Z", <br>recurrence = "FREQ=WEEKLY;BYDAY=SA", <br>end_time = "2020-02-07T18:00:00Z" <br>} |
 | `daily_maintenance_window` | `object` | no | Time window specified for daily maintenance operations. | { start_time = "00:00" } |
 
 ### `maintenance_policy.recurring_window`
 
 | Field | Type | Required | Description | Example |
 |-------|------|:--------:|-------------|---------|
-| `start_time` | `string` | yes | Time window specified for recurring maintenance operations in RFC3339 format. | "2023-01-01T00:00:00Z" |
-| `end_time` | `string` | yes | Time window specified for recurring maintenance operations in RFC3339 format. | "2023-01-01T04:00:00Z" |
-| `recurrence` | `string` | yes | An RFC5545 RRULE, specifying how this window recurs. | "FREQ=WEEKLY;BYDAY=SA,SU" |
+| `start_time` | `string` | yes | Required if a recurring window is defined. Time window specified for recurring maintenance operations in RFC3339 format. | "2023-01-01T00:00:00Z" |
+| `end_time` | `string` | yes | Required if a recurring window is defined. Time window specified for recurring maintenance operations in RFC3339 format. | "2023-01-01T04:00:00Z" |
+| `recurrence` | `string` | yes | Required if a recurring window is defined. An RFC5545 RRULE, specifying how this window recurs. | "FREQ=WEEKLY;BYDAY=SA,SU" |
 
 ### `maintenance_policy.daily_maintenance_window`
 
@@ -234,6 +234,17 @@ module "cluster" {
 
 | Field | Type | Required | Description | Example |
 |-------|------|:--------:|-------------|---------|
+| `create` | `string` | no | Timeout for create operations. | "30m" |
+| `delete` | `string` | no | Timeout for delete operations. | "30m" |
+| `update` | `string` | no | Timeout for update operations. | "30m" |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| `this` | The Kubernetes cluster resource (`google_container_cluster`). |
+ cluster resource (`google_container_cluster`). |
+--|
 | `create` | `string` | no | Timeout for create operations. | "30m" |
 | `delete` | `string` | no | Timeout for delete operations. | "30m" |
 | `update` | `string` | no | Timeout for update operations. | "30m" |
