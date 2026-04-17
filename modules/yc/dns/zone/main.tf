@@ -23,6 +23,7 @@ resource "yandex_dns_zone_iam_binding" "this" {
   for_each = {
     for iam_role in var.iam_roles :
     iam_role.role => iam_role
+    if iam_role != null
   }
 
   dns_zone_id = yandex_dns_zone.this.id
