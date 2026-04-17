@@ -17,13 +17,16 @@ output "network" {
 }
 
 output "k8s_clusters" {
-  value = lookup(
-    {
-      gcp = module.gcp.k8s
-    },
-    var.env.cloud.name,
-    null
-  )
+  value = {
+    for k8s_name, k8s_obj in module.gcp.k8s :
+    k8s_name => merge(
+      k8s_obj,
+      {
+        ca_certificate = k8s_obj.cluster.master_auth.0.cluster_ca_certificate
+        endpoint       = k8s_obj.cluster.endpoint
+      }
+    )
+  }
 }
 
 output "iam" {
