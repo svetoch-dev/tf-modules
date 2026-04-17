@@ -238,16 +238,6 @@ module "cluster" {
 | `delete` | `string` | no | Timeout for delete operations. | "30m" |
 | `update` | `string` | no | Timeout for update operations. | "30m" |
 
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| `this` | The Kubernetes cluster resource (`google_container_cluster`). |
- cluster resource (`google_container_cluster`). |
---|
-| `create` | `string` | no | Timeout for create operations. | "30m" |
-| `delete` | `string` | no | Timeout for delete operations. | "30m" |
-| `update` | `string` | no | Timeout for update operations. | "30m" |
 
 ## Outputs
 
