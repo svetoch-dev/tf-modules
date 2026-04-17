@@ -16,7 +16,7 @@ variable "type" {
 variable "description" {
   description = "DNS record set description."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "ttl" {

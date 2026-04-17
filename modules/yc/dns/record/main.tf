@@ -4,7 +4,7 @@ resource "yandex_dns_recordset" "this" {
   type        = var.type
   ttl         = var.ttl
   data        = var.data
-  description = var.description
+  description = var.description != null ? var.description : "type='${var.type}' recordset='${var.name}' with ttl='${var.ttl}'"
 
   dynamic "timeouts" {
     for_each = var.timeouts == null ? [] : [var.timeouts]
