@@ -16,6 +16,7 @@ module "yc" {
   networks = local.yc_networks_merged
   iam      = local.yc_iam_merged
   k8s      = local.yc_k8s_clusters_merged
+  dns      = local.yc_dns_zones_merged
   ycrs     = local.yc_registries_merged
   s3       = local.yc_buckets_merged
 }

@@ -1,8 +1,8 @@
 locals {
   yc_registries = {
     containers = {
-      writers = var.env.short_name != "int" && var.env.initial_start == true ? [
-        "serviceAccount:${data.yandex_iam_service_account.sa_int["runner-app"].id}"
+      writer_names = var.env.short_name != "int" ? [
+        "serviceAccountName:${var.int_env.cloud.folder_id}:runner-${var.int_env.short_name}"
       ] : []
     }
   }

@@ -50,3 +50,17 @@ output "s3_objects" {
     s3_name => s3_obj.objects
   }
 }
+
+output "dns_zones" {
+  value = {
+    for dns_name, dns_obj in module.dns :
+    dns_name => dns_obj.zone
+  }
+}
+
+output "dns_records" {
+  value = {
+    for dns_name, dns_obj in module.dns :
+    dns_name => dns_obj.records
+  }
+}

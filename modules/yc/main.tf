@@ -32,6 +32,31 @@ locals {
       ]
     )
   )
+  members_dns = distinct(
+    flatten(
+      [
+        for dns_name, dns_obj in var.dns :
+        concat(
+          lookup(dns_obj, "viewer_names", []),
+          lookup(dns_obj, "admin_names", []),
+          lookup(dns_obj, "editor_names", []),
+        )
+        if dns_obj != null
+      ]
+    )
+  )
+  members_ycrs = distinct(
+    flatten(
+      [
+        for ycr_name, ycr_obj in var.ycrs :
+        concat(
+          lookup(ycr_obj, "reader_names", []),
+          lookup(ycr_obj, "writer_names", []),
+        )
+        if ycr_obj != null
+      ]
+    )
+  )
 }
 
 module "members_k8s" {
@@ -50,6 +75,28 @@ module "members_s3" {
   for_each = toset(
     [
       for member in local.members_s3 :
+      member
+    ]
+  )
+  member = each.value
+}
+
+module "members_dns" {
+  source = "./iam/member"
+  for_each = toset(
+    [
+      for member in local.members_dns :
+      member
+    ]
+  )
+  member = each.value
+}
+
+module "members_ycrs" {
+  source = "./iam/member"
+  for_each = toset(
+    [
+      for member in local.members_ycrs :
       member
     ]
   )
@@ -209,6 +256,57 @@ module "s3" {
   ]
 }
 
+/* DNS */
+
+module "dns" {
+  for_each = {
+    for dns_name, dns_obj in var.dns :
+    dns_name => dns_obj
+    if dns_obj != null
+  }
+  source = "./dns"
+
+  folder_id           = try(each.value.folder_id, var.project.folder_id)
+  name                = try(each.value.name, each.key)
+  zone                = each.value.zone
+  description         = try(each.value.description, "")
+  labels              = try(each.value.labels, {})
+  public              = try(each.value.public, true)
+  private_networks    = try(each.value.private_networks, [])
+  deletion_protection = try(each.value.deletion_protection, false)
+  admins = concat(
+    lookup(each.value, "admins", [])
+    ,
+    [
+      for member in lookup(each.value, "admin_names", []) :
+      module.members_dns[member].converted
+    ]
+  )
+  viewers = concat(
+    lookup(each.value, "viewers", [])
+    ,
+    [
+      for member in lookup(each.value, "viewer_names", []) :
+      module.members_dns[member].converted
+    ]
+  )
+  editors = concat(
+    lookup(each.value, "editors", [])
+    ,
+    [
+      for member in lookup(each.value, "editor_names", []) :
+      module.members_dns[member].converted
+    ]
+  )
+  timeouts = try(each.value.timeouts, null)
+  records  = try(each.value.records, [])
+
+  depends_on = [
+    module.network,
+    module.iam,
+  ]
+}
+
 /* ycr */
 
 module "ycrs" {
@@ -219,12 +317,24 @@ module "ycrs" {
     if ycr_obj != null
   }
 
-  folder_id      = var.project.folder_id
-  name           = try(each.value.name, each.key)
-  labels         = try(each.value.labels, {})
-  timeouts       = try(each.value.timeouts, null)
-  readers        = try(each.value.readers, [])
-  writers        = try(each.value.writers, [])
+  folder_id = var.project.folder_id
+  name      = try(each.value.name, each.key)
+  labels    = try(each.value.labels, {})
+  timeouts  = try(each.value.timeouts, null)
+  readers = concat(
+    try(each.value.readers, []),
+    [
+      for member in try(each.value.reader_names, []) :
+      module.members_ycrs[member].converted
+    ]
+  )
+  writers = concat(
+    try(each.value.writers, []),
+    [
+      for member in try(each.value.writer_names, []) :
+      module.members_ycrs[member].converted
+    ]
+  )
   ip_permissions = try(each.value.ip_permissions, null)
   repositories   = try(each.value.repositories, {})
 }

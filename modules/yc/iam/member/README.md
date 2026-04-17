@@ -2,9 +2,10 @@
 
 Converts a single Yandex Cloud IAM member string into a normalized value that can be used by other modules.
 
-The module passes regular IAM member values through unchanged and resolves two convenience aliases:
+The module passes regular IAM member values through unchanged and resolves convenience aliases:
 
 - `serviceAccountName:<name>` resolves a service account name into `serviceAccount:<id>`.
+- `serviceAccountName:<folder_id>:<name>` resolves a service account name in a specific folder into `serviceAccount:<id>`.
 - `userAccountName:<login>` resolves a user login into `userAccount:<id>`.
 
 ## Usage
@@ -13,7 +14,7 @@ The module passes regular IAM member values through unchanged and resolves two c
 module "iam_member" {
   source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/yc/iam/member?ref=master"
 
-  member = "serviceAccountName:ci-runner"
+  member = "serviceAccountName:b1gxxxxxxxxxxxxxxx:ci-runner"
 }
 ```
 
@@ -28,7 +29,7 @@ module "iam_member" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| `member` | IAM member string. Standard Yandex Cloud IAM member values are kept as-is. `serviceAccountName:<name>` and `userAccountName:<login>` are resolved through Yandex Cloud data sources. | `string` | n/a | yes |
+| `member` | IAM member string. Standard Yandex Cloud IAM member values are kept as-is. Supported aliases are `serviceAccountName:<name>`, `serviceAccountName:<folder_id>:<name>`, and `userAccountName:<login>`. | `string` | n/a | yes |
 
 ## Outputs
 
@@ -40,5 +41,6 @@ module "iam_member" {
 
 - Values without `serviceAccountName:` or `userAccountName:` are returned unchanged.
 - `serviceAccountName:<name>` resolves through the `yandex_iam_service_account` data source and returns `serviceAccount:<id>`.
+- `serviceAccountName:<folder_id>:<name>` resolves through the `yandex_iam_service_account` data source with the given folder ID and returns `serviceAccount:<id>`.
 - `userAccountName:<login>` resolves through the `yandex_iam_user` data source and returns `userAccount:<id>`.
 - The module converts exactly one member value per invocation.

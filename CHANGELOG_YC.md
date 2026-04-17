@@ -1,3 +1,9 @@
+# yc-v0.9.0
+
+Features:
+* `main`: `dns` module 
+* `iam/member`: ability to set none default folder_id
+
 # yc-v0.8.0
 
 Features:

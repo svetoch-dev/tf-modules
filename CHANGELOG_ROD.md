@@ -1,3 +1,10 @@
+# rod-v0.16.0
+
+Features:
+* `cloud\yc`
+  * dns support
+  * get int sa ids using `serviceAccountName:${var.int_env.cloud.folder_id}:runner-int` strings instead of data source
+
 # rod-v0.15.0
 
 Features:
