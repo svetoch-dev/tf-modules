@@ -16,6 +16,7 @@ variable "type" {
 variable "ttl" {
   description = "TTL for the record set, in seconds."
   type        = number
+  default     = 300
 }
 
 variable "data" {

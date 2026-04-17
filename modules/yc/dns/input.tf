@@ -80,7 +80,7 @@ variable "records" {
       {
         name = string
         type = string
-        ttl  = number
+        ttl  = optional(number, 300)
         data = list(string)
         timeouts = optional(
           object(
