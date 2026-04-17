@@ -22,8 +22,8 @@ output "k8s_clusters" {
     k8s_name => merge(
       k8s_obj,
       {
-        ca_certificate = k8s_obj.master_auth.0.cluster_ca_certificate
-        endpoint       = k8s_obj.endpoint
+        ca_certificate = k8s_obj.cluster.master_auth.0.cluster_ca_certificate
+        endpoint       = k8s_obj.cluster.endpoint
       }
     )
   }
