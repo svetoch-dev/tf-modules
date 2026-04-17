@@ -150,9 +150,9 @@ locals {
       workload_identity_federation = {
         enabled = true
       }
-      admin_names = var.env.initial_start ? [] : [
-        "serviceAccountName:argocd-${var.env.short_name}"
-      ]
+      admin_names = var.env.short_name != "int" ? [
+        "serviceAccountName:${var.int_env.cloud.folder_id}:argocd-${var.int_env.short_name}"
+      ] : []
       master = {
         public_ip = true
         master_location = [
