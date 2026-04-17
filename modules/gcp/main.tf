@@ -37,77 +37,54 @@ module "network" {
 }
 
 
-module "gke" {
-  source = "git::https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/private-cluster?ref=v36.3.0"
+module "k8s" {
+  source = "./k8s"
+
   for_each = {
-    for cluster_name, cluster_obj in var.gke_clusters :
-    cluster_name => cluster_obj
-    if try(cluster_obj.enabled, true) == true && cluster_obj != null
+    for k8s_name, k8s_obj in var.k8s :
+    k8s_name => k8s_obj
+    if k8s_obj != null && k8s_obj.enabled
   }
-  project_id          = var.project.id
-  deletion_protection = try(each.value.deletion_protection, true)
-  release_channel     = try(each.value.release_channel, "STABLE")
-  kubernetes_version  = try(each.value.kubernetes_version, "latest")
-  name                = each.value.name
-  regional            = each.value.regional
-  region              = each.value.region
-  zones = try(
-    each.value.zones,
-    data.google_compute_zones.available.names
-  )
-  network                         = each.value.network
-  subnetwork                      = each.value.subnetwork
-  ip_range_pods                   = each.value.ip_range_pods
-  ip_range_services               = each.value.ip_range_services
-  http_load_balancing             = each.value.http_load_balancing
-  horizontal_pod_autoscaling      = each.value.horizontal_pod_autoscaling
-  create_service_account          = each.value.create_service_account
-  node_metadata                   = each.value.node_metadata
-  enable_vertical_pod_autoscaling = each.value.enable_vertical_pod_autoscaling
-  enable_shielded_nodes           = each.value.enable_shielded_nodes
-  network_policy                  = each.value.network_policy
-  network_policy_provider         = each.value.network_policy_provider
-  gcs_fuse_csi_driver             = try(each.value.gcs_fuse_csi_driver, false)
-  logging_enabled_components = try(
-    each.value.logging_enabled_components,
-    [
-      "SYSTEM_COMPONENTS",
-      "WORKLOADS"
-    ]
-  )
-
-  identity_namespace = each.value.identity_namespace
-  cluster_resource_labels = merge(
-    each.value.cluster_resource_labels,
-    {
-      resource_type = "gke_cluster",
-      cluster_name  = each.value.name,
-    },
-  )
-  remove_default_node_pool     = each.value.remove_default_node_pool
-  authenticator_security_group = each.value.authenticator_security_group
-
-  master_authorized_networks         = each.value.master_authorized_networks
-  master_global_access_enabled       = each.value.master_global_access_enabled
-  resource_usage_export_dataset_id   = each.value.resource_usage_export_dataset_id
-  enable_network_egress_export       = each.value.enable_network_egress_export
-  enable_resource_consumption_export = each.value.enable_resource_consumption_export
-  enable_private_nodes               = each.value.enable_private_nodes
-  enable_private_endpoint            = each.value.enable_private_endpoint
-  master_ipv4_cidr_block             = each.value.master_ipv4_cidr_block
-
-  maintenance_start_time = each.value.maintenance_start_time
-  maintenance_recurrence = each.value.maintenance_recurrence
-  maintenance_end_time   = each.value.maintenance_end_time
-
-  monitoring_enable_managed_prometheus = try(each.value.monitoring.managed_prometheus.enabled, false)
-  monitoring_enabled_components        = try(each.value.monitoring.components, ["SYSTEM_COMPONENTS"])
-  node_pools                           = each.value.node_pools
-  node_pools_oauth_scopes              = each.value.node_pools_oauth_scopes
-  node_pools_labels                    = each.value.node_pools_labels
-  node_pools_metadata                  = each.value.node_pools_metadata
-  node_pools_taints                    = each.value.node_pools_taints
-  node_pools_tags                      = each.value.node_pools_tags
+  project_id                                 = var.project.id
+  name                                       = try(each.value.name, each.key)
+  location                                   = each.value.location
+  node_locations                             = try(each.value.node_locations, [])
+  network                                    = try(each.value.network, null)
+  subnetwork                                 = try(each.value.subnetwork, null)
+  min_master_version                         = try(each.value.min_master_version, null)
+  description                                = try(each.value.description, null)
+  deletion_protection                        = try(each.value.deletion_protection, true)
+  resource_labels                            = try(each.value.resource_labels, {})
+  networking_mode                            = try(each.value.networking_mode, "VPC_NATIVE")
+  remove_default_node_pool                   = try(each.value.remove_default_node_pool, true)
+  ip_allocation_policy                       = each.value.ip_allocation_policy
+  private_cluster_config                     = try(each.value.private_cluster_config, {})
+  master_authorized_networks_config          = try(each.value.master_authorized_networks_config, {})
+  release_channel                            = try(each.value.release_channel, "STABLE")
+  workload_identity_config_pool              = try(each.value.workload_identity_config_pool, "${var.project.id}.svc.id.goog")
+  addons_config                              = try(each.value.addons_config, {})
+  logging_config_enable_components           = try(each.value.logging_config_enable_components, [])
+  monitoring_config                          = try(each.value.monitoring_config, {})
+  maintenance_policy                         = try(each.value.maintenance_policy, null)
+  network_policy                             = try(each.value.network_policy, null)
+  database_encryption                        = try(each.value.database_encryption, {})
+  binary_authorization_evaluation_mode       = try(each.value.binary_authorization_evaluation_mode, "DISABLED")
+  cluster_autoscaling                        = try(each.value.cluster_autoscaling, null)
+  master_auth_issue_client_certificate       = try(each.value.master_auth_issue_client_certificate, false)
+  authenticator_groups_config_security_group = try(each.value.authenticator_groups_config_security_group, null)
+  confidential_nodes                         = try(each.value.confidential_nodes, null)
+  cost_management_config_enabled             = try(each.value.cost_management_config_enabled, null)
+  enable_shielded_nodes                      = try(each.value.enable_shielded_nodes, false)
+  enable_tpu                                 = try(each.value.enable_tpu, false)
+  initial_node_count                         = try(each.value.initial_node_count, 0)
+  vertical_pod_autoscaling_enabled           = try(each.value.vertical_pod_autoscaling_enabled, true)
+  default_snat_status_enabled                = try(each.value.default_snat_status_enabled, true)
+  dns_config                                 = try(each.value.dns_config, null)
+  gateway_api_config_channel                 = try(each.value.gateway_api_config_channel, null)
+  identity_service_config_enabled            = try(each.value.identity_service_config_enabled, false)
+  control_plane_endpoints_config             = try(each.value.control_plane_endpoints_config, {})
+  timeouts                                   = try(each.value.timeouts, {})
+  node_pools                                 = each.value.node_pools
 
   depends_on = [
     module.enable_apis,

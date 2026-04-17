@@ -27,9 +27,12 @@ MODULE.bazel.lock
 
 ## test files ##
 123
+# *_poc.tf
 
 ## python ##
 venv
 
 ## codex ##
 .codex
+
+GEMINI.md

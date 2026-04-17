@@ -1,3 +1,8 @@
+# gcp-v3.0.0-alpha-1
+Feautures:
+* `k8s` - own module for GKE 
+
+
 # gcp-v2.8.6
 
 Fixes:
