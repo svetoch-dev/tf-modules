@@ -56,7 +56,7 @@ module "zone" {
 | `folder_id` | The folder where the DNS zone will be created. | `string` | n/a | yes |
 | `name` | DNS zone name. | `string` | n/a | yes |
 | `zone` | DNS zone domain, typically ending with a trailing dot. | `string` | n/a | yes |
-| `description` | DNS zone description. | `string` | `""` | no |
+| `description` | DNS zone description. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the DNS zone. | `map(string)` | `{}` | no |
 | `public` | Whether the DNS zone should be publicly visible. | `bool` | `true` | no |
 | `private_networks` | VPC network IDs attached to the DNS zone when using private visibility. | `list(string)` | `[]` | no |
@@ -74,6 +74,7 @@ module "zone" {
 
 - The module is a thin wrapper around `yandex_dns_zone` and is intended to expose all currently settable resource attributes.
 - `iam_roles` are converted into `yandex_dns_zone_iam_binding` resources and are applied with the member strings provided to the module.
+- When `description` is omitted, the module generates one in the form `<public|private> DNS zone <zone>`.
 - `zone` should be provided in FQDN form. In practice this usually means a trailing dot, for example `example.internal.`.
 - Use `private_networks` to associate the zone with one or more VPC networks for private resolution.
 

@@ -70,7 +70,7 @@ module "dns" {
 | `folder_id` | The folder where the DNS zone will be created. | `string` | n/a | yes |
 | `name` | DNS zone name. | `string` | n/a | yes |
 | `zone` | DNS zone domain, typically ending with a trailing dot. | `string` | n/a | yes |
-| `description` | DNS zone description. | `string` | `""` | no |
+| `description` | DNS zone description. | `string` | `null` | no |
 | `labels` | A set of key/value label pairs assigned to the DNS zone. | `map(string)` | `{}` | no |
 | `public` | Whether the DNS zone should be publicly visible. | `bool` | `true` | no |
 | `private_networks` | VPC network IDs attached to the DNS zone when using private visibility. | `list(string)` | `[]` | no |
@@ -86,13 +86,15 @@ module "dns" {
 | Name | Description |
 |------|-------------|
 | `zone` | The DNS zone resource. |
-| `records` | The DNS record set resources in input order. |
+| `records` | The DNS record set module outputs keyed by record name. |
 
 ## Notes
 
 - This module composes the `zone` and `record` submodules and forwards the created DNS zone ID automatically to each record set.
 - `admins`, `editors`, and `viewers` are converted into `yandex_dns_zone_iam_binding` resources with roles `dns.admin`, `dns.editor`, and `dns.viewer` respectively.
+- When `description` is omitted, the zone module generates one in the form `<public|private> DNS zone <zone>`.
 - `zone` should be provided in FQDN form. In practice this usually means a trailing dot, for example `example.internal.`.
+- `records` entries may omit `description` and `ttl`; `ttl` defaults to `300`.
 - `records[*].data` should contain record payloads appropriate for the selected record `type`.
 
 ## Type Details
@@ -103,7 +105,7 @@ module "dns" {
 |-------|------|:--------:|-------------|
 | `name` | `string` | yes | Record set name. |
 | `type` | `string` | yes | DNS record type. |
-| `description` | `string` | no | DNS record set description. |
+| `description` | `string` | no | DNS record set description. When omitted, the record module generates one from `type`, `name`, and `ttl`. |
 | `ttl` | `number` | no | TTL for the record set, in seconds. Defaults to `300`. |
 | `data` | `list(string)` | yes | List of record values for the record set. |
 | `timeouts` | `object` | no | Custom timeouts for the record set resource. |
