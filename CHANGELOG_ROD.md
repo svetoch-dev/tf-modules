@@ -5,6 +5,11 @@ Features:
   * dns support
   * get int sa ids using `serviceAccountName:${var.int_env.cloud.folder_id}:runner-int` strings instead of data source
 
+# rod-v0.16.1
+
+Fixes:
+* `cloud/gcp/output.tf` fix outputs: extend default k8s_clusters output with ca_certificate and endpoint parameters
+
 # rod-v0.16.0
 
 Features:
