@@ -38,6 +38,7 @@ module "records" {
   for_each = {
     for record_obj in var.records :
     record_obj.name => record_obj
+    if record_obj != null
   }
 
   zone_id     = module.zone.this.id
