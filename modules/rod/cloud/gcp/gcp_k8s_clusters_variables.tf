@@ -4,7 +4,7 @@ locals {
       name                = var.env.short_name
       enabled             = var.env.kubernetes.enabled
       deletion_protection = var.env.kubernetes.deletion_protection
-      initial_node_count  = var.env.initial_start ? 1 : 0
+      initial_node_count  = 1
       location            = var.env.kubernetes.regional ? var.env.cloud.location.region : var.env.cloud.location.default_zone
       node_locations      = var.env.kubernetes.node_locations
 
