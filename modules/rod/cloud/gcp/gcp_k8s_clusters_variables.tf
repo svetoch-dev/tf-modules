@@ -71,7 +71,7 @@ locals {
             min_node_count = 0
             max_node_count = 10
           }
-          kublet_config = {
+          kubelet_config = {
             cpu_cfs_quota = true
           }
           network_config = {
@@ -95,7 +95,7 @@ locals {
               },
             ]
           }
-          kublet_config = {
+          kubelet_config = {
             cpu_cfs_quota = true
           }
           autoscaling = {
