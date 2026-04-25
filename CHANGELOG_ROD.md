@@ -1,7 +1,11 @@
+# rod-v0.17.1
+Fixes:
+* `cloud/gcp` fixes for new gke clusters
+
 # rod-v0.17.0
 
 Features:
-* `cloud\yc`
+* `cloud/yc`
   * dns support
   * get int sa ids using `serviceAccountName:${var.int_env.cloud.folder_id}:runner-int` strings instead of data source
 
