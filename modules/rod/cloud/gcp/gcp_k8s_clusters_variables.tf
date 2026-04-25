@@ -71,6 +71,9 @@ locals {
             min_node_count = 0
             max_node_count = 10
           }
+          kublet_config = {
+            cpu_cfs_quota = true
+          }
           network_config = {
             pod_range = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
           }
@@ -91,6 +94,9 @@ locals {
                 effect = "NO_SCHEDULE"
               },
             ]
+          }
+          kublet_config = {
+            cpu_cfs_quota = true
           }
           autoscaling = {
             min_node_count  = 0
