@@ -316,7 +316,7 @@ variable "enable_tpu" {
 variable "initial_node_count" {
   description = "The number of nodes to create in this cluster's default node pool"
   type        = number
-  default     = 0
+  default     = 1
 }
 
 variable "enable_intranode_visibility" {

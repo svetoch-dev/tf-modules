@@ -76,7 +76,7 @@ module "k8s" {
   cost_management_config_enabled             = try(each.value.cost_management_config_enabled, null)
   enable_shielded_nodes                      = try(each.value.enable_shielded_nodes, false)
   enable_tpu                                 = try(each.value.enable_tpu, false)
-  initial_node_count                         = try(each.value.initial_node_count, 0)
+  initial_node_count                         = try(each.value.initial_node_count, 1)
   vertical_pod_autoscaling_enabled           = try(each.value.vertical_pod_autoscaling_enabled, true)
   default_snat_status_enabled                = try(each.value.default_snat_status_enabled, true)
   dns_config                                 = try(each.value.dns_config, null)
