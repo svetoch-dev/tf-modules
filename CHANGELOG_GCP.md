@@ -1,5 +1,13 @@
 
-# gcp-v3.0.0-alpha-1
+# gcp-v3.0.0-alpha
+
+## gcp-v3.0.0-alpha-1.1
+
+Fixes:
+* `k8s/cluster,k8s` - `initial_node_count = 1` by default 
+
+## gcp-v3.0.0-alpha-1
+ 
 
 Braking changes:
 * `main`     - `var.gke_clusters` -> `var.k8s`
