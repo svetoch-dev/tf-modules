@@ -4,11 +4,9 @@ locals {
       name                = var.env.short_name
       enabled             = var.env.kubernetes.enabled
       deletion_protection = var.env.kubernetes.deletion_protection
-      location            = var.env.kubernetes.regional ? var.env.cloud.location.region : var.env.kubernetes.node_locations[0]
-      #We skip var.env.kubernetes.node_locations[0] because node_locations
-      #are interpreted by provider as additional locations and cant include
-      #the zone set in location attribute above
-      node_locations = slice(var.env.kubernetes.node_locations, 1, length(var.env.kubernetes.node_locations))
+      initial_node_count  = var.env.initial_start ? 1 : 0
+      location            = var.env.kubernetes.regional ? var.env.cloud.location.region : var.env.cloud.location.default_zone
+      node_locations      = var.env.kubernetes.node_locations
 
       network    = module.gcp.vpcs["main"].network_id
       subnetwork = module.gcp.subnets["main"]["vms"].id
