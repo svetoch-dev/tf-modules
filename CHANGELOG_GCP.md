@@ -3,6 +3,9 @@
 
 ## gcp-v3.0.0-alpha-1.1
 
+Features:
+* `k8s/node_pool` - `kubelet_config.cpu_manager_policy` support
+
 Fixes:
 * `k8s/cluster,k8s` - `initial_node_count = 1` by default 
 

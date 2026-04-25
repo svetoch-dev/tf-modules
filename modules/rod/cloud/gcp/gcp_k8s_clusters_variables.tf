@@ -67,7 +67,8 @@ locals {
             }
             spot = true
             kubelet_config = {
-              cpu_cfs_quota = true
+              cpu_cfs_quota      = true
+              cpu_manager_policy = "satic"
             }
           }
           autoscaling = {
@@ -95,7 +96,8 @@ locals {
               },
             ]
             kubelet_config = {
-              cpu_cfs_quota = true
+              cpu_cfs_quota      = true
+              cpu_manager_policy = "satic"
             }
           }
           autoscaling = {
