@@ -1,6 +1,24 @@
-# gcp-v3.0.0-alpha-1
-Feautures:
-* `k8s` - own module for GKE 
+
+# gcp-v3.0.0-alpha
+
+## gcp-v3.0.0-alpha-1.1
+
+Features:
+* `k8s/node_pool` - `kubelet_config.cpu_manager_policy` support
+
+Fixes:
+* `k8s/cluster,k8s` - `initial_node_count = 1` by default 
+
+## gcp-v3.0.0-alpha-1
+ 
+
+Braking changes:
+* `main`     - `var.gke_clusters` -> `var.k8s`
+* `var.k8s`  - variable schema changes
+* `module.gcp.k8s` - resource path changes
+
+Features:
+* `k8s` - own module
 
 
 # gcp-v2.8.6

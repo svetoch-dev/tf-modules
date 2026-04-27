@@ -128,6 +128,7 @@ module "node_pool" {
 | `image_gc_low_threshold_percent` | `number` | no | The percent of disk usage before which image garbage collection is never run. | 80 |
 | `insecure_kubelet_readonly_port_enabled` | `string` | no | Enable the insecure kubelet readonly port. | "false" |
 | `cpu_cfs_quota` | `bool` | no | Enable CPU CFS quota enforcement for containers that specify CPU limits. | true |
+| `cpu_manager_policy` | `string` | no | Control the CPU management policy on the node. Accepted values: `none`, `static`. | "static" |
 | `pod_pids_limit` | `number` | no | Set the Pod PID limits. | 1024 |
 
 ### `upgrade_settings`

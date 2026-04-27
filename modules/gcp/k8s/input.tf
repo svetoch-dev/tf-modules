@@ -316,7 +316,7 @@ variable "enable_tpu" {
 variable "initial_node_count" {
   description = "The number of nodes to create in this cluster's default node pool"
   type        = number
-  default     = 0
+  default     = 1
 }
 
 variable "enable_intranode_visibility" {
@@ -483,6 +483,7 @@ variable "node_pools" {
                   image_gc_low_threshold_percent         = optional(number, 0)
                   insecure_kubelet_readonly_port_enabled = optional(string, "FALSE")
                   cpu_cfs_quota                          = optional(bool, false)
+                  cpu_manager_policy                     = optional(string)
                   pod_pids_limit                         = optional(number, 0)
                 }
               ),

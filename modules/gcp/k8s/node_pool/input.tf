@@ -132,6 +132,7 @@ variable "node_config" {
             image_gc_low_threshold_percent         = optional(number, 0)
             insecure_kubelet_readonly_port_enabled = optional(string, "FALSE")
             cpu_cfs_quota                          = optional(bool, false)
+            cpu_manager_policy                     = optional(string)
             pod_pids_limit                         = optional(number, 0)
           }
         ),

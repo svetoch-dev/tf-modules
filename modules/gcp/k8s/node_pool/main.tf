@@ -76,6 +76,7 @@ resource "google_container_node_pool" "this" {
         image_gc_low_threshold_percent         = kubelet_config.value.image_gc_low_threshold_percent
         insecure_kubelet_readonly_port_enabled = kubelet_config.value.insecure_kubelet_readonly_port_enabled
         cpu_cfs_quota                          = kubelet_config.value.cpu_cfs_quota
+        cpu_manager_policy                     = kubelet_config.value.cpu_manager_policy
         pod_pids_limit                         = kubelet_config.value.pod_pids_limit
       }
     }
