@@ -41,6 +41,17 @@ variable "env" {
           }
         )
       )
+      import_secrets = map(
+        object(
+          {
+            name              = string
+            k8s_enabled       = optional(bool, true)
+            namespace         = optional(string)
+            base64_secrets    = optional(bool, false)
+            secrets_to_import = list(string)
+          }
+        )
+      )
       apps = map(
         object(
           {
