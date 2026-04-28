@@ -112,4 +112,5 @@ variable "env" {
       )
     }
   )
+  default = null
 }
