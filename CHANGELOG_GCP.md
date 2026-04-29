@@ -1,6 +1,11 @@
 
 # gcp-v3.0.0-alpha
 
+## gcp-v3.0.0-alpha-1.2
+
+Fixes:
+* `k8s` - var.node_pools add `node_loactions` optional attribute
+
 ## gcp-v3.0.0-alpha-1.1
 
 Features:

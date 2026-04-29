@@ -424,6 +424,7 @@ variable "node_pools" {
           {
             machine_type    = optional(string, "e2-medium")
             service_account = optional(string)
+            node_locations  = optional(list(string))
             oauth_scopes = optional(
               list(string),
               [
