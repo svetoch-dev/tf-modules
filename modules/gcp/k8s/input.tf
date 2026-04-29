@@ -397,6 +397,7 @@ variable "node_pools" {
       {
         name              = optional(string)
         name_prefix       = optional(string, null)
+        node_locations    = optional(list(string))
         node_count        = optional(number)
         max_pods_per_node = optional(number)
         autoscaling = optional(
@@ -424,7 +425,6 @@ variable "node_pools" {
           {
             machine_type    = optional(string, "e2-medium")
             service_account = optional(string)
-            node_locations  = optional(list(string))
             oauth_scopes = optional(
               list(string),
               [
