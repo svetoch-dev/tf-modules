@@ -1,3 +1,10 @@
+# rod-v0.18.0
+
+Features:
+* common input.tf for all modules
+* common input new var.env.dns and var.env.registry attibutes
+* set domain zone name to one set in var.env.dns.domain
+
 # rod-v0.17.1
 Fixes:
 * `cloud/gcp` fixes for new gke clusters

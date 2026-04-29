@@ -6,6 +6,7 @@ variable "company" {
       domain = string
     }
   )
+  default = null
 }
 
 variable "ci" {
@@ -15,12 +16,14 @@ variable "ci" {
       type = string
     }
   )
+  default = null
 }
 
 variable "int_env" {
   description = "Definition of internal environment"
   #should have the same schema as var.env below
-  type = any
+  type    = any
+  default = null
 }
 
 variable "env" {
@@ -35,6 +38,17 @@ variable "env" {
           {
             name  = string
             roles = list(string)
+          }
+        )
+      )
+      import_secrets = map(
+        object(
+          {
+            name              = string
+            k8s_enabled       = optional(bool, true)
+            namespace         = optional(string)
+            base64_secrets    = optional(bool, false)
+            secrets_to_import = list(string)
           }
         )
       )
@@ -58,11 +72,22 @@ variable "env" {
           }
         )
       )
+      registry = object(
+        {
+          type = string
+          url  = string
+        }
+      )
+      dns = object(
+        {
+          domain = string
+          type   = string
+        }
+      )
       cloud = object(
         {
-          name      = string
-          id        = string
-          folder_id = string
+          name = string
+          id   = string
           location = object(
             {
               region       = string
@@ -98,26 +123,5 @@ variable "env" {
       )
     }
   )
-}
-
-variable "overrides" {
-  description = "Cloud attribute overrides"
-  type = object(
-    {
-      yc_buckets      = optional(any)
-      yc_dns_zones    = optional(any)
-      yc_iam          = optional(any)
-      yc_k8s_clusters = optional(any)
-      yc_networks     = optional(any)
-      yc_registries   = optional(any)
-    }
-  )
-  default = {
-    yc_buckets      = null
-    yc_dns_zones    = null
-    yc_iam          = null
-    yc_k8s_clusters = null
-    yc_networks     = null
-    yc_registries   = null
-  }
+  default = null
 }

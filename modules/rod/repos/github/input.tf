@@ -8,15 +8,3 @@ variable "repo" {
     }
   )
 }
-
-variable "overrides" {
-  description = "Repositories attribute overrides"
-  type = object(
-    {
-      repos = optional(any)
-    }
-  )
-  default = {
-    repos = null
-  }
-}
