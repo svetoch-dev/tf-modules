@@ -55,7 +55,7 @@ module "node_pool" {
   location                    = var.location
   name                        = each.value.name
   name_prefix                 = each.value.name_prefix
-  node_locations              = var.node_locations
+  node_locations              = each.value.node_locations == null ? var.node_locations : each.value.node_locations
   node_count                  = each.value.node_count
   max_pods_per_node           = each.value.max_pods_per_node
   autoscaling                 = each.value.autoscaling
