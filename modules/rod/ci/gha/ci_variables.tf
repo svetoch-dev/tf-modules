@@ -1,7 +1,7 @@
 locals {
   cis = merge(
     {
-      infra = {
+      infrastructure = {
         name = var.repo.name
         org  = var.repo.group
         vars = {
