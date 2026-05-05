@@ -397,6 +397,7 @@ variable "node_pools" {
       {
         name              = optional(string)
         name_prefix       = optional(string, null)
+        node_locations    = optional(list(string))
         node_count        = optional(number)
         max_pods_per_node = optional(number)
         autoscaling = optional(
