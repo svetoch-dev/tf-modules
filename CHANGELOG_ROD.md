@@ -1,3 +1,8 @@
+# rod-v0.19.0
+
+Features:
+* new `ci` module
+
 # rod-v0.18.0
 
 Features:
