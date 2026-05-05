@@ -466,6 +466,7 @@ module "vms" {
   project      = var.project
   name         = each.value.name
   machine_type = each.value.machine_type
+  spot         = try(each.value.spot, false)
   disk = try(
     each.value.disk,
     {
