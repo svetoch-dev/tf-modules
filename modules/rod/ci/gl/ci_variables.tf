@@ -23,21 +23,21 @@ locals {
               cd_file   = ci_obj.ci_data.cd_file
               cd_path   = ci_obj.ci_data.cd_path
               } : k => {
-              name  = "${upper(k)}_${upper(ci_obj.env_short_name)}"
+              name  = replace(upper("${k}_${ci_obj.env_short_name}"), "-", "_")
               value = v
             }
             if v != null && v != ""
           },
           {
             for var in ci_obj.ci_data.vars : var.name => {
-              name  = "${upper(var.name)}_${upper(ci_obj.env_short_name)}"
+              name  = replace(upper("${var.name}_${ci_obj.env_short_name}"), "-", "_")
               value = var.value
             }
           }
         )
         secrets = {
           for secret in ci_obj.ci_data.secrets : secret.name => {
-            name       = "${upper(secret.name)}_${upper(ci_obj.env_short_name)}"
+            name       = replace(upper("${secret.name}_${ci_obj.env_short_name}"), "-", "_")
             text_value = secret.value
           }
         }
