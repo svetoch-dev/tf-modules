@@ -1,5 +1,5 @@
 output "ci_vars" {
   description = "CI variables"
-  value       = module.github.repositories
+  value       = module.gitlab.repositories
   sensitive   = true
 }
