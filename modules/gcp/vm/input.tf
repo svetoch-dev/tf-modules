@@ -142,3 +142,9 @@ variable "additional_disks" {
   )
   default = []
 }
+
+variable "spot" {
+  description = "Spot instance type"
+  type        = bool
+  default     = false
+}
