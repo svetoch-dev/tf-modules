@@ -15,7 +15,7 @@ locals {
     {
       for ci_obj in var.ci_configs : ci_obj.ci_name => {
         name = ci_obj.repo.name
-        org  = try(ci_obj.repo.group, var.repo.group)
+        org  = coalesce(ci_obj.repo.group, var.repo.group)
         vars = (
           {
             for k, v in {
