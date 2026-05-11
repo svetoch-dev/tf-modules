@@ -1,6 +1,11 @@
 
 # gcp-v3.0.0-alpha
 
+## gcp-v3.0.0-alpha-1.3
+
+Features:
+* `gcp/vm` - added possibility to set spot instance type
+
 ## gcp-v3.0.0-alpha-1.2
 
 Fixes:

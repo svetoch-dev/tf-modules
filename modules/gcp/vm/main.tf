@@ -9,6 +9,7 @@ module "template" {
   project_id   = var.project.id
   region       = var.project.region
   machine_type = var.machine_type
+  spot         = var.spot
   disk_size_gb = tostring(var.disk.size_gb)
   disk_type    = var.disk.type
   subnetwork   = var.network_config.subnet

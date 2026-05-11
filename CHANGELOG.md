@@ -2,6 +2,10 @@
 
 [rod-v0.19.0](CHANGELOG_ROD.md#rod-v0190)
 
+# v0.17.2
+
+[gcp-v3.0.0-alpha-1.3](CHANGELOG_GCP#gcp-v3.0.0-alpha-1.3)
+
 # v0.17.1
 
 [gcp-v3.0.0-alpha-1.2](CHANGELOG_GCP#gcp-v300-alpha)
