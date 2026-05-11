@@ -2,6 +2,10 @@
 
 [rod-v0.19.0](CHANGELOG_ROD.md#rod-v0190)
 
+[github-v0.3.0](CHANGELOG_GITHUB.md#github-v030)
+
+[gitlab-v0.2.0](CHANGELOG_GITLAB.md#gitlab-v020)
+
 # v0.17.2
 
 [gcp-v3.0.0-alpha-1.3](CHANGELOG_GCP#gcp-v3.0.0-alpha-1.3)
