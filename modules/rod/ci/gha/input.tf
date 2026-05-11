@@ -21,20 +21,27 @@ variable "ci_configs" {
       {
         ci_name          = string
         env_short_name   = string
-        env_registry_url = optional(string)
+        env_registry_url = optional(string, "")
         repo = object(
           {
             name  = string
             group = optional(string)
           }
         )
-        cd = optional(object(
+        cd = optional(
+          object(
+            {
+              branch   = optional(string)
+              file     = optional(string)
+              tag_path = optional(string)
+            }
+          ),
           {
-            branch   = optional(string)
-            file     = optional(string)
-            tag_path = optional(string)
+            branch   = null
+            file     = null
+            tag_path = null
           }
-        ))
+        )
       }
     )
   )
