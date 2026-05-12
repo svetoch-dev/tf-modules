@@ -3,6 +3,9 @@
 Features:
 * new `ci` module
 
+Fixes:
+* `inputs` fix missing var.env.cloud.folder_id attribute
+
 # rod-v0.18.0
 
 Features:
