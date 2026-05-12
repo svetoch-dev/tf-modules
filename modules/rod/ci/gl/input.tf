@@ -14,20 +14,12 @@ variable "repo" {
   )
 }
 
-variable "ci_configs" {
+variable "app_env_ci_configs" {
   description = "list of CI configurations for application in environment"
   type = list(
     object(
       {
-        ci_name          = string
-        env_short_name   = string
-        env_registry_url = optional(string, "")
-        repo = object(
-          {
-            name  = string
-            group = optional(string)
-          }
-        )
+        app_name = string
         cd = optional(
           object(
             {
@@ -40,6 +32,18 @@ variable "ci_configs" {
             branch   = null
             file     = null
             tag_path = null
+          }
+        )
+        env = object(
+          {
+            short_name   = string
+            registry_url = optional(string)
+          }
+        )
+        repo = object(
+          {
+            name  = string
+            group = optional(string)
           }
         )
       }
