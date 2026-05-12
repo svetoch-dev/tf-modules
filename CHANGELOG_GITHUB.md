@@ -1,9 +1,16 @@
+# github-v0.3.0
+
+Enhancements:
+* try to create only none null objects
+* update `github` provider `6.6.0` -> `6.12.1`
+
+
 # github-v0.2.0
 
-enhancements:
+Enhancements:
 * version providers in module itself
 
 # github-v0.1.1
 
-fixes:
-* `attribute deploy_keys is required'`
+Fixes:
+* attribute `deploy_keys` is `required'`

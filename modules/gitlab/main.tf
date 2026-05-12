@@ -7,8 +7,9 @@ module "repositories" {
     key_name => {
       name      = key_obj.name
       read_only = key_obj.read_only
-      key       = key_obj.create == false ? key_obj.public_key : tls_private_key.deploy_keys["${each.key}@${key_name}"].public_key_openssh
+      key       = key_obj.create ? tls_private_key.deploy_keys["${each.key}@${key_name}"].public_key_openssh : key_obj.public_key
     }
+    if key_obj != null
   }
   secrets = each.value.secrets
   vars    = each.value.vars
@@ -22,8 +23,9 @@ resource "tls_private_key" "deploy_keys" {
         [
           for key_name, key_obj in repo_obj.deploy_keys :
           "${repo_name}@${key_name}"
-          if key_obj.create == true
+          if key_obj != null && key_obj.create
         ]
+        if repo_obj != null
       ]
     ) :
     key => {}

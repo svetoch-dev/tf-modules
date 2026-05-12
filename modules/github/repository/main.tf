@@ -7,14 +7,22 @@ resource "github_repository_deploy_key" "keys" {
 }
 
 resource "github_actions_secret" "secrets" {
-  for_each        = var.secrets
-  repository      = var.name
-  secret_name     = each.value.name
-  plaintext_value = each.value.text_value
+  for_each = {
+    for secret_name, secret_obj in var.secrets :
+    secret_name => secret_obj
+    if secret_obj != null
+  }
+  repository  = var.name
+  secret_name = each.value.name
+  value       = each.value.text_value
 }
 
 resource "github_actions_variable" "variable" {
-  for_each      = var.vars
+  for_each = {
+    for var_name, var_obj in var.vars :
+    var_name => var_obj
+    if var_obj != null
+  }
   repository    = var.name
   variable_name = each.value.name
   value         = each.value.value

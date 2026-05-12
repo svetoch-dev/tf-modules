@@ -86,8 +86,9 @@ variable "env" {
       )
       cloud = object(
         {
-          name = string
-          id   = string
+          name      = string
+          id        = string
+          folder_id = optional(string)
           location = object(
             {
               region       = string
