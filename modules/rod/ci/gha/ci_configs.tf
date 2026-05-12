@@ -28,7 +28,7 @@ locals {
               name  = replace(upper("${ci_obj.env.short_name}_${var_name}"), "-", "_")
               value = var_obj
             }
-            if var_obj != null && var_obj != ""
+            if var_obj != null
           }
         )
       }
