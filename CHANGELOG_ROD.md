@@ -1,3 +1,7 @@
+# rod-v0.19.1
+Fixes:
+* `k8s` fix argocd role binding for yc
+
 # rod-v0.19.0
 
 Features:
