@@ -1,3 +1,20 @@
+locals {
+  endpoint = lookup(
+    {
+      DOCKER  = "${var.location}-docker.pkg.dev/${var.repository_id}"
+      MAVEN   = "${var.location}-maven.pkg.dev/${var.repository_id}"
+      NPM     = "${var.location}-npm.pkg.dev/${var.repository_id}"
+      PYTHON  = "${var.location}-python.pkg.dev/${var.repository_id}"
+      APT     = "${var.location}-apt.pkg.dev/${var.repository_id}"
+      YUM     = "${var.location}-yum.pkg.dev/${var.repository_id}"
+      GO      = "${var.location}-go.pkg.dev/${var.repository_id}"
+      GENERIC = "${var.location}-generic.pkg.dev/${var.repository_id}"
+    },
+    var.format
+  )
+}
+
+
 resource "google_artifact_registry_repository" "registry" {
   description   = var.description
   mode          = var.mode

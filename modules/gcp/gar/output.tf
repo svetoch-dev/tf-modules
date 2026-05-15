@@ -1,3 +1,8 @@
 output "this" {
-  value = google_artifact_registry_repository.registry
+  value = merge(
+    google_artifact_registry_repository.registry,
+    {
+      endpoint = local.endpoint
+    }
+  )
 }
