@@ -27,3 +27,10 @@ output "iam" {
   value     = module.gcp.iam
   sensitive = true
 }
+
+output "registries" {
+  value = {
+    for gar_name, gar_obj in module.gcp.gars :
+    gar_name => gar_obj
+  }
+}
