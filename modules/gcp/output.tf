@@ -97,3 +97,10 @@ output "alloydbs" {
     db_name => db_obj
   }
 }
+
+output "gars" {
+  value = {
+    for gar_name, gar_obj in module.gars :
+    gar_name => gar_obj
+  }
+}
