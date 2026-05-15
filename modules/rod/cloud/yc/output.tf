@@ -28,7 +28,7 @@ output "k8s_clusters" {
 
 output "registries" {
   value = {
-    for yc_name, gar_obj in module.yc.gars :
-    yc_name => gar_obj
+    for yc_name, ycr_obj in module.yc.ycrs :
+    yc_name => ycr_obj
   }
 }

@@ -76,7 +76,9 @@ module "ycr" {
 
 ## Outputs
 
-This module does not currently define Terraform outputs.
+| Name | Description |
+|------|-------------|
+| `this` | The `yandex_container_registry.this` resource. |
 
 ## Notes
 

@@ -100,7 +100,7 @@ module "virtual_registry" {
 
 | Name | Description |
 |------|-------------|
-| `this` | The `google_artifact_registry_repository.registry` resource. |
+| `this` | The `google_artifact_registry_repository.registry` resource merged with the calculated `endpoint` value. |
 
 ## Notes
 
@@ -111,6 +111,8 @@ module "virtual_registry" {
 - For virtual repositories, each `upstream_repositories` map key is used as the upstream policy ID.
 - `virtual_repository.upstream_repositories[*].priority` defaults to `10` when omitted.
 - For Docker remote repositories, `remote_repository.docker_repository.public_repository` defaults to `DOCKER_HUB` when omitted.
+- `this.endpoint` is calculated from `location`, `repository_id`, and `format`.
+- Supported endpoint formats are `DOCKER`, `MAVEN`, `NPM`, `PYTHON`, `APT`, `YUM`, `GO`, and `GENERIC`.
 
 ## Type Details
 
