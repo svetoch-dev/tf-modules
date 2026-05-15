@@ -68,6 +68,6 @@ output "dns_records" {
 output "ycrs" {
   value = {
     for ycr_name, ycr_obj in module.ycrs :
-    ycr_name => ycr_obj
+    ycr_name => ycr_obj.this
   }
 }

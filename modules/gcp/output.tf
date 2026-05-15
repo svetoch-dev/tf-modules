@@ -101,6 +101,6 @@ output "alloydbs" {
 output "gars" {
   value = {
     for gar_name, gar_obj in module.gars :
-    gar_name => gar_obj
+    gar_name => gar_obj.this
   }
 }
