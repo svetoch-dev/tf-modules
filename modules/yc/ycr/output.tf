@@ -1,3 +1,8 @@
 output "this" {
-  value = yandex_container_registry.this
+  value = merge(
+    yandex_container_registry.this,
+    {
+      endpoint = local.endpoint
+    }
+  )
 }
