@@ -1,3 +1,10 @@
+# yc-v0.10.0
+
+Features:
+* `main` ycr outputs
+* `ycr` outputs
+
+
 # yc-v0.9.0
 
 Features:
