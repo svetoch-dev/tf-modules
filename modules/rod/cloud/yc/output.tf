@@ -25,3 +25,10 @@ output "k8s_clusters" {
     )
   }
 }
+
+output "registries" {
+  value = {
+    for yc_name, ycr_obj in module.yc.ycrs :
+    yc_name => ycr_obj
+  }
+}

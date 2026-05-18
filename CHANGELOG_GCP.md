@@ -1,6 +1,18 @@
 
 # gcp-v3.0.0-alpha
 
+## gcp-v3.0.0-alpha-1.4
+Braking changes:
+* `main` gcr removed
+* `gcr` module removed
+
+Features:
+* `gar`
+  * add README.md
+  * outputs
+* `main` gar outputs
+
+
 ## gcp-v3.0.0-alpha-1.3
 
 Features:

@@ -64,3 +64,10 @@ output "dns_records" {
     dns_name => dns_obj.records
   }
 }
+
+output "ycrs" {
+  value = {
+    for ycr_name, ycr_obj in module.ycrs :
+    ycr_name => ycr_obj.this
+  }
+}

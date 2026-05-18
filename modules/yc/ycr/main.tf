@@ -1,3 +1,7 @@
+locals {
+  endpoint = "cr.yandex/${yandex_container_registry.this.registry_id}"
+}
+
 resource "yandex_container_registry" "this" {
   name      = var.name
   folder_id = var.folder_id

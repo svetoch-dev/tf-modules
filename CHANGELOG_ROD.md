@@ -1,3 +1,12 @@
+# rod-v0.20.0
+
+Features:
+* `cloud/gcp` registries output
+* `cloud/yc` registries output
+
+Enhancements:
+* `cloud/gcp` removed legacy lookup code in outputs
+
 # rod-v0.19.1
 Fixes:
 * `k8s` fix argocd role binding for yc

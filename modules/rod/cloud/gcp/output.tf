@@ -1,19 +1,13 @@
 output "network" {
-  value = lookup(
-    {
-      gcp = {
-        for network_name, vpc_obj in module.gcp.vpcs :
-        network_name => {
-          vpcs            = module.gcp.vpcs[network_name]
-          subnets         = module.gcp.subnets[network_name]
-          nats            = module.gcp.nats[network_name]
-          service_peering = module.gcp.service_peering[network_name]
-        }
-      }
-    },
-    var.env.cloud.name,
-    null
-  )
+  value = {
+    for network_name, vpc_obj in module.gcp.vpcs :
+    network_name => {
+      vpcs            = module.gcp.vpcs[network_name]
+      subnets         = module.gcp.subnets[network_name]
+      nats            = module.gcp.nats[network_name]
+      service_peering = module.gcp.service_peering[network_name]
+    }
+  }
 }
 
 output "k8s_clusters" {
@@ -30,12 +24,13 @@ output "k8s_clusters" {
 }
 
 output "iam" {
-  value = lookup(
-    {
-      gcp = module.gcp.iam
-    },
-    var.env.cloud.name,
-    null
-  )
+  value     = module.gcp.iam
   sensitive = true
+}
+
+output "registries" {
+  value = {
+    for gar_name, gar_obj in module.gcp.gars :
+    gar_name => gar_obj
+  }
 }

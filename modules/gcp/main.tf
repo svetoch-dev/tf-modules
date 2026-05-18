@@ -225,20 +225,6 @@ module "gars" {
   ]
 }
 
-/* gcr */
-
-module "gcrs" {
-  source     = "./gcr"
-  for_each   = var.gcrs
-  project_id = var.project.id
-  registry   = each.value.registry
-  pullers    = each.value.pullers
-  pushers    = each.value.pushers
-  depends_on = [
-    module.enable_apis,
-  ]
-}
-
 /* IAM */
 
 module "iam" {
