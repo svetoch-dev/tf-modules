@@ -1,3 +1,15 @@
+provider "google" {
+  project = var.env.cloud.id
+  region  = var.env.cloud.location.region
+  zone    = var.env.cloud.location.default_zone
+}
+
+provider "google-beta" {
+  project = var.env.cloud.id
+  region  = var.env.cloud.location.region
+  zone    = var.env.cloud.location.default_zone
+}
+
 module "product" {
   source  = "../"
   company = var.company

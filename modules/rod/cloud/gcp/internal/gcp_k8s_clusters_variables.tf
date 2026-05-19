@@ -24,9 +24,6 @@ locals {
             min_node_count = 0
             max_node_count = 20
           }
-          network_config = {
-            pod_range = module.internal.network["main"].subnets["vms"].secondary_ip_range[0].range_name
-          }
         }
       }
     }
