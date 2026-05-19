@@ -50,14 +50,6 @@ locals {
           ],
         )
       }
-      devs = {
-        role = "projects/${var.env.cloud.id}/roles/developers"
-        members = [
-          for user_name, user_obj in var.env.users :
-          "user:${user_obj.name}"
-          if contains(user_obj.roles, "dev")
-        ]
-      }
     }
   }
 }
