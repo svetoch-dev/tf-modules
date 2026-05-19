@@ -103,35 +103,6 @@ locals {
         ]
       }
     )
-    runner = provider::deepmerge::mergo(
-      local.yc_k8s_node_groups_common,
-      {
-        name = "runner"
-        instance_template = {
-          boot_disk = {
-            size = 120
-            type = "network-ssd"
-          }
-        }
-        scale_policy = {
-          auto_scale = {
-            initial = 0
-            max     = 20
-            min     = 0
-          }
-        }
-        node_labels = {
-          runner = "true"
-        }
-        node_taints = [
-          {
-            key    = "runner"
-            value  = true
-            effect = "NoSchedule"
-          },
-        ]
-      }
-    )
   }
   yc_k8s_clusters = var.env.kubernetes.enabled ? {
     tostring(var.env.short_name) = {
@@ -150,9 +121,6 @@ locals {
       workload_identity_federation = {
         enabled = true
       }
-      admin_names = var.env.short_name != "int" ? [
-        "serviceAccountName:${var.int_env.cloud.folder_id}:argocd-${var.int_env.short_name}"
-      ] : []
       master = {
         public_ip = true
         master_location = [
@@ -224,29 +192,6 @@ locals {
             }
           )
         },
-        var.env.short_name == "int" ? {
-          "runner" = provider::deepmerge::mergo(
-            local.yc_k8s_node_groups.runner,
-            {
-              allocation_policy = {
-                location = [
-                  {
-                    zone = local.yc_k8s_node_subnets[0].zone
-                  }
-                ]
-              }
-              instance_template = {
-                network_interface = [
-                  {
-                    subnet_ids = [
-                      local.yc_k8s_node_subnets[0].id
-                    ]
-                  }
-                ]
-              }
-            }
-          )
-        } : {}
       )
     }
   } : {}

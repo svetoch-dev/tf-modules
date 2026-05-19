@@ -1,0 +1,3 @@
+locals {
+  yc_networks = {}
+}

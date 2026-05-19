@@ -52,19 +52,5 @@ locals {
         }
       }]
     }
-    format("%s-runners-cache-%s", var.company.name, var.env.short_name) = var.env.short_name == "int" ? {
-      #force_destroy should be oposite to deletion_protection 
-      force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
-      storage_class = "STANDARD"
-      admins = [
-        "serviceAccount:${module.yc.iam.service_accounts["runner-app"].id}"
-      ]
-      lifecycle_rules = [{
-        enabled = true
-        expiration = {
-          days = 30
-        }
-      }]
-    } : null
   }
 }
