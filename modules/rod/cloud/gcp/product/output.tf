@@ -1,16 +1,16 @@
 output "network" {
-  value = module.internal.network
+  value = module.product.network
 }
 
 output "k8s_clusters" {
-  value = module.internal.k8s_clusters
+  value = module.product.k8s_clusters
 }
 
 output "iam" {
-  value     = module.internal.iam
+  value     = module.product.iam
   sensitive = true
 }
 
 output "registries" {
-  value = module.internal.registries
+  value = module.product.registries
 }
