@@ -15,7 +15,7 @@ variable "overrides" {
   description = "Cloud attribute overrides"
   type = object(
     {
-      gcp_activate_apis = optional(list(string))
+      gcp_activate_apis = optional(list(string), [])
       gcp_buckets       = optional(any)
       gcp_dns_zones     = optional(any)
       gcp_iam           = optional(any)
