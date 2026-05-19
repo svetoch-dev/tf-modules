@@ -87,18 +87,6 @@ locals {
         }
         generate_key = false
       }
-      argocd = var.env.short_name == "int" ? {
-        description = "argocd service account"
-        roles = [
-        ]
-        custom_roles = []
-        sa_iam_bindings = var.env.initial_start ? {} : {
-          "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${var.env.cloud.id}.svc.id.goog[argocd/argocd]",
-          ]
-        }
-        generate_key = false
-      } : null,
       grafana-loki = {
         description  = "service account for loki"
         roles        = []
@@ -123,45 +111,9 @@ locals {
         }
         generate_key = false
       }
-      runner = var.env.short_name == "int" ? {
-        description = "service account for ci runners"
-        roles = [
-        ]
-        custom_roles = []
-        sa_iam_bindings = var.env.initial_start || var.ci == null ? {} : {
-          "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${var.env.cloud.id}.svc.id.goog[${var.ci.type}-runner/runner]"
-          ]
-        }
-        generate_key = false
-      } : null
-      runner-app = var.env.short_name == "int" ? {
-        description  = "service account for app ci runners"
-        roles        = []
-        custom_roles = []
-        sa_iam_bindings = var.env.initial_start || var.ci == null ? {} : {
-          "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${var.env.cloud.id}.svc.id.goog[${var.ci.type}-runner-app/runner-app]"
-          ]
-        }
-        generate_key = false
-      } : null
     }
 
     roles = {
-      owners = {
-        role = "roles/owner"
-        members = concat(
-          [
-            for user_name, user_obj in var.env.users :
-            "user:${user_obj.name}"
-            if contains(user_obj.roles, "owner")
-          ],
-          [
-            "serviceAccount:runner@${var.int_env.cloud.id}.iam.gserviceaccount.com"
-          ]
-        )
-      }
       devs = {
         role = "projects/${var.env.cloud.id}/roles/developers"
         members = [

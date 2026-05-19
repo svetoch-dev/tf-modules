@@ -5,9 +5,6 @@ locals {
       readers = [
         "serviceAccount:k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
       ]
-      writers = var.env.short_name != "int" ? [
-        "serviceAccount:runner-app@${var.int_env.cloud.id}.iam.gserviceaccount.com"
-      ] : []
       description = "container images"
     }
   }

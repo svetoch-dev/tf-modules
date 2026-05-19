@@ -107,32 +107,6 @@ locals {
             pod_range = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
           }
         }
-        runner = var.env.short_name == "int" ? {
-          name = "runner"
-          node_config = {
-            machine_type    = "t2d-standard-4"
-            service_account = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-            disk_size_gb    = 120
-            spot            = true
-            labels = {
-              runner = "true"
-            }
-            taint = [
-              {
-                key    = "runner"
-                value  = "true"
-                effect = "NO_SCHEDULE"
-              },
-            ]
-          }
-          autoscaling = {
-            min_node_count = 0
-            max_node_count = 20
-          }
-          network_config = {
-            pod_range = module.gcp.subnets["main"]["vms"].secondary_ip_range[0].range_name
-          }
-        } : null,
       }
     }
   }
