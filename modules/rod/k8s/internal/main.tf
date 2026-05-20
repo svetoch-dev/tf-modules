@@ -6,7 +6,7 @@ provider "kubernetes" {
 
 module "internal" {
   source  = "../../k8s"
-  k8s_api = local.k8s_api
+  k8s_api = var.k8s_api
   ci      = var.ci
   int_env = var.int_env
   env     = var.env
