@@ -3,9 +3,6 @@ locals {
     service_accounts = {
       argocd = {
         description = "argocd service account"
-        roles = [
-        ]
-        custom_roles = []
         sa_iam_bindings = var.env.initial_start ? {} : {
           "roles/iam.workloadIdentityUser" = [
             "serviceAccount:${var.env.cloud.id}.svc.id.goog[argocd/argocd]",
@@ -18,7 +15,6 @@ locals {
         roles = [
           "roles/owner"
         ]
-        custom_roles = []
         sa_iam_bindings = var.env.initial_start || var.ci == null ? {} : {
           "roles/iam.workloadIdentityUser" = [
             "serviceAccount:${var.env.cloud.id}.svc.id.goog[${var.ci.type}-runner/runner]"
@@ -27,9 +23,7 @@ locals {
         generate_key = false
       }
       runner-app = {
-        description  = "service account for app ci runners"
-        roles        = []
-        custom_roles = []
+        description = "service account for app ci runners"
         sa_iam_bindings = var.env.initial_start || var.ci == null ? {} : {
           "roles/iam.workloadIdentityUser" = [
             "serviceAccount:${var.env.cloud.id}.svc.id.goog[${var.ci.type}-runner-app/runner-app]"

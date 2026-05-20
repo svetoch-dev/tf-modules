@@ -42,8 +42,6 @@ locals {
         roles = [
           "projects/${var.env.cloud.id}/roles/k8sNodeServiceAccount"
         ]
-        sa_iam_bindings = {
-        }
         generate_key = false
       }
       external-dns = {
@@ -60,7 +58,6 @@ locals {
       },
       thanos = {
         description = "service account for thanos"
-        roles       = []
         sa_iam_bindings = var.env.initial_start ? {} : {
           "roles/iam.workloadIdentityUser" = [
             "serviceAccount:${var.env.cloud.id}.svc.id.goog[prometheus/thanos]",
@@ -88,9 +85,7 @@ locals {
         generate_key = false
       }
       grafana-loki = {
-        description  = "service account for loki"
-        roles        = []
-        custom_roles = []
+        description = "service account for loki"
         sa_iam_bindings = var.env.initial_start ? {} : {
           "roles/iam.workloadIdentityUser" = [
             "serviceAccount:${var.env.cloud.id}.svc.id.goog[loki/grafana-loki]",
@@ -103,7 +98,6 @@ locals {
         roles = [
           "projects/${var.env.cloud.id}/roles/bucketList"
         ]
-        custom_roles = []
         sa_iam_bindings = var.env.initial_start ? {} : {
           "roles/iam.workloadIdentityUser" = [
             "serviceAccount:${var.env.cloud.id}.svc.id.goog[fluent/fluent]",
