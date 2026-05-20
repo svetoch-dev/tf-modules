@@ -5,7 +5,7 @@ provider "yandex" {
   region_id = var.env.cloud.location.region
 }
 
-module "internal" {
+module "product" {
   source  = "../"
   company = var.company
   ci      = var.ci
