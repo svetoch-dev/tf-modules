@@ -4,8 +4,6 @@ locals {
       argocd = lookup(
         {
           gcp = {
-            labels      = {},
-            annotations = {},
             role_ref = {
               kind = "ClusterRole"
               name = "cluster-admin"
