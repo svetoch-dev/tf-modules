@@ -1,7 +1,7 @@
 locals {
   rbac = {
     cluster_role_binding = {
-      argocd = var.env.cloud.type == "gcp" ? {
+      argocd = var.env.cloud.name == "gcp" ? {
         labels      = {},
         annotations = {},
         role_ref = {
