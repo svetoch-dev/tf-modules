@@ -21,8 +21,10 @@ variable "custom_cluster_role_binding" {
   default = {}
 }
 variable "custom_roles" {
-  type = map(any)
+  type    = map(any)
+  default = {}
 }
 variable "custom_role_binding" {
-  type = map(any)
+  type    = map(any)
+  default = {}
 }
