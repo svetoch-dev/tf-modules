@@ -1,9 +1,8 @@
 resource "kubernetes_service_account" "service_account" {
 
   for_each = {
-    for service_account_name, service_account_obj in var.custom_service_accounts :
-    "${service_account_obj.name}.${service_account_obj.namespace}" =>
-    service_account_obj
+    for service_account_name, service_account_obj in var.service_accounts :
+    "${service_account_obj.name}.${service_account_obj.namespace}" => service_account_obj
     if service_account_obj != null
   }
 
@@ -23,9 +22,9 @@ resource "kubernetes_service_account" "service_account" {
 
 resource "kubernetes_cluster_role" "cluster_role" {
   for_each = {
-    for custom_cluster_role_name, custom_cluster_role_obj in var.custom_cluster_roles :
-    custom_cluster_role_name => custom_cluster_role_obj
-    if custom_cluster_role_obj != null
+    for cluster_role_name, cluster_role_obj in var.cluster_roles :
+    cluster_role_name => cluster_role_obj
+    if cluster_role_obj != null
   }
 
   metadata {
@@ -48,9 +47,9 @@ resource "kubernetes_cluster_role" "cluster_role" {
 
 resource "kubernetes_cluster_role_binding" "cluster_role_binding" {
   for_each = {
-    for custom_cluster_role_binding_name, custom_cluster_role_binding_obj in var.custom_cluster_role_binding :
-    custom_cluster_role_binding_name => custom_cluster_role_binding_obj
-    if custom_cluster_role_binding_obj != null
+    for cluster_role_binding_name, cluster_role_binding_obj in var.cluster_role_binding :
+    cluster_role_binding_name => cluster_role_binding_obj
+    if cluster_role_binding_obj != null
   }
   metadata {
     name        = each.key
@@ -77,9 +76,9 @@ resource "kubernetes_cluster_role_binding" "cluster_role_binding" {
 
 resource "kubernetes_role" "role" {
   for_each = {
-    for custom_role_name, custom_role_obj in var.custom_roles :
-    custom_role_name => custom_role_obj
-    if custom_role_obj != null
+    for role_name, role_obj in var.roles :
+    role_name => role_obj
+    if role_obj != null
   }
 
   metadata {
@@ -101,9 +100,9 @@ resource "kubernetes_role" "role" {
 }
 resource "kubernetes_role_binding" "role_binding" {
   for_each = {
-    for custom_role_binding_name, custom_role_binding_obj in var.custom_role_binding :
-    custom_role_binding_name => custom_role_binding_obj
-    if custom_role_binding_obj != null
+    for role_binding_name, role_binding_obj in var.role_binding :
+    role_binding_name => role_binding_obj
+    if role_binding_obj != null
   }
 
   metadata {
