@@ -29,7 +29,7 @@ variable "cluster_roles" {
         labels      = optional(map(string), {})
         annotations = optional(map(string), {})
         rule = optional(
-          list(
+          map(
             object(
               {
                 api_groups        = optional(list(string), [])
@@ -40,7 +40,7 @@ variable "cluster_roles" {
               }
             )
           ),
-          []
+          {}
         )
       }
     )
@@ -61,7 +61,7 @@ variable "cluster_role_binding" {
           }
         )
         subject = optional(
-          list(
+          map(
             object(
               {
                 api_group = optional(string)
@@ -71,7 +71,7 @@ variable "cluster_role_binding" {
               }
             )
           ),
-          []
+          {}
         )
       }
     )
@@ -87,7 +87,7 @@ variable "roles" {
         annotations = optional(map(string), {})
         namespace   = string
         rule = optional(
-          list(
+          map(
             object(
               {
                 api_groups     = optional(list(string), [])
@@ -97,7 +97,7 @@ variable "roles" {
               }
             )
           ),
-          []
+          {}
         )
       }
     )
@@ -119,7 +119,7 @@ variable "role_binding" {
           }
         )
         subject = optional(
-          list(
+          map(
             object(
               {
                 api_group = optional(string)
@@ -129,7 +129,7 @@ variable "role_binding" {
               }
             )
           ),
-          []
+          {}
         )
       }
     )
