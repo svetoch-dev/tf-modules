@@ -4,7 +4,7 @@ locals {
       #force_destroy should be oposite to deletion_protection 
       force_destroy = var.env.cloud.buckets.deletion_protection ? false : true
       storage_class = "STANDARD"
-      admin_names = [
+      admin_names = var.env.initial_start == true ? [] : [
         "serviceAccountName:runner-app-${var.env.short_name}"
       ]
       lifecycle_rules = [{

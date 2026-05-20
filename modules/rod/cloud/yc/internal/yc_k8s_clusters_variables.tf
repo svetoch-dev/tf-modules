@@ -4,20 +4,7 @@ locals {
       node_groups = {
         runner = {
           name = "runner"
-          instance_template = {
-            boot_disk = {
-              size = 120
-              type = "network-ssd"
-            }
 
-            network_interface = [
-              {
-                subnet_ids = [
-                  "huu"
-                ]
-              }
-            ]
-          }
           scale_policy = {
             auto_scale = {
               initial = 0
@@ -52,6 +39,13 @@ locals {
             ]
           }
           instance_template = {
+            network_interface = [
+              {
+                subnet_ids = [
+                  "node-${var.env.kubernetes.node_locations[0]}"
+                ]
+              }
+            ]
             cpu_platform_id = "standard-v4a"
             resources = {
               core_fraction = 100
@@ -63,10 +57,6 @@ locals {
             }
             scheduling_policy = {
               preemptible = true
-            }
-            boot_disk = {
-              size = 45
-              type = "network-hdd"
             }
           }
           scale_policy = {

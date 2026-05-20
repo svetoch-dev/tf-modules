@@ -1,30 +1,14 @@
 locals {
-  yc_k8s_node_subnets = [
+  yc_k8s_node_subnets = {
     for subnet_name, subnet_obj in local.yc_networks_merged["main"].subnets :
-    merge(
-      subnet_obj,
-      lookup(subnet_obj, "name", null) == null ? {
-        name = subnet_name
-        id   = module.yc.subnets["main"][subnet_name].id
-        } : {
-        id = module.yc.subnets["main"][subnet_obj.name].id
-      }
-    )
+    subnet_name => subnet_obj
     if strcontains(subnet_name, "node")
-  ]
-  yc_k8s_master_subnets = [
+  }
+  yc_k8s_master_subnets = {
     for subnet_name, subnet_obj in local.yc_networks_merged["main"].subnets :
-    merge(
-      subnet_obj,
-      lookup(subnet_obj, "name", null) == null ? {
-        name = subnet_name
-        id   = module.yc.subnets["main"][subnet_name].id
-        } : {
-        id = module.yc.subnets["main"][subnet_obj.name].id
-      }
-    )
+    subnet_name => subnet_obj
     if strcontains(subnet_name, "master")
-  ]
+  }
   yc_k8s_node_groups_common = {
     deploy_policy = {
       max_expansion   = 2
@@ -124,10 +108,10 @@ locals {
       master = {
         public_ip = true
         master_location = [
-          for subnet_obj in local.yc_k8s_master_subnets :
+          for subnet_name, subnet_obj in local.yc_k8s_master_subnets :
           {
             zone      = subnet_obj.zone
-            subnet_id = subnet_obj.id
+            subnet_id = module.yc.subnets["main"][subnet_name].id
           }
         ]
         maintenance_policy = {
@@ -143,7 +127,7 @@ locals {
       }
       node_groups = merge(
         {
-          for subnet_obj in local.yc_k8s_node_subnets :
+          for subnet_name, subnet_obj in local.yc_k8s_node_subnets :
           "main-${subnet_obj.zone}" => provider::deepmerge::mergo(
             local.yc_k8s_node_groups.main,
             {
@@ -159,7 +143,7 @@ locals {
                 network_interface = [
                   {
                     subnet_ids = [
-                      subnet_obj.id
+                      module.yc.subnets["main"][subnet_name].id
                     ]
                   }
                 ]
@@ -168,7 +152,7 @@ locals {
           )
         },
         {
-          for subnet_obj in local.yc_k8s_node_subnets :
+          for subnet_name, subnet_obj in local.yc_k8s_node_subnets :
           "on-demand-${subnet_obj.zone}" => provider::deepmerge::mergo(
             local.yc_k8s_node_groups.main,
             {
@@ -184,7 +168,7 @@ locals {
                 network_interface = [
                   {
                     subnet_ids = [
-                      subnet_obj.id
+                      module.yc.subnets["main"][subnet_name].id
                     ]
                   }
                 ]
