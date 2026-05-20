@@ -15,7 +15,7 @@ variable "service_accounts" {
     object(
       {
         description = string
-        roles       = optional(list(string))
+        roles       = optional(list(string), [])
         #service accounts can be treated
         #as gcp resources. So you can
         #grant service accounts to specific
