@@ -5,7 +5,13 @@ provider "kubernetes" {
 }
 
 module "product" {
-  source     = "../../k8s"
-  rbac       = local.rbac_merged
-  namespaces = local.namespaces_merged
+  source  = "../../k8s"
+  k8s_api = local.k8s_api
+  ci      = var.ci
+  int_env = var.int_env
+  env     = var.env
+  overrides = {
+    rbac       = local.rbac_merged
+    namespaces = local.namespaces_merged
+  }
 }
