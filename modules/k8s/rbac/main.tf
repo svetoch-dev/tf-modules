@@ -28,7 +28,7 @@ resource "kubernetes_cluster_role" "cluster_role" {
   }
 
   metadata {
-    name        = each.key
+    name        = coalesce(each.value.name, each.key)
     labels      = each.value.labels
     annotations = each.value.annotations
   }
@@ -52,7 +52,7 @@ resource "kubernetes_cluster_role_binding" "cluster_role_binding" {
     if cluster_role_binding_obj != null
   }
   metadata {
-    name        = each.key
+    name        = coalesce(each.value.name, each.key)
     labels      = each.value.labels
     annotations = each.value.annotations
   }
@@ -82,7 +82,7 @@ resource "kubernetes_role" "role" {
   }
 
   metadata {
-    name        = each.key
+    name        = coalesce(each.value.name, each.key)
     labels      = each.value.labels
     namespace   = each.value.namespace
     annotations = each.value.annotations
@@ -106,7 +106,7 @@ resource "kubernetes_role_binding" "role_binding" {
   }
 
   metadata {
-    name        = each.key
+    name        = coalesce(each.value.name, each.key)
     labels      = each.value.labels
     namespace   = each.value.namespace
     annotations = each.value.annotations

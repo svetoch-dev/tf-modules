@@ -28,6 +28,7 @@ variable "cluster_roles" {
       {
         labels      = optional(map(string), {})
         annotations = optional(map(string), {})
+        name        = optional(string)
         rule = optional(
           map(
             object(
@@ -54,6 +55,7 @@ variable "cluster_role_binding" {
       {
         labels      = optional(map(string), {})
         annotations = optional(map(string), {})
+        name        = optional(string)
         role_ref = object(
           {
             kind = string
@@ -86,6 +88,7 @@ variable "roles" {
         labels      = optional(map(string), {})
         annotations = optional(map(string), {})
         namespace   = string
+        name        = optional(string)
         rule = optional(
           map(
             object(
@@ -111,6 +114,7 @@ variable "role_binding" {
       {
         labels      = optional(map(string), {})
         annotations = optional(map(string), {})
+        name        = optional(string)
         namespace   = string
         role_ref = object(
           {

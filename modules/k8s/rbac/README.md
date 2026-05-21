@@ -20,13 +20,13 @@ module "rbac" {
 
   cluster_roles = {
     "pod-reader" = {
-      rule = [
-        {
+      rule = {
+        pods = {
           api_groups = [""]
           resources  = ["pods"]
           verbs      = ["get", "list", "watch"]
         }
-      ]
+      }
     }
   }
 
@@ -36,26 +36,26 @@ module "rbac" {
         kind = "ClusterRole"
         name = "pod-reader"
       }
-      subject = [
-        {
+      subject = {
+        application = {
           kind      = "ServiceAccount"
           name      = "application"
           namespace = "application"
         }
-      ]
+      }
     }
   }
 
   roles = {
     "config-reader" = {
       namespace = "application"
-      rule = [
-        {
+      rule = {
+        configmaps = {
           api_groups = [""]
           resources  = ["configmaps"]
           verbs      = ["get", "list"]
         }
-      ]
+      }
     }
   }
 
@@ -66,13 +66,13 @@ module "rbac" {
         kind = "Role"
         name = "config-reader"
       }
-      subject = [
-        {
+      subject = {
+        application = {
           kind      = "ServiceAccount"
           name      = "application"
           namespace = "application"
         }
-      ]
+      }
     }
   }
 }
@@ -97,7 +97,8 @@ module "rbac" {
 
 ## Notes
 
-- Map keys are used as Kubernetes resource names for roles and bindings.
+- Map keys are used as Kubernetes resource names for roles and bindings unless `name` is set.
+- Rule and subject map keys are Terraform iteration keys and are not sent to Kubernetes.
 - Service account Terraform resource keys are built from `name.namespace`.
 - `role_ref.api_group` is always set to `rbac.authorization.k8s.io`.
 - Cluster role bindings depend on cluster roles and service accounts created by this module.
@@ -128,9 +129,10 @@ module "rbac" {
 |-------|------|:--------:|-------------|
 | `labels` | `map(string)` | no | Labels assigned to the cluster role metadata. |
 | `annotations` | `map(string)` | no | Annotations assigned to the cluster role metadata. |
-| `rule` | `list(object)` | no | RBAC rules for the cluster role. |
+| `name` | `string` | no | Kubernetes cluster role name. Defaults to the map key. |
+| `rule` | `map(object)` | no | RBAC rules for the cluster role. |
 
-### `cluster_roles{}.rule[]`
+### `cluster_roles{}.rule{}`
 
 | Field | Type | Required | Description |
 |-------|------|:--------:|-------------|
@@ -146,8 +148,9 @@ module "rbac" {
 |-------|------|:--------:|-------------|
 | `labels` | `map(string)` | no | Labels assigned to the cluster role binding metadata. |
 | `annotations` | `map(string)` | no | Annotations assigned to the cluster role binding metadata. |
+| `name` | `string` | no | Kubernetes cluster role binding name. Defaults to the map key. |
 | `role_ref` | `object` | yes | Role reference for the binding. |
-| `subject` | `list(object)` | no | Subjects granted by the binding. |
+| `subject` | `map(object)` | no | Subjects granted by the binding. |
 
 ### `roles`
 
@@ -156,9 +159,10 @@ module "rbac" {
 | `namespace` | `string` | yes | Kubernetes namespace for the role. |
 | `labels` | `map(string)` | no | Labels assigned to the role metadata. |
 | `annotations` | `map(string)` | no | Annotations assigned to the role metadata. |
-| `rule` | `list(object)` | no | RBAC rules for the role. |
+| `name` | `string` | no | Kubernetes role name. Defaults to the map key. |
+| `rule` | `map(object)` | no | RBAC rules for the role. |
 
-### `roles{}.rule[]`
+### `roles{}.rule{}`
 
 | Field | Type | Required | Description |
 |-------|------|:--------:|-------------|
@@ -174,8 +178,9 @@ module "rbac" {
 | `namespace` | `string` | yes | Kubernetes namespace for the role binding. |
 | `labels` | `map(string)` | no | Labels assigned to the role binding metadata. |
 | `annotations` | `map(string)` | no | Annotations assigned to the role binding metadata. |
+| `name` | `string` | no | Kubernetes role binding name. Defaults to the map key. |
 | `role_ref` | `object` | yes | Role reference for the binding. |
-| `subject` | `list(object)` | no | Subjects granted by the binding. |
+| `subject` | `map(object)` | no | Subjects granted by the binding. |
 
 ### `role_ref`
 
@@ -184,7 +189,7 @@ module "rbac" {
 | `kind` | `string` | yes | Role reference kind, such as `Role` or `ClusterRole`. |
 | `name` | `string` | yes | Referenced role name. |
 
-### `subject[]`
+### `subject{}`
 
 | Field | Type | Required | Description |
 |-------|------|:--------:|-------------|
