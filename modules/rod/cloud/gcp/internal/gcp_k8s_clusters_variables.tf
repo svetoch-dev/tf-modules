@@ -7,7 +7,7 @@ locals {
           node_config = {
             machine_type    = "t2d-standard-4"
             service_account = "k8s-nodes@${var.env.cloud.id}.iam.gserviceaccount.com"
-            disk_size_gb    = 120
+            disk_size_gb    = 50
             spot            = true
             labels = {
               runner = "true"

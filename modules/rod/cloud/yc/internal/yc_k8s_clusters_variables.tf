@@ -46,6 +46,10 @@ locals {
                 ]
               }
             ]
+            boot_disk = {
+              size = 50
+              type = "network-ssd"
+            }
             cpu_platform_id = "standard-v4a"
             resources = {
               core_fraction = 100
