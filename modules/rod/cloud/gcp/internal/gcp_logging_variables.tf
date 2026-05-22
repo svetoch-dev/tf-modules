@@ -1,0 +1,4 @@
+locals {
+  gcp_logging = {
+  }
+}

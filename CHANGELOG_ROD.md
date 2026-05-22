@@ -1,3 +1,15 @@
+# rod-v0.21.0
+
+Breaking changes:
+* `cloud/gcp` devide module into internal/product submodules
+* `cloud/yc` devide module into internal/product submodules
+* `k8s` devide module into internal/product submodules
+
+Features:
+* `cloud/yc`:
+   * logic that checks if subnet names from local.yc_network_merged are set in `local.local.yc_k8s_clusters_merged.<cluster>.node_groups.<node_group>.instance_template.network_interface[<index>].subnet_ids` if they are it gets the subnet_ids from module outputs
+   * logic checks if "k8s_federation_id" str is set in `local.yc_iam_merged.service_accounts[<sa_name>].federated_credentias[<name>].federation_id` if it is than it gets federation id from k8s cluster
+
 # rod-v0.20.0
 
 Features:

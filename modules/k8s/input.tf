@@ -8,11 +8,11 @@ variable "rbac" {
   description = "k8s rbac definition"
   type = object(
     {
-      service_accounts     = any
-      cluster_roles        = any
-      cluster_role_binding = any
-      roles                = any
-      role_binding         = any
+      service_accounts     = optional(any, {})
+      cluster_roles        = optional(any, {})
+      cluster_role_binding = optional(any, {})
+      roles                = optional(any, {})
+      role_binding         = optional(any, {})
     }
   )
   default = {

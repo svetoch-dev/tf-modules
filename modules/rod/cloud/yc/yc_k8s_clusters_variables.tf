@@ -1,30 +1,14 @@
 locals {
-  yc_k8s_node_subnets = [
+  yc_k8s_node_subnets = {
     for subnet_name, subnet_obj in local.yc_networks_merged["main"].subnets :
-    merge(
-      subnet_obj,
-      lookup(subnet_obj, "name", null) == null ? {
-        name = subnet_name
-        id   = module.yc.subnets["main"][subnet_name].id
-        } : {
-        id = module.yc.subnets["main"][subnet_obj.name].id
-      }
-    )
+    subnet_name => subnet_obj
     if strcontains(subnet_name, "node")
-  ]
-  yc_k8s_master_subnets = [
+  }
+  yc_k8s_master_subnets = {
     for subnet_name, subnet_obj in local.yc_networks_merged["main"].subnets :
-    merge(
-      subnet_obj,
-      lookup(subnet_obj, "name", null) == null ? {
-        name = subnet_name
-        id   = module.yc.subnets["main"][subnet_name].id
-        } : {
-        id = module.yc.subnets["main"][subnet_obj.name].id
-      }
-    )
+    subnet_name => subnet_obj
     if strcontains(subnet_name, "master")
-  ]
+  }
   yc_k8s_node_groups_common = {
     deploy_policy = {
       max_expansion   = 2
@@ -103,35 +87,6 @@ locals {
         ]
       }
     )
-    runner = provider::deepmerge::mergo(
-      local.yc_k8s_node_groups_common,
-      {
-        name = "runner"
-        instance_template = {
-          boot_disk = {
-            size = 120
-            type = "network-ssd"
-          }
-        }
-        scale_policy = {
-          auto_scale = {
-            initial = 0
-            max     = 20
-            min     = 0
-          }
-        }
-        node_labels = {
-          runner = "true"
-        }
-        node_taints = [
-          {
-            key    = "runner"
-            value  = true
-            effect = "NoSchedule"
-          },
-        ]
-      }
-    )
   }
   yc_k8s_clusters = var.env.kubernetes.enabled ? {
     tostring(var.env.short_name) = {
@@ -150,16 +105,13 @@ locals {
       workload_identity_federation = {
         enabled = true
       }
-      admin_names = var.env.short_name != "int" ? [
-        "serviceAccountName:${var.int_env.cloud.folder_id}:argocd-${var.int_env.short_name}"
-      ] : []
       master = {
         public_ip = true
         master_location = [
-          for subnet_obj in local.yc_k8s_master_subnets :
+          for subnet_name, subnet_obj in local.yc_k8s_master_subnets :
           {
             zone      = subnet_obj.zone
-            subnet_id = subnet_obj.id
+            subnet_id = module.yc.subnets["main"][subnet_name].id
           }
         ]
         maintenance_policy = {
@@ -175,7 +127,7 @@ locals {
       }
       node_groups = merge(
         {
-          for subnet_obj in local.yc_k8s_node_subnets :
+          for subnet_name, subnet_obj in local.yc_k8s_node_subnets :
           "main-${subnet_obj.zone}" => provider::deepmerge::mergo(
             local.yc_k8s_node_groups.main,
             {
@@ -191,7 +143,7 @@ locals {
                 network_interface = [
                   {
                     subnet_ids = [
-                      subnet_obj.id
+                      module.yc.subnets["main"][subnet_name].id
                     ]
                   }
                 ]
@@ -200,7 +152,7 @@ locals {
           )
         },
         {
-          for subnet_obj in local.yc_k8s_node_subnets :
+          for subnet_name, subnet_obj in local.yc_k8s_node_subnets :
           "on-demand-${subnet_obj.zone}" => provider::deepmerge::mergo(
             local.yc_k8s_node_groups.main,
             {
@@ -216,7 +168,7 @@ locals {
                 network_interface = [
                   {
                     subnet_ids = [
-                      subnet_obj.id
+                      module.yc.subnets["main"][subnet_name].id
                     ]
                   }
                 ]
@@ -224,29 +176,6 @@ locals {
             }
           )
         },
-        var.env.short_name == "int" ? {
-          "runner" = provider::deepmerge::mergo(
-            local.yc_k8s_node_groups.runner,
-            {
-              allocation_policy = {
-                location = [
-                  {
-                    zone = local.yc_k8s_node_subnets[0].zone
-                  }
-                ]
-              }
-              instance_template = {
-                network_interface = [
-                  {
-                    subnet_ids = [
-                      local.yc_k8s_node_subnets[0].id
-                    ]
-                  }
-                ]
-              }
-            }
-          )
-        } : {}
       )
     }
   } : {}

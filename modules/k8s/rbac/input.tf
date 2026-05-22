@@ -1,10 +1,19 @@
-variable "custom_service_accounts" {
-  type = map(object
-    (
+variable "service_accounts" {
+  type = map(
+    object(
       {
-        secret                          = optional(map(string), {})
+        secret = optional(
+          map(
+            object(
+              {
+                name = string
+              }
+            )
+          ),
+          {}
+        )
         automount_service_account_token = optional(bool, true)
-        annotations                     = optional(map(string))
+        annotations                     = optional(map(string), {})
         namespace                       = string
         name                            = string
       }
@@ -12,17 +21,124 @@ variable "custom_service_accounts" {
   )
   default = {}
 }
-variable "custom_cluster_roles" {
-  type    = map(any)
+
+variable "cluster_roles" {
+  type = map(
+    object(
+      {
+        labels      = optional(map(string), {})
+        annotations = optional(map(string), {})
+        name        = optional(string)
+        rule = optional(
+          map(
+            object(
+              {
+                api_groups        = optional(list(string), [])
+                resources         = optional(list(string), [])
+                resource_names    = optional(list(string), [])
+                verbs             = list(string)
+                non_resource_urls = optional(list(string), [])
+              }
+            )
+          ),
+          {}
+        )
+      }
+    )
+  )
   default = {}
 }
-variable "custom_cluster_role_binding" {
-  type    = map(any)
+
+variable "cluster_role_binding" {
+  type = map(
+    object(
+      {
+        labels      = optional(map(string), {})
+        annotations = optional(map(string), {})
+        name        = optional(string)
+        role_ref = object(
+          {
+            kind      = optional(string, "ClusterRole")
+            name      = string
+            api_group = optional(string, "rbac.authorization.k8s.io")
+          }
+        )
+        subject = optional(
+          map(
+            object(
+              {
+                api_group = optional(string)
+                kind      = string
+                name      = string
+                namespace = optional(string)
+              }
+            )
+          ),
+          {}
+        )
+      }
+    )
+  )
   default = {}
 }
-variable "custom_roles" {
-  type = map(any)
+
+variable "roles" {
+  type = map(
+    object(
+      {
+        labels      = optional(map(string), {})
+        annotations = optional(map(string), {})
+        namespace   = string
+        name        = optional(string)
+        rule = optional(
+          map(
+            object(
+              {
+                api_groups     = list(string)
+                resources      = optional(list(string), [])
+                resource_names = optional(list(string), [])
+                verbs          = list(string)
+              }
+            )
+          ),
+          {}
+        )
+      }
+    )
+  )
+  default = {}
 }
-variable "custom_role_binding" {
-  type = map(any)
+
+variable "role_binding" {
+  type = map(
+    object(
+      {
+        labels      = optional(map(string), {})
+        annotations = optional(map(string), {})
+        name        = optional(string)
+        namespace   = string
+        role_ref = object(
+          {
+            kind      = optional(string, "Role")
+            api_group = optional(string, "rbac.authorization.k8s.io")
+            name      = string
+          }
+        )
+        subject = optional(
+          map(
+            object(
+              {
+                api_group = optional(string)
+                kind      = string
+                name      = string
+                namespace = optional(string, "")
+              }
+            )
+          ),
+          {}
+        )
+      }
+    )
+  )
+  default = {}
 }

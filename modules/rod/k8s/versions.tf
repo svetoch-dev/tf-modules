@@ -1,8 +1,10 @@
 terraform {
   required_providers {
     deepmerge = {
-      source  = "isometry/deepmerge"
-      version = "1.2.1"
+      source = "isometry/deepmerge"
+    }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
     }
   }
   required_version = ">= 1.8"
