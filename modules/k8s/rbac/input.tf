@@ -93,7 +93,7 @@ variable "roles" {
           map(
             object(
               {
-                api_groups     = optional(list(string), [])
+                api_groups     = list(string)
                 resources      = optional(list(string), [])
                 resource_names = optional(list(string), [])
                 verbs          = list(string)
