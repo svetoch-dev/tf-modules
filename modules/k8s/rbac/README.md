@@ -182,11 +182,18 @@ module "rbac" {
 | `role_ref` | `object` | yes | Role reference for the binding. |
 | `subject` | `map(object)` | no | Subjects granted by the binding. |
 
-### `role_ref`
+### `cluster_role_binding{}.role_ref`
 
 | Field | Type | Required | Description |
 |-------|------|:--------:|-------------|
-| `kind` | `string` | yes | Role reference kind, such as `Role` or `ClusterRole`. |
+| `kind` | `string` | no  | Role reference kind. Defaults to `ClusterRole`. |
+| `name` | `string` | yes | Referenced cluster role name. |
+
+### `role_binding{}.role_ref`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `kind` | `string` | no | Role reference kind. Defaults to `Role`. |
 | `name` | `string` | yes | Referenced role name. |
 
 ### `subject{}`

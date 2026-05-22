@@ -58,7 +58,7 @@ variable "cluster_role_binding" {
         name        = optional(string)
         role_ref = object(
           {
-            kind = string
+            kind = optional(string, "ClusterRole")
             name = string
           }
         )
@@ -118,7 +118,7 @@ variable "role_binding" {
         namespace   = string
         role_ref = object(
           {
-            kind = string
+            kind = optional(string, "Role")
             name = string
           }
         )
@@ -129,7 +129,7 @@ variable "role_binding" {
                 api_group = optional(string)
                 kind      = string
                 name      = string
-                namespace = optional(string)
+                namespace = optional(string, "")
               }
             )
           ),
