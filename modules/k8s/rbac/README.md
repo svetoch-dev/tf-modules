@@ -100,7 +100,7 @@ module "rbac" {
 - Map keys are used as Kubernetes resource names for roles and bindings unless `name` is set.
 - Rule and subject map keys are Terraform iteration keys and are not sent to Kubernetes.
 - Service account Terraform resource keys are built from `name.namespace`.
-- `role_ref.api_group` is always set to `rbac.authorization.k8s.io`.
+- `role_ref.api_group` defaults to `rbac.authorization.k8s.io` but can be overridden.
 - Cluster role bindings depend on cluster roles and service accounts created by this module.
 - Role bindings depend on roles and service accounts created by this module.
 - Target namespaces must already exist before applying resources that reference them.
@@ -188,6 +188,7 @@ module "rbac" {
 |-------|------|:--------:|-------------|
 | `kind` | `string` | no  | Role reference kind. Defaults to `ClusterRole`. |
 | `name` | `string` | yes | Referenced cluster role name. |
+| `api_group` | `string` | no | API group of the role reference. Defaults to `rbac.authorization.k8s.io`. |
 
 ### `role_binding{}.role_ref`
 
@@ -195,6 +196,7 @@ module "rbac" {
 |-------|------|:--------:|-------------|
 | `kind` | `string` | no | Role reference kind. Defaults to `Role`. |
 | `name` | `string` | yes | Referenced role name. |
+| `api_group` | `string` | no | API group of the role reference. Defaults to `rbac.authorization.k8s.io`. |
 
 ### `subject{}`
 

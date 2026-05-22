@@ -58,8 +58,9 @@ variable "cluster_role_binding" {
         name        = optional(string)
         role_ref = object(
           {
-            kind = optional(string, "ClusterRole")
-            name = string
+            kind      = optional(string, "ClusterRole")
+            name      = string
+            api_group = optional(string, "rbac.authorization.k8s.io")
           }
         )
         subject = optional(
@@ -118,8 +119,9 @@ variable "role_binding" {
         namespace   = string
         role_ref = object(
           {
-            kind = optional(string, "Role")
-            name = string
+            kind      = optional(string, "Role")
+            api_group = optional(string, "rbac.authorization.k8s.io")
+            name      = string
           }
         )
         subject = optional(
