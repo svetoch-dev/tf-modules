@@ -1,8 +1,8 @@
 locals {
   custom_role_names = {
-    developers            = var.env.test == true ? "developers${random_id.custom_role_suffix.hex}" : "developers"
-    k8sNodeServiceAccount = var.env.test == true ? "k8sNodeServiceAccount${random_id.custom_role_suffix.hex}" : "k8sNodeServiceAccount"
-    bucketList            = var.env.test == true ? "bucketList${random_id.custom_role_suffix.hex}" : "bucketList"
+    developers            = var.env.test == true ? "developers${random_id.custom_role_suffix[0].hex}" : "developers"
+    k8sNodeServiceAccount = var.env.test == true ? "k8sNodeServiceAccount${random_id.custom_role_suffix[0].hex}" : "k8sNodeServiceAccount"
+    bucketList            = var.env.test == true ? "bucketList${random_id.custom_role_suffix[0].hex}" : "bucketList"
   }
   gcp_iam = {
     custom_roles = {
