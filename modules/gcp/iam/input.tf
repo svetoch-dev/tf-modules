@@ -5,7 +5,7 @@ variable "custom_roles" {
         name        = optional(string)
         title       = string
         description = string
-        permissions = optional(list(string), [])
+        permissions = list(string)
       }
     )
   )
