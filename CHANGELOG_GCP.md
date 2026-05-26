@@ -1,5 +1,12 @@
-
 # gcp-v3.0.0-alpha
+
+## gcp-v3.0.0-alpha-1.5
+
+Features:
+* `iam`
+  * `service_accounts` README + name attribute 
+  * `custom_roles` README + name attribute
+  * `roles` README
 
 ## gcp-v3.0.0-alpha-1.4
 Braking changes:
