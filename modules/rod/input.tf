@@ -33,6 +33,7 @@ variable "env" {
       name          = string
       short_name    = string
       initial_start = optional(bool, false)
+      test          = optional(bool, false)
       users = map(
         object(
           {

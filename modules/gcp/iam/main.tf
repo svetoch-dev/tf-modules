@@ -5,7 +5,7 @@ module "custom_roles" {
     custom_role_name => custom_role_obj
     if custom_role_obj != null
   }
-  name        = each.key
+  name        = coalesce(each.value.name, each.key)
   title       = each.value.title
   description = each.value.description
   permissions = each.value.permissions
@@ -33,7 +33,7 @@ module "service_accounts" {
     if service_account_obj != null
   }
   project_id      = var.project_id
-  name            = each.key
+  name            = coalesce(each.value.name, each.key)
   description     = each.value.description
   roles           = each.value.roles
   sa_iam_bindings = each.value.sa_iam_bindings
