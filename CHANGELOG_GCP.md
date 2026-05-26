@@ -3,7 +3,7 @@
 ## gcp-v3.0.0-alpha-1.5
 
 Features:
-* `iam`
+* `iam` version file with only used providers
   * `service_accounts` README + name attribute 
   * `custom_roles` README + name attribute
   * `roles` README
