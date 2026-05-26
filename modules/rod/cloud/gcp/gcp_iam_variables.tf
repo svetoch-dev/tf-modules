@@ -129,6 +129,6 @@ locals {
 }
 
 resource "random_id" "custom_role_suffix" {
-  count       = ver.env.test == true ? 1 : 0
+  count       = var.env.test == true ? 1 : 0
   byte_length = 2
 }
