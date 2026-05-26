@@ -47,7 +47,7 @@ locals {
     service_accounts = {
       k8s-nodes = {
         description = "default service account for k8s nodes"
-        roles = [
+        roles = var.env.initial_start ? [] : [
           "projects/${var.env.cloud.id}/roles/${local.custom_role_names.k8sNodeServiceAccount}"
         ]
         generate_key = false
@@ -75,7 +75,7 @@ locals {
       }
       postgres = {
         description = "service account for postgres-operator to store wal-e archiving"
-        roles = [
+        roles = var.env.initial_start ? [] : [
           "projects/${var.env.cloud.id}/roles/${local.custom_role_names.bucketList}"
         ]
         sa_iam_bindings = var.env.initial_start ? {} : {
@@ -103,7 +103,7 @@ locals {
       }
       fluent = {
         description = "service account for fluent"
-        roles = [
+        roles = var.env.initial_start ? [] : [
           "projects/${var.env.cloud.id}/roles/${local.custom_role_names.bucketList}"
         ]
         sa_iam_bindings = var.env.initial_start ? {} : {
