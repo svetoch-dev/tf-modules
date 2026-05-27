@@ -2,6 +2,7 @@ variable "custom_roles" {
   type = map(
     object(
       {
+        name        = optional(string)
         title       = string
         description = string
         permissions = list(string)
@@ -14,6 +15,7 @@ variable "service_accounts" {
   type = map(
     object(
       {
+        name        = optional(string)
         description = string
         roles       = optional(list(string), [])
         #service accounts can be treated

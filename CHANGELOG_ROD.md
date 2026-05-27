@@ -1,3 +1,8 @@
+# rod-v0.22.0
+
+Features:
+* new `env.test` input attribute. If its set a random suffix is added to gcp custom roles. This is needed because custom roles are permanently deleted only after 1 month and during this period of time you can't use the same role name. Which brakes our testing envs where we create and delete envs all the time
+
 # rod-v0.21.0
 
 Breaking changes:

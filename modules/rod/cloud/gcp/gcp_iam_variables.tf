@@ -1,7 +1,13 @@
 locals {
+  custom_role_names = {
+    developers            = var.env.test == true ? "developers${random_id.custom_role_suffix[0].hex}" : "developers"
+    k8sNodeServiceAccount = var.env.test == true ? "k8sNodeServiceAccount${random_id.custom_role_suffix[0].hex}" : "k8sNodeServiceAccount"
+    bucketList            = var.env.test == true ? "bucketList${random_id.custom_role_suffix[0].hex}" : "bucketList"
+  }
   gcp_iam = {
     custom_roles = {
       k8sNodeServiceAccount = {
+        name        = local.custom_role_names.k8sNodeServiceAccount
         title       = "k8s node service account"
         description = "Cusom role for k8s node service accounts without the bucket read permission"
         permissions = [
@@ -16,6 +22,7 @@ locals {
         ]
       }
       bucketList = {
+        name        = local.custom_role_names.bucketList
         title       = "List/get buckets for services"
         description = "Custom role for listing buckets and there metadata"
         permissions = [
@@ -25,6 +32,7 @@ locals {
         ]
       }
       developers = {
+        name        = local.custom_role_names.developers
         title       = "developer"
         description = "Custom role for developers"
         permissions = [
@@ -39,8 +47,8 @@ locals {
     service_accounts = {
       k8s-nodes = {
         description = "default service account for k8s nodes"
-        roles = [
-          "projects/${var.env.cloud.id}/roles/k8sNodeServiceAccount"
+        roles = var.env.initial_start ? [] : [
+          "projects/${var.env.cloud.id}/roles/${local.custom_role_names.k8sNodeServiceAccount}"
         ]
         generate_key = false
       }
@@ -67,8 +75,8 @@ locals {
       }
       postgres = {
         description = "service account for postgres-operator to store wal-e archiving"
-        roles = [
-          "projects/${var.env.cloud.id}/roles/bucketList"
+        roles = var.env.initial_start ? [] : [
+          "projects/${var.env.cloud.id}/roles/${local.custom_role_names.bucketList}"
         ]
         sa_iam_bindings = var.env.initial_start ? {} : {
           "roles/iam.workloadIdentityUser" = concat(
@@ -95,8 +103,8 @@ locals {
       }
       fluent = {
         description = "service account for fluent"
-        roles = [
-          "projects/${var.env.cloud.id}/roles/bucketList"
+        roles = var.env.initial_start ? [] : [
+          "projects/${var.env.cloud.id}/roles/${local.custom_role_names.bucketList}"
         ]
         sa_iam_bindings = var.env.initial_start ? {} : {
           "roles/iam.workloadIdentityUser" = [
@@ -118,4 +126,9 @@ locals {
       }
     }
   }
+}
+
+resource "random_id" "custom_role_suffix" {
+  count       = var.env.test == true ? 1 : 0
+  byte_length = 2
 }
