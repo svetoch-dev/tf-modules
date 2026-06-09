@@ -1,3 +1,8 @@
+# rod-v0.22.1
+
+Fixes:
+* `gcp` - nat gw fix port allocation for vms 
+
 # rod-v0.22.0
 
 Features:
