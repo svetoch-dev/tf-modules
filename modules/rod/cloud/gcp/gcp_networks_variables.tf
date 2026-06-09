@@ -28,8 +28,8 @@ locals {
           ip_address_names = [
             "nat-gw-ip-1"
           ]
-          min_ports_per_vm               = 512
-          max_ports_per_vm               = 4096
+          min_ports_per_vm               = 256
+          max_ports_per_vm               = 2048
           enable_dynamic_port_allocation = true
         }
       }
