@@ -1,3 +1,9 @@
+# rod-v0.23.0
+
+Fixes:
+* `repos/github` and `ci/gha` use the configured GitHub repository name in repository URLs
+* `repos/github` supports externally supplied deploy keys without referencing a missing generated private key
+
 # rod-v0.22.1
 
 Fixes:

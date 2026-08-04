@@ -1,3 +1,9 @@
+# github-v0.4.0
+
+Fixes:
+* build repository URLs from the configured repository name instead of the repositories map key
+* return generated deploy keys only when `create = true`, avoiding references to missing `tls_private_key` resources for externally supplied keys
+
 # github-v0.3.0
 
 Enhancements:
