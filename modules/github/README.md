@@ -1,0 +1,272 @@
+# GitHub Repositories Module
+
+Manages GitHub repositories and their rulesets, webhooks, deploy keys, Actions secrets, and Actions variables. Existing repositories can be managed without importing the repository resource by leaving `repository.create` disabled.
+
+## Usage
+
+```hcl
+provider "github" {
+  owner = "example-org"
+  token = var.github_token
+}
+
+module "github" {
+  source = "git::https://github.com/svetoch-dev/tf-modules.git//modules/github?ref=github-v0.4.0"
+
+  repositories = {
+    application = {
+      name = "application"
+      org  = "example-org"
+
+      repository = {
+        create                 = true
+        description            = "Example application"
+        visibility             = "private"
+        allow_auto_merge       = true
+        allow_merge_commit     = false
+        allow_rebase_merge     = false
+        allow_squash_merge     = true
+        delete_branch_on_merge = true
+        topics                  = ["terraform", "application"]
+      }
+
+      rulesets = {
+        main = {
+          name        = "Protect main"
+          target      = "branch"
+          enforcement = "active"
+
+          conditions = {
+            include = ["~DEFAULT_BRANCH"]
+          }
+
+          bypass_actors = [
+            {
+              actor_id    = 123456
+              actor_type  = "Team"
+              bypass_mode = "always"
+            }
+          ]
+
+          rules = {
+            update                  = true
+            deletion                = true
+            non_fast_forward        = true
+            required_linear_history = true
+
+            pull_request = {
+              allowed_merge_methods = ["squash"]
+            }
+
+            required_status_checks = {
+              strict = true
+              checks = [
+                {
+                  context = "ci"
+                }
+              ]
+            }
+          }
+        }
+
+        tags = {
+          name   = "Protect tags"
+          target = "tag"
+
+          conditions = {
+            include = ["refs/tags/*"]
+          }
+
+          bypass_actors = [
+            {
+              actor_id   = 123456
+              actor_type = "Team"
+            }
+          ]
+
+          rules = {
+            creation = true
+            update   = true
+            deletion = true
+          }
+        }
+      }
+
+      webhooks = {
+        ci = {
+          url    = "https://ci.example.com/github"
+          events = ["push", "pull_request"]
+          secret = var.webhook_secret
+        }
+      }
+
+      deploy_keys = {
+        argocd = {
+          name      = "argocd"
+          read_only = true
+          create    = true
+        }
+      }
+
+      secrets = {
+        registry_token = {
+          name       = "REGISTRY_TOKEN"
+          text_value = var.registry_token
+        }
+      }
+
+      vars = {
+        environment = {
+          name  = "ENVIRONMENT"
+          value = "production"
+        }
+      }
+    }
+  }
+}
+```
+
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | >= 1.3 |
+| github | 6.13.0 |
+| tls | 4.0.6 |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| `repositories` | Repositories and their GitHub resources. Webhook secrets and Actions secrets are stored in Terraform state. | `map(object)` | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| `repositories` | Repository SSH/HTTP URLs, organization names, and deploy key material. This output is sensitive. |
+
+## Notes
+
+- Configure the GitHub provider `owner` for the organization containing the repositories. A module instance is expected to manage repositories from one organization.
+- `repository.create` defaults to `false`. In that mode, the module does not manage `github_repository` and applies the configured rulesets, webhooks, deploy keys, secrets, and variables to an existing repository by name.
+- Set `repository.create = true` to create and manage the repository. Repository creation defaults to private visibility.
+- `webhooks[*].content_type` defaults to `"json"`; valid values are `"json"` and `"form"`. Each webhook must specify at least one event.
+- Webhook secrets and Actions secrets are marked sensitive where supported, but they are still stored in Terraform state. Use an encrypted remote backend with restricted access.
+- `deploy_keys[*].create = true` generates an ED25519 key pair. Otherwise, provide `public_key`; externally supplied `private_key` is returned through the sensitive output when needed by consumers.
+- Ruleset status-check context names must exactly match the check names reported to GitHub.
+- `bypass_actors[*].actor_id` is the numeric actor ID expected by GitHub, not a team slug or login.
+
+## Type Details
+
+### `repositories`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `name` | `string` | yes | Repository name. |
+| `org` | `string` | yes | Organization used to construct repository output URLs. It must match the configured provider owner. |
+| `repository` | `object` | no | Repository creation and settings. Defaults to `{ create = false, ... }`. |
+| `rulesets` | `map(object)` | no | Repository rulesets keyed by a Terraform-stable name. Defaults to `{}`. |
+| `webhooks` | `map(object)` | no | Repository webhooks keyed by a Terraform-stable name. Defaults to `{}`. |
+| `deploy_keys` | `map(object)` | no | Generated or externally supplied deploy keys. Defaults to `{}`. |
+| `secrets` | `map(object)` | no | GitHub Actions repository secrets. Defaults to `{}`. |
+| `vars` | `map(object)` | no | GitHub Actions repository variables. Defaults to `{}`. |
+
+### `repositories{}.repository`
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `create` | `bool` | `false` | Whether to create and manage the repository resource. |
+| `description` | `string` | `null` | Repository description. |
+| `homepage_url` | `string` | `null` | Repository homepage URL. |
+| `visibility` | `string` | `"private"` | Repository visibility. |
+| `archived` | `bool` | `false` | Whether the repository is archived. |
+| `archive_on_destroy` | `bool` | `null` | Archive instead of deleting on destroy. |
+| `auto_init` | `bool` | `null` | Create an initial commit. |
+| `gitignore_template` | `string` | `null` | Gitignore template name. |
+| `license_template` | `string` | `null` | License template name. |
+| `is_template` | `bool` | `null` | Whether the repository is a template. |
+| `topics` | `set(string)` | `null` | Repository topics. |
+| `has_issues` | `bool` | `null` | Enable GitHub Issues. |
+| `has_projects` | `bool` | `null` | Enable GitHub Projects. |
+| `has_wiki` | `bool` | `null` | Enable the wiki. |
+| `has_discussions` | `bool` | `null` | Enable GitHub Discussions. |
+| `allow_auto_merge` | `bool` | `false` | Allow pull requests to be merged automatically after requirements pass. |
+| `allow_merge_commit` | `bool` | `true` | Allow merge commits. |
+| `allow_rebase_merge` | `bool` | `true` | Allow rebase merging. |
+| `allow_squash_merge` | `bool` | `true` | Allow squash merging. |
+| `merge_commit_title` | `string` | `null` | Default merge commit title behavior; applicable when merge commits are enabled. |
+| `merge_commit_message` | `string` | `null` | Default merge commit message behavior; applicable when merge commits are enabled. |
+| `squash_merge_commit_title` | `string` | `null` | Default squash commit title behavior; applicable when squash merging is enabled. |
+| `squash_merge_commit_message` | `string` | `null` | Default squash commit message behavior; applicable when squash merging is enabled. |
+| `allow_update_branch` | `bool` | `null` | Suggest updating a pull request branch when it is behind its base branch. |
+| `delete_branch_on_merge` | `bool` | `false` | Delete head branches after pull requests are merged. |
+| `web_commit_signoff_required` | `bool` | `null` | Require sign-off for commits made through the web interface. |
+
+### `repositories{}.rulesets`
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | `string` | n/a | Ruleset display name. |
+| `target` | `string` | `"branch"` | Ruleset target: `branch`, `tag`, or `push`. |
+| `enforcement` | `string` | `"active"` | Ruleset enforcement mode. |
+| `conditions` | `object` | `{ include = ["~DEFAULT_BRANCH"], exclude = [] }` | Ref-name conditions for branch and tag targets. Not emitted for push rulesets. |
+| `bypass_actors` | `list(object)` | `[]` | Apps, teams, roles, or other supported actors allowed to bypass the ruleset. |
+| `rules` | `object` | n/a | Rules enforced by the ruleset. |
+
+### `repositories{}.rulesets{}.bypass_actors`
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `actor_id` | `number` | `null` | Numeric GitHub actor ID where required by the actor type. |
+| `actor_type` | `string` | n/a | GitHub actor type, such as `Team`, `Integration`, `OrganizationAdmin`, or `RepositoryRole`. |
+| `bypass_mode` | `string` | `"always"` | When the actor may bypass the ruleset. |
+
+### `repositories{}.rulesets{}.rules`
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `creation` | `bool` | `null` | Restrict creation of matching refs. |
+| `update` | `bool` | `null` | Restrict updates to matching refs. |
+| `update_allows_fetch_and_merge` | `bool` | `null` | Allow fetch-and-merge updates where supported. |
+| `deletion` | `bool` | `null` | Restrict deletion of matching refs. |
+| `non_fast_forward` | `bool` | `null` | Prevent non-fast-forward updates. |
+| `required_linear_history` | `bool` | `null` | Require linear commit history. |
+| `required_signatures` | `bool` | `null` | Require signed commits. |
+| `pull_request` | `object` | `null` | Pull request review and allowed merge-method requirements. |
+| `required_status_checks` | `object` | `null` | Required status checks and strict branch-update behavior. |
+
+### `repositories{}.webhooks`
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `url` | `string` | n/a | Webhook delivery URL. |
+| `events` | `set(string)` | n/a | Non-empty set of GitHub events that trigger the webhook. |
+| `active` | `bool` | `true` | Whether GitHub delivers events to the webhook. |
+| `content_type` | `string` | `"json"` | Payload format: `json` or `form`. |
+| `insecure_ssl` | `bool` | `false` | Disable TLS certificate verification. Keep disabled unless strictly necessary. |
+| `secret` | `string` | `null` | Shared webhook signing secret. Stored in Terraform state. |
+
+### `repositories{}.deploy_keys`
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | `string` | n/a | Deploy key title. |
+| `public_key` | `string` | `""` | Existing OpenSSH public key used when key generation is disabled. |
+| `private_key` | `string` | `""` | Existing private key returned to downstream consumers when needed. |
+| `read_only` | `bool` | n/a | Whether the deploy key is read-only. |
+| `create` | `bool` | `false` | Generate an ED25519 key pair when enabled. |
+
+### `repositories{}.secrets`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `name` | `string` | yes | GitHub Actions secret name. |
+| `text_value` | `string` | yes | Plaintext secret value. Stored in Terraform state. |
+
+### `repositories{}.vars`
+
+| Field | Type | Required | Description |
+|-------|------|:--------:|-------------|
+| `name` | `string` | yes | GitHub Actions variable name. |
+| `value` | `string` | yes | GitHub Actions variable value. |
