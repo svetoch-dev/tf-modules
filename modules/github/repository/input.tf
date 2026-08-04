@@ -12,21 +12,21 @@ variable "repository" {
       homepage_url                = optional(string)
       visibility                  = string
       archived                    = bool
-      archive_on_destroy          = bool
-      auto_init                   = bool
+      archive_on_destroy          = optional(bool)
+      auto_init                   = optional(bool)
       gitignore_template          = optional(string)
       license_template            = optional(string)
-      is_template                 = bool
+      is_template                 = optional(bool)
       topics                      = optional(set(string))
       has_issues                  = optional(bool)
       has_projects                = optional(bool)
       has_wiki                    = optional(bool)
-      has_discussions             = bool
+      has_discussions             = optional(bool)
       allow_auto_merge            = bool
       allow_merge_commit          = bool
       allow_rebase_merge          = bool
       allow_squash_merge          = bool
-      allow_update_branch         = bool
+      allow_update_branch         = optional(bool)
       delete_branch_on_merge      = bool
       web_commit_signoff_required = optional(bool)
     }
