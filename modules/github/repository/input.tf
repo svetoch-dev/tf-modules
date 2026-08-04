@@ -17,10 +17,10 @@ variable "repository" {
       gitignore_template          = optional(string)
       license_template            = optional(string)
       is_template                 = bool
-      topics                      = set(string)
-      has_issues                  = bool
-      has_projects                = bool
-      has_wiki                    = bool
+      topics                      = optional(set(string))
+      has_issues                  = optional(bool)
+      has_projects                = optional(bool)
+      has_wiki                    = optional(bool)
       has_discussions             = bool
       allow_auto_merge            = bool
       allow_merge_commit          = bool
@@ -28,7 +28,7 @@ variable "repository" {
       allow_squash_merge          = bool
       allow_update_branch         = bool
       delete_branch_on_merge      = bool
-      web_commit_signoff_required = bool
+      web_commit_signoff_required = optional(bool)
     }
   )
 }
