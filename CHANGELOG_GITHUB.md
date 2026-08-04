@@ -4,6 +4,9 @@ Features:
 * optional repository creation, disabled by default with `repository.create = false`, so existing repositories do not require import
 * repository rulesets with bypass actors and webhooks management
 
+Enhancements:
+* update `github` provider `6.12.1` -> `6.13.0`
+
 Fixes:
 * build repository URLs from the configured repository name instead of the repositories map key
 * return generated deploy keys only when `create = true`, avoiding references to missing `tls_private_key` resources for externally supplied keys
