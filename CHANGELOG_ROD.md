@@ -1,11 +1,11 @@
 # rod-v0.23.0
 
 Features:
-* `repos/github` and `ci/gha` support opt-in repository creation, rulesets, webhooks, and organization settings; repository creation is disabled by default
+* `repos/github` and `ci/gha` support opt-in repository creation, rulesets, and webhooks through overrides; repository creation is disabled by default
 
 Fixes:
 * `repos/github` and `ci/gha` use the configured GitHub repository name in repository URLs
-* `repos/github` supports externally supplied deploy keys without referencing a missing generated private key
+* `repos/github` and `ci/gha` support externally supplied deploy keys without referencing a missing generated private key
 * `repos/gitlab` supports externally supplied deploy keys without referencing a missing generated private key
 
 # rod-v0.22.1
