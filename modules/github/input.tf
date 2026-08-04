@@ -1,5 +1,5 @@
 variable "repositories" {
-  description = "Github repositories"
+  description = "GitHub repositories. Webhook secrets are sensitive but are stored in Terraform state."
   type = map(
     object(
       {
@@ -156,4 +156,22 @@ variable "repositories" {
       }
     )
   )
+
+  validation {
+    condition = alltrue(flatten([
+      for repository in values(var.repositories) : [
+        for webhook in values(repository.webhooks) : contains(["form", "json"], webhook.content_type)
+      ]
+    ]))
+    error_message = "Webhook content_type must be either \"form\" or \"json\"."
+  }
+
+  validation {
+    condition = alltrue(flatten([
+      for repository in values(var.repositories) : [
+        for webhook in values(repository.webhooks) : length(webhook.events) > 0
+      ]
+    ]))
+    error_message = "Each webhook must contain at least one event."
+  }
 }
