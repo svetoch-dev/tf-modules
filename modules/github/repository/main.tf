@@ -20,6 +20,10 @@ resource "github_repository" "this" {
   allow_merge_commit          = var.repository.allow_merge_commit
   allow_rebase_merge          = var.repository.allow_rebase_merge
   allow_squash_merge          = var.repository.allow_squash_merge
+  merge_commit_title          = var.repository.merge_commit_title
+  merge_commit_message        = var.repository.merge_commit_message
+  squash_merge_commit_title   = var.repository.squash_merge_commit_title
+  squash_merge_commit_message = var.repository.squash_merge_commit_message
   allow_update_branch         = var.repository.allow_update_branch
   delete_branch_on_merge      = var.repository.delete_branch_on_merge
   web_commit_signoff_required = var.repository.web_commit_signoff_required
