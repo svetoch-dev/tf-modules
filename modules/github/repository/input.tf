@@ -43,6 +43,15 @@ variable "rulesets" {
         enforcement = string
         include     = list(string)
         exclude     = list(string)
+        bypass_actors = list(
+          object(
+            {
+              actor_id    = optional(number)
+              actor_type  = string
+              bypass_mode = string
+            }
+          )
+        )
         rules = object(
           {
             creation                = bool

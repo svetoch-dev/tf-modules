@@ -37,6 +37,15 @@ resource "github_repository_ruleset" "this" {
   target      = each.value.target
   enforcement = each.value.enforcement
 
+  dynamic "bypass_actors" {
+    for_each = each.value.bypass_actors
+    content {
+      actor_id    = bypass_actors.value.actor_id
+      actor_type  = bypass_actors.value.actor_type
+      bypass_mode = bypass_actors.value.bypass_mode
+    }
+  }
+
   conditions {
     ref_name {
       include = each.value.include

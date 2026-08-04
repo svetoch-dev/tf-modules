@@ -65,6 +65,17 @@ variable "repositories" {
                 enforcement = optional(string, "active")
                 include     = optional(list(string), ["~DEFAULT_BRANCH"])
                 exclude     = optional(list(string), [])
+                bypass_actors = optional(
+                  list(
+                    object(
+                      {
+                        actor_id    = optional(number)
+                        actor_type  = string
+                        bypass_mode = optional(string, "always")
+                      }
+                    )
+                  ), []
+                )
                 rules = object(
                   {
                     creation                = optional(bool, false)
