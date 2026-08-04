@@ -26,10 +26,10 @@ variable "repository" {
       allow_merge_commit          = bool
       allow_rebase_merge          = bool
       allow_squash_merge          = bool
-      merge_commit_title          = string
-      merge_commit_message        = string
-      squash_merge_commit_title   = string
-      squash_merge_commit_message = string
+      merge_commit_title          = optional(string)
+      merge_commit_message        = optional(string)
+      squash_merge_commit_title   = optional(string)
+      squash_merge_commit_message = optional(string)
       allow_update_branch         = optional(bool)
       delete_branch_on_merge      = bool
       web_commit_signoff_required = optional(bool)
