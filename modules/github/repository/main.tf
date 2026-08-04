@@ -51,7 +51,7 @@ resource "github_repository_ruleset" "this" {
   }
 
   dynamic "conditions" {
-    for_each = contains(["branch", "tag"], each.value.target) ? [each.value] : []
+    for_each = contains(["branch", "tag"], each.value.target) ? [each.value.conditions] : []
     content {
       ref_name {
         include = conditions.value.include

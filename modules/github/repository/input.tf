@@ -45,8 +45,12 @@ variable "rulesets" {
         name        = string
         target      = string
         enforcement = string
-        include     = list(string)
-        exclude     = list(string)
+        conditions = object(
+          {
+            include = list(string)
+            exclude = list(string)
+          }
+        )
         bypass_actors = list(
           object(
             {

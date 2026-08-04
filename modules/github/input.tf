@@ -44,8 +44,14 @@ variable "repositories" {
                 name        = string
                 target      = optional(string, "branch")
                 enforcement = optional(string, "active")
-                include     = optional(list(string), ["~DEFAULT_BRANCH"])
-                exclude     = optional(list(string), [])
+                conditions = optional(
+                  object(
+                    {
+                      include = optional(list(string), ["~DEFAULT_BRANCH"])
+                      exclude = optional(list(string), [])
+                    }
+                  ), {}
+                )
                 bypass_actors = optional(
                   list(
                     object(
