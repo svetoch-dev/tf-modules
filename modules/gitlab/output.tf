@@ -10,8 +10,8 @@ output "repositories" {
       deploy_keys = {
         for key_name, key_obj in repo_obj.deploy_keys :
         key_name => {
-          public_key_openssh  = key_obj.public_key != "" ? key_obj.public_key : tls_private_key.deploy_keys["${repo_name}@${key_name}"].public_key_openssh
-          private_key_openssh = key_obj.private_key != "" ? key_obj.private_key : tls_private_key.deploy_keys["${repo_name}@${key_name}"].private_key_openssh
+          public_key_openssh  = key_obj.create ? tls_private_key.deploy_keys["${repo_name}@${key_name}"].public_key_openssh : key_obj.public_key
+          private_key_openssh = key_obj.create ? tls_private_key.deploy_keys["${repo_name}@${key_name}"].private_key_openssh : key_obj.private_key
         }
       }
     }

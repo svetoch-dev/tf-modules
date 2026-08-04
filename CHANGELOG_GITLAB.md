@@ -1,3 +1,8 @@
+# gitlab-v0.2.1
+
+Fixes:
+* return generated deploy keys only when `create = true`, avoiding references to missing `tls_private_key` resources for externally supplied keys
+
 # gitlab-v0.2.0
 
 Enhancements:
