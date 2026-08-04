@@ -18,13 +18,6 @@ module "repositories" {
   vars    = each.value.vars
 }
 
-module "organization" {
-  source   = "./organization"
-  for_each = var.organization == null ? {} : { this = var.organization }
-
-  settings = each.value
-}
-
 resource "tls_private_key" "deploy_keys" {
   for_each = {
     for key in flatten(

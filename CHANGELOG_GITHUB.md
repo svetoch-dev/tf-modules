@@ -2,7 +2,7 @@
 
 Features:
 * optional repository creation, disabled by default with `repository.create = false`, so existing repositories do not require import
-* repository rulesets with bypass actors, webhooks, and organization settings management
+* repository rulesets with bypass actors and webhooks management
 
 Fixes:
 * build repository URLs from the configured repository name instead of the repositories map key
