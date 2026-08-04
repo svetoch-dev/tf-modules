@@ -50,24 +50,29 @@ resource "github_repository_ruleset" "this" {
     }
   }
 
-  conditions {
-    ref_name {
-      include = each.value.include
-      exclude = each.value.exclude
+  dynamic "conditions" {
+    for_each = contains(["branch", "tag"], each.value.target) ? [each.value] : []
+    content {
+      ref_name {
+        include = conditions.value.include
+        exclude = conditions.value.exclude
+      }
     }
   }
 
   rules {
-    creation                = each.value.rules.creation
-    update                  = each.value.rules.update
-    deletion                = each.value.rules.deletion
-    non_fast_forward        = each.value.rules.non_fast_forward
-    required_linear_history = each.value.rules.required_linear_history
-    required_signatures     = each.value.rules.required_signatures
+    creation                      = each.value.rules.creation
+    update                        = each.value.rules.update
+    update_allows_fetch_and_merge = each.value.rules.update_allows_fetch_and_merge
+    deletion                      = each.value.rules.deletion
+    non_fast_forward              = each.value.rules.non_fast_forward
+    required_linear_history       = each.value.rules.required_linear_history
+    required_signatures           = each.value.rules.required_signatures
 
     dynamic "pull_request" {
       for_each = each.value.rules.pull_request == null ? [] : [each.value.rules.pull_request]
       content {
+        allowed_merge_methods             = pull_request.value.allowed_merge_methods
         dismiss_stale_reviews_on_push     = pull_request.value.dismiss_stale_reviews_on_push
         require_code_owner_review         = pull_request.value.require_code_owner_review
         require_last_push_approval        = pull_request.value.require_last_push_approval
@@ -80,6 +85,7 @@ resource "github_repository_ruleset" "this" {
       for_each = each.value.rules.required_status_checks == null ? [] : [each.value.rules.required_status_checks]
       content {
         strict_required_status_checks_policy = required_status_checks.value.strict
+        do_not_enforce_on_create             = required_status_checks.value.do_not_enforce_on_create
 
         dynamic "required_check" {
           for_each = required_status_checks.value.checks

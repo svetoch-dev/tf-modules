@@ -58,15 +58,17 @@ variable "rulesets" {
         )
         rules = object(
           {
-            creation                = bool
-            update                  = bool
-            deletion                = bool
-            non_fast_forward        = bool
-            required_linear_history = bool
-            required_signatures     = bool
+            creation                      = optional(bool)
+            update                        = optional(bool)
+            update_allows_fetch_and_merge = optional(bool)
+            deletion                      = optional(bool)
+            non_fast_forward              = optional(bool)
+            required_linear_history       = optional(bool)
+            required_signatures           = optional(bool)
             pull_request = optional(
               object(
                 {
+                  allowed_merge_methods             = optional(list(string))
                   dismiss_stale_reviews_on_push     = bool
                   require_code_owner_review         = bool
                   require_last_push_approval        = bool
@@ -78,7 +80,8 @@ variable "rulesets" {
             required_status_checks = optional(
               object(
                 {
-                  strict = bool
+                  strict                   = bool
+                  do_not_enforce_on_create = bool
                   checks = set(
                     object(
                       {

@@ -2,7 +2,7 @@
 
 Features:
 * optional repository creation, disabled by default with `repository.create = false`, so existing repositories do not require import
-* repository rulesets with bypass actors and webhooks management
+* repository rulesets with bypass actors, merge method and status-check controls, branch/tag/push targets, and webhooks management
 
 Enhancements:
 * update `github` provider `6.12.1` -> `6.13.0`

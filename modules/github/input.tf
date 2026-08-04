@@ -59,15 +59,17 @@ variable "repositories" {
                 )
                 rules = object(
                   {
-                    creation                = optional(bool, false)
-                    update                  = optional(bool, false)
-                    deletion                = optional(bool, false)
-                    non_fast_forward        = optional(bool, false)
-                    required_linear_history = optional(bool, false)
-                    required_signatures     = optional(bool, false)
+                    creation                      = optional(bool)
+                    update                        = optional(bool)
+                    update_allows_fetch_and_merge = optional(bool)
+                    deletion                      = optional(bool)
+                    non_fast_forward              = optional(bool)
+                    required_linear_history       = optional(bool)
+                    required_signatures           = optional(bool)
                     pull_request = optional(
                       object(
                         {
+                          allowed_merge_methods             = optional(list(string))
                           dismiss_stale_reviews_on_push     = optional(bool, false)
                           require_code_owner_review         = optional(bool, false)
                           require_last_push_approval        = optional(bool, false)
@@ -79,7 +81,8 @@ variable "repositories" {
                     required_status_checks = optional(
                       object(
                         {
-                          strict = optional(bool, false)
+                          strict                   = optional(bool, false)
+                          do_not_enforce_on_create = optional(bool, false)
                           checks = set(
                             object(
                               {
