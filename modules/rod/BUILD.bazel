@@ -1,0 +1,9 @@
+filegroup(
+    name = "srcs",
+    srcs = glob(
+        [
+            "*.tf",
+        ],
+    ),
+    visibility = ["//visibility:public"],
+)

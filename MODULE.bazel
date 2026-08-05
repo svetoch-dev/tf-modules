@@ -1,0 +1,25 @@
+module(
+    name = "tf-modules",
+)
+
+bazel_dep(name = "aspect_bazel_lib", version = "2.9.4")
+bazel_dep(name = "buildifier_prebuilt", version = "8.2.1.2")
+
+######################
+# Terraform support
+######################
+
+bazel_dep(name = "rules_tf")
+git_override(
+    module_name = "rules_tf",
+    commit = "841d00ec6a9d619e278c6adf37b343bda7f1a554",
+    remote = "https://github.com/ggramal/rules_tf",
+)
+
+tf = use_extension("@rules_tf//tf:extensions.bzl", "tf")
+tf.toolchain(version = "1.14.4")
+use_repo(tf, "tf_executable")
+
+register_toolchains(
+    "@tf_executable//:all",
+)
