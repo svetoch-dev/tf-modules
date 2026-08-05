@@ -1,10 +1,10 @@
-# v0.22.1
-[mongodb_atlas-v0.1.1](CHANGELOG_MONGODB_ATLAS.md#mongodb_atlas-v011)
-
 # v0.22.0
 [github-v0.4.0](CHANGELOG_GITHUB.md#github-v040)
 [gitlab-v0.2.1](CHANGELOG_GITLAB.md#gitlab-v021)
 [rod-v0.23.0](CHANGELOG_ROD.md#rod-v0230)
+
+Enhancements:
+* add CI for Terraform modules
 
 # v0.21.1
 [rod-v0.22.1](CHANGELOG_ROD.md#rod-v0221)
