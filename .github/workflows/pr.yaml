@@ -1,7 +1,7 @@
 ---
 name: Pull requests
 
-"on":
+on:
   pull_request:
     branches:
       - master
@@ -30,32 +30,71 @@ jobs:
         with:
           terraform_version: 1.15.8
 
-      - name: Check formatting
-        run: terraform fmt -check -recursive modules
-
       - name: Create provider cache
         run: |
           plugin_cache_dir="$RUNNER_TEMP/terraform-plugin-cache"
           mkdir -p "$plugin_cache_dir"
           echo "TF_PLUGIN_CACHE_DIR=$plugin_cache_dir" >> "$GITHUB_ENV"
 
-      - name: Initialize and validate all modules
+      - name: Check all modules
         shell: bash
         run: |
-          result=0
+          failed=()
+          passed=0
+          total=0
+          warnings=0
+          format_log="$RUNNER_TEMP/terraform-format.log"
+
+          show_warnings() {
+            local log_file="$1"
+            local check_name="$2"
+
+            if grep -q '^Warning:' "$log_file"; then
+              warnings=$((warnings + 1))
+              echo "::warning title=Terraform warning::$check_name"
+              echo "::group::WARNINGS: $check_name"
+              sed -n '/^Warning:/,$p' "$log_file"
+              echo "::endgroup::"
+            fi
+          }
+
+          if ! terraform fmt -check -recursive modules \
+            > "$format_log" 2>&1; then
+            failed+=("terraform formatting")
+            echo "::error title=Terraform formatting failed::See step summary"
+            echo "::group::FAILED: terraform formatting"
+            cat "$format_log"
+            echo "::endgroup::"
+          fi
 
           while IFS= read -r module; do
-            echo "::group::$module"
+            total=$((total + 1))
+            module_log="$RUNNER_TEMP/terraform-module-$total.log"
 
             if ! terraform \
               -chdir="$module" \
-              init -backend=false -input=false -no-color; then
-              result=1
-            elif ! terraform -chdir="$module" validate -no-color; then
-              result=1
-            fi
+              init -backend=false -input=false -no-color \
+              > "$module_log" 2>&1; then
+              failed+=("$module: terraform init")
+              echo "::error title=Terraform init failed::$module"
+              echo "::group::FAILED: $module (terraform init)"
+              cat "$module_log"
+              echo "::endgroup::"
+            else
+              show_warnings "$module_log" "$module (terraform init)"
 
-            echo "::endgroup::"
+              if ! terraform -chdir="$module" validate -no-color \
+                > "$module_log" 2>&1; then
+                failed+=("$module: terraform validate")
+                echo "::error title=Terraform validate failed::$module"
+                echo "::group::FAILED: $module (terraform validate)"
+                cat "$module_log"
+                echo "::endgroup::"
+              else
+                show_warnings "$module_log" "$module (terraform validate)"
+                passed=$((passed + 1))
+              fi
+            fi
           done < <(
             find modules \
               -type f \
@@ -64,4 +103,26 @@ jobs:
               sort -u
           )
 
-          exit "$result"
+          {
+            echo "## Terraform checks"
+            echo
+            echo "- Modules checked: $total"
+            echo "- Modules passed: $passed"
+            echo "- Checks with warnings: $warnings"
+            echo "- Failed checks: ${#failed[@]}"
+
+            if ((${#failed[@]} > 0)); then
+              echo
+              echo "### Failures"
+              printf -- '- `%s`\n' "${failed[@]}"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if ((${#failed[@]} > 0)); then
+            echo
+            echo "Terraform checks failed:"
+            printf -- '  - %s\n' "${failed[@]}"
+            exit 1
+          fi
+
+          echo "All $total Terraform modules passed."
