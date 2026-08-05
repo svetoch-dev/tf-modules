@@ -1,3 +1,3 @@
 output "id" {
-  value = mongodbatlas_teams.this.team_id
+  value = mongodbatlas_team.this.team_id
 }
