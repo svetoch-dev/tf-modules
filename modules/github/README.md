@@ -130,7 +130,7 @@ module "github" {
 
 | Name | Version |
 |------|---------|
-| terraform | >= 1.3 |
+| terraform | >= 1.8 |
 | github | 6.13.0 |
 | tls | 4.0.6 |
 
@@ -151,10 +151,13 @@ module "github" {
 - Configure the GitHub provider `owner` for the organization containing the repositories. A module instance is expected to manage repositories from one organization.
 - `repository.create` defaults to `false`. In that mode, the module does not manage `github_repository` and applies the configured rulesets, webhooks, deploy keys, secrets, and variables to an existing repository by name.
 - Set `repository.create = true` to create and manage the repository. Repository creation defaults to private visibility.
+- Do not change `repository.create` from `true` to `false` for a repository already created by this module: Terraform will plan to destroy the managed `github_repository`. To stop managing the repository without deleting it, first remove that resource from the Terraform state with `terraform state rm` and then set `create = false`.
 - `webhooks[*].content_type` defaults to `"json"`; valid values are `"json"` and `"form"`. Each webhook must specify at least one event.
 - Webhook secrets and Actions secrets are marked sensitive where supported, but they are still stored in Terraform state. Use an encrypted remote backend with restricted access.
 - `deploy_keys[*].create = true` generates an ED25519 key pair. Otherwise, provide `public_key`; externally supplied `private_key` is returned through the sensitive output when needed by consumers.
 - Ruleset status-check context names must exactly match the check names reported to GitHub.
+- `rulesets[*].rules.update_allows_fetch_and_merge = true` requires `rulesets[*].rules.update = true`.
+- Tag rulesets must use explicit tag patterns such as `refs/tags/*`; `~DEFAULT_BRANCH` is valid only for branch rulesets.
 - `bypass_actors[*].actor_id` is the numeric actor ID expected by GitHub, not a team slug or login.
 
 ## Type Details
@@ -210,7 +213,7 @@ module "github" {
 | `name` | `string` | n/a | Ruleset display name. |
 | `target` | `string` | `"branch"` | Ruleset target: `branch`, `tag`, or `push`. |
 | `enforcement` | `string` | `"active"` | Ruleset enforcement mode. |
-| `conditions` | `object` | `{ include = ["~DEFAULT_BRANCH"], exclude = [] }` | Ref-name conditions for branch and tag targets. Not emitted for push rulesets. |
+| `conditions` | `object` | `{ include = ["~DEFAULT_BRANCH"], exclude = [] }` | Ref-name conditions for branch and tag targets. Tag rulesets must override the branch-oriented default with explicit tag patterns. Not emitted for push rulesets. |
 | `bypass_actors` | `list(object)` | `[]` | Apps, teams, roles, or other supported actors allowed to bypass the ruleset. |
 | `rules` | `object` | n/a | Rules enforced by the ruleset. |
 
@@ -228,7 +231,7 @@ module "github" {
 |-------|------|---------|-------------|
 | `creation` | `bool` | `null` | Restrict creation of matching refs. |
 | `update` | `bool` | `null` | Restrict updates to matching refs. |
-| `update_allows_fetch_and_merge` | `bool` | `null` | Allow fetch-and-merge updates where supported. |
+| `update_allows_fetch_and_merge` | `bool` | `null` | Allow fetch-and-merge updates where supported. Requires `update = true`. |
 | `deletion` | `bool` | `null` | Restrict deletion of matching refs. |
 | `non_fast_forward` | `bool` | `null` | Prevent non-fast-forward updates. |
 | `required_linear_history` | `bool` | `null` | Require linear commit history. |

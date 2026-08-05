@@ -174,4 +174,24 @@ variable "repositories" {
     ]))
     error_message = "Each webhook must contain at least one event."
   }
+
+  validation {
+    condition = alltrue(flatten([
+      for repository in values(var.repositories) : [
+        for ruleset in values(repository.rulesets) :
+        ruleset.rules.update_allows_fetch_and_merge != true || ruleset.rules.update == true
+      ]
+    ]))
+    error_message = "Ruleset update_allows_fetch_and_merge can be enabled only when update is true."
+  }
+
+  validation {
+    condition = alltrue(flatten([
+      for repository in values(var.repositories) : [
+        for ruleset in values(repository.rulesets) :
+        ruleset.target != "tag" || !contains(concat(ruleset.conditions.include, ruleset.conditions.exclude), "~DEFAULT_BRANCH")
+      ]
+    ]))
+    error_message = "Tag rulesets cannot use ~DEFAULT_BRANCH in conditions.include or conditions.exclude."
+  }
 }

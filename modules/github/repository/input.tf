@@ -103,6 +103,22 @@ variable "rulesets" {
     )
   )
   default = {}
+
+  validation {
+    condition = alltrue([
+      for ruleset in values(var.rulesets) :
+      ruleset.rules.update_allows_fetch_and_merge != true || ruleset.rules.update == true
+    ])
+    error_message = "Ruleset update_allows_fetch_and_merge can be enabled only when update is true."
+  }
+
+  validation {
+    condition = alltrue([
+      for ruleset in values(var.rulesets) :
+      ruleset.target != "tag" || !contains(concat(ruleset.conditions.include, ruleset.conditions.exclude), "~DEFAULT_BRANCH")
+    ])
+    error_message = "Tag rulesets cannot use ~DEFAULT_BRANCH in conditions.include or conditions.exclude."
+  }
 }
 
 variable "webhooks" {
