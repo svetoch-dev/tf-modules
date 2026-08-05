@@ -12,8 +12,6 @@ Enhancements:
 * validate that ruleset `update_allows_fetch_and_merge` is enabled only together with `update = true`
 * reject `~DEFAULT_BRANCH` conditions for tag rulesets
 * add CI for Terraform modules
-
-Documentation:
 * document the safe procedure for changing a module-created repository from managed to unmanaged without deleting it
 
 Fixes:
