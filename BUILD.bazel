@@ -1,6 +1,5 @@
 load("@buildifier_prebuilt//:rules.bzl", "buildifier", "buildifier_test")
-load("@rules_multirun//:defs.bzl", "command", "multirun")
-load("@rules_tf//tf:defs.bzl", "tf_fmt")
+load("@rules_multirun//:defs.bzl", "command")
 
 buildifier(
     name = "lint_fix_bzl",
@@ -19,33 +18,7 @@ buildifier_test(
     workspace = "//:MODULE.bazel",
 )
 
-tf_fmt(
-    name = "lint_fix_tf",
-    srcs = glob(
-        [
-            "**/*.tf",
-            "**/*.tpl",
-        ],
-    ),
-    fix = True,
-    tags = ["manual"],
-)
-
 command(
-    name = "lint_fix_bazel",
-    command = "//:lint_fix_bzl",
-)
-
-command(
-    name = "lint_fix_terraform",
-    command = "//:lint_fix_tf",
-)
-
-multirun(
     name = "lint_fix_all",
-    commands = [
-        "lint_fix_bazel",
-        "lint_fix_terraform",
-    ],
-    visibility = ["//visibility:public"],
+    command = "//scripts:lint_fix_all",
 )

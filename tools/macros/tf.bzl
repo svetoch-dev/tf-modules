@@ -3,6 +3,7 @@
 load(
     "@rules_tf//tf:defs.bzl",
     "tf_binary",
+    "tf_fmt",
     "tf_fmt_test",
     "tf_init",
     "tf_validate_test",
@@ -53,5 +54,14 @@ def tf_test(
         name = "tf",
         srcs = [":srcs"],
         init = ":init_for_tests",
+        tags = ["manual"],
+    )
+
+    tf_fmt(
+        name = "lint_fix_tf",
+        srcs = [
+            ":srcs",
+        ],
+        fix = True,
         tags = ["manual"],
     )

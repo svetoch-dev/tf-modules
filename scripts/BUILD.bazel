@@ -1,0 +1,9 @@
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
+
+sh_binary(
+    name = "lint_fix_all",
+    srcs = [
+        "lint_fix_all.sh",
+    ],
+    visibility = ["//visibility:public"],
+)
