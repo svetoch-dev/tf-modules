@@ -11,6 +11,7 @@ Enhancements:
 * update `github` provider `6.12.1` -> `6.13.0`
 * validate that ruleset `update_allows_fetch_and_merge` is enabled only together with `update = true`
 * reject `~DEFAULT_BRANCH` conditions for tag rulesets
+* add CI for Terraform modules
 
 Documentation:
 * document the safe procedure for changing a module-created repository from managed to unmanaged without deleting it

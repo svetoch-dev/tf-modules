@@ -1,0 +1,66 @@
+---
+name: Pull requests
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - ".github/workflows/pr.yaml"
+      - "modules/**"
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: All modules
+    runs-on: ubuntu-latest
+    env:
+      TF_PLUGIN_CACHE_DIR: ${{ runner.temp }}/terraform-plugin-cache
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v4.0.1
+        with:
+          terraform_version: 1.15.8
+
+      - name: Check formatting
+        run: terraform fmt -check -recursive modules
+
+      - name: Create provider cache
+        run: mkdir -p "$TF_PLUGIN_CACHE_DIR"
+
+      - name: Initialize and validate all modules
+        shell: bash
+        run: |
+          result=0
+
+          while IFS= read -r module; do
+            echo "::group::$module"
+
+            if ! terraform \
+              -chdir="$module" \
+              init -backend=false -input=false -no-color; then
+              result=1
+            elif ! terraform -chdir="$module" validate -no-color; then
+              result=1
+            fi
+
+            echo "::endgroup::"
+          done < <(
+            find modules \
+              -type f \
+              -name '*.tf' \
+              -printf '%h\n' |
+              sort -u
+          )
+
+          exit "$result"
