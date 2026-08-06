@@ -126,7 +126,7 @@ resource "github_actions_secret" "secrets" {
   for_each = {
     for secret_name, secret_obj in var.secrets :
     secret_name => secret_obj
-    if secret_obj != null
+    if secret_obj != null && secret_obj.environment == null
   }
   repository  = local.repository_name
   secret_name = each.value.name
@@ -137,9 +137,43 @@ resource "github_actions_variable" "variable" {
   for_each = {
     for var_name, var_obj in var.vars :
     var_name => var_obj
-    if var_obj != null
+    if var_obj != null && var_obj.environment == null
   }
   repository    = local.repository_name
+  variable_name = each.value.name
+  value         = each.value.value
+}
+
+resource "github_repository_environment" "this" {
+  for_each = toset(concat(
+    [for secret in values(var.secrets) : secret.environment if secret != null && secret.environment != null],
+    [for variable in values(var.vars) : variable.environment if variable != null && variable.environment != null],
+  ))
+
+  repository  = local.repository_name
+  environment = each.value
+}
+
+resource "github_actions_environment_secret" "this" {
+  for_each = {
+    for secret_name, secret in var.secrets : secret_name => secret
+    if secret != null && secret.environment != null
+  }
+
+  repository  = local.repository_name
+  environment = github_repository_environment.this[each.value.environment].environment
+  secret_name = each.value.name
+  value       = each.value.text_value
+}
+
+resource "github_actions_environment_variable" "this" {
+  for_each = {
+    for var_name, variable in var.vars : var_name => variable
+    if variable != null && variable.environment != null
+  }
+
+  repository    = local.repository_name
+  environment   = github_repository_environment.this[each.value.environment].environment
   variable_name = each.value.name
   value         = each.value.value
 }

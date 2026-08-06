@@ -171,8 +171,9 @@ variable "secrets" {
   type = map(
     object(
       {
-        name       = string
-        text_value = string
+        name        = string
+        text_value  = string
+        environment = optional(string)
       }
     )
   )
@@ -184,8 +185,9 @@ variable "vars" {
   type = map(
     object(
       {
-        name  = string
-        value = string
+        name        = string
+        value       = string
+        environment = optional(string)
       }
     )
   )

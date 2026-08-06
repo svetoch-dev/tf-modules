@@ -113,6 +113,11 @@ module "github" {
           name       = "REGISTRY_TOKEN"
           text_value = var.registry_token
         }
+        production_api_token = {
+          name        = "API_TOKEN"
+          text_value  = var.production_api_token
+          environment = "production"
+        }
       }
 
       vars = {
@@ -266,6 +271,7 @@ module "github" {
 |-------|------|:--------:|-------------|
 | `name` | `string` | yes | GitHub Actions secret name. |
 | `text_value` | `string` | yes | Plaintext secret value. Stored in Terraform state. |
+| `environment` | `string` | no | GitHub environment name. When omitted, creates a repository-level secret. |
 
 ### `repositories{}.vars`
 
@@ -273,3 +279,4 @@ module "github" {
 |-------|------|:--------:|-------------|
 | `name` | `string` | yes | GitHub Actions variable name. |
 | `value` | `string` | yes | GitHub Actions variable value. |
+| `environment` | `string` | no | GitHub environment name. When omitted, creates a repository-level variable. |
