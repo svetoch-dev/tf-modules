@@ -230,6 +230,37 @@ module "github" {
 | `actor_type` | `string` | n/a | GitHub actor type, such as `Team`, `Integration`, `OrganizationAdmin`, or `RepositoryRole`. |
 | `bypass_mode` | `string` | `"always"` | When the actor may bypass the ruleset. |
 
+GitHub interprets `actor_id` according to `actor_type`:
+
+| `actor_type` | Actor | `actor_id` |
+|--------------|-------|------------|
+| `RepositoryRole` | Maintain role | `2` |
+| `RepositoryRole` | Write role | `4` |
+| `RepositoryRole` | Admin role | `5` |
+| `Team` | Organization team | Numeric team ID |
+| `Integration` | GitHub App | Numeric GitHub App ID |
+| `User` | GitHub user | Numeric user ID |
+| `OrganizationAdmin` | Organization owners | Omit |
+| `DeployKey` | Repository deploy keys | Omit |
+| `EnterpriseOwner` | Enterprise owners | Omit |
+
+`2`, `4`, and `5` are all fixed `RepositoryRole` IDs supported for ruleset bypass. GitHub does not define `Read` or `Triage` as bypass roles. IDs for teams, apps, and users are assigned by GitHub and must be looked up for the corresponding actor.
+
+Role names cannot be passed directly. For example, allowing Maintain and Admin roles to bypass a ruleset requires:
+
+```hcl
+bypass_actors = [
+  {
+    actor_id   = 2
+    actor_type = "RepositoryRole"
+  },
+  {
+    actor_id   = 5
+    actor_type = "RepositoryRole"
+  },
+]
+```
+
 ### `repositories{}.rulesets{}.rules`
 
 | Field | Type | Default | Description |
