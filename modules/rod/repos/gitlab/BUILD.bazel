@@ -1,0 +1,8 @@
+load("//tools/macros:tf.bzl", "tf_test")
+
+tf_test(
+    extra_srcs = [
+        "//modules/gitlab:srcs",
+        "//modules/rod:srcs",
+    ],
+)

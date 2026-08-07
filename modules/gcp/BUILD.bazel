@@ -1,0 +1,13 @@
+load("//tools/macros:tf.bzl", "tf_test")
+
+filegroup(
+    name = "srcs_secrets",
+    srcs = glob(
+        [
+            "secret/*tf",
+        ],
+    ),
+    visibility = ["//visibility:public"],
+)
+
+tf_test()

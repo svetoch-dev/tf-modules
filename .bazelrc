@@ -1,0 +1,3 @@
+#Needed for in order to use basic auth proxies
+startup --host_jvm_args="-Djdk.http.auth.tunneling.disabledSchemes="
+test --test_output=errors

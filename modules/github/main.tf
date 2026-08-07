@@ -1,7 +1,10 @@
 module "repositories" {
-  source   = "./repository"
-  for_each = var.repositories
-  name     = each.value.name
+  source     = "./repository"
+  for_each   = var.repositories
+  name       = each.value.name
+  repository = each.value.repository
+  rulesets   = each.value.rulesets
+  webhooks   = each.value.webhooks
   deploy_keys = {
     for key_name, key_obj in each.value.deploy_keys :
     key_name => {

@@ -1,0 +1,26 @@
+name: Pull requests
+
+on:
+  pull_request:
+    branches:
+    - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: "europe-north1-docker.pkg.dev/svetochdev-internal/containers/bazelisk:v1.28.1-3"
+    steps:
+    - uses: actions/checkout@v7.0.1
+      with:
+        persist-credentials: false
+    - name: test
+      run: |
+        bazel test //...
