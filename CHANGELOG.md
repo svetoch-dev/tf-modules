@@ -1,3 +1,6 @@
+# v0.22.1
+[github-v0.4.1](CHANGELOG_GITHUB.md#github-v041)
+
 # v0.22.0
 [mongodb_atlas-v0.1.1](CHANGELOG_MONGODB_ATLAS.md#mongodb_atlas-v011)
 [github-v0.4.0](CHANGELOG_GITHUB.md#github-v040)
