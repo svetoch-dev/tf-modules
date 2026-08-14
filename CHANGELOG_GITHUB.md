@@ -1,3 +1,8 @@
+# github-v0.4.1
+
+Enhancements:
+* Update README.md with missing input parameters
+
 # github-v0.4.0
 
 Breaking changes:

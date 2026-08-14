@@ -275,6 +275,32 @@ bypass_actors = [
 | `pull_request` | `object` | `null` | Pull request review and allowed merge-method requirements. |
 | `required_status_checks` | `object` | `null` | Required status checks and strict branch-update behavior. |
 
+### `repositories{}.rulesets{}.rules.pull_request`
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `allowed_merge_methods` | `list(string)` | `null` | Merge methods allowed for matching pull requests. Supported values are `merge`, `squash`, and `rebase`. |
+| `dismiss_stale_reviews_on_push` | `bool` | `false` | Dismiss approving reviews when new commits are pushed to the pull request. |
+| `require_code_owner_review` | `bool` | `false` | Require an approving review from a code owner when files with a designated code owner are changed. |
+| `require_last_push_approval` | `bool` | `false` | Require approval of the most recent reviewable push by someone other than the person who pushed it. |
+| `required_approving_review_count` | `number` | `0` | Number of approving reviews required before the pull request can be merged. |
+| `required_review_thread_resolution` | `bool` | `false` | Require all review threads to be resolved before the pull request can be merged. |
+
+### `repositories{}.rulesets{}.rules.required_status_checks`
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `strict` | `bool` | `false` | Require the pull request branch to be up to date with its base branch before merging. |
+| `do_not_enforce_on_create` | `bool` | `false` | Do not require status checks when a matching repository or branch is created. |
+| `checks` | `set(object)` | n/a | Status checks that must pass. Each check requires `context` and may specify `integration_id`. |
+
+Each `checks` object supports:
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `context` | `string` | n/a | Exact status-check context name reported to GitHub. |
+| `integration_id` | `number` | `null` | Numeric GitHub App integration ID that must report the check. Omit to accept the context from any source. |
+
 ### `repositories{}.webhooks`
 
 | Field | Type | Default | Description |
