@@ -27,6 +27,72 @@ resource "google_cloud_run_v2_service" "this" {
     containers {
       image = var.container.image
 
+      dynamic "startup_probe" {
+        for_each = var.container.startup_probe == null ? [] : [var.container.startup_probe]
+        content {
+          failure_threshold     = try(startup_probe.value.failure_threshold, null)
+          initial_delay_seconds = try(startup_probe.value.initial_delay_seconds, null)
+          period_seconds        = try(startup_probe.value.period_seconds, null)
+          timeout_seconds       = try(startup_probe.value.timeout_seconds, null)
+
+          dynamic "http_get" {
+            for_each = try(startup_probe.value.http_get, null) == null ? [] : [startup_probe.value.http_get]
+            content {
+              path = try(http_get.value.path, null)
+              port = try(http_get.value.port, null)
+
+              dynamic "http_headers" {
+                for_each = try(http_get.value.http_headers, [])
+                content {
+                  name  = http_headers.value.name
+                  value = http_headers.value.value
+                }
+              }
+            }
+          }
+
+          dynamic "tcp_socket" {
+            for_each = try(startup_probe.value.tcp_socket, null) == null ? [] : [startup_probe.value.tcp_socket]
+            content {
+              port = try(tcp_socket.value.port, null)
+            }
+          }
+        }
+      }
+
+      dynamic "liveness_probe" {
+        for_each = var.container.liveness_probe == null ? [] : [var.container.liveness_probe]
+        content {
+          failure_threshold     = try(liveness_probe.value.failure_threshold, null)
+          initial_delay_seconds = try(liveness_probe.value.initial_delay_seconds, null)
+          period_seconds        = try(liveness_probe.value.period_seconds, null)
+          timeout_seconds       = try(liveness_probe.value.timeout_seconds, null)
+
+          dynamic "http_get" {
+            for_each = try(liveness_probe.value.http_get, null) == null ? [] : [liveness_probe.value.http_get]
+            content {
+              path = try(http_get.value.path, null)
+              port = try(http_get.value.port, null)
+
+              dynamic "http_headers" {
+                for_each = try(http_get.value.http_headers, [])
+                content {
+                  name  = http_headers.value.name
+                  value = http_headers.value.value
+                }
+              }
+            }
+          }
+
+          dynamic "grpc" {
+            for_each = try(liveness_probe.value.grpc, null) == null ? [] : [liveness_probe.value.grpc]
+            content {
+              service = try(grpc.value.service, null)
+            }
+          }
+        }
+      }
+
       dynamic "volume_mounts" {
         for_each = var.container.volume_mounts == null ? {} : var.container.volume_mounts
         content {
@@ -127,5 +193,4 @@ resource "google_cloud_run_domain_mapping" "this" {
     namespace = var.project_id
   }
 }
-
 

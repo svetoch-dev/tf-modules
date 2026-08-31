@@ -1,3 +1,7 @@
+
+# v0.23.0
+[gcp-v3.0.0-alpha-1.6](CHANGELOG_GCP#gcp-v300-alpha)
+
 # v0.22.1
 [github-v0.4.1](CHANGELOG_GITHUB.md#github-v041)
 

@@ -88,6 +88,78 @@ variable "container" {
   type = object(
     {
       image = string
+      startup_probe = optional(
+        object(
+          {
+            failure_threshold     = optional(number)
+            initial_delay_seconds = optional(number)
+            period_seconds        = optional(number)
+            timeout_seconds       = optional(number)
+            http_get = optional(
+              object(
+                {
+                  path = optional(string)
+                  port = optional(number)
+                  http_headers = optional(
+                    list(
+                      object(
+                        {
+                          name  = string
+                          value = string
+                        }
+                      )
+                    ),
+                    []
+                  )
+                }
+              )
+            )
+            tcp_socket = optional(
+              object(
+                {
+                  port = optional(number)
+                }
+              )
+            )
+          }
+        )
+      )
+      liveness_probe = optional(
+        object(
+          {
+            failure_threshold     = optional(number)
+            initial_delay_seconds = optional(number)
+            period_seconds        = optional(number)
+            timeout_seconds       = optional(number)
+            http_get = optional(
+              object(
+                {
+                  path = optional(string)
+                  port = optional(number)
+                  http_headers = optional(
+                    list(
+                      object(
+                        {
+                          name  = string
+                          value = string
+                        }
+                      )
+                    ),
+                    []
+                  )
+                }
+              )
+            )
+            grpc = optional(
+              object(
+                {
+                  service = optional(string)
+                }
+              )
+            )
+          }
+        )
+      )
       volume_mounts = optional(
         map(
           object(
