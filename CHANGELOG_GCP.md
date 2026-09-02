@@ -6,7 +6,6 @@ Features:
 * `cloudrun_service` - optional `startup_probe` and `liveness_probe` health checks
 * `cloudrun_job` - optional `startup_probe` health check
 
-
 ## gcp-v3.0.0-alpha-1.5
 
 Enhancements:
@@ -14,7 +13,6 @@ Enhancements:
   * `service_accounts` README + name attribute 
   * `custom_roles` README + name attribute
   * `roles` README
-
 
 ## gcp-v3.0.0-alpha-1.4
 Braking changes:
@@ -27,18 +25,15 @@ Features:
   * outputs
 * `main` gar outputs
 
-
 ## gcp-v3.0.0-alpha-1.3
 
 Features:
 * `gcp/vm` - added possibility to set spot instance type
 
-
 ## gcp-v3.0.0-alpha-1.2
 
 Fixes:
 * `k8s` - var.node_pools add `node_loactions` optional attribute
-
 
 ## gcp-v3.0.0-alpha-1.1
 
@@ -48,9 +43,8 @@ Features:
 Fixes:
 * `k8s/cluster,k8s` - `initial_node_count = 1` by default 
 
-
 ## gcp-v3.0.0-alpha-1
- 
+
 Braking changes:
 * `main`     - `var.gke_clusters` -> `var.k8s`
 * `var.k8s`  - variable schema changes
@@ -59,13 +53,11 @@ Braking changes:
 Features:
 * `k8s` - own module
 
-
 # gcp-v2.8.6
 
 Fixes:
 * `gar` depend on iam
 * `networking` depend google_services_peering on module.subnets in order to avoid subnet creation errors due to overlaping address ranges
-
 
 # gcp-v2.8.5
 
@@ -73,25 +65,21 @@ Enhancements:
 * `var.iam` add defaults
 * `var.activate_apis` defaults to []
 
-
 # gcp-v2.8.4
 
 Fix:
 * remove the gcs roles templating logic
-
 
 # gcp-v2.8.3
 
 Enhancements:
 * output gke info
 
-
 # gcp-v2.8.2
 
 Enhancements:
 * `all modules` - try to create only none null objects
 * `gcs` - render $${project_numeric_id} template for role members
-
 
 # gcp-v2.8.1
 
@@ -101,13 +89,11 @@ Enhancements:
 Fixes:
 * `gcs` - gcs main.tf module name labels now have the same logic as name attr
 
-
 # gcp-v2.8.0
 
 Features:
 * `networking` - use own vpc module
 * `networking/vpc/peering` - new vpc peering module
-
 
 # gcp-v2.7.0
 
@@ -119,24 +105,20 @@ Enhancements:
   * `depends_on` for logging modules
   * use `var.project_id` instead of datasource in order to use `depends_on` in modules
 
-
 # gcp-v2.6.3
 
 Enhancements:
 * `cloudrun_service` - request timeout attribute
-
 
 # gcp-v2.6.2
 
 Enhancements:
 * `cloudsql_postgres` - `edition` defaults to `ENTERPRISE`
 
-
 # gcp-v2.6.1
 
 Enhancements:
 * `cloudsql_postgres` - `enable_default_db` defaults to false
-
 
 # gcp-v2.6.0
 
@@ -146,31 +128,26 @@ Features:
 Enhancements:
 * `cloudsql/postgres` - copy of public module
 
-
 # gcp-v2.5.1
 
 Enhancements:
 * `cloud_schedules` - settable region attribute
-
 
 # gcp-v2.5.0
 
 Enhancements:
 * alloydb initial user support
 
-
 # gcp-v2.4.0
 
 Features:
 * cloudrun job module
-
 
 # gcp-v2.3.0
 
 Features
 * alloydb gcp module
 * update google/google-beta providers to `6.40.0`
-
 
 # gcp-v2.2.0
 
@@ -179,12 +156,10 @@ Features
 * add ability to set release_channel for 'gke'
 * change default 'REGULAR' release_channel to 'STABLE' (improve stability)
 
-
 # gcp-v2.1.1
 
 Fixes:
 * `gcp/gcs/force_destroy` the value of the variable was not transmitted
-
 
 # gcp-v2.1.0
 
@@ -192,7 +167,6 @@ features:
 * `gcp/logging`: added logging module for logging configuration in gcp
 * `gcp/logging/log_bucket`: we can create custom buckets for logs
 * `gcp/logging/log_router`: we can create sinks for routing logs to different log buckets
-
 
 # gcp-v2.0.0
 
@@ -218,7 +192,6 @@ Enhancements:
 fixes:
 * lint
 
-
 # gcp-v1.8.1
 
 features:
@@ -228,6 +201,7 @@ fixes:
 * `gcp/monitoring/alert_policy`: auto_close param has wrong naming
 
   
+
 # gcp-v1.8.0
 
 features:
@@ -236,31 +210,26 @@ features:
 fixes: 
 * `gcp/monitoring/dashboards`: fixed the default alignment period. Because if default value is used, tf will add this field every time
 
-
 # gcp-v1.7.2
 
 features:
 * `gcp/gke`: gcsfuse csi driver support
-
 
 # gcp-v1.7.1
 
 features:
 * `gcp`: output vm attributes
 
-
 # gcp-v1.7.0
 
 features:
 * `gcp/firestore/firestore_index`: added firestore index module to firestore in gcp
-
 
 # gcp-v1.6.1
 
 fixes:
 * `monitoring/dashboards`: changed  goupByFields field default from [] to null
 * `datastore indecies`: changed indexies job timeouts default from 50 minutes to 90 minutes for create/delete operations
-
 
 # gcp-v1.6.0
 
@@ -269,20 +238,17 @@ features:
     * `enabled` flag
     * `deletion_protection` attribute
 
-
 # gcp-v1.5.2
 
 fixes:
 * `monitoring/dashboards`: added if statements to delete unnecessary fields in dashboards
 * `datastore indecies`: added indexies job timeouts (default 50 minutes for create/delete operations) 
 
-
 # gcp-v1.5.1
 
 fixes:
 * `monitoring/dashboards`: use `templatefile` because `registry.terraform.io/hashicorp/template` provider in depricated and dosent support darwin_arm64 packages
 * `cloudsql`: pin version of cloudsql module to v22.1.0
-
 
 # gcp-v1.5.0
 
@@ -291,7 +257,6 @@ features:
 fixes:
 * `gcs`: fixed creation of empty google_storage_bucket_iam_building resources. (when executing terraform apply, you will be prompted to delete empty resources)
 
-
 # gcp-v1.4.1
 
 features:
@@ -299,43 +264,36 @@ features:
 fixes:
 * `monitoring`: fix `var.monitoring is object with no attributes`
 
-
 # gcp-v1.4.0
 
 Added `monitoring` module:
  - ability to creating `log based metrics`
  - ability to creating `dashboards`
 
-
 # gcp-v1.3.2
 
 fixes:
 * `pubsub`: var.subscriptions is null. (The given "for_each" argument value is unsuitable: the given "for_each" argument value is null. A map, or set of strings is allowed.)
-
 
 # gcp-v1.3.1
 
 Enhancements:
 * `vm`: ability to specify `auto_delete` property of attached additional disks
 
-
 # gcp-v1.3.0
 
 features:
 * `vm`: ability to attach additional disks
-
 
 # gcp-v1.2.1
 
 fixes:
 * `vm`: create public ip in same region as vm
 
-
 # gcp-v1.2.0
 
 features:
 * `vm`: iam roles
-
 
 # gcp-v1.1.4
 
@@ -344,48 +302,40 @@ Enhancements:
 * `network`: use `any` as input for firewall rules module to avoid `all map elements must have the same type.` errors
 * `vm`: default `[]` for `service_account.roles` input
 
-
 # gcp-v1.1.3
 
 Enhancements:
 * `firestore`: Added the ability to use backups in firestore
-
 
 # gcp-v1.1.2
 
 Enhancements:
 * `cloud_tasks`: add logging
 
-
 # gcp-v1.1.1
 
 features:
 * `network`: nat gws new attributes (max/min port per vm + `enable_dynamic_port_allocation`)
-
 
 # gcp-v1.1.0
 
 features:
 * `network`: create nat gws only for specific subnetworks
 
-
 # gcp-v1.0.8
 
 Enhancements:
 * `cloudrun`: the ability to set labels
-
 
 # gcp-v1.0.7
 
 Enhancements:
 * `network/firewall-rules`: additional `source_service_accounts`, `source_tags` attrs
 
-
 # gcp-v1.0.6
 
 Fixes:
 * `pubsub`: fix the `max_delivery_attempt` value was reset with each terraform apply
-
 
 # gcp-v1.0.5
 
