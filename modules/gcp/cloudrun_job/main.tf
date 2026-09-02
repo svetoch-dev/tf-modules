@@ -66,6 +66,7 @@ resource "google_cloud_run_v2_job" "this" {
               dynamic "grpc" {
                 for_each = startup_probe.value.grpc == null ? [] : [startup_probe.value.grpc]
                 content {
+                  port    = grpc.value.port
                   service = grpc.value.service
                 }
               }

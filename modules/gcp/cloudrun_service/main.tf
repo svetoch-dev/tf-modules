@@ -57,6 +57,14 @@ resource "google_cloud_run_v2_service" "this" {
               port = tcp_socket.value.port
             }
           }
+
+          dynamic "grpc" {
+            for_each = startup_probe.value.grpc == null ? [] : [startup_probe.value.grpc]
+            content {
+              port    = grpc.value.port
+              service = grpc.value.service
+            }
+          }
         }
       }
 
@@ -87,7 +95,15 @@ resource "google_cloud_run_v2_service" "this" {
           dynamic "grpc" {
             for_each = liveness_probe.value.grpc == null ? [] : [liveness_probe.value.grpc]
             content {
+              port    = grpc.value.port
               service = grpc.value.service
+            }
+          }
+
+          dynamic "tcp_socket" {
+            for_each = liveness_probe.value.tcp_socket == null ? [] : [liveness_probe.value.tcp_socket]
+            content {
+              port = tcp_socket.value.port
             }
           }
         }

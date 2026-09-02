@@ -78,7 +78,7 @@ variable "containers" {
                         object(
                           {
                             name  = string
-                            value = string
+                            value = optional(string)
                           }
                         )
                       ),
@@ -97,6 +97,7 @@ variable "containers" {
               grpc = optional(
                 object(
                   {
+                    port    = optional(number)
                     service = optional(string)
                   }
                 )

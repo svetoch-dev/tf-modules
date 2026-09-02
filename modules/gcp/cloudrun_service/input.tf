@@ -105,7 +105,7 @@ variable "container" {
                       object(
                         {
                           name  = string
-                          value = string
+                          value = optional(string)
                         }
                       )
                     ),
@@ -118,6 +118,14 @@ variable "container" {
               object(
                 {
                   port = optional(number)
+                }
+              )
+            )
+            grpc = optional(
+              object(
+                {
+                  port    = optional(number)
+                  service = optional(string)
                 }
               )
             )
@@ -141,7 +149,7 @@ variable "container" {
                       object(
                         {
                           name  = string
-                          value = string
+                          value = optional(string)
                         }
                       )
                     ),
@@ -153,7 +161,15 @@ variable "container" {
             grpc = optional(
               object(
                 {
+                  port    = optional(number)
                   service = optional(string)
+                }
+              )
+            )
+            tcp_socket = optional(
+              object(
+                {
+                  port = number
                 }
               )
             )
