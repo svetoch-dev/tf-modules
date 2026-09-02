@@ -32,8 +32,49 @@ resource "google_cloud_run_v2_job" "this" {
           command = containers.value.command
           args    = containers.value.args
 
+          dynamic "startup_probe" {
+            for_each = containers.value.startup_probe == null ? [] : [containers.value.startup_probe]
+            content {
+              failure_threshold     = startup_probe.value.failure_threshold
+              initial_delay_seconds = startup_probe.value.initial_delay_seconds
+              period_seconds        = startup_probe.value.period_seconds
+              timeout_seconds       = startup_probe.value.timeout_seconds
+
+              dynamic "http_get" {
+                for_each = startup_probe.value.http_get == null ? [] : [startup_probe.value.http_get]
+                content {
+                  path = http_get.value.path
+                  port = http_get.value.port
+
+                  dynamic "http_headers" {
+                    for_each = http_get.value.http_headers
+                    content {
+                      name  = http_headers.value.name
+                      value = http_headers.value.value
+                    }
+                  }
+                }
+              }
+
+              dynamic "tcp_socket" {
+                for_each = startup_probe.value.tcp_socket == null ? [] : [startup_probe.value.tcp_socket]
+                content {
+                  port = tcp_socket.value.port
+                }
+              }
+
+              dynamic "grpc" {
+                for_each = startup_probe.value.grpc == null ? [] : [startup_probe.value.grpc]
+                content {
+                  port    = grpc.value.port
+                  service = grpc.value.service
+                }
+              }
+            }
+          }
+
           dynamic "volume_mounts" {
-            for_each = containers.value.volume_mounts == null ? {} : containers.value.volume_mounts
+            for_each = containers.value.volume_mounts
             content {
               name       = volume_mounts.value.name
               mount_path = volume_mounts.value.path
@@ -41,7 +82,7 @@ resource "google_cloud_run_v2_job" "this" {
           }
 
           dynamic "ports" {
-            for_each = containers.value.ports == null ? [] : containers.value.ports
+            for_each = containers.value.ports
             content {
               container_port = ports.value.container_port
               name           = ports.value.name

@@ -1,8 +1,14 @@
 # gcp-v3.0.0-alpha
 
-## gcp-v3.0.0-alpha-1.5
+## gcp-v3.0.0-alpha-1.6
 
 Features:
+* `cloudrun_service` - optional `startup_probe` and `liveness_probe` health checks
+* `cloudrun_job` - optional `startup_probe` health check
+
+## gcp-v3.0.0-alpha-1.5
+
+Enhancements:
 * `iam` version file with only used providers
   * `service_accounts` README + name attribute 
   * `custom_roles` README + name attribute
@@ -18,7 +24,6 @@ Features:
   * add README.md
   * outputs
 * `main` gar outputs
-
 
 ## gcp-v3.0.0-alpha-1.3
 
@@ -39,7 +44,6 @@ Fixes:
 * `k8s/cluster,k8s` - `initial_node_count = 1` by default 
 
 ## gcp-v3.0.0-alpha-1
- 
 
 Braking changes:
 * `main`     - `var.gke_clusters` -> `var.k8s`
@@ -48,7 +52,6 @@ Braking changes:
 
 Features:
 * `k8s` - own module
-
 
 # gcp-v2.8.6
 
@@ -72,14 +75,14 @@ Fix:
 Enhancements:
 * output gke info
 
-
 # gcp-v2.8.2
+
 Enhancements:
 * `all modules` - try to create only none null objects
 * `gcs` - render $${project_numeric_id} template for role members
 
-
 # gcp-v2.8.1
+
 Enhancements:
 * `cloudrun_service` - ability to set deletion_protection attr
 
@@ -91,7 +94,6 @@ Fixes:
 Features:
 * `networking` - use own vpc module
 * `networking/vpc/peering` - new vpc peering module
-
 
 # gcp-v2.7.0
 
@@ -166,7 +168,6 @@ features:
 * `gcp/logging/log_bucket`: we can create custom buckets for logs
 * `gcp/logging/log_router`: we can create sinks for routing logs to different log buckets
 
-
 # gcp-v2.0.0
 
 BrakingChanges:
@@ -198,7 +199,7 @@ features:
 
 fixes: 
 * `gcp/monitoring/alert_policy`: auto_close param has wrong naming
-  
+
 # gcp-v1.8.0
 
 features:
@@ -261,7 +262,6 @@ features:
 fixes:
 * `monitoring`: fix `var.monitoring is object with no attributes`
 
-
 # gcp-v1.4.0
 
 Added `monitoring` module:
@@ -272,7 +272,6 @@ Added `monitoring` module:
 
 fixes:
 * `pubsub`: var.subscriptions is null. (The given "for_each" argument value is unsuitable: the given "for_each" argument value is null. A map, or set of strings is allowed.)
-
 
 # gcp-v1.3.1
 

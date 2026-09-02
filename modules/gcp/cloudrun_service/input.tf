@@ -88,6 +88,94 @@ variable "container" {
   type = object(
     {
       image = string
+      startup_probe = optional(
+        object(
+          {
+            failure_threshold     = optional(number)
+            initial_delay_seconds = optional(number)
+            period_seconds        = optional(number)
+            timeout_seconds       = optional(number)
+            http_get = optional(
+              object(
+                {
+                  path = optional(string)
+                  port = optional(number)
+                  http_headers = optional(
+                    list(
+                      object(
+                        {
+                          name  = string
+                          value = optional(string)
+                        }
+                      )
+                    ),
+                    []
+                  )
+                }
+              )
+            )
+            tcp_socket = optional(
+              object(
+                {
+                  port = optional(number)
+                }
+              )
+            )
+            grpc = optional(
+              object(
+                {
+                  port    = optional(number)
+                  service = optional(string)
+                }
+              )
+            )
+          }
+        )
+      )
+      liveness_probe = optional(
+        object(
+          {
+            failure_threshold     = optional(number)
+            initial_delay_seconds = optional(number)
+            period_seconds        = optional(number)
+            timeout_seconds       = optional(number)
+            http_get = optional(
+              object(
+                {
+                  path = optional(string)
+                  port = optional(number)
+                  http_headers = optional(
+                    list(
+                      object(
+                        {
+                          name  = string
+                          value = optional(string)
+                        }
+                      )
+                    ),
+                    []
+                  )
+                }
+              )
+            )
+            grpc = optional(
+              object(
+                {
+                  port    = optional(number)
+                  service = optional(string)
+                }
+              )
+            )
+            tcp_socket = optional(
+              object(
+                {
+                  port = number
+                }
+              )
+            )
+          }
+        )
+      )
       volume_mounts = optional(
         map(
           object(
@@ -96,7 +184,8 @@ variable "container" {
               path = string
             }
           )
-        )
+        ),
+        {}
       )
       ports = list(
         object(
