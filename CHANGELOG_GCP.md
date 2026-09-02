@@ -200,8 +200,6 @@ features:
 fixes: 
 * `gcp/monitoring/alert_policy`: auto_close param has wrong naming
 
-  
-
 # gcp-v1.8.0
 
 features:
