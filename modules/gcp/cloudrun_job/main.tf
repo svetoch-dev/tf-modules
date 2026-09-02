@@ -73,7 +73,7 @@ resource "google_cloud_run_v2_job" "this" {
           }
 
           dynamic "volume_mounts" {
-            for_each = containers.value.volume_mounts == null ? {} : containers.value.volume_mounts
+            for_each = containers.value.volume_mounts
             content {
               name       = volume_mounts.value.name
               mount_path = volume_mounts.value.path
@@ -81,7 +81,7 @@ resource "google_cloud_run_v2_job" "this" {
           }
 
           dynamic "ports" {
-            for_each = containers.value.ports == null ? [] : containers.value.ports
+            for_each = containers.value.ports
             content {
               container_port = ports.value.container_port
               name           = ports.value.name

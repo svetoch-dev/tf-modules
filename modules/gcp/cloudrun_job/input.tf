@@ -112,7 +112,8 @@ variable "containers" {
                 path = string
               }
             )
-          )
+          ),
+          {}
         )
         ports = optional(
           list(
@@ -122,7 +123,8 @@ variable "containers" {
                 container_port = number
               }
             )
-          )
+          ),
+          []
         )
         env = optional(
           list(

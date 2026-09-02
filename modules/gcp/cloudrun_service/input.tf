@@ -168,7 +168,8 @@ variable "container" {
               path = string
             }
           )
-        )
+        ),
+        {}
       )
       ports = list(
         object(

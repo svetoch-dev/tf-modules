@@ -94,7 +94,7 @@ resource "google_cloud_run_v2_service" "this" {
       }
 
       dynamic "volume_mounts" {
-        for_each = var.container.volume_mounts == null ? {} : var.container.volume_mounts
+        for_each = var.container.volume_mounts
         content {
           name       = volume_mounts.value.name
           mount_path = volume_mounts.value.path
