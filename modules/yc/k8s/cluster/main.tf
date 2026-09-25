@@ -14,6 +14,11 @@ resource "yandex_kubernetes_cluster" "this" {
   service_ipv6_range       = var.service_ipv6_range
   node_ipv4_cidr_mask_size = var.node_ipv4_cidr_mask_size
 
+  depends_on = [
+    module.master_sa,
+    module.node_sa,
+  ]
+
   master {
     etcd_cluster_size  = var.master.etcd_cluster_size
     public_ip          = var.master.public_ip

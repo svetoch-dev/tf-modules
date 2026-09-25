@@ -1,3 +1,8 @@
+# yc-v0.10.1
+
+Fixes:
+* fix cluster dependency of sa
+
 # yc-v0.10.0
 
 Features:

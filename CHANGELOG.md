@@ -1,3 +1,6 @@
+# v0.23.1
+[yc-v0.10.1](CHANGELOG_YC.md#yc-v0101)
+
 # v0.23.0
 [gcp-v3.0.0-alpha-1.6](CHANGELOG_GCP#gcp-v300-alpha)
 
