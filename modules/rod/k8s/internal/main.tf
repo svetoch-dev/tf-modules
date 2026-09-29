@@ -5,11 +5,12 @@ provider "kubernetes" {
 }
 
 module "internal" {
-  source  = "../../k8s"
-  k8s_api = var.k8s_api
-  ci      = var.ci
-  int_env = var.int_env
-  env     = var.env
+  source                 = "../../k8s"
+  k8s_api                = var.k8s_api
+  ci                     = var.ci
+  int_env                = var.int_env
+  env                    = var.env
+  cloud_service_accounts = var.cloud_service_accounts
   overrides = {
     rbac       = local.rbac_merged
     namespaces = local.namespaces_merged
