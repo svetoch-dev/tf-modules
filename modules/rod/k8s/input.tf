@@ -8,3 +8,9 @@ variable "k8s_api" {
     }
   )
 }
+
+variable "cloud_service_accounts" {
+  description = "map of service account names and service account objects"
+  type        = map(any)
+  default     = {}
+}

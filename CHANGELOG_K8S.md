@@ -1,3 +1,8 @@
+# k8s-v0.4.1
+
+Fixes:
+* add yc annotations to k8s accounts
+
 # k8s-v0.4.0
 
 BrakingChanges:

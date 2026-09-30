@@ -8,6 +8,12 @@ locals {
   }
   yc_iam = {
     roles = {
+      argocd_cluster_api_admin = {
+        role = "k8s.cluster-api.cluster-admin"
+        members = [
+          "serviceAccountName:${var.int_env.cloud.folder_id}:argocd-${var.int_env.short_name}",
+        ]
+      }
       owners = {
         role = "admin"
         members = concat(
