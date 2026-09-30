@@ -1,6 +1,6 @@
 # v0.24.0
 [yc-v0.10.2](CHANGELOG_YC.md#yc-v0102)
-[k8s-v0.5.0](CHANGELOG_K8S.md#k8s-v050)
+[k8s-v0.4.1](CHANGELOG_K8S.md#k8s-v041)
 
 # v0.23.1
 [yc-v0.10.1](CHANGELOG_YC.md#yc-v0101)
