@@ -63,6 +63,17 @@ locals {
           }
         }
       }
+      vedro = {
+        name        = "vedro-${var.env.short_name}"
+        description = "service account for vedro bucket controller"
+        roles       = ["storage.admin"]
+        federated_credentials = var.env.initial_start == true ? {} : {
+          main = {
+            federation_id       = module.yc.k8s_clusters[var.env.short_name].federation.id
+            external_subject_id = "system:serviceaccount:vedro:vedro"
+          }
+        }
+      }
     }
   }
 }
