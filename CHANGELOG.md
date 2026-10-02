@@ -1,3 +1,6 @@
+# v0.24.1
+[rod-v0.23.1](CHANGELOG_ROD.md#rod-v0231)
+
 # v0.24.0
 [yc-v0.10.2](CHANGELOG_YC.md#yc-v0102)
 [k8s-v0.4.1](CHANGELOG_K8S.md#k8s-v041)
