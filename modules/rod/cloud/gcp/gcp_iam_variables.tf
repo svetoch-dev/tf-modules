@@ -35,8 +35,11 @@ locals {
       vedro = {
         name        = local.custom_role_names.vedro
         title       = "vedro SA custom role"
-        description = "Manage buckets, bucket access, and object deletion"
+        description = "Manage buckets, bucket access, object deletion, and service accounts"
         permissions = [
+          "iam.serviceAccounts.create",
+          "iam.serviceAccounts.delete",
+          "iam.serviceAccounts.get",
           "storage.buckets.create",
           "storage.buckets.delete",
           "storage.buckets.get",
