@@ -22,9 +22,9 @@ locals {
           namespace = "prometheus"
           name      = "thanos"
         }
-        vedro = {
+        vedrosa = {
           namespace = "vedro"
-          name      = "vedro"
+          name      = "vedrosa"
         }
       },
       {
