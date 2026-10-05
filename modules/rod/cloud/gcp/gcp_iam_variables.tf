@@ -71,7 +71,8 @@ locals {
         ]
         generate_key = false
       }
-      vedro = {
+      vedrosa = {
+        name        = "vedrosa"
         description = "SA for vedro"
         roles = var.env.initial_start ? [] : [
           "projects/${var.env.cloud.id}/roles/${local.custom_role_names.vedro}"
