@@ -80,7 +80,7 @@ locals {
         # The controller chart must use this Kubernetes service account.
         sa_iam_bindings = var.env.initial_start ? {} : {
           "roles/iam.workloadIdentityUser" = [
-            "serviceAccount:${var.env.cloud.id}.svc.id.goog[vedro/vedro]"
+            "serviceAccount:${var.env.cloud.id}.svc.id.goog[vedro/vedrosa]"
           ]
         }
         generate_key = false
