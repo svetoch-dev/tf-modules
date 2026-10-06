@@ -1,3 +1,8 @@
+# rod-v0.23.1
+
+Fixes:
+* fix `argocd-clusters_variables` for `yc` support
+
 # rod-v0.23.0
 
 Features:
