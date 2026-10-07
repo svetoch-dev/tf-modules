@@ -6,19 +6,7 @@ locals {
       secrets_data = {
         name   = cluster_name
         server = "https://${cluster_obj.endpoint}"
-        config = <<EOF
-{
-  "execProviderConfig": {
-    "command": "argocd-k8s-auth",
-    "args": ["${var.env.cloud.name}"],
-    "apiVersion": "client.authentication.k8s.io/v1beta1"
-  },
-  "tlsClientConfig": {
-    "insecure": false,
-    "caData": "${cluster_obj.ca_certificate}"
-  }
-}
-EOF
+        config = local.connection_config[cluster_name]
       }
       k8s = {
         enabled   = true
