@@ -90,6 +90,8 @@ variable "env" {
           name      = string
           id        = string
           folder_id = optional(string)
+          # Required by cloud/yc for Vedro Reference User permissions.
+          organization_id = optional(string)
           location = object(
             {
               region       = string

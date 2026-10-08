@@ -1,6 +1,6 @@
 # Yandex IAM Service Account Module
 
-Creates a `yandex_iam_service_account` and can optionally grant folder roles, create a key, assign IAM members on the service account itself, and configure workload identity federated credentials.
+Creates a `yandex_iam_service_account` and can optionally grant folder, cloud, and organization roles, create a key, assign IAM members on the service account itself, and configure workload identity federated credentials.
 
 ## Usage
 
@@ -36,7 +36,7 @@ module "service_account" {
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.13 |
+| terraform | >= 1.2 |
 | yandex | 0.195.0 |
 
 ## Inputs
@@ -47,6 +47,10 @@ module "service_account" {
 | `name` | Service account name. | `string` | n/a | yes |
 | `description` | Service account description. | `string` | n/a | yes |
 | `roles` | Folder-level IAM roles to grant to the created service account. | `list(string)` | `[]` | no |
+| `cloud_roles` | Cloud-level IAM roles to grant to the created service account. Requires `cloud_id` when nonempty. | `list(string)` | `[]` | no |
+| `organization_roles` | Organization-level IAM roles to grant to the created service account. Requires `organization_id` when nonempty. | `list(string)` | `[]` | no |
+| `cloud_id` | Yandex Cloud ID for `cloud_roles`. | `string` | `null` | no |
+| `organization_id` | Yandex Cloud organization ID for `organization_roles`. | `string` | `null` | no |
 | `sa_iam_bindings` | IAM roles and members to grant on the created service account resource. | `map(list(string))` | `{}` | no |
 | `federated_credentials` | Federated credentials to create for the service account, keyed by an arbitrary local name. | `map(object({ federation_id = string, external_subject_id = string }))` | `{}` | no |
 | `generate_key` | Whether to create a `yandex_iam_service_account_key` for the service account. | `bool` | `false` | no |
@@ -60,6 +64,8 @@ module "service_account" {
 ## Notes
 
 - The module creates one `yandex_resourcemanager_folder_iam_member` resource per entry in `roles`.
+- `cloud_roles` and `organization_roles` create one additive IAM member resource per role in the configured cloud or organization.
+- Missing or empty scope IDs fail planning when the corresponding role list is nonempty.
 - The module creates one `yandex_iam_service_account_iam_member` resource per member entry across `sa_iam_bindings`.
 - The module creates one `yandex_iam_workload_identity_federated_credential` resource per entry in `federated_credentials`.
 - `roles` are deduplicated because the module uses `toset(var.roles)`.

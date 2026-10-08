@@ -1,3 +1,12 @@
+# Unreleased
+
+Enhancements:
+* `iam/service_account`: support cloud and organization roles through optional `cloud_roles` and `organization_roles`; existing `roles` remain folder-scoped.
+* `project`: accept an optional `organization_id` for service account organization roles.
+
+Compatibility:
+* `iam/service_account`: require Terraform >= 1.2 for scope ID preconditions.
+
 # yc-v0.10.2
 
 Fixes:
