@@ -2,9 +2,11 @@ variable "service_accounts" {
   type = map(
     object(
       {
-        description = string
-        name        = optional(string)
-        roles       = optional(list(string), [])
+        description        = string
+        name               = optional(string)
+        roles              = optional(list(string), [])
+        cloud_roles        = optional(list(string), [])
+        organization_roles = optional(list(string), [])
         sa_iam_bindings = optional(
           map(
             list(string)
@@ -68,4 +70,16 @@ variable "roles" {
 
 variable "folder_id" {
   type = string
+}
+
+variable "cloud_id" {
+  description = "Yandex Cloud ID for service account cloud roles"
+  type        = string
+  default     = null
+}
+
+variable "organization_id" {
+  description = "Yandex Cloud organization ID for service account organization roles"
+  type        = string
+  default     = null
 }

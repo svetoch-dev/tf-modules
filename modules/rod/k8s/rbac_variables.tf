@@ -22,6 +22,10 @@ locals {
           namespace = "prometheus"
           name      = "thanos"
         }
+        vedrosa = {
+          namespace = "vedro"
+          name      = "vedrosa"
+        }
       },
       {
         for app_name, app_obj in var.env.apps :

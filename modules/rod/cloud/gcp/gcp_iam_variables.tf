@@ -3,6 +3,7 @@ locals {
     developers            = var.env.test == true ? "developers${random_id.custom_role_suffix[0].hex}" : "developers"
     k8sNodeServiceAccount = var.env.test == true ? "k8sNodeServiceAccount${random_id.custom_role_suffix[0].hex}" : "k8sNodeServiceAccount"
     bucketList            = var.env.test == true ? "bucketList${random_id.custom_role_suffix[0].hex}" : "bucketList"
+    vedro                 = var.env.test == true ? "vedro${random_id.custom_role_suffix[0].hex}" : "vedro"
   }
   gcp_iam = {
     custom_roles = {
@@ -31,6 +32,24 @@ locals {
           "storage.buckets.get",
         ]
       }
+      vedro = {
+        name        = local.custom_role_names.vedro
+        title       = "vedro SA custom role"
+        description = "Manage buckets, bucket access, object deletion, and service accounts"
+        permissions = [
+          "iam.serviceAccounts.create",
+          "iam.serviceAccounts.delete",
+          "iam.serviceAccounts.get",
+          "storage.buckets.create",
+          "storage.buckets.delete",
+          "storage.buckets.get",
+          "storage.buckets.getIamPolicy",
+          "storage.buckets.setIamPolicy",
+          "storage.buckets.update",
+          "storage.objects.delete",
+          "storage.objects.list",
+        ]
+      }
       developers = {
         name        = local.custom_role_names.developers
         title       = "developer"
@@ -50,6 +69,20 @@ locals {
         roles = var.env.initial_start ? [] : [
           "projects/${var.env.cloud.id}/roles/${local.custom_role_names.k8sNodeServiceAccount}"
         ]
+        generate_key = false
+      }
+      vedrosa = {
+        name        = "vedrosa"
+        description = "SA for vedro"
+        roles = var.env.initial_start ? [] : [
+          "projects/${var.env.cloud.id}/roles/${local.custom_role_names.vedro}"
+        ]
+        # The controller chart must use this Kubernetes service account.
+        sa_iam_bindings = var.env.initial_start ? {} : {
+          "roles/iam.workloadIdentityUser" = [
+            "serviceAccount:${var.env.cloud.id}.svc.id.goog[vedro/vedrosa]"
+          ]
+        }
         generate_key = false
       }
       external-dns = {

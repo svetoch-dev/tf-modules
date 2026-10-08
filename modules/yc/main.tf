@@ -132,6 +132,8 @@ module "iam" {
   service_accounts = var.iam.service_accounts
   roles            = var.iam.roles
   folder_id        = var.project.folder_id
+  cloud_id         = var.project.id
+  organization_id  = var.project.organization_id
 }
 
 /* Kubernetes */

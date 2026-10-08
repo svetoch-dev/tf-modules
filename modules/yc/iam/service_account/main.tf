@@ -54,3 +54,33 @@ resource "yandex_iam_service_account_iam_member" "bindings" {
     yandex_iam_service_account.this
   ]
 }
+
+resource "yandex_resourcemanager_cloud_iam_member" "cloud_roles" {
+  for_each = toset(var.cloud_roles)
+
+  cloud_id = var.cloud_id
+  role     = each.value
+  member   = "serviceAccount:${yandex_iam_service_account.this.id}"
+
+  lifecycle {
+    precondition {
+      condition     = try(length(trimspace(var.cloud_id)) > 0, false)
+      error_message = "Set cloud_id when service account cloud_roles are configured."
+    }
+  }
+}
+
+resource "yandex_organizationmanager_organization_iam_member" "organization_roles" {
+  for_each = toset(var.organization_roles)
+
+  organization_id = var.organization_id
+  role            = each.value
+  member          = "serviceAccount:${yandex_iam_service_account.this.id}"
+
+  lifecycle {
+    precondition {
+      condition     = try(length(trimspace(var.organization_id)) > 0, false)
+      error_message = "Set organization_id when service account organization_roles are configured."
+    }
+  }
+}
