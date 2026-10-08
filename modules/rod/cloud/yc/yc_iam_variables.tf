@@ -63,8 +63,8 @@ locals {
           }
         }
       }
-      vedro = {
-        name        = "vedro-${var.env.short_name}"
+      vedrosa = {
+        name        = "vedrosa"
         description = "service account for vedro bucket controller"
         roles = [
           "storage.admin",
@@ -73,7 +73,7 @@ locals {
         federated_credentials = var.env.initial_start == true ? {} : {
           main = {
             federation_id       = module.yc.k8s_clusters[var.env.short_name].federation.id
-            external_subject_id = "system:serviceaccount:vedro:vedro"
+            external_subject_id = "system:serviceaccount:vedro:vedrosa"
           }
         }
       }

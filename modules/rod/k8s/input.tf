@@ -10,7 +10,7 @@ variable "k8s_api" {
 }
 
 variable "cloud_service_accounts" {
-  description = "Cloud service accounts from the cloud module output, used for workload identity annotations"
-  type        = any
+  description = "map of service account names and service account objects"
+  type        = map(any)
   default     = {}
 }

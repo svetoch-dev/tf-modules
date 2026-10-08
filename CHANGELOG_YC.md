@@ -1,3 +1,8 @@
+# yc-v0.10.2
+
+Fixes:
+* missing argocd permissions on product envs
+
 # yc-v0.10.1
 
 Fixes:

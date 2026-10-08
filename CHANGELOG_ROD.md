@@ -1,3 +1,13 @@
+# Unreleased
+
+Fixes:
+* `cloud/yc` and `k8s`: align the Vedro service account and federation subject with `vedrosa`; use shared YC service account annotations and preserve Terraform addresses with a `moved` block.
+
+# rod-v0.23.1
+
+Fixes:
+* fix `argocd-clusters_variables` for `yc` support
+
 # rod-v0.23.0
 
 Features:
