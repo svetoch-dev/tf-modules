@@ -9,7 +9,7 @@ To know more check [this](https://github.com/svetoch-dev/rod/blob/master/docs/de
 Set `env.cloud.organization_id` to the organization that owns the YC cloud
 when the default Vedro service account is enabled.
 The controller's cloud service account and Kubernetes service account are both
-named `vedrosa`; the KSA is in namespace `vedro`.
+named `vedrosa`; the K8S SA is in namespace `vedro`.
 
 The common `cloud/yc` module grants:
 
