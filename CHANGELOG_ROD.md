@@ -1,12 +1,9 @@
-# Unreleased
+# rod-v0.24.0
 
-Enhancements:
-* `cloud/yc`: declare Vedro cloud discovery and organization user lookup through reusable IAM service account modules; `env.cloud.organization_id` is required while the default Vedro account is enabled.
-
-Fixes:
-* `cloud/yc` and `k8s`: align the Vedro service account and federation subject with `vedrosa`; use shared YC service account annotations.
-* `cloud/yc`: remove the redundant self access-key binding and unused service account migration block.
-* `cloud/yc`: preserve null service account overrides when resolving workload identity federation IDs.
+Features:
+* `k8s`: add the `vedro` namespace and `vedrosa` Kubernetes service account with cloud service account mapping for the Vedro bucket controller.
+* `cloud/gcp`: add the `vedrosa` service account, a custom `vedro` role for bucket and service account management, and a Workload Identity binding for `vedro/vedrosa`.
+* `cloud/yc`: add the `vedrosa` service account with folder, cloud, and organization roles and workload identity federation for `vedro/vedrosa`.
 
 # rod-v0.23.1
 
