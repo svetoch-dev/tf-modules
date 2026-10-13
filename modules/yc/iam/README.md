@@ -73,6 +73,8 @@ module "iam" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | `folder_id` | Yandex Cloud folder ID where IAM resources will be managed. | `string` | n/a | yes |
+| `cloud_id` | Yandex Cloud ID for service account `cloud_roles`. Required when such roles are declared. | `string` | `null` | no |
+| `organization_id` | Organization ID for service account `organization_roles`. Required when such roles are declared. | `string` | `null` | no |
 | `oidc_federations` | Map of OIDC federation definitions keyed by federation name. | `map(object(...))` | `{}` | no |
 | `service_accounts` | Map of service account definitions keyed by service account name. | `map(object(...))` | `{}` | no |
 | `roles` | Map of folder IAM role assignments keyed by arbitrary binding name. | `map(object(...))` | `{}` | no |
@@ -119,6 +121,8 @@ Map key: service account name.
 | `name` | `string` | no | Explicit service account name to create. When omitted, the map key is used as the service account name. |
 | `description` | `string` | yes | Description for the service account being created. |
 | `roles` | `list(string)` | no | Folder-level IAM roles to grant to the created service account. Default is `[]`. |
+| `cloud_roles` | `list(string)` | no | Cloud-level IAM roles to grant using the module `cloud_id`. Default is `[]`. |
+| `organization_roles` | `list(string)` | no | Organization-level IAM roles to grant using the module `organization_id`. Default is `[]`. |
 | `sa_iam_bindings` | `map(list(string))` | no | IAM bindings applied to the created service account resource, keyed by role. Default is `{}`. |
 | `generate_key` | `bool` | no | Whether to create a `yandex_iam_service_account_key` for the service account. Default is `false`. |
 | `federated_credentials` | `map(object)` | no | Federated credentials to create for the service account, keyed by an arbitrary local name. When omitted, no federated credentials are created. |

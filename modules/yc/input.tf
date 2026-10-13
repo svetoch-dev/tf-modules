@@ -1,10 +1,11 @@
 variable "project" {
   description = "Project configuration"
   type = object({
-    id        = string
-    folder_id = string
-    region    = string
-    zone      = string
+    id              = string
+    folder_id       = string
+    region          = string
+    zone            = string
+    organization_id = optional(string)
   })
 }
 

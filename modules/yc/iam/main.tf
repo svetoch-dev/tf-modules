@@ -42,6 +42,10 @@ module "service_accounts" {
   name                  = each.value.name == null ? each.key : each.value.name
   description           = each.value.description
   roles                 = each.value.roles
+  cloud_roles           = each.value.cloud_roles
+  organization_roles    = each.value.organization_roles
+  cloud_id              = var.cloud_id
+  organization_id       = var.organization_id
   sa_iam_bindings       = each.value.sa_iam_bindings
   generate_key          = each.value.generate_key
   federated_credentials = each.value.federated_credentials

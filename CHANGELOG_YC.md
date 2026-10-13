@@ -1,7 +1,13 @@
+# yc-v0.11.0
+
+Features:
+* `iam/service_account` and `iam`: support service account role assignments at cloud and organization scope through `cloud_roles` and `organization_roles`, using `cloud_id` and `organization_id`; existing `roles` remain folder-scoped.
+* `main`: add optional `project.organization_id` and pass cloud and organization IDs to IAM for service account role assignments.
+
 # yc-v0.10.2
 
 Fixes:
-* missing argocd permissions on product envs 
+* missing argocd permissions on product envs
 
 # yc-v0.10.1
 

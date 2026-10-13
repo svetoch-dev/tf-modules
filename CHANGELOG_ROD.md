@@ -1,3 +1,10 @@
+# rod-v0.24.0
+
+Features:
+* `k8s`: add the `vedro` namespace and `vedrosa` Kubernetes service account with cloud service account mapping for the Vedro bucket controller.
+* `cloud/gcp`: add the `vedrosa` service account, a custom `vedro` role for bucket and service account management, and a Workload Identity binding for `vedro/vedrosa`.
+* `cloud/yc`: add the `vedrosa` service account with folder, cloud, and organization roles and workload identity federation for `vedro/vedrosa`.
+
 # rod-v0.23.1
 
 Fixes:

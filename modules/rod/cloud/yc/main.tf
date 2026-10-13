@@ -1,10 +1,11 @@
 module "yc" {
   source = "../../../yc"
   project = {
-    id        = var.env.cloud.id
-    folder_id = var.env.cloud.folder_id
-    zone      = var.env.cloud.location.default_zone
-    region    = var.env.cloud.location.region
+    id              = var.env.cloud.id
+    organization_id = var.env.cloud.organization_id
+    folder_id       = var.env.cloud.folder_id
+    zone            = var.env.cloud.location.default_zone
+    region          = var.env.cloud.location.region
   }
   networks = local.yc_networks_merged
   iam = provider::deepmerge::mergo(
@@ -31,6 +32,7 @@ module "yc" {
             }
           }
         }
+        if sa_obj != null
       }
     }
   )

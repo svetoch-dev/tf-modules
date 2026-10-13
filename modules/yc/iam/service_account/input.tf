@@ -14,7 +14,7 @@ variable "description" {
 }
 
 variable "roles" {
-  description = "Service account roles"
+  description = "Service account folder roles"
   type        = list(string)
   default     = []
 }
@@ -44,4 +44,28 @@ variable "federated_credentials" {
     )
   )
   default = {}
+}
+
+variable "cloud_id" {
+  description = "Yandex Cloud ID for service account cloud roles"
+  type        = string
+  default     = null
+}
+
+variable "organization_id" {
+  description = "Yandex Cloud organization ID for service account organization roles"
+  type        = string
+  default     = null
+}
+
+variable "cloud_roles" {
+  description = "Service account cloud roles"
+  type        = list(string)
+  default     = []
+}
+
+variable "organization_roles" {
+  description = "Service account organization roles"
+  type        = list(string)
+  default     = []
 }
