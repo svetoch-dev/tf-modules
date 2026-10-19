@@ -1,3 +1,8 @@
+# rod-v0.24.1
+
+Fixes:
+* `rod/cloud/yc`: fix k8s on-demand nodes not getting a taint
+
 # rod-v0.24.0
 
 Features:
