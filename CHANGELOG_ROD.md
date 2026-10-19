@@ -1,3 +1,11 @@
+# rod-v0.25.0
+Braking changes:
+* `vedrosa` - name changed to `vedrosa-{var.env.name}`
+
+Fixes:
+* `rod/cloud/yc`:
+  * fix k8s on-demand nodes not getting a taint
+
 # rod-v0.24.0
 
 Features:

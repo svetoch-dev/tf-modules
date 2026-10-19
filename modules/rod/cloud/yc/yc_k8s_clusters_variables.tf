@@ -154,7 +154,7 @@ locals {
         {
           for subnet_name, subnet_obj in local.yc_k8s_node_subnets :
           "on-demand-${subnet_obj.zone}" => provider::deepmerge::mergo(
-            local.yc_k8s_node_groups.main,
+            local.yc_k8s_node_groups.on-demand,
             {
               name = "on-demand-${split("-", subnet_obj.zone)[2]}"
               allocation_policy = {

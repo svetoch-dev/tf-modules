@@ -1,3 +1,6 @@
+# v0.26.0
+[rod-v0.25.0](CHANGELOG_ROD.md#rod-v0250)
+
 # v0.25.0
 [yc-v0.11.0](CHANGELOG_YC.md#yc-v0110)
 [rod-v0.24.0](CHANGELOG_ROD.md#rod-v0240)

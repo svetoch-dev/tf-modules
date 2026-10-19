@@ -64,7 +64,7 @@ locals {
         }
       }
       vedrosa = {
-        name        = "vedrosa"
+        name        = "vedrosa-${var.env.short_name}"
         description = "service account for vedro bucket controller"
         roles = [
           "storage.admin",
