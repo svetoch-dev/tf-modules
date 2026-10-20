@@ -19,7 +19,6 @@
 - `.github/workflows/pr.yaml`: PR checks through `bazel test //...`.
 - `.pre-commit-config.yaml`: Terraform formatting hook.
 - `scripts/`: development helpers; inspect effects before running them.
-- `TODO.md`: milestones and checklist for the current provider upgrade.
 
 ## Task workflow
 
