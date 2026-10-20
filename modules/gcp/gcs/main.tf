@@ -107,7 +107,7 @@ resource "google_storage_notification" "notifications" {
   for_each           = var.pubsub_notifications
   bucket             = google_storage_bucket.bucket.name
   payload_format     = each.value.payload_format
-  topic              = each.value.topic
+  topic              = trimprefix(each.value.topic, "//pubsub.googleapis.com/")
   event_types        = each.value.event_types
   custom_attributes  = each.value.custom_attributes
   object_name_prefix = each.value.object_name_prefix

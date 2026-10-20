@@ -1,5 +1,20 @@
 # gcp-v3.0.0-alpha
 
+## gcp-v3.0.0-alpha-1.7
+
+Enhancements:
+* Upgrade Google and Google Beta to `8.7.0`, Random to `3.9.1`, and Null to `3.3.2`; entry modules use exact pins and children use bounded major/minor ranges.
+* Update compatible upstream modules: project services `18.4.0`, subnets `18.3.1`, Cloud Router `9.1.0`, Cloud NAT `7.1.0`, and instance template `15.4.1`.
+
+Fixes:
+* Forward the renamed Cloud Router `project_id` argument.
+* Normalize existing fully qualified Pub/Sub notification topics to the canonical format required by Google 7+.
+
+Compatibility notes:
+* No new module inputs or optional provider features are enabled. Kubernetes provider versions are unchanged.
+* Google now protects AlloyDB clusters from deletion by default. GKE logging/monitoring component outputs are sets; consumers must not index them as lists.
+* Review consumer plans for template/VM replacements and state migrations before applying. See the [upgrade notes](README.md#gcp-provider-upgrade).
+
 ## gcp-v3.0.0-alpha-1.6
 
 Features:

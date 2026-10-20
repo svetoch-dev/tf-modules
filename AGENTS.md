@@ -42,11 +42,11 @@
 ## Providers and version policy
 
 - Declare provider source addresses and constraints in `required_providers`, normally in `versions.tf`.
-- Root entry modules pin an exact tested release, for example `version = "8.3.5"`; reusable child modules use a compatible range, for example `version = "~> 8.0"`.
+- Root entry modules pin an exact tested release, for example `version = "8.4.0"`; reusable child modules use an explicit range, for example `version = ">= 8.0.0, < 8.5.0"`.
 - Determine root/child roles from the module call graph and intended use. The repository root contains no Terraform configuration; directory depth alone does not identify an operational root module.
 - Consuming deployment roots should also pin exact versions and maintain their own dependency lock files.
-- `~> 8.0` permits `>= 8.0, < 9.0`; `~> 8.0.0` permits only `8.0.x`. HCL strings use double quotes and version constraints have no trailing dot.
-- Raise the child module's lower bound when it needs a feature or fix introduced after the major's initial release.
+- For a selected target `M.m.p`, child constraints start at `M.0.0` and exclude the next minor: `>= M.0.0, < M.(m+1).0`. Thus target `8.4.0` permits child versions from `8.0.0` through `8.4.x`; later patches of `8.4` are allowed, while `8.5.0` is excluded. HCL strings use double quotes.
+- Verify the declared lower bound. If a module requires a later feature or fix, report the incompatibility and agree an exception to this version rule before raising that bound.
 - Resolve constraints across the whole module graph. Terraform selects one version per provider source address, including aliased configurations.
 - Review `google` and `google-beta` together and select compatible releases. Check both schemas where resources explicitly use `google-beta`.
 - Verify latest stable versions, upgrade guides, and release notes using official Registry and provider repositories; record verification dates and links. Never treat an example version as the target release.

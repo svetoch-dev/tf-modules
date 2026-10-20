@@ -5,7 +5,7 @@ data "google_compute_zones" "available" {}
 /* apis */
 
 module "enable_apis" {
-  source = "git::https://github.com/terraform-google-modules/terraform-google-project-factory//modules/project_services?ref=v18.0.0"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-project-factory//modules/project_services?ref=v18.4.0"
 
   project_id = var.project.id
 

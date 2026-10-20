@@ -4,7 +4,7 @@ locals {
 }
 
 module "template" {
-  source = "git::https://git@github.com/terraform-google-modules/terraform-google-vm.git//modules/instance_template?ref=v13.2.4"
+  source = "git::https://git@github.com/terraform-google-modules/terraform-google-vm.git//modules/instance_template?ref=v15.4.1"
 
   project_id   = var.project.id
   region       = var.project.region

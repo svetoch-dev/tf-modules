@@ -1,3 +1,9 @@
+# rod-v0.26.0
+
+Enhancements:
+* Pin Google/Google Beta `8.7.0` and Random `3.9.1` in the GCP entry family, retaining the shared `versions.tf` symlinks for `internal` and `product`.
+* Use the upgraded GCP provider graph without changing environment inputs or resource addresses. Kubernetes provider versions are unchanged.
+
 # rod-v0.25.0
 Braking changes:
 * `vedrosa` - name changed to `vedrosa-{var.env.name}`
