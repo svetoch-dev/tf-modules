@@ -23,6 +23,13 @@ output "k8s" {
   value = module.k8s
 }
 
+output "recaptcha" {
+  value = {
+    for recaptcha_name, recaptcha_obj in module.recaptcha :
+    recaptcha_name => recaptcha_obj.this
+  }
+}
+
 output "nats" {
   value = {
     for network_name, network_obj in module.network :

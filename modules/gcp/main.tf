@@ -93,6 +93,30 @@ module "k8s" {
   ]
 }
 
+/* recaptcha */
+
+module "recaptcha" {
+  source = "./recaptcha"
+  for_each = {
+    for recaptcha_name, recaptcha_obj in var.recaptcha :
+    recaptcha_name => recaptcha_obj
+    if recaptcha_obj != null
+  }
+  project_id       = var.project.id
+  display_name     = try(each.value.display_name, each.key)
+  labels           = try(each.value.labels, {})
+  android_settings = try(each.value.android_settings, null)
+  ios_settings     = try(each.value.ios_settings, null)
+  web_settings     = try(each.value.web_settings, null)
+  testing_options  = try(each.value.testing_options, null)
+  waf_settings     = try(each.value.waf_settings, null)
+  timeouts         = try(each.value.timeouts, {})
+
+  depends_on = [
+    module.enable_apis,
+  ]
+}
+
 /* cloudsql */
 
 module "cloudsql_postgres" {
