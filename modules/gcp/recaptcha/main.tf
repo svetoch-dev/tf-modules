@@ -46,9 +46,12 @@ resource "google_recaptcha_enterprise_key" "this" {
     }
   }
 
-  timeouts {
-    create = var.timeouts.create
-    update = var.timeouts.update
-    delete = var.timeouts.delete
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : [var.timeouts]
+    content {
+      create = timeouts.value.create
+      update = timeouts.value.update
+      delete = timeouts.value.delete
+    }
   }
 }

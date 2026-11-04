@@ -48,7 +48,7 @@ output "recaptcha_site_key" {
 | `web_settings` | Settings for websites | `object` | `null` | no | `{ integration_type = "SCORE", allowed_domains = ["example.com"] }` |
 | `testing_options` | Fixed responses for user acceptance testing | `object` | `null` | no | `{ testing_score = 0.5 }` |
 | `waf_settings` | Web Application Firewall settings | `object` | `null` | no | `{ waf_feature = "CHALLENGE_PAGE", waf_service = "CA" }` |
-| `timeouts` | Create, update, and delete timeouts | `object` | `{}` | no | `{ create = "30m" }` |
+| `timeouts` | Create, update, and delete timeouts | `object` | `null` | no | `{ create = "30m" }` |
 
 ## Notes
 
@@ -101,6 +101,8 @@ output "recaptcha_site_key" {
 | `waf_service` | `string` | yes | WAF service: `CA` (Cloud Armor) or `FASTLY` | `"CA"` |
 
 ### `timeouts`
+
+The block is omitted when `timeouts` is `null` or not supplied. Omitted fields use the provider's default timeout of 20 minutes, including when an empty object is supplied.
 
 | Field | Type | Required | Description | Example |
 |-------|------|:--------:|-------------|---------|

@@ -76,11 +76,10 @@ variable "timeouts" {
   description = "Timeouts for creating, updating, and deleting the key"
   type = object(
     {
-      create = optional(string, "20m")
-      update = optional(string, "20m")
-      delete = optional(string, "20m")
+      create = optional(string)
+      update = optional(string)
+      delete = optional(string)
     }
   )
-  default  = {}
-  nullable = false
+  default = null
 }

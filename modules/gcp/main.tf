@@ -110,7 +110,7 @@ module "recaptcha" {
   web_settings     = try(each.value.web_settings, null)
   testing_options  = try(each.value.testing_options, null)
   waf_settings     = try(each.value.waf_settings, null)
-  timeouts         = try(each.value.timeouts, {})
+  timeouts         = try(each.value.timeouts, null)
 
   depends_on = [
     module.enable_apis,
