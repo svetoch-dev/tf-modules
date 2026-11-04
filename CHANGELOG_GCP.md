@@ -1,5 +1,9 @@
 # gcp-v3.0.0-alpha
 
+## gcp-v3.0.0-alpha-1.7
+Features:
+* `recaptcha` new module for enterprise recaptcha
+
 ## gcp-v3.0.0-alpha-1.6
 
 Features:

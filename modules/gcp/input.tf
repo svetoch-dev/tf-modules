@@ -24,6 +24,12 @@ variable "k8s" {
   default     = {}
 }
 
+variable "recaptcha" {
+  description = "A map of reCAPTCHA Enterprise keys to create in this project"
+  type        = any
+  default     = {}
+}
+
 variable "networks" {
   description = "Networking configuration for this project"
   type        = any
