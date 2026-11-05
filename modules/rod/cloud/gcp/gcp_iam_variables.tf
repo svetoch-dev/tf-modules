@@ -37,6 +37,12 @@ locals {
         title       = "vedro SA custom role"
         description = "Manage buckets, bucket access, object deletion, and service accounts"
         permissions = [
+          "iam.serviceAccountKeys.create",
+          "iam.serviceAccountKeys.get",
+          "iam.serviceAccountKeys.list",
+          "iam.serviceAccountKeys.delete",
+          "iam.serviceAccounts.getIamPolicy",
+          "iam.serviceAccounts.setIamPolicy",
           "iam.serviceAccounts.create",
           "iam.serviceAccounts.delete",
           "iam.serviceAccounts.get",
