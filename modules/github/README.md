@@ -343,4 +343,4 @@ Each `checks` object supports:
 
 Set `repositories["github-templates"].repository.actions_access_level = "organization"` to allow other repositories in the organization to use private actions and reusable workflows. The provider accepts `none`, `user`, `organization`, and `enterprise`; availability depends on the GitHub account and repository. Omit the setting to leave access unmanaged initially. Removing a previously applied setting (or setting it to `null`) destroys the Terraform access-level resource and resets sharing to `none`.
 
-For ROD overrides, use `overrides.repos["github-templates"].repository.actions_access_level`. Set this on the repository containing the shared actions or reusable workflows.
+Set this on the repository containing the shared actions or reusable workflows.
