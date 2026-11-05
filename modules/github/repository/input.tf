@@ -33,6 +33,7 @@ variable "repository" {
       allow_update_branch         = optional(bool)
       delete_branch_on_merge      = bool
       web_commit_signoff_required = optional(bool)
+      actions_access_level        = optional(string)
     }
   )
 }
