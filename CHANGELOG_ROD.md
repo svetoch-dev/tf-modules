@@ -1,4 +1,10 @@
+# rod-v0.25.1
+
+Fixes:
+* `rod/cloud/gcp` - fix vedrosa iam permissions
+
 # rod-v0.25.0
+
 Braking changes:
 * `vedrosa` - name changed to `vedrosa-{var.env.name}`
 
