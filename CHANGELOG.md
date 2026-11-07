@@ -1,5 +1,8 @@
-# v0.27.1
+# v0.27.2
 [github-v0.4.2](CHANGELOG_GITHUB.md#github-v042)
+
+# v0.27.1
+[rod-v0.25.1](CHANGELOG_ROD.md#rod-v0251)
 
 # v0.27.0
 [gcp-v3.0.0-alpha-1.7](CHANGELOG_GCP#gcp-v300-alpha)
