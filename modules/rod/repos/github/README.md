@@ -116,6 +116,22 @@ repos = {
 
 ## Notes
 
+To share actions and reusable workflows from the existing infrastructure repository with other repositories in the organization:
+
+```hcl
+overrides = {
+  repos = {
+    infrastructure = {
+      repository = {
+        actions_access_level = "organization"
+      }
+    }
+  }
+}
+```
+
+The provider accepts `none`, `user`, `organization`, and `enterprise`, subject to GitHub account and repository restrictions. The setting defaults to `null`, so access is unmanaged initially. Removing a previously applied setting resets sharing to `none`. Configure it on the repository containing the shared actions or reusable workflows.
+
 - The `infrastructure` map key is stable; `repo.name` controls the actual GitHub repository name.
 - Repository creation is disabled by default. Set `overrides.repos.infrastructure.repository.create = true` to create it. Otherwise, rulesets, webhooks, keys, secrets, and variables are applied to an existing repository.
 - `overrides.repos` accepts the same repository structure documented by the shared [GitHub module](../../../github/README.md#type-details).

@@ -1,3 +1,8 @@
+# github-v0.4.2
+
+Features:
+* optional `repository.actions_access_level` to manage private Actions and reusable workflow sharing
+
 # github-v0.4.1
 
 Enhancements:
