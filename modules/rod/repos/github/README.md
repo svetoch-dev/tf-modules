@@ -1,6 +1,6 @@
 # ROD GitHub Repository Module
 
-Builds the ROD infrastructure repository definition and manages it through the shared [GitHub module](../../../github/README.md). The generated definition includes an `argocd` ED25519 deploy key and can be extended with repository settings, rulesets, webhooks, Actions secrets, and Actions variables through `overrides.repos`.
+Builds the ROD infrastructure repository definition and manages it through the shared [GitHub module](../../../github/README.md). The generated definition includes a read-only `argocd` ED25519 deploy key and a writable `app_runner` ED25519 deploy key and can be extended with repository settings, rulesets, webhooks, Actions secrets, and Actions variables through `overrides.repos`.
 
 ## Usage
 
@@ -107,6 +107,11 @@ repos = {
       argocd = {
         name      = "argocd"
         read_only = true
+        create    = true
+      }
+      app_runner = {
+        name      = "app-runner-infra-write"
+        read_only = false
         create    = true
       }
     }

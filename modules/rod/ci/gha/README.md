@@ -143,7 +143,9 @@ vars = {
 }
 ```
 
-Each `app_env_ci_configs` item creates an entry keyed by `<env.short_name>_<app_name>`. Non-null values become Actions variables:
+Each `app_env_ci_configs` item creates an entry keyed by `<env.short_name>_<app_name>`. Each application repository receives `INFRA_REPO_URL` with the SSH URL `git@github.com:<repo.group>/<repo.name>.git`, derived from the infrastructure `repo` input. This variable has no environment prefix.
+
+Non-null values become environment-prefixed Actions variables:
 
 | Source field | Variable name |
 |-------------|---------------|

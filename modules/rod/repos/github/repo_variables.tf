@@ -9,6 +9,11 @@ locals {
           read_only = true
           create    = true
         }
+        app_runner = {
+          name      = "app-runner-infra-write"
+          read_only = false
+          create    = true
+        }
       }
       secrets = {
       }
