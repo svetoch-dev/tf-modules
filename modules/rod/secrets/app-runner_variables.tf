@@ -1,10 +1,4 @@
 locals {
-  app_runner_secrets_data = {
-    infrastructure_ssh = {
-      id_ed25519 = var.app_runner_private_key
-    }
-  }
-
   app_runner_ssh = nonsensitive(var.app_runner_private_key != null) ? {
     infrastructure_ssh = {
       name = "infrastructure-ssh"

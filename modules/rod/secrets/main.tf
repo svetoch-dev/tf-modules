@@ -4,7 +4,9 @@ module "rod_secrets" {
   name              = each.value.name
   secrets_to_import = try(each.value.secrets_to_import, [])
   secrets_data = merge(
-    try(local.app_runner_secrets_data[each.key], {}),
+    each.key == "infrastructure_ssh" ? {
+      id_ed25519 = var.app_runner_private_key
+    } : {},
     try(each.value.secrets_data, {}),
   )
   labels         = each.value.labels
