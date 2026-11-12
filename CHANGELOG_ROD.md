@@ -1,3 +1,12 @@
+# rod-v0.26.0
+
+Breaking changes:
+* `ci/gha`: require `ci_image` and a non-null `env` for runner names.
+
+Features:
+* `ci/gha`: generate runner names and `CI_IMAGE`, `REGISTRY`, `KANIKO_IMAGE`, and `INFRA_REPO_URL` Actions variables.
+* `repos/github` and `secrets`: add an infrastructure deploy key and optional runner SSH secret.
+
 # rod-v0.25.1
 
 Fixes:
