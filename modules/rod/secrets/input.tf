@@ -28,6 +28,5 @@ variable "argocd_repos" {
 variable "app_runner_private_key" {
   description = "OpenSSH private key for the application runner infrastructure deploy key; null disables its Kubernetes Secret"
   type        = string
-  sensitive   = true
   default     = null
 }
