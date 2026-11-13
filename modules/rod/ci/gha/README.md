@@ -158,7 +158,7 @@ vars = {
 }
 ```
 
-Each `app_env_ci_configs` item keeps its `<env.short_name>_<app_name>` entry for CD settings, registry variables, secrets, and repository overrides. A separate `repo:<org>/<repo.name>` entry manages only the shared variables: `CI_IMAGE`, `KANIKO_IMAGE`, `RUNNER_NAME`, `INFRA_REPO_URL`, and `REGISTRY`. Shared entries are deduplicated by repository identity. The infrastructure entry retains its `infrastructure` key.
+Each `app_env_ci_configs` item keeps its `<env.short_name>_<app_name>` entry for CD settings, registry variables, secrets, and repository overrides. A separate `<repo.name>` entry manages only the shared variables: `CI_IMAGE`, `KANIKO_IMAGE`, `RUNNER_NAME`, `INFRA_REPO_URL`, and `REGISTRY`. Shared entries are deduplicated by repository identity. The infrastructure entry retains its `infrastructure` key.
 
 Non-null values become environment-prefixed Actions variables:
 
@@ -182,7 +182,7 @@ Application repositories also receive:
 
 For example, with CI in `gcp-int`, a `prd-v2` application receives `RUNNER_NAME = gha-runner-app-gcp-int`. Its application registry comes from `app_env_ci_configs[*].env.registry_url`, while the helper image is the caller-supplied `ci_image`. Overrides can replace generated values.
 
-Existing environment overrides and secret instance keys are unchanged; environment entries are not merged together. Override shared variables under `overrides.cis["repo:example-org/api"].vars`, using the keys `ci_image`, `kaniko_image`, `runner_name`, `infra_repo_url`, and `registry`. Do not define the same shared GitHub variable again under environment entries. If managing repository creation, enable it in only one existing entry for each repository.
+Existing environment overrides and secret instance keys are unchanged; environment entries are not merged together. Override shared variables under `overrides.cis["api"].vars`, using the keys `ci_image`, `kaniko_image`, `runner_name`, `infra_repo_url`, and `registry`. Do not define the same shared GitHub variable again under environment entries. If managing repository creation, enable it in only one existing entry for each repository.
 
 ## Updating existing callers
 
@@ -194,12 +194,12 @@ If testing an intermediate implementation that used `ci_image_version`, replace 
 
 ### Shared variable migration
 
-Environment module keys (`<env>_<app>`) and existing CD/secret instance keys stay unchanged. Move only unchanged shared variable state bindings to `repo:<org>/<repo.name>` before applying, using `terraform state mv`. For example:
+Environment module keys (`<env>_<app>`) and existing CD/secret instance keys stay unchanged. Move only unchanged shared variable state bindings to `<repo.name>` before applying, using `terraform state mv`. For example:
 
 ```sh
 terraform state mv \
   'module.ci.module.github.module.repositories["int_api"].github_actions_variable.variable["ci_image"]' \
-  'module.ci.module.github.module.repositories["repo:example-org/api"].github_actions_variable.variable["ci_image"]'
+  'module.ci.module.github.module.repositories["api"].github_actions_variable.variable["ci_image"]'
 ```
 
 Existing `<ENV>_RUNNER_NAME` variables are replaced by shared `RUNNER_NAME`; `REGISTRY` keeps its existing unprefixed name and moves to the shared repository entry. Update runner references in workflows accordingly. Multiple legacy Terraform addresses that already manage the same shared GitHub variable require selecting one canonical state entry and removing duplicate state bindings without deleting the GitHub variable. Review the plan before applying; changing a GitHub variable name may require replacement even when its state address is moved.

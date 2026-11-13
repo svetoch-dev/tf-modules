@@ -25,7 +25,7 @@ locals {
     },
     {
       for repo in local.app_repos :
-      "repo:${repo.org}/${repo.name}" => {
+      repo.name => {
         name = repo.name
         org  = repo.org
         vars = {
