@@ -1,3 +1,8 @@
+# v0.28.0
+
+[github-v0.4.2](CHANGELOG_GITHUB.md#github-v042)
+[rod-v0.26.0](CHANGELOG_ROD.md#rod-v0260)
+
 # v0.27.1
 [rod-v0.25.1](CHANGELOG_ROD.md#rod-v0251)
 

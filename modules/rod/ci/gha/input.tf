@@ -50,3 +50,8 @@ variable "app_env_ci_configs" {
     )
   )
 }
+
+variable "ci_image" {
+  description = "CI deploy container image URL"
+  type        = string
+}

@@ -210,6 +210,7 @@ module "github" {
 | `allow_update_branch` | `bool` | `null` | Suggest updating a pull request branch when it is behind its base branch. |
 | `delete_branch_on_merge` | `bool` | `false` | Delete head branches after pull requests are merged. |
 | `web_commit_signoff_required` | `bool` | `null` | Require sign-off for commits made through the web interface. |
+| `actions_access_level` | `string` | `null` | Sharing scope for actions and reusable workflows: `none`, `user`, `organization`, or `enterprise`, subject to GitHub account and repository restrictions. Unmanaged when omitted initially. |
 
 ### `repositories{}.rulesets`
 
@@ -337,3 +338,9 @@ Each `checks` object supports:
 | `name` | `string` | yes | GitHub Actions variable name. |
 | `value` | `string` | yes | GitHub Actions variable value. |
 | `environment` | `string` | no | GitHub environment name. When omitted, creates a repository-level variable. |
+
+### Sharing private Actions workflows
+
+Set `repositories["github-templates"].repository.actions_access_level = "organization"` to allow other repositories in the organization to use private actions and reusable workflows. The provider accepts `none`, `user`, `organization`, and `enterprise`; availability depends on the GitHub account and repository. Omit the setting to leave access unmanaged initially. Removing a previously applied setting (or setting it to `null`) destroys the Terraform access-level resource and resets sharing to `none`.
+
+Set this on the repository containing the shared actions or reusable workflows.

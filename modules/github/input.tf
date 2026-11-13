@@ -34,6 +34,7 @@ variable "repositories" {
               allow_update_branch         = optional(bool)
               delete_branch_on_merge      = optional(bool, false)
               web_commit_signoff_required = optional(bool)
+              actions_access_level        = optional(string)
             }
           ), {}
         )

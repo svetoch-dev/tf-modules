@@ -177,3 +177,11 @@ resource "github_actions_environment_variable" "this" {
   variable_name = each.value.name
   value         = each.value.value
 }
+
+resource "github_actions_repository_access_level" "this" {
+  count = var.repository.actions_access_level != null ? 1 : 0
+
+  repository   = local.repository_name
+  access_level = var.repository.actions_access_level
+}
+
