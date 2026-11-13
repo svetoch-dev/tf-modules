@@ -158,12 +158,13 @@ vars = {
 }
 ```
 
-Each `app_env_ci_configs` item keeps its `<env.short_name>_<app_name>` entry for CD settings, registry variables, secrets, and repository overrides. A separate `<repo.name>` entry manages only the shared variables: `CI_IMAGE`, `KANIKO_IMAGE`, `RUNNER_NAME`, `INFRA_REPO_URL`, and `REGISTRY`. Shared entries are deduplicated by repository identity. The infrastructure entry retains its `infrastructure` key.
+Each `app_env_ci_configs` item keeps its `<env.short_name>_<app_name>` entry for CD settings, registry variables, secrets, and repository overrides. A separate `<repo.name>` entry manages only the shared variables: `CI_IMAGE`, `KANIKO_IMAGE`, `RUNNER_NAME`, and `INFRA_REPO_URL`. Shared entries are deduplicated by repository identity. The infrastructure entry retains its `infrastructure` key.
 
 Non-null values become environment-prefixed Actions variables:
 
 | Source field | Variable name |
 |-------------|---------------|
+| Hostname of `env.registry_url` | `<ENV>_REGISTRY` |
 | `env.registry_url` | `<ENV>_REGISTRY_URL` |
 | `cd.branch` | `<ENV>_CD_BRANCH` |
 | `cd.file` | `<ENV>_CD_FILE` |
@@ -176,19 +177,18 @@ Application repositories also receive:
 | Variable | Value |
 |----------|-------|
 | `CI_IMAGE` | The full `var.ci_image` reference, shared across application environments. |
-| `REGISTRY` | Hostname from the CI environment `env.registry.url`. Override this shared variable if application builds authenticate against a different registry host. |
 | `RUNNER_NAME` | `gha-runner-app-<env.cloud.name>-<env.short_name>`, using the module's CI environment. |
 | `KANIKO_IMAGE` | `ghcr.io/osscontainertools/kaniko:v1.29.1-debug@sha256:ebc38a988e5aa1aaea99240e931aeeeff9d8e6bb5a0bd0e00eaf79973bf0a773`. |
 
 For example, with CI in `gcp-int`, a `prd-v2` application receives `RUNNER_NAME = gha-runner-app-gcp-int`. Its application registry comes from `app_env_ci_configs[*].env.registry_url`, while the helper image is the caller-supplied `ci_image`. Overrides can replace generated values.
 
-Existing environment overrides and secret instance keys are unchanged; environment entries are not merged together. Override shared variables under `overrides.cis["api"].vars`, using the keys `ci_image`, `kaniko_image`, `runner_name`, `infra_repo_url`, and `registry`. Do not define the same shared GitHub variable again under environment entries. If managing repository creation, enable it in only one existing entry for each repository.
+Existing environment overrides and secret instance keys are unchanged; environment entries are not merged together. Override shared variables under `overrides.cis["api"].vars`, using the keys `ci_image`, `kaniko_image`, `runner_name`, and `infra_repo_url`. Do not define the same shared GitHub variable again under environment entries. If managing repository creation, enable it in only one existing entry for each repository.
 
 ## Updating existing callers
 
 Pass the full shared ROD environment as `env` and the full helper image URL as `ci_image`. The shared `env` input defaults to null, but runner name generation now requires a non-null value. Shared inputs are declared through the `common_input.tf` symlink. The runner prefix is fixed to `gha` in this GitHub Actions module.
 
-Remove matching overrides for `RUNNER_NAME`, `CI_IMAGE`, `REGISTRY`, and `KANIKO_IMAGE` when the generated values match your configuration. Explicit overrides still take precedence within their entry. Keep overrides when runner scale set names differ from the generated convention. The infrastructure SSH URL is also generated as `INFRA_REPO_URL`.
+Remove matching overrides for `RUNNER_NAME`, `CI_IMAGE`, `<ENV>_REGISTRY`, and `KANIKO_IMAGE` when the generated values match your configuration. Explicit overrides still take precedence within their entry. Keep overrides when runner scale set names differ from the generated convention. The infrastructure SSH URL is also generated as `INFRA_REPO_URL`.
 
 If testing an intermediate implementation that used `ci_image_version`, replace it with the full `ci_image` reference. Version fallback to a caller's `image_tag.txt` belongs in the caller, as with `bazelisk_image`.
 
@@ -202,7 +202,7 @@ terraform state mv \
   'module.ci.module.github.module.repositories["api"].github_actions_variable.variable["ci_image"]'
 ```
 
-Existing `<ENV>_RUNNER_NAME` variables are replaced by shared `RUNNER_NAME`; `REGISTRY` keeps its existing unprefixed name and moves to the shared repository entry. Update runner references in workflows accordingly. Multiple legacy Terraform addresses that already manage the same shared GitHub variable require selecting one canonical state entry and removing duplicate state bindings without deleting the GitHub variable. Review the plan before applying; changing a GitHub variable name may require replacement even when its state address is moved.
+Existing `<ENV>_RUNNER_NAME` variables are replaced by shared `RUNNER_NAME`; `REGISTRY` becomes `<ENV>_REGISTRY` and stays in the environment entry. Update workflow references accordingly, for example `registry: ${{ vars.PRD_V2_REGISTRY }}` for `prd-v2`. Multiple legacy Terraform addresses that already manage the same shared GitHub variable require selecting one canonical state entry and removing duplicate state bindings without deleting the GitHub variable. Review the plan before applying; changing a GitHub variable name may require replacement even when its state address is moved.
 
 
 ## Notes

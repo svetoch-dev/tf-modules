@@ -45,10 +45,6 @@ locals {
             name  = "INFRA_REPO_URL"
             value = "git@github.com:${var.repo.group}/${var.repo.name}.git"
           }
-          registry = {
-            name  = "REGISTRY"
-            value = split("/", var.env.registry.url)[0]
-          }
         }
       }
     },
@@ -59,6 +55,7 @@ locals {
         org  = coalesce(ci_obj.repo.group, var.repo.group)
         vars = {
           for var_name, var_obj in {
+            registry     = ci_obj.env.registry_url == null ? null : split("/", ci_obj.env.registry_url)[0]
             registry_url = ci_obj.env.registry_url
             cd_branch    = ci_obj.cd.branch
             cd_file      = ci_obj.cd.file
