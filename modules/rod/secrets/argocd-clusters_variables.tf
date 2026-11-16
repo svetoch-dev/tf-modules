@@ -11,7 +11,7 @@ locals {
             command = "sh"
             args = [
               "-c",
-              "/home/argocd/token.sh",
+              "/token.sh",
             ]
             env = {
               CLOUD = "${var.env.cloud.name}"
