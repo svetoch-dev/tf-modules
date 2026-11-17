@@ -1,5 +1,7 @@
 # Rod compositions
 
-- Find defaults in the composition's locals and trace them through `overrides.tf` to the downstream call. Keep the defaults-first argument order in `provider::deepmerge::mergo` and preserve additive handling of the [GCP API list](cloud/gcp/overrides.tf).
-- For cloud changes, check both `internal` and `product` wrappers. Each passes its merged overrides to the shared Rod cloud module, which merges again before calling [GCP](cloud/gcp/main.tf) or [Yandex Cloud](cloud/yc/main.tf).
-- For Bazel checks, use the affected composition's package, such as [`//modules/rod/cloud/gcp:validate`](cloud/gcp/BUILD.bazel). Review the wrapper calls separately when you change defaults used by either variant.
+- Route changes to [cloud GCP](cloud/gcp/main.tf), [cloud YC](cloud/yc/main.tf), [Kubernetes](k8s/main.tf), [GitHub](repos/github/main.tf), [GitLab](repos/gitlab/main.tf), [GitHub CI](ci/gha/main.tf), [GitLab CI](ci/gl/main.tf), or [secrets](secrets/main.tf).
+- Find defaults in the affected composition's locals, then trace `overrides.tf` into its downstream call. Keep defaults first in `provider::deepmerge::mergo`; preserve the additive, deduplicated [GCP API list](cloud/gcp/overrides.tf).
+- Cloud `internal` and `product` wrappers pass merged overrides to their shared Rod cloud module, which merges again. Check the affected wrapper and shared layer together.
+- Preserve downstream normalization in [GCP outputs](cloud/gcp/output.tf) and [YC outputs](cloud/yc/output.tf), including cluster endpoint/certificate and network shapes consumed by Kubernetes, CI, and secrets.
+- Use the affected composition's Bazel package, such as [cloud GCP](cloud/gcp/BUILD.bazel): `//modules/rod/cloud/gcp:lint` and `//modules/rod/cloud/gcp:validate`.
