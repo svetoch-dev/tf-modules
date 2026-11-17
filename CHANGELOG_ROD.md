@@ -1,3 +1,8 @@
+# rod-v0.27.0
+
+Breaking changes:
+* `secrets`: argocd-clusters secret now uses /token.sh script to get tokens for remote k8s clusters
+
 # rod-v0.26.0
 
 Breaking changes:
